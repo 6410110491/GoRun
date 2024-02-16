@@ -28,11 +28,14 @@ function Topbar() {
                         <Nav.Link href="/event" className='text-white'>
                             งานทั้งหมด
                         </Nav.Link>
-                        <Nav.Link href="#memes" className='text-white'>
+                        <Nav.Link href="/calendar" className='text-white'>
                             ปฏิทิน
                         </Nav.Link>
                         <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
-                            className='me-3 ms-3'>เข้าสู่ระบบ/สมัครสมาชิก</Button>{' '}
+                            className='me-3 ms-3'
+                            onClick={() => changepage("login")}
+                        >เข้าสู่ระบบ/สมัครสมาชิก
+                        </Button>{' '}
                         <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
                             className='me-3'>
                             ผู้จัดงาน
@@ -43,7 +46,7 @@ function Topbar() {
 
                 <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
                     style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
-                <NavDropdown title={langtitle}  id="dropdown-menu-align-right" className='text-white' alignEnd>
+                <NavDropdown title={langtitle} id="dropdown-menu-align-right" className='text-white' alignEnd>
                     <NavDropdown.Item onClick={() => handleItemlang('TH')}>
                         TH
                     </NavDropdown.Item>
