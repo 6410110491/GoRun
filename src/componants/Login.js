@@ -3,6 +3,9 @@ import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 function Login() {
+    const changepage = (path) => {
+        window.location.href = "/" + path
+    }
     return (
         <div style={{ display: "inline-flex", width: "100%" }}>
             <Container style={{ backgroundColor: "#F3C710", height: "900px" }}>
@@ -56,7 +59,7 @@ function Login() {
                                         <div className="mt-4">
                                             <p className="mb-0  text-center">
                                                 ยังไม่มีบัญชีผู้ใช้งานหรือไม่?{" "}
-                                                <Link href="{''}" style={{ color: "#F3C710", textDecoration: "none" }}>
+                                                <Link onClick={() => changepage("signup")} style={{ color: "#F3C710", textDecoration: "none"  }}>
                                                     สมัครสมาชิกที่นี้
                                                 </Link>
                                             </p>

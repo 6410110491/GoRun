@@ -3,6 +3,7 @@ import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 function Signup() {
+    
   return (
     <div style={{ display: "inline-flex", width: "100%" }}>
             <Container style={{ backgroundColor: "#F3C710", height: "900px" }}>
