@@ -46,7 +46,7 @@ function Topbar() {
 
                 <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
                     style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
-                <NavDropdown title={langtitle} id="dropdown-menu-align-right" className='text-white' alignEnd>
+                <NavDropdown title={langtitle} id="dropdown-menu-align-right" className='text-white'>
                     <NavDropdown.Item onClick={() => handleItemlang('TH')}>
                         TH
                     </NavDropdown.Item>
