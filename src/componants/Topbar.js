@@ -7,8 +7,11 @@ function Topbar() {
         setLangtitle(selectedTitle);
     };
 
+    const changepage = (path) => {
+        window.location.href = "/" + path
+    }
     return (
-        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark" style={{boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"}}>
+        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark" style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}>
             <Container>
                 <Navbar.Brand href="/">
                     <img src={require('../image/logo2.jpg')}
@@ -22,11 +25,14 @@ function Topbar() {
                         <Nav.Link href="/event" className='text-white'>
                             งานทั้งหมด
                         </Nav.Link>
-                        <Nav.Link href="#memes" className='text-white'>
+                        <Nav.Link href="/calendar" className='text-white'>
                             ปฏิทิน
                         </Nav.Link>
                         <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
-                            className='me-3 ms-3'>เข้าสู่ระบบ/สมัครสมาชิก</Button>{' '}
+                            className='me-3 ms-3'
+                            onClick={() => changepage("login")}
+                        >เข้าสู่ระบบ/สมัครสมาชิก
+                        </Button>{' '}
                         <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
                             className='me-3'>
                             ผู้จัดงาน
