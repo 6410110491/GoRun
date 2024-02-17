@@ -15,7 +15,7 @@ function App() {
       <BrowserRouter>
         <Topbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route exact path="/" element={<Home />} />
           <Route path="/event" element={<All_events />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/login" element={<Login />} />

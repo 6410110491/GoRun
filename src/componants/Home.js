@@ -15,7 +15,7 @@ function Home() {
                 display: "flex", justifyContent: "center", alignItems: "flex-end",
             }}>
                 {/* filter box */}
-                <Container md style={{
+                <Container  style={{
                     backgroundColor: "#E3E3E3", height: "30%", marginBottom: "1.5rem", borderRadius: "20px",
                     display: "flex", justifyContent: "space-around", alignItems: "center", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                 }}>
@@ -93,7 +93,7 @@ function Home() {
             </div>
 
             {/* Footer */}
-            <Footer />
+            <Footer style={{bottom:"0"}} />
 
         </Container>
     )
