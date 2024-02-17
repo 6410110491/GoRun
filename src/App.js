@@ -8,10 +8,11 @@ import All_events from './componants/All_events';
 import Calendar from './componants/Calendar';
 import Login from './componants/Login';
 import Signup from './componants/Signup';
+import Footer from './componants/Footer';
 
 function App() {
   return (
-    <div className="App"> 
+    <div className="App">
       <BrowserRouter>
         <Topbar />
         <Routes>
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

@@ -7,7 +7,8 @@ import PersonIcon from '@mui/icons-material/Person';
 
 function Card_event() {
     return (
-        <Col className='mb-5 col-xl-3 col-lg-4 col-md-5 col-sm-6 col-s-8'>
+        <Col className='mb-5' xs={12} md={6} lg={6} xl={4} xxl={3} 
+        style={{display:"flex", justifyContent:"center" , alignItems:"center"}}>
             <Card style={{ width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", borderRadius: "20px 20px 0px 0px" }}>
                 <Card.Img variant="top" src={require('../image/Thai.png')} style={{ borderRadius: "20px" }} />
                 <Card.Body>
