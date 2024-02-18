@@ -1,3 +1,4 @@
+import '../App.css';
 import React, { useState } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import { Button, Container, Nav, NavDropdown, Navbar } from 'react-bootstrap'
@@ -52,7 +53,7 @@ function Topbar() {
                             <div style={{ display: 'flex', alignItems: "center" }}>
                                 <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
                                     style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
-                                <NavDropdown title={langtitle} id="dropdown-menu-align-right" className='text-white'>
+                                <NavDropdown title={langtitle} id="dropdown-menu-align-right" className='text-white' >
                                     <NavDropdown.Item onClick={() => handleItemlang('TH')}>
                                         TH
                                     </NavDropdown.Item>
@@ -91,21 +92,29 @@ function Topbar() {
                             </Nav.Link>
                         </Nav>
 
-                        <Nav className='mt-3 ms-3'>
-                            <div style={{ display: 'flex', alignItems: "center" }}>
-                                <NavDropdown title={langtitle} id="dropdown-menu-align-right" className='text-white' align={'end'}>
-                                    <NavDropdown.Item onClick={() => handleItemlang('TH')}>
-                                        <img src={require('../image/Thai.png')}
-                                            style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
-                                        TH
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item onClick={() => handleItemlang('EN')}>
-                                        <img src={require('../image/US-flag.jpg')}
-                                            style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
-                                        EN
-                                    </NavDropdown.Item>
-                                </NavDropdown>
+                        <Nav className='mt-3'>
+                            <div style={{
+                                display: 'flex', alignItems: "center", justifyContent: "flex-start"}}>
+                                <Button variant="link" style={{
+                                    border: 'none', borderRadius: '10px', width: '100%',
+                                    display: 'flex', alignItems: "center", justifyContent: "flex-start",
+                                }}
+                                    className='me-3 text-white'>
+                                    <img src={require('../image/Thai.png')}
+                                        style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
+                                    TH
+                                </Button>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: "center", justifyContent: "flex-start" }}>
+                                <Button variant="link" style={{
+                                    border: 'none', borderRadius: '10px', width: '100%',
+                                    display: 'flex', alignItems: "center", justifyContent: "flex-start", marginTop:"10px"
+                                }}
+                                    className='me-3 text-white'>
+                                    <img src={require('../image/US-flag.jpg')}
+                                        style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
+                                    EN
+                                </Button>
                             </div>
                         </Nav>
                     </Navbar.Collapse>}
