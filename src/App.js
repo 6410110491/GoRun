@@ -9,6 +9,7 @@ import Calendar from './componants/Calendar';
 import Login from './componants/Login';
 import Signup from './componants/Signup';
 import Footer from './componants/Footer';
+import Card_event_detail from './componants/Card_event_detail';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/event-detail" element={<Card_event_detail />} />
         </Routes>
         <Footer />
       </BrowserRouter>
