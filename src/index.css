@@ -2,7 +2,9 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Lato", sans-serif cursive;
+  font-style: normal;
+  font-family: "Anuphan", sans-serif;
+  font-optical-sizing: auto;
 }
 
 body {
@@ -20,9 +22,11 @@ code {
 }
 
 p {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
   font-style: normal;
+  font-family: "Anuphan", sans-serif;
+  font-optical-sizing: auto;
 }
 
 

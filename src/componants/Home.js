@@ -7,6 +7,28 @@ import ScrollToTop from "react-scroll-to-top";
 import Card_event from './Card_event'
 
 function Home() {
+    const province = ['กระบี่', 'กรุงเทพมหานคร', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร',
+        'ขอนแก่น',
+        'จันทบุรี',
+        'ฉะเชิงเทรา',
+        'ชลบุรี', 'ชัยนาท', 'ชัยภูมิ', 'ชุมพร', 'เชียงราย', 'เชียงใหม่',
+        'ตรัง', 'ตราด', 'ตาก',
+        'นครนายก', 'นครปฐม', 'นครพนม', 'นครราชสีมา', 'นครศรีธรรมราช', 'นครสวรรค์', 'นนทบุรี', 'นราธิวาส', 'น่าน',
+        'บึงกาฬ', 'บุรีรัมย์',
+        'ปทุมธานี', 'ประจวบคีรีขันธ์', 'ปราจีนบุรี', 'ปัตตานี',
+        'พระนครศรีอยุธยา', 'พะเยา', 'พังงา', 'พัทลุง', 'พิจิตร', 'พิษณุโลก', 'เพชรบุรี', 'เพชรบูรณ์', 'แพร่',
+        'ภูเก็ต',
+        'มหาสารคาม', 'มุกดาหาร', 'แม่ฮ่องสอน',
+        'ยโสธร', 'ยะลา',
+        'ร้อยเอ็ด', 'ระนอง', 'ระยอง', 'ราชบุรี',
+        'ลพบุรี', 'ลำปาง', 'ลำพูน', 'เลย',
+        'ศรีสะเกษ',
+        'สกลนคร', 'สงขลา', 'สตูล', 'สมุทรปราการ', 'สมุทรสงคราม', 'สมุทรสาคร', 'สระแก้ว', 'สระบุรี', 'สิงห์บุรี', 'สุโขทัย', 'สุพรรณบุรี', 'สุราษฎร์ธานี', 'สุรินทร์',
+        'หนองคาย', 'หนองบัวลำภู',
+        'อ่างทอง', 'อำนาจเจริญ', 'อุดรธานี', 'อุตรดิตถ์', 'อุทัยธานี', 'อุบลราชธานี']
+
+        const sport_type = ['วิ่งมาราธอน', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
+
     return (
         <Container fluid style={{ padding: "0" }}>
             <div style={{
@@ -14,51 +36,55 @@ function Home() {
                 display: "flex", justifyContent: "center", alignItems: "flex-end",
             }}>
                 {/* filter box */}
-                <Row  className='mb-4 mt-4'  
-                style={{
-                    backgroundColor: "#E3E3E3", minHeight:"30%", marginBottom: "1.5rem", borderRadius: "20px",
-                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", display:'flex', alignItems:'center',justifyContent:"space-around",
-                    padding: "1rem" , width: "85%"
-                }}>
-                    <Col sm={12} md={6} lg={6} xl={3} xxl={3}>
+                <Row className='mb-4 mt-4'
+                    style={{
+                        backgroundColor: "#E3E3E3", minHeight: "30%", marginBottom: "1.5rem", borderRadius: "20px",
+                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", display: 'flex', alignItems: 'center', justifyContent: "space-around",
+                        padding: "1rem", width: "85%"
+                    }}>
+                    <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
                         <p>ชื่องาน</p>
                         <Form.Control type="text" placeholder="ค้นหาชื่องาน" style={{
-                            borderRadius: "10px", marginTop:"-15px", maxWidth:"95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", width: "300px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                            backgroundColor: "#fff", border: "none", height: "40px", width: "35vw", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }} />
                     </Col>
-                    <Col sm={12} md={6} lg={6} xl={3} xxl={3}>
+                    <Col xs={6} sm={6}  md={6} lg={6} xl={3} xxl={3}>
                         <p>สถานที่จัดงาน</p>
                         <Form.Select aria-label="Default select example" style={{
-                            borderRadius: "10px", marginTop:"-15px", maxWidth:"95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", width: "300px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                            backgroundColor: "#fff", border: "none", height: "40px", width: "35vw", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                             cursor: "pointer"
                         }}>
-                            <option>ค้นหาจังหวัด</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <option >ค้นหาจังหวัด</option>
+                            {province.map((data, index) => {
+                                return (
+                                    <option key={index} value={index}>{data}</option>
+                                )
+                            })}
                         </Form.Select>
                     </Col>
-                    <Col sm={12} md={6} lg={6} xl={3} xxl={3} >
+                    <Col xs={6} sm={6}  md={6} lg={6} xl={3} xxl={3} >
                         <p>ประเภทกีฬา</p>
                         <Form.Select aria-label="Default select example" style={{
-                            borderRadius: "10px", marginTop:"-15px", maxWidth:"95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", width: "300px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                            backgroundColor: "#fff", border: "none", height: "40px", width: "35vw", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                             cursor: "pointer"
                         }}>
                             <option>ค้นหาประเภท</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            {sport_type.map((data, index) => {
+                                return (
+                                    <option key={index} value={index}>{data}</option>
+                                )
+                            })}
                         </Form.Select>
                     </Col>
-                    <Col sm={12} md={6} lg={6} xl={3} xxl={1} >
+                    <Col xs={6} sm={6}  md={6} lg={6} xl={3} xxl={1} >
                         <p></p>
-                        <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' ,minWidth:"80%"}}>
+                        <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width:"100%"}}>
                             ค้นหา
                         </Button>
-                    </Col>  
+                    </Col>
 
                 </Row>
             </div>
@@ -69,8 +95,10 @@ function Home() {
 
             {/* card */}
             <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                <Row style={{ display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem" , 
-                justifyContent:"center" , alignItems:"center"}}>
+                <Row style={{
+                    display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
+                    justifyContent: "center", alignItems: "center"
+                }}>
                     <Card_event />
                     <Card_event />
                     <Card_event />

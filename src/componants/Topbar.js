@@ -39,6 +39,9 @@ function Topbar() {
                             <Nav.Link href="/calendar" className='text-white'>
                                 ปฏิทิน
                             </Nav.Link>
+                            <Nav.Link href="#" className='text-white'>
+                                ประชาสัมพันธ์
+                            </Nav.Link>
                         </Nav>
                         <Nav>
                             <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
@@ -89,6 +92,9 @@ function Topbar() {
                             </Nav.Link>
                             <Nav.Link href="/calendar" className='text-white'>
                                 ปฏิทิน
+                            </Nav.Link>
+                            <Nav.Link href="#" className='text-white'>
+                                ประชาสัมพันธ์
                             </Nav.Link>
                         </Nav>
 
