@@ -23,8 +23,6 @@ function Topbar() {
                     <img src={require('../image/logo2.jpg')}
                         style={{ width: "50px", height: "50px", borderRadius: "100%", border: "3px solid #FFF" }} />
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-
                 {isDesktop ?
 
                     // Desktop Screen
@@ -36,11 +34,11 @@ function Topbar() {
                             <Nav.Link href="/event" className='text-white'>
                                 งานทั้งหมด
                             </Nav.Link>
-                            <Nav.Link href="/calendar" className='text-white'>
-                                ปฏิทิน
-                            </Nav.Link>
                             <Nav.Link href="#" className='text-white'>
                                 ประชาสัมพันธ์
+                            </Nav.Link>
+                            <Nav.Link href="/calendar" className='text-white'>
+                                ปฏิทิน
                             </Nav.Link>
                         </Nav>
                         <Nav>
@@ -56,7 +54,7 @@ function Topbar() {
                             <div style={{ display: 'flex', alignItems: "center" }}>
                                 <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
                                     style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
-                                <NavDropdown title={langtitle} id="dropdown-menu-align-right" className='text-white' >
+                                <NavDropdown title={langtitle} id="dropdown-menu-align-right">
                                     <NavDropdown.Item onClick={() => handleItemlang('TH')}>
                                         TH
                                     </NavDropdown.Item>
@@ -90,11 +88,11 @@ function Topbar() {
                             <Nav.Link href="/event" className='text-white'>
                                 งานทั้งหมด
                             </Nav.Link>
-                            <Nav.Link href="/calendar" className='text-white'>
-                                ปฏิทิน
-                            </Nav.Link>
                             <Nav.Link href="#" className='text-white'>
                                 ประชาสัมพันธ์
+                            </Nav.Link>
+                            <Nav.Link href="/calendar" className='text-white'>
+                                ปฏิทิน
                             </Nav.Link>
                         </Nav>
 

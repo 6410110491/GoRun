@@ -14,7 +14,7 @@ function Card_event() {
         style={{display:"flex", justifyContent:"center" , alignItems:"center"}}>
             <Card style={{ width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", borderRadius: "20px 20px 0px 0px"
             , cursor:"pointer"}}
-            onClick={() => changepage("event-detail")}
+            onClick={() => changepage("event/detail")}
             >
                 <Card.Img variant="top" src={require('../image/Thai.png')} style={{ borderRadius: "20px" }} />
                 <Card.Body>

@@ -46,14 +46,14 @@ function Home() {
                         <p>ชื่องาน</p>
                         <Form.Control type="text" placeholder="ค้นหาชื่องาน" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", width: "35vw", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                            backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }} />
                     </Col>
                     <Col xs={6} sm={6}  md={6} lg={6} xl={3} xxl={3}>
                         <p>สถานที่จัดงาน</p>
                         <Form.Select aria-label="Default select example" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", width: "35vw", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                            backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                             cursor: "pointer"
                         }}>
                             <option >ค้นหาจังหวัด</option>
@@ -68,7 +68,7 @@ function Home() {
                         <p>ประเภทกีฬา</p>
                         <Form.Select aria-label="Default select example" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", width: "35vw", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                            backgroundColor: "#fff", border: "none", height: "40px" , boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                             cursor: "pointer"
                         }}>
                             <option>ค้นหาประเภท</option>
@@ -91,7 +91,7 @@ function Home() {
             <Container fluid style={{ backgroundColor: "#47474A", height: "40px" }}></Container>
 
             {/* ScroolToTop */}
-            <ScrollToTop smooth style={{ borderRadius: "20px" }} />
+            <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor:"#F3C710" }} />
 
             {/* card */}
             <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>

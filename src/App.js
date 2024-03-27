@@ -10,6 +10,8 @@ import Login from './componants/Login';
 import Signup from './componants/Signup';
 import Footer from './componants/Footer';
 import Card_event_detail from './componants/Card_event_detail';
+import Form_page from './componants/form-register-event/Form_page';
+
 
 function App() {
   return (
@@ -22,7 +24,8 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/event-detail" element={<Card_event_detail />} />
+          <Route path="/event/detail" element={<Card_event_detail />} />
+          <Route path="/event/form" element={<Form_page />} />
         </Routes>
         <Footer />
       </BrowserRouter>

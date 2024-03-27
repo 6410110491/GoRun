@@ -13,7 +13,7 @@ function All_events() {
       <div style={{ height: "5px", width: "100%", backgroundColor: "#47474A" }}></div>
 
       {/* ScroolToTop */}
-      <ScrollToTop smooth style={{ borderRadius: "20px" }} />
+      <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor:"#F3C710" }} />
 
 
       {/* Card */}

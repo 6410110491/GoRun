@@ -4,6 +4,9 @@ import ScrollToTop from 'react-scroll-to-top'
 
 function Card_event_detail() {
     const imageSrc = require('../image/Thai.png')
+    const changepage = (path) => {
+        window.location.href = "/" + path
+    }
     return (
         <div style={{ minHeight: "100vh" }}>
             {/* image */}
@@ -14,7 +17,7 @@ function Card_event_detail() {
             </div>
 
             {/* ScroolToTop */}
-            <ScrollToTop smooth style={{ borderRadius: "20px" }} />
+            <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710"}} />
 
             {/* detail */}
             <Container style={{ marginTop: "1rem" }}>
@@ -28,7 +31,7 @@ function Card_event_detail() {
                         {/* รายละเอียดงาน */}
                         <Container fluid style={{
                             backgroundColor: "#E3E3E3", padding: "0", height: "auto", paddingBottom: "2rem",
-                            borderRadius: "10px"
+                            borderRadius: "10px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }}>
                             <Container className='mb-2' fluid style={{
                                 backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
@@ -178,7 +181,7 @@ function Card_event_detail() {
                         {/* แผนที่จัดงาน */}
                         <Container className='mt-4' fluid style={{
                             backgroundColor: "#E3E3E3", padding: "0", height: "200px",
-                            borderRadius: "10px"
+                            borderRadius: "10px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }}>
                             <Container className='mb-2' fluid style={{
                                 backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
@@ -193,7 +196,7 @@ function Card_event_detail() {
                         {/* ที่พัก/ร้านอาหาร */}
                         <Container className='mt-4' fluid style={{
                             backgroundColor: "#E3E3E3", padding: "0", height: "200px",
-                            borderRadius: "10px"
+                            borderRadius: "10px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }}>
                             <Container className='mb-2' fluid style={{
                                 backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
@@ -214,7 +217,7 @@ function Card_event_detail() {
                         {/* ผู้จัดงาน */}
                         <Container fluid style={{
                             backgroundColor: "#E3E3E3", height: "100px", padding: "0",
-                            borderRadius: "10px"
+                            borderRadius: "10px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }}>
                             <Container className='mb-2' fluid style={{
                                 backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
@@ -230,7 +233,7 @@ function Card_event_detail() {
                         {/* ช่วงการรับสมัคร */}
                         <Container className='mt-5' fluid style={{
                             backgroundColor: "#E3E3E3", height: "140px", padding: "0",
-                            borderRadius: "10px", fontSize: "1rem"
+                            borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }}>
                             <Container className='mb-2' fluid style={{
                                 backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
@@ -248,7 +251,7 @@ function Card_event_detail() {
                         {/* การสมัคร */}
                         <Container className='mt-5' fluid style={{
                             backgroundColor: "#E3E3E3", height: "260px", padding: "0",
-                            borderRadius: "10px", fontSize: "1rem"
+                            borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }}>
                             <Container className='mb-2' fluid style={{
                                 backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
@@ -264,6 +267,7 @@ function Card_event_detail() {
 
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <Button variant="danger" style={{ border: 'none', borderRadius: '10px', width: "40%" }}
+                                onClick={() => changepage("event/form")}
                                     className='me-3 ms-3'
                                 >สมัคร
                                 </Button>
@@ -272,6 +276,13 @@ function Card_event_detail() {
                         </Container>
                     </Col>
 
+                    {/* Go Back Button */}
+                    <div style={{display:'flex', justifyContent:"space-between", paddingLeft:"5rem", paddingRight:"5rem"}}>
+                        <Button style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}
+                        onClick={() => changepage("")}>
+                            ย้อนกลับ
+                        </Button>
+                    </div>
                 </Row>
 
             </Container>
