@@ -7,6 +7,49 @@ import ScrollToTop from "react-scroll-to-top";
 import Card_event from './Card_event'
 
 function Home() {
+    const demo_api = [
+        {
+            "id": 1,
+            "name": "งานวิ่งมาราธอน",
+            "province" : "กรุงเทพมหานคร",
+            "date": "2024-4-18",
+            "organizer": "สมาคมวิ่ง",
+            "img": 'event-pic-1.jpg'
+        },
+        {
+            "id": 2,
+            "name": "งานวิ่งการกุศล",
+            "province" : "สุราษฎร์ธานี",
+            "date": "2024-4-18",
+            "organizer": "สมาคมวิ่ง",
+            "img": 'event-pic-2.jpg'
+        },
+        {
+            "id": 3,
+            "name": "Run for change",
+            "province" : "กาญจนบุรี",
+            "date": "2024-4-18",
+            "organizer": "สมาคมวิ่ง",
+            "img": 'event-pic-3.jpg'
+        },
+        {
+            "id": 4,
+            "name": "ห่มฟ้ามาราธอน",
+            "province" : "กาญจนบุรี",
+            "date": "2024-4-18",
+            "organizer": "สมาคมวิ่ง",
+            "img": 'event-pic-4.jpg'
+        },
+        {
+            "id": 5,
+            "name": "ชลมารค",
+            "province" : "กาญจนบุรี",
+            "date": "2024-4-18",
+            "organizer": "สมาคมวิ่ง",
+            "img": 'event-pic-5.jpg'
+        },
+    ]
+
     const province = ['กระบี่', 'กรุงเทพมหานคร', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร',
         'ขอนแก่น',
         'จันทบุรี',
@@ -99,29 +142,11 @@ function Home() {
                     display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
                     justifyContent: "center", alignItems: "center"
                 }}>
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
-                    <Card_event />
+                    {demo_api.map((data, index) => {
+                        return (
+                            <Card_event key={index} data={data} />
+                        )
+                    })}
                 </Row>
             </div>
 

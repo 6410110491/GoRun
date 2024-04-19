@@ -49,15 +49,15 @@ function Login() {
     }
     return (
 
-        <div style={{ display: "inline-flex", width: "100%" }}>
+        <div style={{ display: "flex", width: "100%" }}>
             <Container style={{ backgroundColor: "#F3C710", height: "900px" }}>
 
             </Container>
             <Container>
                 <Row className="vh-100 d-flex justify-content-center align-items-center">
                     <Col md={8} lg={60} xs={12}>
-                        <Card className="shadow" style={{ borderRadius: "15px" }}>
-                            <Card.Body>
+                        <Container style={{ borderRadius: "15px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", padding:'1rem', backgroundColor:'#FFF' }}>
+                    
                                 <div className="mb-3 mt-md-4">
                                     <h2 className="fw-bold mb-2 text-uppercase ">ยินดีต้อนรับเข้าสู่ Gorun!</h2>
                                     <p className=" mb-5">กรุณากรอกข้อมูลให้ถูกต้อง</p>
@@ -117,8 +117,7 @@ function Login() {
                                         </div>
                                     </div>
                                 </div>
-                            </Card.Body>
-                        </Card>
+                        </Container>
                     </Col>
                 </Row>
             </Container>
