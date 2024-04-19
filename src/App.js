@@ -11,7 +11,9 @@ import Signup from './componants/Signup';
 import Footer from './componants/Footer';
 import Card_event_detail from './componants/Card_event_detail';
 import Form_page from './componants/form-register-event/Form_page';
-
+import Organizer from './componants/Organizer';
+import Data_org_1 from './componants/Data_org_1';
+import News from './componants/News';
 
 function App() {
   return (
@@ -26,6 +28,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/event/detail" element={<Card_event_detail />} />
           <Route path="/event/form" element={<Form_page />} />
+          <Route path="/organizer" element={<Organizer />} />
+          <Route path="/dataorganizer" element={<Data_org_1 />} />
+          <Route path="/news" element={<News/>} />
+
         </Routes>
         <Footer />
       </BrowserRouter>
