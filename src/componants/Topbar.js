@@ -34,7 +34,7 @@ function Topbar() {
                             <Nav.Link href="/event" className='text-white'>
                                 งานทั้งหมด
                             </Nav.Link>
-                            <Nav.Link href="#" className='text-white'>
+                            <Nav.Link href="/news" className='text-white'>
                                 ประชาสัมพันธ์
                             </Nav.Link>
                             <Nav.Link href="/calendar" className='text-white'>
@@ -47,7 +47,8 @@ function Topbar() {
                                 onClick={() => changepage("login")}
                             >เข้าสู่ระบบ/สมัครสมาชิก
                             </Button>{' '}
-                            <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
+                            <Button onClick={() => changepage("organizer")}
+                            style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
                                 className='me-3'>
                                 ผู้จัดงาน
                             </Button>
@@ -88,7 +89,7 @@ function Topbar() {
                             <Nav.Link href="/event" className='text-white'>
                                 งานทั้งหมด
                             </Nav.Link>
-                            <Nav.Link href="#" className='text-white'>
+                            <Nav.Link href="/news" className='text-white'>
                                 ประชาสัมพันธ์
                             </Nav.Link>
                             <Nav.Link href="/calendar" className='text-white'>

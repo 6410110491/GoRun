@@ -4,6 +4,9 @@ import ScrollToTop from 'react-scroll-to-top'
 import { Link } from 'react-router-dom';
 
 function Organizer() {
+    const changepage = (path) => {
+        window.location.href = "/" + path
+    }
     return (
         <Container className='mt-5' style={{ minHeight: "100vh" }} >
             {/* Head */}
@@ -27,7 +30,8 @@ function Organizer() {
                             </p>
                         </div>
                         <div className="d-grid">
-                            <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width:"300px", 
+                            <Button onClick={() => changepage("dataorganizer")}
+                            style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width:"300px", 
                          }}>
                                 เปิดรายการกีฬา
                             </Button>

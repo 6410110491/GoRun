@@ -12,7 +12,7 @@ function Data_org_1(props) {
   const gender = ["ชาย", "หญิง", "อื่นๆ",]
   const blood_group = ["A", "B", "AB", "O"]
   return (
-    <Container>
+    <Container style={{marginTop:'2rem', marginBottom:"2rem"}}>
       {/* Head */}
       <p style={{ fontSize: "2rem" }}>ข้อมูลผู้จัดงาน</p>
       <div style={{ height: "5px", width: "100%", backgroundColor: "#47474A" }}></div>
