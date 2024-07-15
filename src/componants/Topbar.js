@@ -20,7 +20,7 @@ function Topbar() {
             }}>
             <Container>
                 <Navbar.Brand href="/">
-                    <img src={require('../image/logo2.jpg')}
+                    <img src={require('../image/logo2.jpg')} alt='logo'
                         style={{ width: "50px", height: "50px", borderRadius: "100%", border: "3px solid #FFF" }} />
                 </Navbar.Brand>
                 {isDesktop ?
@@ -48,14 +48,17 @@ function Topbar() {
                             >เข้าสู่ระบบ/สมัครสมาชิก
                             </Button>{' '}
                             <Button onClick={() => changepage("organizer")}
-                            style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
+                                style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
                                 className='me-3'>
                                 ผู้จัดงาน
                             </Button>
+                            
                             <div style={{ display: 'flex', alignItems: "center" }}>
                                 <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
-                                    style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
-                                <NavDropdown title={langtitle} id="dropdown-menu-align-right">
+                                    style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} 
+                                    alt='lang-pic'/>
+                                <NavDropdown title={langtitle} id="dropdown-menu-align-right" 
+                                style={{}}>
                                     <NavDropdown.Item onClick={() => handleItemlang('TH')}>
                                         TH
                                     </NavDropdown.Item>
@@ -99,13 +102,14 @@ function Topbar() {
 
                         <Nav className='mt-3'>
                             <div style={{
-                                display: 'flex', alignItems: "center", justifyContent: "flex-start"}}>
+                                display: 'flex', alignItems: "center", justifyContent: "flex-start"
+                            }}>
                                 <Button variant="link" style={{
                                     border: 'none', borderRadius: '10px', width: '100%',
                                     display: 'flex', alignItems: "center", justifyContent: "flex-start",
                                 }}
                                     className='me-3 text-white'>
-                                    <img src={require('../image/Thai.png')}
+                                    <img src={require('../image/Thai.png')} alt='thai-flag-pic'
                                         style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
                                     TH
                                 </Button>
@@ -113,10 +117,10 @@ function Topbar() {
                             <div style={{ display: 'flex', alignItems: "center", justifyContent: "flex-start" }}>
                                 <Button variant="link" style={{
                                     border: 'none', borderRadius: '10px', width: '100%',
-                                    display: 'flex', alignItems: "center", justifyContent: "flex-start", marginTop:"10px"
+                                    display: 'flex', alignItems: "center", justifyContent: "flex-start", marginTop: "10px"
                                 }}
                                     className='me-3 text-white'>
-                                    <img src={require('../image/US-flag.jpg')}
+                                    <img src={require('../image/US-flag.jpg')} alt='en-flag-pic'
                                         style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
                                     EN
                                 </Button>
