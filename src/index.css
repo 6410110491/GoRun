@@ -30,9 +30,12 @@ p {
 }
 
 /* card on hover */
-.card:before ,  .card:after, .card {
+.card:before,
+.card:after,
+.card {
   transition: all .5s;
 }
+
 .card:hover {
   transform: scale(1.05);
 }
@@ -41,10 +44,12 @@ p {
 /* nav link menu on hover */
 .nav-link {
   position: relative;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
-.nav-link , .nav-link:before , .nav-link:after {
+.nav-link,
+.nav-link:before,
+.nav-link:after {
   transition: all .5s;
 }
 
@@ -63,4 +68,15 @@ p {
 
 .nav-link:hover:after {
   width: 100%;
+}
+
+.dropdown-menu.show,
+custom-dropdown-menu {
+  top: 100%;
+  right: 0;
+  margin-top: var(--bs-dropdown-spacer);
+}
+
+.dropdown-menu[data-bs-popper] {
+  left: unset;
 }

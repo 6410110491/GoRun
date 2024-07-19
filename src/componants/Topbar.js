@@ -1,135 +1,294 @@
 import '../App.css';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { Button, Container, Nav, NavDropdown, Navbar } from 'react-bootstrap'
+import { Button, Col, Container, Dropdown, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
+import axios from 'axios';
+import { FaHome, FaCalendarAlt, FaBullhorn, FaRegCalendar, FaUser, FaHistory, FaUsersCog, FaSignOutAlt } from 'react-icons/fa';
 
 function Topbar() {
     const [langtitle, setLangtitle] = useState('TH');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const isDesktop = useMediaQuery({ query: '(min-width: 992px)' });
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const response = await axios.get('http://localhost:4000/api/userinfo', {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    setUsername(response.data.username); // Assuming API returns user object with a 'username' field
+                    setIsLoggedIn(true);
+                } catch (error) {
+                    console.error('Failed to fetch user info:', error);
+                    setIsLoggedIn(false);
+                }
+            } else {
+                setIsLoggedIn(false);
+            }
+        };
+
+        checkLoginStatus();
+    }, []);
+
     const handleItemlang = (selectedTitle) => {
         setLangtitle(selectedTitle);
     };
 
     const changepage = (path) => {
-        window.location.href = "/" + path
-    }
+        window.location.href = '/' + path;
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+        setUsername('');
+    };
+
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark"
-            style={{
-                boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }}>
+            style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}>
             <Container>
                 <Navbar.Brand href="/">
                     <img src={require('../image/logo2.jpg')} alt='logo'
                         style={{ width: "50px", height: "50px", borderRadius: "100%", border: "3px solid #FFF" }} />
                 </Navbar.Brand>
-                {isDesktop ?
 
-                    // Desktop Screen
-                    <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
-                        <Nav>
-                            <Nav.Link href="/" className='text-white'>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
+                    {isDesktop ? (
+                        // Desktop Screen
+                        <Nav className="align-items-center">
+                            <Nav.Link href="/" className='text-white mx-2'>หน้าหลัก</Nav.Link>
+                            <Nav.Link href="/event" className='text-white mx-2'>งานทั้งหมด</Nav.Link>
+                            <Nav.Link href="/news" className='text-white mx-2'>ประชาสัมพันธ์</Nav.Link>
+                            <Nav.Link href="/calendar" className='text-white mx-2'>ปฏิทิน</Nav.Link>
+                            {isLoggedIn ? (
+                                <>
+                                    <Dropdown style={{ margin: "8px 32px 8px 16px" }}>
+                                        <Dropdown.Toggle id="dropdown-basic" style={{ backgroundColor: "#F3C710" }}>
+                                            {username || 'User'}
+                                        </Dropdown.Toggle>
+
+
+                                        <Dropdown.Menu data-bs-theme="light">
+                                            <Dropdown.Item style={{ marginBottom: "0.5rem" }}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <FaUser style={{ color: "#000", marginRight: '8px' }} />
+                                                    <p style={{ color: "#000", margin: 0 }}>ข้อมูลส่วนตัว</p>
+                                                </div>
+                                            </Dropdown.Item>
+
+                                            <Dropdown.Item style={{ marginBottom: "0.5rem" }}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <FaHistory style={{ color: "#000", marginRight: '8px' }} />
+                                                    <p style={{ color: "#000", margin: 0 }}>ประวัติการสมัคร</p>
+                                                </div>
+                                            </Dropdown.Item>
+
+                                            <Dropdown.Item style={{ marginBottom: "0.5rem" }}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <FaUsersCog style={{ color: "#000", marginRight: '8px' }} />
+                                                    <p style={{ color: "#000", margin: 0 }}>ผู้จัดงาน</p>
+                                                </div>
+                                            </Dropdown.Item>
+
+                                            <Dropdown.Item onClick={handleLogout} style={{ marginBottom: "0.5rem" }}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <FaSignOutAlt style={{ color: "#000", marginRight: '8px' }} />
+                                                    <p style={{ color: "#000", margin: 0 }}>ออกจากระบบ</p>
+                                                </div>
+                                            </Dropdown.Item>
+
+                                        </Dropdown.Menu>
+
+
+                                    </Dropdown>
+
+
+                                    <div style={{ display: 'flex', alignItems: "center" }}>
+                                        <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
+                                            style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }}
+                                            alt='lang-pic' />
+                                        <NavDropdown title={langtitle} id="dropdown-menu-align-right" className="custom-dropdown-menu">
+                                            <NavDropdown.Item onClick={() => handleItemlang('TH')}>
+                                                TH
+                                            </NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item onClick={() => handleItemlang('EN')}>
+                                                EN
+                                            </NavDropdown.Item>
+                                        </NavDropdown>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <Button
+                                        style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
+                                        className='me-2'
+                                        onClick={() => changepage("login")}
+                                    >
+                                        เข้าสู่ระบบ/สมัครสมาชิก
+                                    </Button>
+                                    <Button
+                                        onClick={() => changepage("organizer")}
+                                        style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
+                                        className='me-3'>
+                                        ผู้จัดงาน
+                                    </Button>
+                                    <div style={{ display: 'flex', alignItems: "center" }}>
+                                        <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
+                                            style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }}
+                                            alt='lang-pic' />
+                                        <NavDropdown title={langtitle} id="dropdown-menu-align-right" className="custom-dropdown-menu">
+                                            <NavDropdown.Item onClick={() => handleItemlang('TH')}>TH</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item onClick={() => handleItemlang('EN')}>EN</NavDropdown.Item>
+                                        </NavDropdown>
+                                    </div>
+                                </>
+                            )}
+                        </Nav>
+                    ) : (
+                        // Smartphone Screen
+                        <Nav className="flex-column align-items-start mb-4">
+                            <div style={{ display: "flex", width: "100%", justifyContent: "space-between", margin: "8px 0 8px 0" }}>
+                                {isLoggedIn ? (
+                                    <>
+                                        <Row style={{ width: "100%" }}>
+                                            <Col xs={6} sm={6}>
+                                                <p style={{ color: "#FFF", fontSize: "1.25rem" }}>สวัสดีคุณ {username}</p>
+                                            </Col>
+                                            <Col xs={6} sm={6} style={{ display: "flex", justifyContent: "flex-end" }}>
+                                                <Row>
+                                                    <Col xs={12} sm={6} >
+                                                        <div className="d-flex align-items-center">
+                                                            <img src={require('../image/Thai.png')} alt='thai-flag-pic'
+                                                                style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "10px" }} />
+                                                            <Button
+                                                                variant="link"
+                                                                style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
+                                                                onClick={() => handleItemlang('TH')}
+                                                            >
+                                                                TH
+                                                            </Button>
+                                                        </div>
+                                                    </Col>
+                                                    <Col xs={12} sm={6}>
+                                                        <div className="d-flex align-items-center">
+                                                            <img src={require('../image/US-flag.jpg')} alt='en-flag-pic'
+                                                                style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "10px" }} />
+                                                            <Button
+                                                                variant="link"
+                                                                style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
+                                                                onClick={() => handleItemlang('EN')}
+                                                            >
+                                                                EN
+                                                            </Button>
+                                                        </div></Col>
+                                                </Row>
+                                            </Col>
+                                        </Row>
+                                    </>
+                                ) : (
+                                    <Row style={{ width: "100%" }}>
+                                        <Col xs={6} sm={6}>
+                                            <Button
+                                                style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: 'fit-content' }}
+                                                onClick={() => changepage("login")}
+                                            >
+                                                เข้าสู่ระบบ/สมัครสมาชิก
+                                            </Button>
+                                        </Col>
+                                        <Col xs={6} sm={6} style={{ display: "flex", justifyContent: "flex-end" }}>
+                                            <Row>
+                                                <Col xs={6} sm={6} >
+                                                    <div className="d-flex align-items-center">
+                                                        <img src={require('../image/Thai.png')} alt='thai-flag-pic'
+                                                            style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "10px" }} />
+                                                        <Button
+                                                            variant="link"
+                                                            style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
+                                                            onClick={() => handleItemlang('TH')}
+                                                        >
+                                                            TH
+                                                        </Button>
+                                                    </div>
+                                                </Col>
+                                                <Col xs={6} sm={6}>
+                                                    <div className="d-flex align-items-center">
+                                                        <img src={require('../image/US-flag.jpg')} alt='en-flag-pic'
+                                                            style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "10px" }} />
+                                                        <Button
+                                                            variant="link"
+                                                            style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
+                                                            onClick={() => handleItemlang('EN')}
+                                                        >
+                                                            EN
+                                                        </Button>
+                                                    </div></Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+
+                                )}
+                            </div>
+
+                            <Nav.Link href="/" className='text-white mb-2'>
+                                <FaHome style={{ marginRight: '8px' }} />
                                 หน้าหลัก
                             </Nav.Link>
-                            <Nav.Link href="/event" className='text-white'>
+                            <Nav.Link href="/event" className='text-white mb-2'>
+                                <FaCalendarAlt style={{ marginRight: '8px' }} />
                                 งานทั้งหมด
                             </Nav.Link>
-                            <Nav.Link href="/news" className='text-white'>
+                            <Nav.Link href="/news" className='text-white mb-2'>
+                                <FaBullhorn style={{ marginRight: '8px' }} />
                                 ประชาสัมพันธ์
                             </Nav.Link>
-                            <Nav.Link href="/calendar" className='text-white'>
+                            <Nav.Link href="/calendar" className='text-white mb-2'>
+                                <FaRegCalendar style={{ marginRight: '8px' }} />
                                 ปฏิทิน
                             </Nav.Link>
-                        </Nav>
-                        <Nav>
-                            <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
-                                className='me-3 ms-3'
-                                onClick={() => changepage("login")}
-                            >เข้าสู่ระบบ/สมัครสมาชิก
-                            </Button>{' '}
-                            <Button onClick={() => changepage("organizer")}
-                                style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
-                                className='me-3'>
-                                ผู้จัดงาน
-                            </Button>
-                            
-                            <div style={{ display: 'flex', alignItems: "center" }}>
-                                <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
-                                    style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} 
-                                    alt='lang-pic'/>
-                                <NavDropdown title={langtitle} id="dropdown-menu-align-right" 
-                                style={{}}>
-                                    <NavDropdown.Item onClick={() => handleItemlang('TH')}>
-                                        TH
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item onClick={() => handleItemlang('EN')}>
-                                        EN
-                                    </NavDropdown.Item>
-                                </NavDropdown>
-                            </div>
-                        </Nav>
-                    </Navbar.Collapse> :
+                            {isLoggedIn ? (
+                                <>
+                                    <Nav.Link href="/#" className='text-white mb-2'>
+                                        <FaUser style={{ marginRight: '8px' }} />
+                                        ข้อมูลส่วนตัว
+                                    </Nav.Link><Nav.Link href="/#" className='text-white mb-2'>
+                                        <FaHistory style={{ marginRight: '8px' }} />
+                                        ประวัติการสมัคร
+                                    </Nav.Link><Nav.Link href="/#" className='text-white mb-3'>
+                                        <FaUsersCog style={{ marginRight: '8px' }} />
+                                        ผู้จัดงาน
+                                    </Nav.Link>
+                                </>) : ("")}
 
-                    // Smartphone Screen
-                    <Navbar.Collapse className='mt-3'>
-                        <div style={{ display: "flex" }}>
-                            <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '50%' }}
-                                className='me-3 ms-3'
-                                onClick={() => changepage("login")}
-                            >เข้าสู่ระบบ/สมัครสมาชิก
-                            </Button>{' '}
-                            <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '50%' }}
-                                className='me-3'>
-                                ผู้จัดงาน
-                            </Button>
-                        </div>
+                            {isLoggedIn ? (
+                                <Row>
+                                    <Col style={{ width: "100%" }}>
+                                        <Button
+                                            style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '100%', }}
+                                            onClick={handleLogout}>
+                                            <FaSignOutAlt style={{ color: "#fff", marginRight: '8px' }} />
+                                            ออกจากระบบ
+                                        </Button>
+                                    </Col>
 
-                        <Nav className='mt-3 ms-3'>
-                            <Nav.Link href="/" className='text-white'>
-                                หน้าหลัก
-                            </Nav.Link>
-                            <Nav.Link href="/event" className='text-white'>
-                                งานทั้งหมด
-                            </Nav.Link>
-                            <Nav.Link href="/news" className='text-white'>
-                                ประชาสัมพันธ์
-                            </Nav.Link>
-                            <Nav.Link href="/calendar" className='text-white'>
-                                ปฏิทิน
-                            </Nav.Link>
+                                </Row>
+                            ) : (
+                                ""
+                            )}
                         </Nav>
-
-                        <Nav className='mt-3'>
-                            <div style={{
-                                display: 'flex', alignItems: "center", justifyContent: "flex-start"
-                            }}>
-                                <Button variant="link" style={{
-                                    border: 'none', borderRadius: '10px', width: '100%',
-                                    display: 'flex', alignItems: "center", justifyContent: "flex-start",
-                                }}
-                                    className='me-3 text-white'>
-                                    <img src={require('../image/Thai.png')} alt='thai-flag-pic'
-                                        style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
-                                    TH
-                                </Button>
-                            </div>
-                            <div style={{ display: 'flex', alignItems: "center", justifyContent: "flex-start" }}>
-                                <Button variant="link" style={{
-                                    border: 'none', borderRadius: '10px', width: '100%',
-                                    display: 'flex', alignItems: "center", justifyContent: "flex-start", marginTop: "10px"
-                                }}
-                                    className='me-3 text-white'>
-                                    <img src={require('../image/US-flag.jpg')} alt='en-flag-pic'
-                                        style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }} />
-                                    EN
-                                </Button>
-                            </div>
-                        </Nav>
-                    </Navbar.Collapse>}
+                    )}
+                </Navbar.Collapse>
             </Container>
         </Navbar>
-    )
+    );
 }
 
-export default Topbar
+export default Topbar;
