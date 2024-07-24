@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
-        default: '' // กำหนดให้มีค่าเริ่มต้นเป็น string ว่าง
+        default: '', // กำหนดให้มีค่าเริ่มต้นเป็น string ว่าง
+        required: true,
     },
     email: {
         type: String,

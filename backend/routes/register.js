@@ -2,28 +2,31 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-// Register route
+// Route to register a new user
 router.post('/register', async (req, res) => {
-    const { email, password } = req.body;
-
     try {
-        let user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({ message: 'User already exists' });
+        // Check if the email already exists
+        const existingUser = await User.findOne({ email: req.body.email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Email already exists' });
         }
 
-        user = new User({
-            email,
-            password: await bcrypt.hash(password, 10)
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+        // Create a new user
+        const newUser = new User({
+            username: req.body.username,
+            email: req.body.email,
+            password: hashedPassword
         });
 
-        await user.save();
-
+        await newUser.save();
         res.status(201).json({ message: 'User registered successfully' });
-    } catch (err) {
-        console.error('Error during user registration:', err); // Log the error
-        res.status(500).json({ message: 'Server error', error: err.message }); // Send the error message
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
