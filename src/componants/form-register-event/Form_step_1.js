@@ -5,12 +5,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
 
 function Form_step_1() {
     const [dueDate, setDueDate] = useState(new Date())
     const gender = ["ชาย", "หญิง", "อื่นๆ",]
-    const blood_group =[ "A", "B", "AB", "O"]
+    const blood_group = ["A", "B", "AB", "O"]
     return (
         <div>
             <Container className='mt-3' fluid style={{
@@ -20,12 +19,12 @@ function Form_step_1() {
                 <Row>
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", alignItems: "center" }}>
-                        <img src={require('../../image/logo2.jpg')}
+                        <img src={require('../../image/logo2.jpg')} alt='logo.jpg'
                             style={{ width: "100px", height: "100px", borderRadius: "100%" }} />
                         <p className='ms-3'>รูปภาพประจำตัว</p>
                     </Col>
-                    <Col xl={3} md={6} sm={12} className='mt-2' 
-                    style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                    <Col xl={3} md={6} sm={12} className='mt-2'
+                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>ชื่อ</p>
                         <Form.Control type="text" placeholder="กรอกชื่อ" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -33,7 +32,7 @@ function Form_step_1() {
                         }} />
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
-                     style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>สกุล</p>
                         <Form.Control type="text" placeholder="กรอกสกุล" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -41,7 +40,7 @@ function Form_step_1() {
                         }} />
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
-                     style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>เพศ</p>
                         <Form.Select aria-label="Default select example" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -61,13 +60,14 @@ function Form_step_1() {
 
                 <Row className='mt-3'>
                     <Col xl={4} md={6} sm={12} className='mt-2'
-                     style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>วันเดือนปีเกิด</p>
                         <div style={{ marginTop: "-22px" }}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={['DatePicker']} >
                                     <DatePicker
                                         slotProps={{ textField: { size: 'small' } }}
+                                        value={dueDate}
                                         sx={{
                                             width: '95%',
                                             backgroundColor: "#FFF",
@@ -85,7 +85,7 @@ function Form_step_1() {
                         </div>
                     </Col>
                     <Col xl={4} md={6} sm={12} className='mt-2'
-                     style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>เลขประจำตัวประชาชน</p>
                         <Form.Control type="text" placeholder="กรอกเลขประจำตัวประชาชน" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -93,7 +93,7 @@ function Form_step_1() {
                         }} />
                     </Col>
                     <Col xl={4} md={6} sm={12} className='mt-2'
-                     style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>อีเมล</p>
                         <Form.Control type="text" placeholder="กรอกอีเมล" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -105,7 +105,7 @@ function Form_step_1() {
 
                 <Row className='mt-3 mb-5'>
                     <Col xl={3} md={6} sm={12} className='mt-2'
-                     style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>เบอร์โทรศัพท์</p>
                         <Form.Control type="text" placeholder="กรอกเบอร์โทรศัพท์" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -113,7 +113,7 @@ function Form_step_1() {
                         }} />
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
-                     style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>สัญชาติ</p>
                         <Form.Control type="text" placeholder="กรอกสัญชาติ" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -121,7 +121,7 @@ function Form_step_1() {
                         }} />
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
-                     style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>หมู่โลหิต</p>
                         <Form.Select aria-label="Default select example" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -137,7 +137,7 @@ function Form_step_1() {
                         </Form.Select>
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
-                     style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>โรคประจำตัว</p>
                         <Form.Control type="text" placeholder="กรอกโรคประจำตัว" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",

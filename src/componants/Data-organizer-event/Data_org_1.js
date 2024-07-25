@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col, Button, Row, Container, Card, Form, img } from 'react-bootstrap'
+import { Col,  Row, Container,  Form,  } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -32,7 +32,7 @@ function Data_org_1(props) {
         <Row>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", alignItems: "center" }}>
-            <img src={require('../../image/logo2.jpg')}
+            <img src={require('../../image/logo2.jpg')} alt='logo.jpg'
               style={{ width: "100px", height: "100px", borderRadius: "100%" }} />
             <p className='ms-3'>รูปภาพประจำตัว</p>
           </Col>

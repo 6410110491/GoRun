@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import { Col, Button, Row, Container, Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+
+    const responseMessage = (response) => {
+        console.log(response);
+    };
+    const errorMessage = (error) => {
+        console.log(error);
+    };
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -89,11 +98,16 @@ function Login() {
 
                                         <div className="d-grid">
                                             <Button
-                                                style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
+                                                style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', marginBottom: "16px" }}
                                                 type="submit"
                                             >
                                                 Login
                                             </Button>
+                                            <GoogleLogin
+                                                auto_select={true}
+                                                text='Login with Google'
+                                                onSuccess={responseMessage} onError={errorMessage}
+                                            />
                                         </div>
                                     </Form>
                                     <div className="mt-4">
@@ -108,9 +122,9 @@ function Login() {
                             </div>
                         </Container>
                     </Col>
-                </Row>
-            </Container>
-        </div>
+                </Row >
+            </Container >
+        </div >
     );
 }
 

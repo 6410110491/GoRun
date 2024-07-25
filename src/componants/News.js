@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Button, Row, Container, Card, Form, img } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 
 function News() {

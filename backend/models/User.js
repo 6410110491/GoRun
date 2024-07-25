@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
-        default: '', // กำหนดให้มีค่าเริ่มต้นเป็น string ว่าง
+        default: '',
         required: true,
     },
     email: {
@@ -23,6 +23,36 @@ const UserSchema = new mongoose.Schema({
     cart: {
         type: Array,
         default: []
+    },
+    registerMethod: {
+        type: String,
+        enum: ['website', 'google'],
+        required: true
+    },
+    personalInfo: {
+        gender: {
+            type: String,
+        },
+        birthDate: {
+            type: Date
+        },
+        profilePicture: {
+            type: String // URL or base64 string of the image
+        },
+        phoneNumber: {
+            type: String,
+        },
+        idCardNumber: {
+            type: String,
+            unique: true // Optional: Ensure ID card number uniqueness
+        },
+        bloodType: {
+            type: String,
+        },
+        chronicDiseases: {
+            type: [String], // Array of strings to list multiple diseases
+            default: []
+        }
     }
 }, {
     timestamps: true

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col, Button, Row, Container, Card, Form, img } from 'react-bootstrap'
+import { Col,  Row, Container,  Form,  } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -59,6 +59,7 @@ function Data_org_2(props) {
                 <DemoContainer components={['DatePicker']} >
                   <DatePicker
                     slotProps={{ textField: { size: 'small' } }}
+                    value={dueDate}
                     sx={{
                       width: '95%',
                       backgroundColor: "#FFF",

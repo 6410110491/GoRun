@@ -108,7 +108,7 @@ function Form_step_4() {
 
           <Row>
             <Col xl={5} md={12} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <img src={require('../../image/QR-Code.jpg')}
+              <img src={require('../../image/QR-Code.jpg')} alt='logo.jpg'
                 style={{ width: "300px", height: "400px" }} />
             </Col>
             <Col xl={7} md={12}>
@@ -144,6 +144,7 @@ function Form_step_4() {
                         <DemoContainer components={['DatePicker']} >
                           <DatePicker
                             slotProps={{ textField: { size: 'small' } }}
+                            value={dueDate}
                             sx={{
                               width: '95%',
                               backgroundColor: "#FFF",

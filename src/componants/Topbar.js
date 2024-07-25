@@ -73,8 +73,6 @@ function Topbar() {
                                         <Dropdown.Toggle id="dropdown-basic" style={{ backgroundColor: "#F3C710" }}>
                                             {username || 'User'}
                                         </Dropdown.Toggle>
-
-
                                         <Dropdown.Menu data-bs-theme="light">
                                             <Dropdown.Item style={{ marginBottom: "0.5rem" }}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -82,46 +80,34 @@ function Topbar() {
                                                     <p style={{ color: "#000", margin: 0 }}>ข้อมูลส่วนตัว</p>
                                                 </div>
                                             </Dropdown.Item>
-
                                             <Dropdown.Item style={{ marginBottom: "0.5rem" }}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaHistory style={{ color: "#000", marginRight: '8px' }} />
                                                     <p style={{ color: "#000", margin: 0 }}>ประวัติการสมัคร</p>
                                                 </div>
                                             </Dropdown.Item>
-
                                             <Dropdown.Item style={{ marginBottom: "0.5rem" }}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaUsersCog style={{ color: "#000", marginRight: '8px' }} />
                                                     <p style={{ color: "#000", margin: 0 }}>ผู้จัดงาน</p>
                                                 </div>
                                             </Dropdown.Item>
-
                                             <Dropdown.Item onClick={handleLogout} style={{ marginBottom: "0.5rem" }}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaSignOutAlt style={{ color: "#000", marginRight: '8px' }} />
                                                     <p style={{ color: "#000", margin: 0 }}>ออกจากระบบ</p>
                                                 </div>
                                             </Dropdown.Item>
-
                                         </Dropdown.Menu>
-
-
                                     </Dropdown>
-
-
                                     <div style={{ display: 'flex', alignItems: "center" }}>
                                         <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
                                             style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }}
                                             alt='lang-pic' />
                                         <NavDropdown title={langtitle} id="dropdown-menu-align-right" className="custom-dropdown-menu">
-                                            <NavDropdown.Item onClick={() => handleItemlang('TH')}>
-                                                TH
-                                            </NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => handleItemlang('TH')}>TH</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item onClick={() => handleItemlang('EN')}>
-                                                EN
-                                            </NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => handleItemlang('EN')}>EN</NavDropdown.Item>
                                         </NavDropdown>
                                     </div>
                                 </>
@@ -234,7 +220,6 @@ function Topbar() {
                                             </Row>
                                         </Col>
                                     </Row>
-
                                 )}
                             </div>
 
@@ -278,7 +263,6 @@ function Topbar() {
                                             ออกจากระบบ
                                         </Button>
                                     </Col>
-
                                 </Row>
                             ) : (
                                 ""
