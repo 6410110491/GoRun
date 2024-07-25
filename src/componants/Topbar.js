@@ -12,27 +12,43 @@ function Topbar() {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-        const checkLoginStatus = async () => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                try {
-                    const response = await axios.get('http://localhost:4000/api/userinfo', {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-                    setUsername(response.data.username); // Assuming API returns user object with a 'username' field
-                    setIsLoggedIn(true);
-                } catch (error) {
-                    console.error('Failed to fetch user info:', error);
-                    setIsLoggedIn(false);
+        const checkAuthStatus = async () => {
+            try {
+                // Check if the user is authenticated
+                const authResponse = await fetch('http://localhost:4000/api/auth/status', {
+                    method: 'GET',
+                    credentials: 'include' // Ensure cookies/session data are sent
+                });
+
+                if (authResponse.ok) {
+                    const authStatus = await authResponse.json();
+
+                    if (authStatus.isAuthenticated) {
+                        const userInfoResponse = await fetch('http://localhost:4000/api/userinfo', {
+                            method: 'GET',
+                            credentials: 'include'
+                        });
+
+                        if (userInfoResponse.ok) {
+                            const userInfo = await userInfoResponse.json();
+                            setIsLoggedIn(true);
+                            setUsername(userInfo.username); // Assuming userInfo has username
+                        } else {
+                            console.error('Failed to fetch user info');
+                        }
+                    } else {
+                        setIsLoggedIn(false);
+                        setUsername('');
+                    }
+                } else {
+                    console.error('Failed to check auth status');
                 }
-            } else {
-                setIsLoggedIn(false);
+            } catch (error) {
+                console.error('Error checking auth:', error);
             }
         };
 
-        checkLoginStatus();
+        checkAuthStatus();
     }, []);
 
     const handleItemlang = (selectedTitle) => {
@@ -43,8 +59,8 @@ function Topbar() {
         window.location.href = '/' + path;
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
+    const handleLogout = async () => {
+        await axios.post('http://localhost:4000/api/logout', {}, { withCredentials: true })
         setIsLoggedIn(false);
         setUsername('');
     };

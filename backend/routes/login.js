@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const verifyToken = require('../middleware/auth');
 
 
@@ -21,21 +20,36 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        // Generate JWT token
-        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET,);
-        res.status(200).json({ token });
+        // Store user info in session
+        req.session.user = {
+            id: user._id,
+            email: user.email
+        };
+        res.status(200).json({ message: 'Logged in successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
 
-router.get('/userinfo', verifyToken, async (req, res) => {
-    try {
-        // Access user information from req.user (populated by verifyToken middleware)
-        const user = req.user;
 
+// Logout route to destroy session
+router.post('/logout', (req, res) => {
+    if (req.session) {
+        req.session.destroy(err => {
+            if (err) {
+                return res.status(500).json({ error: 'Could not log out, please try again' });
+            }
+            res.status(200).json({ message: 'Logged out successfully' });
+        });
+    } else {
+        res.status(400).json({ error: 'No session to destroy' });
+    }
+});
+
+router.get('/userinfo', verifyToken, (req, res) => {
+    try {
         // Exclude sensitive information from the response
-        const { password, ...userInfo } = user.toObject(); // Remove password from the response
+        const { password, ...userInfo } = req.user.toObject(); // req.user should be populated by verifySession
 
         res.status(200).json(userInfo);
     } catch (error) {
@@ -43,10 +57,12 @@ router.get('/userinfo', verifyToken, async (req, res) => {
     }
 });
 
-
-router.get('/protected', verifyToken, (req, res) => {
-    // เข้าถึงข้อมูลผู้ใช้ผ่าน req.user
-    res.json({ message: 'This route is use token', user: req.user });
+router.get('/auth/status', (req, res) => {
+    if (req.session && req.session.user) {
+        res.status(200).json({ isAuthenticated: true });
+    } else {
+        res.status(200).json({ isAuthenticated: false });
+    }
 });
 
 module.exports = router;

@@ -24,21 +24,25 @@ function Login() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
+                credentials: 'include' // Important for sessions to send cookies
             });
+
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem('token', data.token); // Store token in local storage
                 console.log('Login success:', data);
                 setEmail('');
                 setPassword('');
                 changepage(""); // Redirect to a new page or refresh
             } else {
-                throw new Error('Login failed');
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Login failed');
             }
         } catch (error) {
             console.error('Login error:', error);
         }
     };
+
+
 
     const changepage = (path) => {
         window.location.href = "/" + path;
