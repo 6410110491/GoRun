@@ -9,12 +9,10 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        trim: true,
         unique: true
     },
     password: {
         type: String,
-        required: true
     },
     role: {
         type: String,
@@ -58,4 +56,5 @@ const UserSchema = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('User', UserSchema);
+
+module.exports = mongoose.model('User', UserSchema, 'users');

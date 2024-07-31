@@ -90,7 +90,9 @@ function Topbar() {
                                             {username || 'User'}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu data-bs-theme="light">
-                                            <Dropdown.Item style={{ marginBottom: "0.5rem" }}>
+                                            <Dropdown.Item style={{ marginBottom: "0.5rem" }}
+                                                onClick={() => changepage("personal")}
+                                            >
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaUser style={{ color: "#000", marginRight: '8px' }} />
                                                     <p style={{ color: "#000", margin: 0 }}>ข้อมูลส่วนตัว</p>
@@ -257,7 +259,8 @@ function Topbar() {
                             </Nav.Link>
                             {isLoggedIn ? (
                                 <>
-                                    <Nav.Link href="/#" className='text-white mb-2'>
+                                    <Nav.Link href="/#" className='text-white mb-2'
+                                        onClick={() => changepage("personal")}>
                                         <FaUser style={{ marginRight: '8px' }} />
                                         ข้อมูลส่วนตัว
                                     </Nav.Link><Nav.Link href="/#" className='text-white mb-2'>
