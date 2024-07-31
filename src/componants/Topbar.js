@@ -60,9 +60,14 @@ function Topbar() {
     };
 
     const handleLogout = async () => {
-        await axios.post('http://localhost:4000/api/logout', {}, { withCredentials: true })
-        setIsLoggedIn(false);
-        setUsername('');
+        try {
+            await axios.post('http://localhost:4000/api/logout', {}, { withCredentials: true });
+            setIsLoggedIn(false);
+            setUsername('');
+            changepage("");
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
     };
 
     return (

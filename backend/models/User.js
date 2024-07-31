@@ -42,9 +42,13 @@ const UserSchema = new mongoose.Schema({
         },
         idCardNumber: {
             type: String,
-            unique: true // Optional: Ensure ID card number uniqueness
+            unique: true, // Optional: Ensure ID card number uniqueness
+            sparse: true
         },
         bloodType: {
+            type: String,
+        },
+        nationality: {
             type: String,
         },
         chronicDiseases: {

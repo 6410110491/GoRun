@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Col, Container, Image, Row } from 'react-bootstrap';
 import ScrollToTop from 'react-scroll-to-top';
 
 function Personal_information() {
@@ -50,7 +50,8 @@ function Personal_information() {
             {/* ScrollToTop */}
             <ScrollToTop smooth color='white' style={{ borderRadius: '20px', backgroundColor: '#F3C710' }} />
 
-            <Container className='mt-5' fluid style={{
+            <div style={{
+                marginTop: '48px',
                 minHeight: '100vh',
                 backgroundColor: '#E3E3E3',
                 padding: '1rem 2rem',
@@ -63,15 +64,49 @@ function Personal_information() {
                 ) : error ? (
                     <p>Error: {error}</p>
                 ) : userInfo ? (
-                    <div>
-                        <p><strong>Username:</strong> {userInfo.username}</p>
-                        <p><strong>Email:</strong> {userInfo.email}</p>
-                        {/* Add more user fields as needed */}
+                    <div style={{
+                        minHeight: '90vh', display: "flex", flexDirection: "column",
+                        justifyContent: "space-evenly",
+                    }}>
+                        <Row style={{ width: "100%" }}>
+                            <Col style={{ textAlign: "center", width: "100%" }}>
+                                <img
+                                    src={userInfo.personalInfo && userInfo.personalInfo.profilePicture
+                                        ? userInfo.personalInfo.profilePicture
+                                        : require('../image/blank_profile_image.png')}
+                                    alt='profile-img.jpg'
+                                    style={{
+                                        width: "240px", height: "240px", borderRadius: "100%",
+                                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginBottom: "1rem"
+                                    }}
+                                />
+                                <p><strong>ชื่อ:</strong> {userInfo.username}</p>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col><p><strong>เพศ:</strong> {userInfo.personalInfo && userInfo.personalInfo.gender ? userInfo.personalInfo.gender : ""}</p></Col>
+                            <Col><p><strong>วันเดือนปีเกิด:</strong> {userInfo.personalInfo && userInfo.personalInfo.birthDate ? userInfo.personalInfo.birthDate : ""}</p></Col>
+                            <Col><p><strong>เลขบัตรประชาชน:</strong> {userInfo.personalInfo && userInfo.personalInfo.idCardNumber ? userInfo.personalInfo.idCardNumber : ""}</p></Col>
+                        </Row>
+
+                        <Row>
+                            <Col><p><strong>อีเมล:</strong> {userInfo.email}</p></Col>
+                            <Col><p><strong>เบอร์โทรศัพท์:</strong> {userInfo.personalInfo && userInfo.personalInfo.phoneNumber ? userInfo.personalInfo.phoneNumber : ""}</p></Col>
+                        </Row>
+
+                        <Row>
+                            <Col><p><strong>สัญชาติ:</strong> {userInfo.personalInfo && userInfo.personalInfo.nationality ? userInfo.personalInfo.nationality : ""}</p></Col>
+                            <Col><p><strong>หมู่โลหิต:</strong> {userInfo.personalInfo && userInfo.personalInfo.bloodType ? userInfo.personalInfo.bloodType : ""}</p></Col>
+                            <Col><p><strong>โรคประจำตัว:</strong> {userInfo.personalInfo && userInfo.personalInfo.chronicDiseases ? userInfo.personalInfo.chronicDiseases.join(', ') : ""}</p></Col>
+                        </Row>
+
                     </div>
                 ) : (
                     <p>No user information available.</p>
                 )}
-            </Container>
+            </div>
+
         </Container>
     );
 }
