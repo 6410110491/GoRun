@@ -9,8 +9,13 @@ function Organizer() {
     return (
         <Container className='mt-5' style={{ minHeight: "100vh" }} >
             {/* Head */}
-            <p style={{ fontSize: "2rem" }}>สำหรับผู้ที่สนใจจัดงาน</p>
-            <div style={{ height: "5px", width: "100%", backgroundColor: "#47474A" }}></div>
+            <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
+                    <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
+                        สำหรับผู้ที่สนใจจัดงาน
+                    </p>
+                </div>
+            </div>
 
             {/* ScroolToTop */}
             <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />

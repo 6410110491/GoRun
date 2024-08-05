@@ -13,14 +13,14 @@ function Login() {
     const responseMessage = (response) => {
         // console.log('Google Login Response:', response);
         if (response.credential) {
-            const tokenId = response.credential; 
+            const tokenId = response.credential;
             fetch('http://localhost:4000/api/login/google', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ tokenId }), // ส่งโทเค็นไปยังเซิร์ฟเวอร์
-                credentials: 'include' 
+                credentials: 'include'
             })
                 .then(res => res.json())
                 .then(data => {
@@ -57,6 +57,7 @@ function Login() {
                 console.log('Login success:', data);
                 setEmail('');
                 setPassword('');
+                console.log(data);
                 changepage(""); // Redirect to a new page or refresh
             } else {
                 const errorData = await response.json();
@@ -75,8 +76,11 @@ function Login() {
 
     return (
         <div style={{ display: "flex", width: "100%" }}>
-            <Container style={{ backgroundColor: "#F3C710", height: "700px" }}>
-                {/* Your branding or background */}
+            <Container style={{ height: "700px", padding: "0" }}>
+                <img src={require("../image/img_login_page.png")} alt="logo" style={{
+                    marginTop: "2rem",
+                    width: "100%", height: "100%", objectFit: "cover", padding: "0", margin: "0"
+                }} />
             </Container>
             <Container>
                 <Row style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>

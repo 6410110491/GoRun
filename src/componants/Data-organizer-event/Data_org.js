@@ -6,10 +6,11 @@ import Data_org_1 from './Data_org_1'
 import Data_org_2 from './Data_org_2'
 import Data_org_3 from './Data_org_3'
 import Data_org_4 from './Data_org_4'
+import Data_org_success from './Data_org_success'
 
 function Data_org() {
     const componants = [
-        <Data_org_1 />, <Data_org_2 />, <Data_org_3 />,<Data_org_4 />
+        <Data_org_1 />, <Data_org_2 />, <Data_org_3 />, <Data_org_4 />
     ]
 
     const steps = [
@@ -37,7 +38,10 @@ function Data_org() {
             "& .MuiStepConnector-line": {
                 borderColor: "#F3C710",
             }
-        }
+        },
+        '& .MuiStepper-root': {
+            border: 'none', // Add other styles as needed
+        },
     }
 
     const [activeStep, setActiveStep] = React.useState(0);
@@ -78,14 +82,14 @@ function Data_org() {
                             stepProps.completed = false;
                         }
                         return (
-                            <Step key={label} {...stepProps}>
+                            <Step key={label} {...stepProps} >
                                 <StepLabel {...labelProps}>{label}</StepLabel>
                             </Step>
                         );
                     })}
                 </Stepper>
                 {activeStep === steps.length ? (
-                    <div>Success</div>
+                    <Data_org_success />
                 ) : (
                     <React.Fragment>
                         <Typography sx={{ mt: 2, mb: 1 }}>

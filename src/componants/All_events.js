@@ -10,33 +10,38 @@ function All_events() {
     {
       "id": 1,
       "name": "งานวิ่งมาราธอน",
-      "province" : "กรุงเทพมหานคร",
+      "province": "กรุงเทพมหานคร",
       "date": "2024-4-18",
       "organizer": "สมาคมวิ่ง",
       "img": 'event-pic-1.jpg'
-  },
-  {
+    },
+    {
       "id": 2,
       "name": "งานวิ่งการกุศล",
-      "province" : "สุราษฎร์ธานี",
+      "province": "สุราษฎร์ธานี",
       "date": "2024-4-18",
       "organizer": "สมาคมวิ่ง",
       "img": 'event-pic-2.jpg'
-  },
-  {
+    },
+    {
       "id": 3,
       "name": "Run for change",
-      "province" : "กาญจนบุรี",
+      "province": "กาญจนบุรี",
       "date": "2024-4-18",
       "organizer": "สมาคมวิ่ง",
       "img": 'event-pic-3.jpg'
-  },
-]
+    },
+  ]
   return (
     <Container className='mt-5' style={{ minHeight: "100vh" }} >
       {/* Head */}
-      <p style={{ fontSize: "2rem" }}>งานทั้งหมด</p>
-      <div style={{ height: "5px", width: "100%", backgroundColor: "#47474A" }}></div>
+      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
+          <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
+            งานทั้งหมด
+          </p>
+        </div>
+      </div>
 
       {/* ScroolToTop */}
       <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />

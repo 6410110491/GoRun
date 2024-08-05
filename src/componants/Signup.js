@@ -55,7 +55,11 @@ function Signup() {
 
     return (
         <div style={{ display: "flex", width: "100%" }}>
-            <Container style={{ backgroundColor: "#F3C710", height: "700px" }}>
+            <Container style={{ height: "700px", padding: "0" }}>
+                <img src={require("../image/img_signup_page.png")} alt="logo" style={{
+                    marginTop: "2rem",
+                    width: "100%", height: "100%", objectFit: "cover", padding: "0", margin: "0"
+                }} />
             </Container>
             <Container>
                 <Row style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>

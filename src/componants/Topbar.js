@@ -90,8 +90,11 @@ function Topbar() {
                             <Nav.Link href="/calendar" className='text-white mx-2'>ปฏิทิน</Nav.Link>
                             {isLoggedIn ? (
                                 <>
-                                    <Dropdown style={{ margin: "8px 32px 8px 16px" }}>
-                                        <Dropdown.Toggle id="dropdown-basic" style={{ backgroundColor: "#F3C710" }}>
+                                    <Dropdown style={{ margin: "8px 8px 8px 16px" }}>
+                                        <Dropdown.Toggle id="dropdown-basic" style={{
+                                            backgroundColor: "#F3C710",
+                                            borderRadius: '10px'
+                                        }}>
                                             {username || 'User'}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu data-bs-theme="light">
@@ -110,13 +113,6 @@ function Topbar() {
                                                     <p style={{ color: "#000", margin: 0 }}>ประวัติการสมัคร</p>
                                                 </div>
                                             </Dropdown.Item>
-                                            <Dropdown.Item style={{ marginBottom: "0.5rem" }}
-                                                onClick={() => changepage("organizer")}>
-                                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <FaUsersCog style={{ color: "#000", marginRight: '8px' }} />
-                                                    <p style={{ color: "#000", margin: 0 }}>ผู้จัดงาน</p>
-                                                </div>
-                                            </Dropdown.Item>
                                             <Dropdown.Item onClick={handleLogout} style={{ marginBottom: "0.5rem" }}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaSignOutAlt style={{ color: "#000", marginRight: '8px' }} />
@@ -125,6 +121,12 @@ function Topbar() {
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
+                                    <Button
+                                        onClick={() => changepage("organizer")}
+                                        style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
+                                        className='me-3'>
+                                        ผู้จัดงาน
+                                    </Button>
                                     <div style={{ display: 'flex', alignItems: "center" }}>
                                         <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
                                             style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }}
@@ -274,12 +276,14 @@ function Topbar() {
                                         onClick={() => changepage("apphistory")}>
                                         <FaHistory style={{ marginRight: '8px' }} />
                                         ประวัติการสมัคร
-                                    </Nav.Link><Nav.Link href="/#" className='text-white mb-3'
-                                        onClick={() => changepage("organizer")}>
-                                        <FaUsersCog style={{ marginRight: '8px' }} />
-                                        ผู้จัดงาน
                                     </Nav.Link>
                                 </>) : ("")}
+
+                            <Nav.Link href="/#" className='text-white mb-2'
+                                onClick={() => changepage("organizer")}>
+                                <FaUsersCog style={{ marginRight: '8px' }} />
+                                ผู้จัดงาน
+                            </Nav.Link>
 
                             {isLoggedIn ? (
                                 <Row>

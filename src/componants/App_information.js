@@ -23,8 +23,13 @@ function App_information() {
   return (
     <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
       {/* Head */}
-      <p style={{ fontSize: "2rem" }}>ข้อมูลการสมัคร</p>
-      <div style={{ height: "5px", width: "100%", backgroundColor: "#47474A" }}></div>
+      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
+          <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
+            ข้อมูลการสมัคร
+          </p>
+        </div>
+      </div>
 
       {/* ScroolToTop */}
       <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />
