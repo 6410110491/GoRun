@@ -1,10 +1,44 @@
 import React, { useState } from 'react';
 import { Col, Button, Row, Container, Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+
+    const responseMessage = (response) => {
+        // console.log('Google Login Response:', response);
+        if (response.credential) {
+            const tokenId = response.credential; 
+            fetch('http://localhost:4000/api/login/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ tokenId }), // ส่งโทเค็นไปยังเซิร์ฟเวอร์
+                credentials: 'include' 
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Login Success:', data);
+                    changepage("");
+                })
+                .catch(error => {
+                    console.error('Login Error:', error);
+                });
+        } else {
+            console.error('No credential found in the response');
+        }
+    };
+
+
+    const errorMessage = (error) => {
+        console.log(error);
+    };
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -15,21 +49,25 @@ function Login() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
+                credentials: 'include' // Important for sessions to send cookies
             });
+
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem('token', data.token); // Store token in local storage
                 console.log('Login success:', data);
                 setEmail('');
                 setPassword('');
                 changepage(""); // Redirect to a new page or refresh
             } else {
-                throw new Error('Login failed');
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Login failed');
             }
         } catch (error) {
             console.error('Login error:', error);
         }
     };
+
+
 
     const changepage = (path) => {
         window.location.href = "/" + path;
@@ -89,11 +127,17 @@ function Login() {
 
                                         <div className="d-grid">
                                             <Button
-                                                style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
+                                                style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', marginBottom: "16px" }}
                                                 type="submit"
                                             >
                                                 Login
                                             </Button>
+                                            <GoogleLogin
+                                                width={350}
+                                                auto_select={true}
+                                                text='Login with Google'
+                                                onSuccess={responseMessage} onError={errorMessage}
+                                            />
                                         </div>
                                     </Form>
                                     <div className="mt-4">
@@ -108,9 +152,9 @@ function Login() {
                             </div>
                         </Container>
                     </Col>
-                </Row>
-            </Container>
-        </div>
+                </Row >
+            </Container >
+        </div >
     );
 }
 

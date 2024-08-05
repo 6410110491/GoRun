@@ -7,8 +7,11 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import dayjs from 'dayjs'
+
 function Form_step_4() {
-  const [dueDate, setDueDate] = useState(new Date())
+  const [dueDate, setDueDate] = useState(dayjs())
+  const [dueTime, setDueTime] = useState(dayjs());
   const [file, setFile] = useState()
 
   function handleOnChange(e) {
@@ -108,7 +111,7 @@ function Form_step_4() {
 
           <Row>
             <Col xl={5} md={12} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <img src={require('../../image/QR-Code.jpg')}
+              <img src={require('../../image/QR-Code.jpg')} alt='logo.jpg'
                 style={{ width: "300px", height: "400px" }} />
             </Col>
             <Col xl={7} md={12}>
@@ -139,11 +142,12 @@ function Form_step_4() {
                 <Row>
                   <Col xl={6} md={6} sm={12}>
                     <p>วันที่โอน</p>
-                    <div style={{ marginTop: "-22px" }}>
+                    <div style={{ marginTop: "-10px" }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']} >
                           <DatePicker
                             slotProps={{ textField: { size: 'small' } }}
+                            value={dueDate}
                             sx={{
                               width: '95%',
                               backgroundColor: "#FFF",
@@ -163,12 +167,14 @@ function Form_step_4() {
 
                   <Col xl={6} md={6} sm={12}>
                     <p>เวลาที่โอน</p>
-                    <div style={{ marginTop: "-22px" }}>
+                    <div style={{ marginTop: "-10px" }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['TimePicker']}>
                           <TimePicker
                             clearable
                             ampm={false}
+                            value={dueTime}
+                            onChange={(newTime) => setDueTime(newTime)}
                             slotProps={{ textField: { size: 'small' } }}
                             sx={{
                               width: '95%',
@@ -177,7 +183,8 @@ function Form_step_4() {
                               boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                               "& .MuiOutlinedInput-notchedOutline": { border: "none" },
                               "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
-                            }} />
+                            }}
+                          />
                         </DemoContainer>
                       </LocalizationProvider>
                     </div>
