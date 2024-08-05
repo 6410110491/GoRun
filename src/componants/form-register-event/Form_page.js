@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
+import { Button, Col, Container, Row, Form } from 'react-bootstrap'
 import { Box, Stepper, Step, StepLabel, Typography } from '@mui/material'
 import ScrollToTop from 'react-scroll-to-top'
 import Form_step_1 from './Form_step_1'
@@ -12,7 +12,7 @@ function Form_page() {
   const imageSrc = require('../../image/Thai.png')
 
   const componants = [
-   <Form_step_1 />,<Form_step_2 />,<Form_step_3 />,<Form_step_4 />
+    <Form_step_1 />, <Form_step_2 />, <Form_step_3 />, <Form_step_4 />
   ]
 
   const steps = [
@@ -74,10 +74,10 @@ function Form_page() {
       {/* ScroolToTop */}
       <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />
 
-      <Container style={{ marginTop: "3rem", marginBottom:"3rem"}}>
+      <Container style={{ marginTop: "3rem", marginBottom: "3rem" }}>
         {/* Title */}
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <p style={{ fontSize: "2rem", fontWeight:"550" }}>
+          <p style={{ fontSize: "2rem", fontWeight: "550" }}>
             Card Title
           </p>
         </div>

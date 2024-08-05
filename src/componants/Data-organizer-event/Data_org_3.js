@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Button, Row, Container, Card, Form, img } from 'react-bootstrap'
+import { Col,  Row, Container,  Form,  } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 
 function Data_org_3() {

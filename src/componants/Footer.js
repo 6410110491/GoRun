@@ -6,7 +6,7 @@ function Footer() {
         <div>
             <Container fluid style={{ backgroundColor: "#040404", height: "fit-content" }}>
                 <div style={{ display: 'flex', justifyContent: "center" }}>
-                    <img src={require('../image/logo2.jpg')}
+                    <img src={require('../image/logo2.jpg')} alt='logo.jpg'
                         style={{ width: "50px", height: "50px", borderRadius: "100%", border: "3px solid #FFF", marginTop: "1rem" }} />
                 </div>
                 <div style={{ display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center" }}>

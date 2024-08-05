@@ -33,7 +33,9 @@ function Signup() {
             const response = await axios.post('http://localhost:4000/api/register', {
                 username,
                 email,
-                password
+                password,
+                registerMethod: 'website'
+
             });
             console.log(response.data);
             setUsername('');

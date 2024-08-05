@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Button, Row, Container, Card, Form, img } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button as MuiButton } from '@mui/material';
 
@@ -55,7 +55,7 @@ function App_information() {
                       variant="danger"
                       color="secondary"
                       onClick={() => handleEdit(item.id)}
-                      style={{ marginRight: '8px'}}
+                      style={{ marginRight: '8px' }}
                     >
                       แก้ไข
                     </Button>

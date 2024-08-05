@@ -80,3 +80,8 @@ custom-dropdown-menu {
 .dropdown-menu[data-bs-popper] {
   left: unset;
 }
+
+.MuiStack-root.css-4jnixx-MuiStack-root {
+  overflow: unset;
+  padding: 0;
+}
