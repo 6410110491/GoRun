@@ -103,13 +103,15 @@ function Topbar() {
                                                     <p style={{ color: "#000", margin: 0 }}>ข้อมูลส่วนตัว</p>
                                                 </div>
                                             </Dropdown.Item>
-                                            <Dropdown.Item style={{ marginBottom: "0.5rem" }}>
+                                            <Dropdown.Item style={{ marginBottom: "0.5rem" }}
+                                                onClick={() => changepage("apphistory")}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaHistory style={{ color: "#000", marginRight: '8px' }} />
                                                     <p style={{ color: "#000", margin: 0 }}>ประวัติการสมัคร</p>
                                                 </div>
                                             </Dropdown.Item>
-                                            <Dropdown.Item style={{ marginBottom: "0.5rem" }}>
+                                            <Dropdown.Item style={{ marginBottom: "0.5rem" }}
+                                                onClick={() => changepage("organizer")}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaUsersCog style={{ color: "#000", marginRight: '8px' }} />
                                                     <p style={{ color: "#000", margin: 0 }}>ผู้จัดงาน</p>
@@ -268,10 +270,12 @@ function Topbar() {
                                         onClick={() => changepage("personal")}>
                                         <FaUser style={{ marginRight: '8px' }} />
                                         ข้อมูลส่วนตัว
-                                    </Nav.Link><Nav.Link href="/#" className='text-white mb-2'>
+                                    </Nav.Link><Nav.Link href="/#" className='text-white mb-2'
+                                        onClick={() => changepage("apphistory")}>
                                         <FaHistory style={{ marginRight: '8px' }} />
                                         ประวัติการสมัคร
-                                    </Nav.Link><Nav.Link href="/#" className='text-white mb-3'>
+                                    </Nav.Link><Nav.Link href="/#" className='text-white mb-3'
+                                        onClick={() => changepage("organizer")}>
                                         <FaUsersCog style={{ marginRight: '8px' }} />
                                         ผู้จัดงาน
                                     </Nav.Link>

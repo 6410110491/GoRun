@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Image, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import ScrollToTop from 'react-scroll-to-top';
 
 function Personal_information() {
@@ -58,6 +58,7 @@ function Personal_information() {
                 borderRadius: '10px',
                 fontSize: '1rem',
                 boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                marginBottom: '2rem',
             }}>
                 {loading ? (
                     <p>Loading...</p>
@@ -105,6 +106,11 @@ function Personal_information() {
                 ) : (
                     <p>No user information available.</p>
                 )}
+            </div>
+            <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+                <Button style={{ backgroundColor: "#f3c710", border: "none" }}>
+                    แก้ไขข้อมูลส่วนตัว
+                </Button>
             </div>
 
         </Container>

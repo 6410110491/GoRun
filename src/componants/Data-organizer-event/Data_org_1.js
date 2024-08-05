@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col,  Row, Container,  Form,  } from 'react-bootstrap'
+import { Col, Row, Container, Form, } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -7,12 +7,15 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import dayjs from 'dayjs';
+
+
 function Data_org_1(props) {
-  const [dueDate, setDueDate] = useState(new Date())
+  const [dueDate, setDueDate] = useState(dayjs());
   const gender = ["ชาย", "หญิง", "อื่นๆ",]
   const blood_group = ["A", "B", "AB", "O"]
   return (
-    <Container style={{marginTop:'2rem', marginBottom:"2rem"}}>
+    <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
       {/* Head */}
       <p style={{ fontSize: "2rem" }}>ข้อมูลผู้จัดงาน</p>
       <div style={{ height: "5px", width: "100%", backgroundColor: "#47474A" }}></div>
@@ -25,10 +28,10 @@ function Data_org_1(props) {
         backgroundColor: "#E3E3E3", minHeightheight: "260px", padding: "1rem 2rem 1rem 2rem",
         borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
       }}>
-        
-          <p style={{ fontSize: "1.7rem" }}>ข้อมูลทั่วไป</p>
-          <div style={{ height: "5px", width: "10%", backgroundColor: "#47474A" }}></div>
-        
+
+        <p style={{ fontSize: "1.7rem" }}>ข้อมูลทั่วไป</p>
+        <div style={{ height: "5px", width: "10%", backgroundColor: "#47474A" }}></div>
+
         <Row>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", alignItems: "center" }}>
@@ -161,8 +164,8 @@ function Data_org_1(props) {
 
 
         <p style={{ fontSize: "1.7rem" }}>ที่อยู่ปัจจุบัน</p>
-          <div style={{ height: "5px", width: "10%", backgroundColor: "#47474A" }}></div>
-        
+        <div style={{ height: "5px", width: "10%", backgroundColor: "#47474A" }}></div>
+
         <Row>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -180,7 +183,7 @@ function Data_org_1(props) {
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
             }} />
           </Col>
-          
+
           <Col xl={4} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p>อำเภอ</p>

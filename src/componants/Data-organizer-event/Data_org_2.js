@@ -8,8 +8,10 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import dayjs from 'dayjs';
+
 function Data_org_2(props) {
-  const [dueDate, setDueDate] = useState(new Date())
+  const [dueDate, setDueDate] = useState(dayjs());
 
   return (
     <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
