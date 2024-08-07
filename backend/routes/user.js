@@ -29,8 +29,8 @@ router.get('/userinfo', verifyToken, (req, res) => {
 
 router.put('/user/update', verifyToken, async (req, res) => {
     try {
-        const { username, personalInfo } = req.body;
-        const user = await User.findByIdAndUpdate(req.user._id, { username, personalInfo }, { new: true });
+        const { username, role, personalInfo } = req.body;
+        const user = await User.findByIdAndUpdate(req.user._id, { username, role, personalInfo }, { new: true });
 
         res.status(200).json(user);
     } catch (error) {

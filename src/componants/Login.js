@@ -167,7 +167,7 @@ function Login() {
             </Container >
 
             <Modal show={showPopup} onHide={handleClosePopup} centered>
-                <Modal.Header closeButton>
+                <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
                     <Modal.Title>ข้อผิดพลาด</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

@@ -4,12 +4,15 @@ import { useMediaQuery } from 'react-responsive';
 import { Button, Col, Container, Dropdown, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
 import axios from 'axios';
 import { FaHome, FaCalendarAlt, FaBullhorn, FaRegCalendar, FaUser, FaHistory, FaUsersCog, FaSignOutAlt } from 'react-icons/fa';
+import { MdWorkHistory } from "react-icons/md";
+
 
 function Topbar() {
     const [langtitle, setLangtitle] = useState('TH');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const isDesktop = useMediaQuery({ query: '(min-width: 992px)' });
     const [username, setUsername] = useState('');
+    const [role, setRole] = useState('');
 
     useEffect(() => {
         const checkAuthStatus = async () => {
@@ -33,6 +36,7 @@ function Topbar() {
                             const userInfo = await userInfoResponse.json();
                             setIsLoggedIn(true);
                             setUsername(userInfo.username); // Assuming userInfo has username
+                            setRole(userInfo.role)
                         } else {
                             console.error('Failed to fetch user info');
                         }
@@ -63,6 +67,7 @@ function Topbar() {
         try {
             await axios.post('http://localhost:4000/api/logout', {}, { withCredentials: true });
             setIsLoggedIn(false);
+            setRole('')
             setUsername('');
             changepage("");
         } catch (error) {
@@ -113,6 +118,16 @@ function Topbar() {
                                                     <p style={{ color: "#000", margin: 0 }}>ประวัติการสมัคร</p>
                                                 </div>
                                             </Dropdown.Item>
+                                            {role == "organize" ? (
+                                                <Dropdown.Item style={{ marginBottom: "0.5rem" }}
+                                                    onClick={() => changepage("apphistory")}>
+                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <MdWorkHistory style={{ color: "#000", marginRight: '8px' }} />
+                                                        <p style={{ color: "#000", margin: 0 }}>ประวัติการจัดงาน</p>
+                                                    </div>
+                                                </Dropdown.Item>
+                                            ) : ''}
+
                                             <Dropdown.Item onClick={handleLogout} style={{ marginBottom: "0.5rem" }}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaSignOutAlt style={{ color: "#000", marginRight: '8px' }} />

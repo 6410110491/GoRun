@@ -54,7 +54,7 @@ function Signup() {
                 setShowPopup(true);
             } else if (error.response) {
                 console.error('Error response received:', error.response);
-            }else if (error.request) {
+            } else if (error.request) {
                 console.error('No response received:', error.request);
             } else {
                 console.error('Error', error.message);
@@ -160,8 +160,8 @@ function Signup() {
                     </Col>
                 </Row>
 
-                <Modal show={showPopup} onHide={handleClosePopup} centered> 
-                    <Modal.Header closeButton>
+                <Modal show={showPopup} onHide={handleClosePopup} centered>
+                    <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
                         <Modal.Title>ข้อผิดพลาด</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

@@ -1,11 +1,71 @@
-import React from 'react'
-import { Button, Row, Container } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Button, Row, Container, Modal } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 
 function Organizer() {
+    const [userInfo, setUserInfo] = useState(null);
+    const [error, setError] = useState(null);
+
+
     const changepage = (path) => {
         window.location.href = "/" + path
     }
+
+    const [showPopup, setShowPopup] = useState(false);
+    const handleOpen = () => {
+        setShowPopup(true);
+    };
+
+    const handleClose = () => {
+        setShowPopup(false);
+    };
+
+    const handleConfirm = async (e) => {
+        e.preventDefault();
+        try {
+            const currentResponse = await fetch('http://localhost:4000/api/userinfo', {
+                method: 'GET',
+                credentials: 'include', // Include cookies for session-based auth
+            });
+
+            if (!currentResponse.ok) {
+                const errorData = await currentResponse.json();
+                setError(errorData.error || 'Failed to fetch current user information');
+                return;
+            }
+
+            const currentUser = await currentResponse.json();
+            const updatedUserData = {
+                ...currentUser,
+                role: 'organize',
+            };
+
+
+            if (!currentUser.role === 'organize') {
+                const response = await fetch('http://localhost:4000/api/user/update', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include', // Include cookies for session-based auth
+                    body: JSON.stringify(updatedUserData),
+                });
+                if (response.ok) {
+                    console.log("Change role to Organize success")
+                } else {
+                    console.log("Failed")
+
+                }
+            }
+        }
+        catch (err) {
+            setError(err.message);
+        }
+
+        changepage("dataorganizer")
+    };
+
+
     return (
         <Container className='mt-5' style={{ minHeight: "100vh" }} >
             {/* Head */}
@@ -36,7 +96,7 @@ function Organizer() {
                         </p>
                     </div>
                     <div className="d-grid">
-                        <Button onClick={() => changepage("dataorganizer")}
+                        <Button onClick={handleOpen}
                             style={{
                                 backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: "300px",
                             }}>
@@ -45,6 +105,25 @@ function Organizer() {
                     </div>
                 </div>
             </Row>
+
+            <Modal show={showPopup} onHide={handleClose} centered>
+                <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+                    <Modal.Title>เปิดรับสมัครงานกีฬา</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>ยืนยันการเปิดรับสมัครงานกีฬาหรือไม่</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}
+                        style={{ border: 'none', borderRadius: '10px' }}>
+                        ยกเลิก
+                    </Button>
+                    <Button variant="success" color="success" onClick={handleConfirm}
+                        style={{ border: 'none', borderRadius: '10px' }}>
+                        ยืนยัน
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
         </Container>
 
