@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const verifyToken = require('../middleware/auth');
 
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID); // เปลี่ยนเป็น Client ID ของคุณ
@@ -107,17 +106,6 @@ router.post('/logout', async (req, res) => {
         }
     } catch (error) {
         console.error('Logout error:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
-router.get('/userinfo', verifyToken, (req, res) => {
-    try {
-        // Exclude sensitive information from the response
-        const { password, ...userInfo } = req.user.toObject(); // req.user should be populated by verifySession
-
-        res.status(200).json(userInfo);
-    } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
     }
 });

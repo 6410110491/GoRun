@@ -27,9 +27,9 @@ function News() {
         display: "flex", alignItems: "center", marginTop: "1rem",
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", padding: "1rem", borderRadius: "15px"
       }}>
-        <img src={require("../image/event-pic-1.jpg")} class="img-thumbnail" alt="Thai.png"
+        <img src={require("../image/event-pic-1.jpg")} className="img-thumbnail" alt="Thai.png"
           style={{ height: "180px" }} />
-        <p class="text-start"
+        <p className="text-start"
           style={{ marginLeft: "2rem" }}
         >ทัพนักวิ่ง “หมอชวนวิ่ง” ยกพลเข้าจังหวัดสุดท้าย สรุปยอดผู้เข้าร่วมโครงการกว่า 1 ล้านคน! </p>
       </div>
