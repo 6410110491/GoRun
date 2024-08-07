@@ -42,6 +42,7 @@ app.use(session({
 // Routes
 app.use('/api', require('./routes/register'));
 app.use('/api', require('./routes/login'));
+app.use('/api', require('./routes/user'));
 
 // Port
 const port = process.env.PORT || 4000;

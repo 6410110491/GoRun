@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Button, Row, Container, Form } from "react-bootstrap";
+import { Col, Button, Row, Container, Form, Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -9,6 +9,13 @@ function Signup() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState({});
+
+    const [showPopup, setShowPopup] = useState(false);
+    const handleClosePopup = () => {
+        setShowPopup(false);
+        changepage("signup");
+    };
+
 
     const changepage = (path) => {
         window.location.href = "/" + path;
@@ -43,9 +50,11 @@ function Signup() {
             setPassword('');
             setConfirmPassword('');
         } catch (error) {
-            if (error.response) {
-                console.error('There was an error!', error.response.data);
-            } else if (error.request) {
+            if (error.response.status === 400) {
+                setShowPopup(true);
+            } else if (error.response) {
+                console.error('Error response received:', error.response);
+            }else if (error.request) {
                 console.error('No response received:', error.request);
             } else {
                 console.error('Error', error.message);
@@ -150,6 +159,20 @@ function Signup() {
                         </Container>
                     </Col>
                 </Row>
+
+                <Modal show={showPopup} onHide={handleClosePopup} centered> 
+                    <Modal.Header closeButton>
+                        <Modal.Title>ข้อผิดพลาด</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>มีอีเมลนี้ในระบบอยู่แล้ว กรุณาลองใหม่อีกครั้ง</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClosePopup}>
+                            ปิด
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Container>
         </div>
     );

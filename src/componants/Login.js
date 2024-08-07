@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Col, Button, Row, Container, Form } from "react-bootstrap";
+import { Col, Button, Row, Container, Form, Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const [showPopup, setShowPopup] = useState(false);
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    };
 
 
     const responseMessage = (response) => {
@@ -51,6 +54,10 @@ function Login() {
                 body: JSON.stringify({ email, password }),
                 credentials: 'include' // Important for sessions to send cookies
             });
+
+            if (response.status === 401) {
+                setShowPopup(true);
+            }
 
             if (response.ok) {
                 const data = await response.json();
@@ -158,6 +165,20 @@ function Login() {
                     </Col>
                 </Row >
             </Container >
+
+            <Modal show={showPopup} onHide={handleClosePopup} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>ข้อผิดพลาด</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClosePopup}>
+                        ปิด
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div >
     );
 }
