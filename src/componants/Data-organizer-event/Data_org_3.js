@@ -34,7 +34,7 @@ function Data_org_3() {
                     </Col>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>สถานที่จัดงาน</p>
+                        <p>เส้นทางการแข่งขัน</p>
                         <Form.Control as="textarea" rows={3} style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
                             backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -44,7 +44,7 @@ function Data_org_3() {
                 <Row className='mt-3'>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>เส้นทางการแข่งขัน</p>
+                        <p>แผนที่ตำแหน่งการจัดงาน</p>
                         <Form.Control as="textarea" rows={3} style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
                             backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -52,7 +52,7 @@ function Data_org_3() {
                     </Col>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>แผนที่ตำแหน่งการจัดงาน</p>
+                        <p>ที่พัก/โรงแรม</p>
                         <Form.Control as="textarea" rows={3} style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
                             backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -64,15 +64,7 @@ function Data_org_3() {
                 <Row className='mt-3' style={{ marginBottom: "48px" }}>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>ที่พัก/โรงแรม</p>
-                        <Form.Control as="textarea" rows={3} style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                            backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        }} />
-                    </Col>
-                    <Col xl={6} md={6} sm={12} className='mt-2'
-                        style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>สถานที่จัดงาน</p>
+                        <p>ร้านอาหาร</p>
                         <Form.Control as="textarea" rows={3} style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
                             backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -88,25 +80,25 @@ function Data_org_3() {
                 </div>
 
                 <Row className='mt-3'>
-                    <Col xl={4} md={6} sm={12} className='mt-2'
+                    <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>ระยะทาง</p>
+                        <p>ประเภทเสื้อ</p>
                         <Form.Control type="text" placeholder="กรอกจำนวนรับสมัคร" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                             backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }} />
                     </Col>
-                    <Col xl={4} md={6} sm={12} className='mt-2'
+                    <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>รางวัล</p>
+                        <p>ขนาดเสื้อ</p>
                         <Form.Control type="text" placeholder="กรอกจำนวนรับสมัคร" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                             backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }} />
                     </Col>
-                    <Col xl={4} md={6} sm={12} className='mt-2'
+                    <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>รุ่นการแข่งขัน</p>
+                        <p>อื่นๆ</p>
                         <Form.Control type="text" placeholder="กรอกจำนวนรับสมัคร" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                             backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"

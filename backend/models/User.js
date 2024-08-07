@@ -55,7 +55,32 @@ const UserSchema = new mongoose.Schema({
             type: [String], // Array of strings to list multiple diseases
             default: []
         }
-    }
+    },
+    address: {
+        address: {
+            type: String,
+        },
+        subDistrict: {
+            type: String,
+        },
+        district: {
+            type: String,
+        },
+        province: {
+            type: String,
+        },
+        postalCode: {
+            type: String,
+        }
+    },
+    eventOwner: [{
+        event_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Event'
+        },
+        eventName: String
+    }]
+
 }, {
     timestamps: true
 });

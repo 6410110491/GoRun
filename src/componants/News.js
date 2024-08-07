@@ -2,9 +2,15 @@ import React from 'react'
 import { Container } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 
+
 function News() {
+  const changepage = (path) => {
+    window.location.href = '/' + path;
+};
   return (
-    <Container className='mt-5' style={{ minHeight: "100vh" }} >
+    <Container className='mt-5' style={{ minHeight: "100vh" }} 
+    onClick={() => changepage("news=2")}
+    >
       {/* Head */}
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>

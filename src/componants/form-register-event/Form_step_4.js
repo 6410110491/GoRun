@@ -92,7 +92,7 @@ function Form_step_4() {
             <Col xl={6} sm={12}><p className='ms-3'>หมู่โลหิต : </p></Col>
           </Row>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>ชนิดเสื้อ : </p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>ประเภทเสื้อ : </p></Col>
             <Col xl={6} sm={12}><p className='ms-3'>ขนาดเสื้อ : </p></Col>
           </Row>
         </Container>
@@ -121,18 +121,19 @@ function Form_step_4() {
               <p className='ms-3' style={{ fontWeight: "700" }}>จำนวนเงินที่ต้องชำระ : </p>
 
             </Col>
-            <Col xl={12} style={{ marginTop: "2rem" }}>
-              <Container fluid style={{
-                backgroundColor: "#E3E3E3", height: "180px", padding: "1rem", width: "50%",
-                borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }}>
-                <input type='file' name='image' onChange={handleOnChange} />
-                <p>แนบรูปหลักฐานการชำระเงิน (Slip) </p>
+              <Col xl={12} style={{ marginTop: "2rem" }}>
+                <Container fluid style={{
+                  backgroundColor: "#E3E3E3", height: "180px", padding: "1rem", width: "50%",
+                  borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                }}>
+                  <Row style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <input type='file' name='image' onChange={handleOnChange} />
+                  <p style={{ margin: "1rem", display: "flex", justifyContent: "center", alignItems: "center" }} >แนบรูปหลักฐานการชำระเงิน (Slip) </p>
 
-                <Button variant="primary" onClick={onSubmmit}>submit</Button>
-
-              </Container>
-            </Col>
+                  <Button style = {{ width: "20%", margin: "1rem"}} variant="primary"  onClick={onSubmmit}>submit</Button>
+                  </Row>
+                </Container>
+              </Col>
 
             <Col xl={12} style={{ marginTop: "2rem", marginBottom: "3rem" }}>
               <Container fluid style={{

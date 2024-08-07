@@ -33,7 +33,7 @@ function Data_org_2(props) {
         borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
       }}>
         <Row>
-          <Col xl={6} md={6} sm={12} className='mt-2'
+          <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p>ชื่องาน</p>
             <Form.Control type="text" placeholder="กรอกชื่องาน" style={{
@@ -43,7 +43,7 @@ function Data_org_2(props) {
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>สถานที่จัดงาน</p>
+            <p>ประเภทกีฬา</p>
             <Form.Control type="text" placeholder="กรอกสถานที่จัดงาน" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -57,9 +57,6 @@ function Data_org_2(props) {
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
             }} />
           </Col>
-        </Row>
-
-        <Row className='mt-3'>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p>วันที่แข่งขัน</p>
@@ -85,6 +82,9 @@ function Data_org_2(props) {
               </LocalizationProvider>
             </div>
           </Col>
+        </Row>
+
+        <Row className='mt-3'>
           <Col xl={3} md={6} sm={12} className='mt-2'>
             <p>เวลาการแข่งขัน</p>
             <div style={{ marginTop: "-12px" }}>
@@ -155,12 +155,20 @@ function Data_org_2(props) {
               </LocalizationProvider>
             </div>
           </Col>
+          <Col xl={3} md={6} sm={12} className='mt-2'
+            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <p>จำนวนรับสมัคร</p>
+            <Form.Control type="text" placeholder="กรอกจำนวนรับสมัคร" style={{
+              borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+              backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+            }} />
+          </Col>
         </Row>
 
         <Row className='mt-3'>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>จำนวนรับสมัคร</p>
+            <p>รุ่นการแข่งขัน</p>
             <Form.Control type="text" placeholder="กรอกจำนวนรับสมัคร" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -176,15 +184,7 @@ function Data_org_2(props) {
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>รางวัล</p>
-            <Form.Control type="text" placeholder="กรอกจำนวนรับสมัคร" style={{
-              borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-              backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }} />
-          </Col>
-          <Col xl={3} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>รุ่นการแข่งขัน</p>
+            <p>ค่าสมัคร</p>
             <Form.Control type="text" placeholder="กรอกจำนวนรับสมัคร" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -192,11 +192,7 @@ function Data_org_2(props) {
           </Col>
         </Row>
 
-
-
-
-        <Row className='mt-5'
-          style={{ height: "20vh" }}>
+        <Row className='mt-5'>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p>ข้อมูลทั่วไป</p>
@@ -215,11 +211,18 @@ function Data_org_2(props) {
           </Col>
         </Row>
 
-        <Row className='mt-5'
-          style={{ height: "20vh" }}>
+        <Row className='mt-5'>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p>ความน่าสนใจของงาน</p>
+            <Form.Control as="textarea" rows={3} style={{
+              borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
+              backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+            }} />
+          </Col>
+          <Col xl={6} md={6} sm={12} className='mt-2'
+            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <p>รางวัล</p>
             <Form.Control as="textarea" rows={3} style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
               backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"

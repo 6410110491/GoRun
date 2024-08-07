@@ -17,6 +17,7 @@ import Data_org from './componants/Data-organizer-event/Data_org';
 import App_history from './componants/App_history';
 import App_information from './componants/App_information';
 import Personal_information from './componants/Personal_information';
+import News_2 from './componants/News_2';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/apphistory" element={<App_history/>} />
           <Route path="/appinformation" element={<App_information/>} />
           <Route path="/personal" element={<Personal_information/>} />
+          <Route path="/news=2" element={<News_2/>} />
 
         </Routes>
         <Footer />
