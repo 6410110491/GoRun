@@ -43,7 +43,7 @@ function Calendar() {
 
       <div style={{ display: "flex", marginTop: "2rem", alignItems: "center" }}>
         <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
-        <p style={{ fontSize: "1.5rem" }}>รายการวิ่งทั้งหมดในเดือน มกราคม 2567</p>
+        <p style={{ fontSize: "1.5rem", marginLeft: '0.5rem', marginRight: '0.5rem' }}>รายการวิ่งทั้งหมดในเดือน มกราคม 2567</p>
         <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
       </div>
 
