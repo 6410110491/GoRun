@@ -24,6 +24,14 @@ function Personal_information() {
         nationality: '',
         bloodType: '',
         chronicDiseases: '',
+
+
+        address: '',
+        subDistrict: '',
+        district: '',
+        province: '',
+        zipCode: '',
+
     });
     const [show, setShow] = useState(false);
 
@@ -87,6 +95,12 @@ function Personal_information() {
                 nationality: userInfo.personalInfo?.nationality || '',
                 bloodType: userInfo.personalInfo?.bloodType || '',
                 chronicDiseases: userInfo.personalInfo?.chronicDiseases?.join(', ') || '',
+
+                address: userInfo.address?.address || '',
+                subDistrict: userInfo.address?.subDistrict || '',
+                district: userInfo.address?.district || '',
+                province: userInfo.address?.province || '',
+                zipCode: userInfo.address?.postalCode || '',
             });
         }
     }, [userInfo]);
@@ -125,6 +139,13 @@ function Personal_information() {
                         nationality: formData.nationality,
                         bloodType: formData.bloodType,
                         chronicDiseases: formData.chronicDiseases.split(',').map(disease => disease.trim()),
+                    },
+                    address: {
+                        address: formData.address,
+                        subDistrict: formData.subDistrict,
+                        district: formData.district,
+                        province: formData.province,
+                        postalCode: formData.zipCode,
                     },
                 }),
             });
@@ -199,14 +220,38 @@ function Personal_information() {
                         </Row>
 
                         <Row>
-                            <Col><p><strong>อีเมล:</strong> {userInfo.email}</p></Col>
-                            <Col><p><strong>เบอร์โทรศัพท์:</strong> {userInfo.personalInfo?.phoneNumber || ""}</p></Col>
+                            <Col xl={4} md={4} sm={6} xs={12}>
+                                <p><strong>อีเมล:</strong> {userInfo.email}
+                                </p></Col>
+                            <Col xl={4} md={4} sm={6} xs={12}>
+                                <p><strong>เบอร์โทรศัพท์:</strong> {userInfo.personalInfo?.phoneNumber || ""}
+                                </p></Col>
                         </Row>
 
                         <Row>
                             <Col><p><strong>สัญชาติ:</strong> {userInfo.personalInfo?.nationality || ""}</p></Col>
                             <Col><p><strong>หมู่โลหิต:</strong> {userInfo.personalInfo?.bloodType || ""}</p></Col>
                             <Col><p><strong>โรคประจำตัว:</strong> {userInfo.personalInfo?.chronicDiseases?.join(', ') || ""}</p></Col>
+                        </Row>
+
+                        <div style={{ maxWidth: "fit-content", textAlign: 'center', marginTop: "0.75rem" }}>
+                            <p style={{ borderBottom: "5px solid #47474A", fontSize: "1.7rem" }}>
+                                ที่อยู่ปัจจุบัน
+                            </p>
+                        </div>
+                        <Row>
+                            <Col><p><strong>ที่อยู่:</strong> {userInfo.address?.address || ""}</p></Col>
+                            <Col><p><strong>ตำบล/แขวง:</strong> {userInfo.address?.subDistrict || ""}</p></Col>
+                            <Col><p><strong>อำเภอ:</strong> {userInfo.address?.district || ""}</p></Col>
+                        </Row>
+
+                        <Row>
+                            <Col xl={4} md={4} sm={6} xs={12}>
+                                <p><strong>จังหวัด:</strong> {userInfo.address?.province}
+                                </p></Col>
+                            <Col xl={4} md={4} sm={6} xs={12}>
+                                <p><strong>รหัสไปรษณีย์:</strong> {userInfo.address?.postalCode || ""}
+                                </p></Col>
                         </Row>
 
                     </div>
@@ -255,7 +300,7 @@ function Personal_information() {
                                         <Form.Group controlId='formProfilePicture'>
                                             <Form.Label>รูปโปรไฟล์</Form.Label>
                                             <Form.Control
-                                                 accept=".png,.jpg,.jpeg,"
+                                                accept=".png,.jpg,.jpeg,"
                                                 type='file'
                                                 name='profilePicture'
                                                 placeholder='URL ของรูปโปรไฟล์'
@@ -396,6 +441,75 @@ function Personal_information() {
                                                 value={formData.chronicDiseases}
                                                 onChange={handleChange}
                                                 placeholder='กรอกโรคประจำตัว (คั่นด้วยคอมมา)'
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+
+                                <Row className='mb-3'>
+                                    <Col xl={6} md={6} sm={12}>
+                                        <Form.Group controlId='formBloodType'>
+                                            <Form.Label>ที่อยู่</Form.Label>
+                                            <Form.Control
+                                                type='text'
+                                                name='address'
+                                                value={formData.address}
+                                                onChange={handleChange}
+                                                placeholder='ที่อยู่'
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col xl={6} md={6} sm={12}>
+                                        <Form.Group controlId='formChronicDiseases'>
+                                            <Form.Label>ตำบล/แขวง</Form.Label>
+                                            <Form.Control
+                                                type='text'
+                                                name='subDistrict'
+                                                value={formData.subDistrict}
+                                                onChange={handleChange}
+                                                placeholder='ตำบล/แขวง'
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+
+                                <Row className='mb-3'>
+                                    <Col xl={6} md={6} sm={12}>
+                                        <Form.Group controlId='formBloodType'>
+                                            <Form.Label>อำเภอ</Form.Label>
+                                            <Form.Control
+                                                type='text'
+                                                name='district'
+                                                value={formData.district}
+                                                onChange={handleChange}
+                                                placeholder='อำเภอ'
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col xl={6} md={6} sm={12}>
+                                        <Form.Group controlId='formChronicDiseases'>
+                                            <Form.Label>จังหวัด</Form.Label>
+                                            <Form.Control
+                                                type='text'
+                                                name='province'
+                                                value={formData.province}
+                                                onChange={handleChange}
+                                                placeholder='จังหวัด'
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+
+                                <Row className='mb-3'>
+                                    <Col xl={6} md={6} sm={12}>
+                                        <Form.Group controlId='formBloodType'>
+                                            <Form.Label>รหัสไปรษณีย์</Form.Label>
+                                            <Form.Control
+                                                type='text'
+                                                name='zipCode'
+                                                value={formData.zipCode}
+                                                onChange={handleChange}
+                                                placeholder='รหัสไปรษณีย์'
                                             />
                                         </Form.Group>
                                     </Col>

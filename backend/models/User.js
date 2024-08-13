@@ -20,7 +20,6 @@ const UserSchema = new mongoose.Schema({
     },
     cart: {
         type: Array,
-        default: []
     },
     registerMethod: {
         type: String,
@@ -53,7 +52,6 @@ const UserSchema = new mongoose.Schema({
         },
         chronicDiseases: {
             type: [String], // Array of strings to list multiple diseases
-            default: []
         }
     },
     address: {

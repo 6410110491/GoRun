@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Col, Row, Container, Form, } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 
-function Data_org_3() {
+function Data_org_3({formData, setFormData}) {
+    // const [formData, setFormData] = useState({
+    //     whatToReceive: "",
+    //     route: "",
+    //     map: "",
+    //     accommodation: "",
+    //     foodStalls: "",
+    // })
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
     return (
         <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
             {/* Head */}
@@ -27,36 +40,68 @@ function Data_org_3() {
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>สิ่งที่จะได้รับ</p>
-                        <Form.Control as="textarea" rows={3} style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                            backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        }} />
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            type="text"
+                            placeholder="กรอกสิ่งที่จะได้รับ"
+                            name="whatToReceive"
+                            value={formData.whatToReceive}
+                            onChange={handleChange}
+                            style={{
+                                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
+                                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                            }} />
                     </Col>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>เส้นทางการแข่งขัน</p>
-                        <Form.Control as="textarea" rows={3} style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                            backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        }} />
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            type="text"
+                            placeholder="กรอกสิ่งที่จะได้รับ"
+                            name="route"
+                            value={formData.route}
+                            onChange={handleChange}
+                            style={{
+                                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
+                                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                            }} />
                     </Col>
                 </Row>
                 <Row className='mt-3'>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>แผนที่ตำแหน่งการจัดงาน</p>
-                        <Form.Control as="textarea" rows={3} style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                            backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        }} />
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            type="text"
+                            placeholder="กรอกแผนที่ตำแหน่งการจัดงาน"
+                            name="map"
+                            value={formData.map}
+                            onChange={handleChange}
+                            style={{
+                                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
+                                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                            }} />
                     </Col>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>ที่พัก/โรงแรม</p>
-                        <Form.Control as="textarea" rows={3} style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                            backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        }} />
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            type="text"
+                            placeholder="กรอกที่พัก/โรงแรม"
+                            name="accommodation"
+                            value={formData.accommodation}
+                            onChange={handleChange}
+                            style={{
+                                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
+                                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                            }} />
                     </Col>
                 </Row>
 
@@ -65,10 +110,17 @@ function Data_org_3() {
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <p>ร้านอาหาร</p>
-                        <Form.Control as="textarea" rows={3} style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                            backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        }} />
+                        <Form.Control as="textarea"
+                            rows={3}
+                            type="text"
+                            placeholder="กรอกร้านอาหาร"
+                            name="foodStalls"
+                            value={formData.foodStalls}
+                            onChange={handleChange}
+                            style={{
+                                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
+                                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                            }} />
                     </Col>
                 </Row>
 

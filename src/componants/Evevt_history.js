@@ -1,11 +1,6 @@
-import React from 'react'
-import { Button, Container, Row } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Container, Row } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button as MuiButton } from '@mui/material';
-
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import Card_event from './Card_event';
 
 
@@ -20,6 +15,37 @@ function Evevt_history() {
             "img": 'event-pic-1.jpg'
         },
     ]
+    const [eventMe, setEventMe] = useState([]);
+
+    // console.log(eventMe);
+
+    useEffect(() => {
+        const fetchEvent = async () => {
+            try {
+                const response = await fetch('http://localhost:4000/api/events/me', {
+                    method: 'GET',
+                    credentials: 'include', // Include cookies for session-based auth
+                });
+
+                if (response.status === 401) {
+                    // Redirect to login if not authenticated
+                    changepage('login'); // Adjust the path as necessary
+                    return;
+                }
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setEventMe(data);
+                } else {
+                    throw new Error('Failed to fetch event data');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchEvent();
+    }, []);
 
     const handleEdit = (id) => {
         console.log(`แก้ไขข้อมูลที่ ${id}`);
@@ -28,6 +54,10 @@ function Evevt_history() {
     const handleConfirm = (id) => {
         console.log(`ยืนยันข้อมูลที่ ${id}`);
     };
+
+    const changepage = (path) => {
+        window.location.href = "/" + path
+    }
 
     return (
         <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
@@ -55,7 +85,7 @@ function Evevt_history() {
                     display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
                     justifyContent: "center", alignItems: "center"
                 }}>
-                    {demo_api.map((data, index) => {
+                    {eventMe.map((data, index) => {
                         return (
                             <Card_event key={index} data={data} />
                         )
@@ -67,7 +97,7 @@ function Evevt_history() {
                 <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
                 <p style={{ fontSize: "1.5rem", marginLeft: '0.5rem', marginRight: '0.5rem' }}>สิ้นสุดแล้ว</p>
                 <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
-                
+
                 {/* <Row key={item.id} >
                     <Button
                         variant="danger"

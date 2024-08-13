@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Container } from 'react-bootstrap'
 import { Box, Stepper, Step, StepLabel, Typography } from '@mui/material'
 
@@ -7,10 +7,62 @@ import Data_org_2 from './Data_org_2'
 import Data_org_3 from './Data_org_3'
 import Data_org_4 from './Data_org_4'
 import Data_org_success from './Data_org_success'
+import axios from 'axios'
 
 function Data_org() {
+    const [formData, setFormData] = useState({
+        //Start Page 1
+        profilePicture: '',
+        username: '',
+        gender: '',
+        birthDate: '',
+        idCardNumber: '',
+        email: '',
+        phoneNumber: '',
+        nationality: '',
+        bloodType: '',
+        chronicDiseases: '',
+
+
+        address: '',
+        subDistrict: '',
+        district: '',
+        province: '',
+        zipCode: '',
+        // End Page 1
+
+        // Start Page 2
+        eventName: "",
+        sportType: "",
+        location: "",
+        competitionDate: "",
+        competitionTime: "",
+        openRegisDate: "",
+        closeRegisDate: "",
+        maxRegis: "",
+        competitionType: "",
+        distance: "",
+        fee: "",
+        generalInfo: "",
+        purpose: "",
+        interesting: "",
+        reward: "",
+        // End Page 2
+
+        // Start Page 3
+        whatToReceive: "",
+        route: "",
+        map: "",
+        accommodation: "",
+        foodStalls: "",
+        // End Page 3
+    });
+
     const componants = [
-        <Data_org_1 />, <Data_org_2 />, <Data_org_3 />, <Data_org_4 />
+        <Data_org_1 formData={formData} setFormData={setFormData} />,
+        <Data_org_2 formData={formData} setFormData={setFormData} />,
+        <Data_org_3 formData={formData} setFormData={setFormData} />,
+        <Data_org_4 formData={formData} setFormData={setFormData} />
     ]
 
     const steps = [
@@ -43,24 +95,74 @@ function Data_org() {
             border: 'none', // Add other styles as needed
         },
     }
-
+    const [userInfo, setUserInfo] = useState(null);
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
+    const clearForm = () => {
+        setFormData(prevState => Object.fromEntries(Object.keys(prevState).map(key => [key, ''])));
+    };
+
 
     const isStepSkipped = (step) => {
         return skipped.has(step);
     };
 
-    const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
+    const handleNext = async () => {
+        setSkipped((prevSkipped) => {
+            const newSkipped = new Set(prevSkipped.values());
             newSkipped.delete(activeStep);
-        }
+            return newSkipped;
+        });
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
+
+        if (activeStep === 3) {
+            try {
+                // Fetch user info from the server
+                const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+                    method: 'GET',
+                    credentials: 'include', // Include cookies for session-based auth
+                });
+
+                if (!userResponse.ok) throw new Error('Failed to fetch user info');
+
+                const userData = await userResponse.json();
+                setUserInfo(userData);
+
+                // Send event data to the server to create a new event
+                const eventResponse = await axios.post('http://localhost:4000/api/events', {
+                    owner_id: userData._id,
+                    eventName: formData.eventName,
+                    sportType: formData.sportType,
+                    location: formData.location,
+                    eventDate: formData.competitionDate,
+                    eventTime: formData.competitionTime,
+                    registrationOpenDate: formData.openRegisDate,
+                    registrationCloseDate: formData.closeRegisDate,
+                    maxParticipants: formData.maxRegis,
+                    raceCategory: formData.competitionType,
+                    distance: formData.distance,
+                    registrationFee: formData.fee,
+                    generalInfo: formData.generalInfo,
+                    objectives: formData.purpose,
+                    eventHighlights: formData.interesting,
+                    prize: formData.reward,
+                    whatToReceive: formData.whatToReceive,
+                    route: formData.route,
+                    map: formData.map,
+                    accommodation: formData.accommodation,
+                    foodStalls: formData.foodStalls,
+                });
+
+                console.log(eventResponse.data);
+            } catch (error) {
+                console.error('Error:', error.message);
+            }
+        }
     };
+
+
+
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);

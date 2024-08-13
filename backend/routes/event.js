@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const Event = require('../models/Event');
 const User = require('../models/User');
 const verifyToken = require('../middleware/auth');
@@ -9,23 +8,37 @@ const verifyToken = require('../middleware/auth');
 // เส้นทางสำหรับการสร้างงานใหม่
 router.post('/events', async (req, res) => {
     try {
-        // ค้นหาผู้ใช้ตาม owner_id
         const user = await User.findById(req.body.owner_id);
         if (!user) {
+            console.log('User not found');
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // สร้างเหตุการณ์ใหม่
         const newEvent = new Event({
-            owner: [
-                {
-                    owner_id: user._id,
-                    username: user.username
-                }
-            ],
+            owner: {
+                owner_id: user._id,
+                username: user.username
+            },
             eventName: req.body.eventName,
             sportType: req.body.sportType,
-            location: req.body.location
+            location: req.body.location,
+            eventDate: req.body.eventDate,
+            eventTime: req.body.eventTime,
+            registrationOpenDate: req.body.registrationOpenDate,
+            registrationCloseDate: req.body.registrationCloseDate,
+            maxParticipants: req.body.maxParticipants,
+            raceCategory: req.body.raceCategory,
+            distance: req.body.distance,
+            registrationFee: req.body.registrationFee,
+            generalInfo: req.body.generalInfo,
+            objectives: req.body.objectives,
+            eventHighlights: req.body.eventHighlights,
+            prize: req.body.prize,
+            whatToReceive: req.body.whatToReceive,
+            route: req.body.route,
+            map: req.body.map,
+            accommodation: req.body.accommodation,
+            foodStalls: req.body.foodStalls
         });
 
         // บันทึกเหตุการณ์ใหม่ลงในฐานข้อมูล
@@ -42,30 +55,39 @@ router.post('/events', async (req, res) => {
 
         res.status(201).json({ message: 'Create event successfully', event: newEvent });
     } catch (error) {
+        console.log('Error:', error.message);
         res.status(400).json({ error: error.message });
     }
 });
 
 
+
+
 // เส้นทางสำหรับการดึงข้อมูลงานทั้งหมด
-router.get('/events', verifyToken, async (req, res) => {
+router.get('/events', async (req, res) => {
     try {
-        const userEvents = await Event.find({ 'owner.owner_id': req.user._id });
-        res.status(200).json(userEvents);
+        const events = await Event.find();
+        res.status(200).json(events);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-router.get('/events/:id', verifyToken, async (req, res) => {
+// เส้นทางสำหรับการดึงข้อมูลงานทั้งหมดของผู้ใช้
+router.get('/events/me', verifyToken, async (req, res) => {
+    try {
+        const events = await Event.find({ 'owner.owner_id': req.user._id });
+        res.status(200).json(events);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.get('/events/:id', async (req, res) => {
     try {
         const event = await Event.findById(req.params.id);
         if (!event) {
             return res.status(404).json({ error: 'Event not found' });
-        }
-        // Verify if the authenticated user is the owner of the event
-        if (!event.owner.some(owner => owner.owner_id.equals(req.user._id))) {
-            return res.status(403).json({ error: 'Unauthorized access to event' });
         }
         res.status(200).json(event);
     } catch (error) {

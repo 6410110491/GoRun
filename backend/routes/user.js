@@ -27,10 +27,22 @@ router.get('/userinfo', verifyToken, (req, res) => {
     }
 });
 
+router.get('/userinfo/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 router.put('/user/update', verifyToken, async (req, res) => {
     try {
-        const { username, role, personalInfo } = req.body;
-        const user = await User.findByIdAndUpdate(req.user._id, { username, role, personalInfo }, { new: true });
+        const { username, role, personalInfo, address } = req.body;
+        const user = await User.findByIdAndUpdate(req.user._id, { username, role, personalInfo, address }, { new: true });
 
         res.status(200).json(user);
     } catch (error) {

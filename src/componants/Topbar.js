@@ -63,6 +63,14 @@ function Topbar() {
         window.location.href = '/' + path;
     };
 
+    const checkRoleOrganize = () => {
+        if (role === "organize") {
+            changepage("dataorganizer");
+        } else {
+            changepage("organizer");
+        }
+    };
+
     const handleLogout = async () => {
         try {
             await axios.post('http://localhost:4000/api/logout', {}, { withCredentials: true });
@@ -118,9 +126,9 @@ function Topbar() {
                                                     <p style={{ color: "#000", margin: 0 }}>ประวัติการสมัคร</p>
                                                 </div>
                                             </Dropdown.Item>
-                                            {role == "organize" ? (
+                                            {role === "organize" ? (
                                                 <Dropdown.Item style={{ marginBottom: "0.5rem" }}
-                                                    onClick={() => changepage("apphistory")}>
+                                                    onClick={() => changepage("eventhistory")}>
                                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                                         <MdWorkHistory style={{ color: "#000", marginRight: '8px' }} />
                                                         <p style={{ color: "#000", margin: 0 }}>ประวัติการจัดงาน</p>
@@ -137,7 +145,7 @@ function Topbar() {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                     <Button
-                                        onClick={() => changepage("organizer")}
+                                        onClick={checkRoleOrganize}
                                         style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
                                         className='me-3'>
                                         ผู้จัดงาน
@@ -163,7 +171,7 @@ function Topbar() {
                                         เข้าสู่ระบบ/สมัครสมาชิก
                                     </Button>
                                     <Button
-                                        onClick={() => changepage("organizer")}
+                                        onClick={checkRoleOrganize}
                                         style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
                                         className='me-3'>
                                         ผู้จัดงาน
@@ -283,19 +291,26 @@ function Topbar() {
                             </Nav.Link>
                             {isLoggedIn ? (
                                 <>
-                                    <Nav.Link href="/#" className='text-white mb-2'
+                                    <Nav.Link className='text-white mb-2'
                                         onClick={() => changepage("personal")}>
                                         <FaUser style={{ marginRight: '8px' }} />
                                         ข้อมูลส่วนตัว
-                                    </Nav.Link><Nav.Link href="/#" className='text-white mb-2'
+                                    </Nav.Link><Nav.Link className='text-white mb-2'
                                         onClick={() => changepage("apphistory")}>
                                         <FaHistory style={{ marginRight: '8px' }} />
                                         ประวัติการสมัคร
                                     </Nav.Link>
+                                    {role === "organize" ? (
+                                        <Nav.Link className='text-white mb-2'
+                                            onClick={() => changepage("eventhistory")}>
+                                            <MdWorkHistory style={{ marginRight: '8px' }} />
+                                            ประวัติการจัดงาน
+                                        </Nav.Link>
+                                    ) : ''}
                                 </>) : ("")}
 
                             <Nav.Link href="/#" className='text-white mb-2'
-                                onClick={() => changepage("organizer")}>
+                                onClick={checkRoleOrganize}>
                                 <FaUsersCog style={{ marginRight: '8px' }} />
                                 ผู้จัดงาน
                             </Nav.Link>

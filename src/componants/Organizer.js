@@ -1,12 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Row, Container, Modal } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 
 function Organizer() {
-    const [userInfo, setUserInfo] = useState(null);
-    const [error, setError] = useState(null);
-
-
+    const [userInfor, setUserInfor] = useState({});
     const changepage = (path) => {
         window.location.href = "/" + path
     }
@@ -23,25 +20,24 @@ function Organizer() {
     const handleConfirm = async (e) => {
         e.preventDefault();
         try {
-            const currentResponse = await fetch('http://localhost:4000/api/userinfo', {
+            const getinfoResponse = await fetch('http://localhost:4000/api/userinfo', {
                 method: 'GET',
                 credentials: 'include', // Include cookies for session-based auth
             });
 
-            if (!currentResponse.ok) {
-                const errorData = await currentResponse.json();
-                setError(errorData.error || 'Failed to fetch current user information');
-                return;
+            if (getinfoResponse.ok) {
+                const data = await getinfoResponse.json();
+                setUserInfor(data);
+            } else {
+                throw new Error('Failed to fetch user info');
             }
 
-            const currentUser = await currentResponse.json();
             const updatedUserData = {
-                ...currentUser,
+                ...userInfor,
                 role: 'organize',
             };
 
-
-            if (!currentUser.role === 'organize') {
+            if (userInfor.role !== 'organize') {
                 const response = await fetch('http://localhost:4000/api/user/update', {
                     method: 'PUT',
                     headers: {
@@ -59,12 +55,17 @@ function Organizer() {
             }
         }
         catch (err) {
-            setError(err.message);
+            console.log(err.message);
         }
 
         changepage("dataorganizer")
     };
 
+    useEffect(() => {
+        if (userInfor.role === 'organize') {
+            changepage("dataorganizer")
+        }
+    }, []);
 
     return (
         <Container className='mt-5' style={{ minHeight: "100vh" }} >
@@ -81,13 +82,12 @@ function Organizer() {
             <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />
 
             <Row className="vh-100 d-flex justify-content-center align-items-center">
-
                 <div style={{
                     borderRadius: "15px", width: "500px", display: 'flex', flexDirection: 'column',
                     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", padding: '1rem', justifyContent: 'center', alignItems: 'center', textAlign: 'center'
                 }}>
                     <div className="mb-3 mt-md-4">
-                        <img src={require("../image/logo2.jpg")} class="card-img-top" alt="logo.jpg"
+                        <img src={require("../image/logo2.jpg")} className="card-img-top" alt="logo.jpg"
                             style={{ width: "100px", height: "100px" }} />
                         <h2 className="fw-bold mb-7 text-uppercase">ระบบรับสมัครงานกีฬา</h2>
                         <p className="mb-5">
@@ -124,6 +124,8 @@ function Organizer() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+
 
         </Container>
 

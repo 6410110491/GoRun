@@ -31,7 +31,7 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/event/detail" element={<Card_event_detail />} />
+          <Route path="/event/detail/:id" element={<Card_event_detail />} />
           <Route path="/event/form" element={<Form_page />} />
           <Route path="/organizer" element={<Organizer />} />
           <Route path="/dataorganizer" element={<Data_org />} />

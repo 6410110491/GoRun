@@ -1,12 +1,95 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
+import { useParams } from 'react-router-dom';
 import ScrollToTop from 'react-scroll-to-top'
 
 function Card_event_detail() {
+    const { id } = useParams();
+    const [eventDetail, setEventDetail] = useState(null);
+    const [userInfo, setUserInfo] = useState(null);
+
+
     const imageSrc = require('../image/Thai.png')
+
     const changepage = (path) => {
         window.location.href = "/" + path
     }
+
+    const formatDate = (date) => {
+        if (!date) return '';
+
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0'); // เดือนเริ่มจาก 0
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${day}/${month}/${year}`;
+    };
+
+    const formatTime = (date) => {
+        if (!date) return '';
+
+        const d = new Date(date);
+        const hours = String(d.getHours()).padStart(2, '0');
+        const minutes = String(d.getMinutes()).padStart(2, '0');
+        return `${hours}:${minutes}`;
+    };
+
+
+    useEffect(() => {
+        const fetchEventDetail = async () => {
+            try {
+                const response = await fetch(`http://localhost:4000/api/events/${id}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+
+                if (response.status === 401) {
+                    changepage('login');
+                    return;
+                }
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setEventDetail(data);
+                } else {
+                    throw new Error('Failed to fetch event data');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchEventDetail();
+    }, [id]);
+
+    useEffect(() => {
+        if (eventDetail) {
+            const fetchUserInfo = async () => {
+                try {
+                    const response = await fetch(`http://localhost:4000/api/userinfo/${eventDetail.owner[0].owner_id}`, {
+                        method: 'GET',
+                    });
+
+                    if (response.status === 401) {
+                        changepage('login');
+                        return;
+                    }
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        setUserInfo(data);
+                    } else {
+                        throw new Error('Failed to fetch user info');
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+
+            fetchUserInfo();
+        }
+    }, [eventDetail]);
+
     return (
         <div style={{ minHeight: "100vh" }}>
             {/* image */}
@@ -17,12 +100,14 @@ function Card_event_detail() {
             </div>
 
             {/* ScroolToTop */}
-            <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710"}} />
+            <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />
 
             {/* detail */}
             <Container style={{ marginTop: "1rem" }}>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <p style={{ fontSize: "2rem" }}>Card Title</p>
+                    <p style={{ fontSize: "2rem" }}>
+                        {eventDetail ? eventDetail.eventName : ""}
+                    </p>
                 </div>
 
                 <Row className='mb-5' style={{ justifyContent: "space-between", gap: "3rem" }} >
@@ -48,10 +133,10 @@ function Card_event_detail() {
                                 ข้อมูลทั่วไป
                             </Container>
                             <Container className='ms-3' fluid style={{
-                                backgroundColor: "#fff", height: "100px", padding: "0",
+                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
                                 borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
                             }}>
-                                <p className='ms-3'>RACEUP WORK</p>
+                                <p className='ms-3'>{eventDetail ? eventDetail.generalInfo : ""}</p>
 
                             </Container>
 
@@ -65,10 +150,10 @@ function Card_event_detail() {
                                 วัตถุประสงค์
                             </Container>
                             <Container className='ms-3' fluid style={{
-                                backgroundColor: "#fff", height: "100px", padding: "0",
+                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
                                 borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
                             }}>
-                                <p className='ms-3'>RACEUP WORK</p>
+                                <p className='ms-3'>{eventDetail ? eventDetail.objectives : ""}</p>
 
                             </Container>
 
@@ -82,10 +167,10 @@ function Card_event_detail() {
                                 ความน่าสนใจของงาน
                             </Container>
                             <Container className='ms-3' fluid style={{
-                                backgroundColor: "#fff", height: "100px", padding: "0",
+                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
                                 borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
                             }}>
-                                <p className='ms-3'>RACEUP WORK</p>
+                                <p className='ms-3'>{eventDetail ? eventDetail.eventHighlights : ""}</p>
 
                             </Container>
 
@@ -99,10 +184,11 @@ function Card_event_detail() {
                                 ระยะวิ่ง/ค่าสมัคร
                             </Container>
                             <Container className='ms-3' fluid style={{
-                                backgroundColor: "#fff", height: "100px", padding: "0",
+                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
                                 borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
                             }}>
-                                <p className='ms-3'>RACEUP WORK</p>
+                                <p className='ms-3'>ระยะวิ่ง: {eventDetail ? eventDetail.distance : ""}</p>
+                                <p className='ms-3'>ค่าสมัคร: {eventDetail ? eventDetail.registrationFee : ""}</p>
 
                             </Container>
 
@@ -116,10 +202,10 @@ function Card_event_detail() {
                                 เส้นทางการแข่งขัน
                             </Container>
                             <Container className='ms-3' fluid style={{
-                                backgroundColor: "#fff", height: "100px", padding: "0",
+                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
                                 borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
                             }}>
-                                <p className='ms-3'>RACEUP WORK</p>
+                                <p className='ms-3'>{eventDetail ? eventDetail.route : ""}</p>
 
                             </Container>
 
@@ -133,10 +219,10 @@ function Card_event_detail() {
                                 รางวัล
                             </Container>
                             <Container className='ms-3' fluid style={{
-                                backgroundColor: "#fff", height: "100px", padding: "0",
+                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
                                 borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
                             }}>
-                                <p className='ms-3'>RACEUP WORK</p>
+                                <p className='ms-3'>{eventDetail ? eventDetail.prize : ""}</p>
 
                             </Container>
 
@@ -150,10 +236,10 @@ function Card_event_detail() {
                                 สิ่งที่จะได้รับ
                             </Container>
                             <Container className='ms-3' fluid style={{
-                                backgroundColor: "#fff", height: "100px", padding: "0",
+                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
                                 borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
                             }}>
-                                <p className='ms-3'>RACEUP WORK</p>
+                                <p className='ms-3'>{eventDetail ? eventDetail.whatToReceive : ""}</p>
 
                             </Container>
 
@@ -167,10 +253,10 @@ function Card_event_detail() {
                                 ข้อมูลเพิ่มเติม
                             </Container>
                             <Container className='ms-3' fluid style={{
-                                backgroundColor: "#fff", height: "100px", padding: "0",
+                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
                                 borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
                             }}>
-                                <p className='ms-3'>RACEUP WORK</p>
+                                <p className='ms-3'>ข้อมูลเพิ่มเติม RACEUP WORK</p>
 
                             </Container>
                         </Container>
@@ -216,7 +302,7 @@ function Card_event_detail() {
 
                         {/* ผู้จัดงาน */}
                         <Container fluid style={{
-                            backgroundColor: "#E3E3E3", height: "100px", padding: "0",
+                            backgroundColor: "#E3E3E3", minHeight: "100px", padding: "0 0 16px 0",
                             borderRadius: "10px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }}>
                             <Container className='mb-2' fluid style={{
@@ -225,14 +311,16 @@ function Card_event_detail() {
                             }}>
                                 ผู้จัดงาน
                             </Container>
-                            <p className='ms-3'>RACEUP WORK</p>
+                            <p className='ms-3'>ชื่อผู้จัดงาน: {userInfo ? userInfo.username : ""}</p>
+                            <p className='ms-3'>เบอร์โทรศัพท์: {userInfo ? userInfo.personalInfo.phoneNumber : ""}</p>
+                            <p className='ms-3'>อีเมล: {userInfo ? userInfo.email : ""}</p>
 
                         </Container>
 
 
                         {/* ช่วงการรับสมัคร */}
                         <Container className='mt-5' fluid style={{
-                            backgroundColor: "#E3E3E3", height: "140px", padding: "0",
+                            backgroundColor: "#E3E3E3", minHeight: "140px", padding: "0 0 16px 0",
                             borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }}>
                             <Container className='mb-2' fluid style={{
@@ -242,15 +330,15 @@ function Card_event_detail() {
                                 ช่วงการรับสมัคร
                             </Container>
 
-                            <p className='ms-3'>เปิดรับสมัคร : 24 มกราคม 2567 </p>
-                            <p className='ms-3'>ปิดรับสมัคร : 30 เมษายน 2567</p>
+                            <p className='ms-3'>เปิดรับสมัคร : {formatDate(eventDetail ? eventDetail.registrationOpenDate : "")} </p>
+                            <p className='ms-3'>ปิดรับสมัคร : {formatDate(eventDetail ? eventDetail.registrationCloseDate : "")}</p>
 
                         </Container>
 
 
                         {/* การสมัคร */}
                         <Container className='mt-5' fluid style={{
-                            backgroundColor: "#E3E3E3", height: "260px", padding: "0",
+                            backgroundColor: "#E3E3E3", minHeight: "260px", padding: "0 0 16px 0",
                             borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                         }}>
                             <Container className='mb-2' fluid style={{
@@ -260,14 +348,14 @@ function Card_event_detail() {
                                 การสมัคร
                             </Container>
 
-                            <p className='ms-3'>วันที่ : 26 พฤษภาคม 2567</p>
-                            <p className='ms-3'>สถานที่ : จันทบุรี</p>
-                            <p className='ms-3'>เวลา : เริ่มตั้งแต่ 4:30 น. เป็นต้นไป</p>
-                            <p className='ms-3'>ราคา: 550 - 2500 บาท</p>
+                            <p className='ms-3'>วันที่ :  {formatDate(eventDetail ? eventDetail.eventDate : "")}</p>
+                            <p className='ms-3'>สถานที่ :  {eventDetail ? eventDetail.location : ""}</p>
+                            <p className='ms-3'>เวลา : เริ่มตั้งแต่  {formatTime(eventDetail ? eventDetail.eventTime : "")} น. เป็นต้นไป</p>
+                            <p className='ms-3'>ราคา:  {eventDetail ? eventDetail.registrationFee : ""} บาท</p>
 
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <Button variant="danger" style={{ border: 'none', borderRadius: '10px', width: "40%" }}
-                                onClick={() => changepage("event/form")}
+                                    onClick={() => changepage("event/form")}
                                     className='me-3 ms-3'
                                 >สมัคร
                                 </Button>
@@ -277,9 +365,9 @@ function Card_event_detail() {
                     </Col>
 
                     {/* Go Back Button */}
-                    <div style={{display:'flex', justifyContent:"space-between", paddingLeft:"5rem", paddingRight:"5rem"}}>
+                    <div style={{ display: 'flex', justifyContent: "space-between", paddingLeft: "5rem", paddingRight: "5rem" }}>
                         <Button style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}
-                        onClick={() => changepage("")}>
+                            onClick={() => changepage("")}>
                             ย้อนกลับ
                         </Button>
                     </div>

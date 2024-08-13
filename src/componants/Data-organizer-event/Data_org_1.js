@@ -10,14 +10,34 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 
-function Data_org_1(props) {
-  const [dueDate, setDueDate] = useState(dayjs());
+function Data_org_1({formData, setFormData}) {
   const gender = ["ชาย", "หญิง", "อื่นๆ",]
   const blood_group = ["A", "B", "AB", "O"]
 
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // const [formData, setFormData] = useState({
+  //   profilePicture: '',
+  //   username: '',
+  //   gender: '',
+  //   birthDate: '',
+  //   idCardNumber: '',
+  //   email: '',
+  //   phoneNumber: '',
+  //   nationality: '',
+  //   bloodType: '',
+  //   chronicDiseases: '',
+
+
+  //   address: '',
+  //   subDistrict: '',
+  //   district: '',
+  //   province: '',
+  //   zipCode: '',
+
+  // });
 
   const changepage = (path) => {
     window.location.href = '/' + path;
@@ -53,6 +73,33 @@ function Data_org_1(props) {
     fetchUserInfo();
   }, []); // Add history to dependencies to avoid warnings
 
+  useEffect(() => {
+    if (userInfo) {
+      setFormData({
+        profilePicture: userInfo.personalInfo?.profilePicture || '',
+        username: userInfo.username || '',
+        gender: userInfo.personalInfo?.gender || '',
+        birthDate: userInfo.personalInfo?.birthDate || '',
+        idCardNumber: userInfo.personalInfo?.idCardNumber || '',
+        email: userInfo.email || '',
+        phoneNumber: userInfo.personalInfo?.phoneNumber || '',
+        nationality: userInfo.personalInfo?.nationality || '',
+        bloodType: userInfo.personalInfo?.bloodType || '',
+        chronicDiseases: userInfo.personalInfo?.chronicDiseases?.join(', ') || '',
+
+        address: userInfo.address?.address || '',
+        subDistrict: userInfo.address?.subDistrict || '',
+        district: userInfo.address?.district || '',
+        province: userInfo.address?.province || '',
+        zipCode: userInfo.address?.postalCode || '',
+      });
+    }
+  }, [userInfo]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   return (
     <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
@@ -71,7 +118,7 @@ function Data_org_1(props) {
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
-        <p>Error: {error}</p>
+        <p>{ error }</p>
       ) : userInfo ? (
 
         <Container className='mt-5' fluid style={{
@@ -87,43 +134,49 @@ function Data_org_1(props) {
           </div>
 
           <Row>
-            <Col xl={3} md={6} sm={12} className='mt-2'
+            <Col xl={4} md={6} sm={12} className='mt-2'
               style={{ display: "flex", alignItems: "center" }}>
-              <img src={require('../../image/logo2.jpg')} alt='logo.jpg'
+              <img src={userInfo.personalInfo && userInfo.personalInfo.profilePicture
+                ? userInfo.personalInfo.profilePicture
+                : require('../../image/blank_profile_image.png')} alt='logo.jpg'
                 style={{ width: "100px", height: "100px", borderRadius: "100%" }} />
               <p className='ms-3'>รูปภาพประจำตัว</p>
             </Col>
-            <Col xl={3} md={6} sm={12} className='mt-2'
+            <Col xl={4} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>ชื่อ</p>
-              <Form.Control type="text" placeholder="กรอกชื่อ" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <p>ชื่อ-สกุล</p>
+              <Form.Control type='text'
+                name='username'
+                value={formData.username}
+                onChange={handleChange}
+                placeholder='กรอกชื่อ'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
-            <Col xl={3} md={6} sm={12} className='mt-2'
-              style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>สกุล</p>
-              <Form.Control type="text" placeholder="กรอกสกุล" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
-            </Col>
-            <Col xl={3} md={6} sm={12} className='mt-2'
+            <Col xl={4} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>เพศ</p>
-              <Form.Select aria-label="Default select example" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                cursor: "pointer"
-              }}>
-                <option >ไม่ระบุ</option>
-                {gender.map((data, index) => {
-                  return (
-                    <option key={index} value={index}>{data}</option>
-                  )
-                })}
+              <Form.Select aria-label="Default select example"
+                type='text'
+                name='gender'
+                value={formData.gender}
+                onChange={handleChange}
+                placeholder='กรอกเพศ'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                  cursor: "pointer"
+                }}
+                defaultValue={formData.gender} // ตั้งค่า default value
+              >
+                <option value="">ไม่ระบุ</option>
+                {gender.map((data, index) => (
+                  <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า gender จริงๆ
+                ))}
               </Form.Select>
+
             </Col>
 
           </Row>
@@ -145,9 +198,9 @@ function Data_org_1(props) {
                         "& .MuiOutlinedInput-notchedOutline": { border: "none" },
                         "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
                       }}
-                      onChange={(dueDate) => setDueDate(dueDate)}
-                      // onChange={(dueDate) => setDueDate(dueDate.format('DD-MM-YYYY'))}
-                      format="DD-MM-YYYY"
+                      value={formData.birthDate ? dayjs(formData.birthDate) : null}
+                      onChange={(dueDate) => setFormData({ ...formData, birthDate: dueDate })}
+                      format="DD/MM/YYYY"
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -156,18 +209,28 @@ function Data_org_1(props) {
             <Col xl={4} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>เลขประจำตัวประชาชน</p>
-              <Form.Control type="text" placeholder="กรอกเลขประจำตัวประชาชน" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <Form.Control type='text'
+                name='idCardNumber'
+                value={formData.idCardNumber}
+                onChange={handleChange}
+                placeholder='กรอกเลขบัตรประชาชน'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
             <Col xl={4} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>อีเมล</p>
-              <Form.Control type="text" placeholder="กรอกอีเมล" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <Form.Control type='email'
+                name='email'
+                value={formData.email}
+                readOnly
+                disabled
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
           </Row>
 
@@ -176,42 +239,65 @@ function Data_org_1(props) {
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>เบอร์โทรศัพท์</p>
-              <Form.Control type="text" placeholder="กรอกเบอร์โทรศัพท์" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <Form.Control type='text'
+                name='phoneNumber'
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                placeholder='กรอกเบอร์โทรศัพท์'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>สัญชาติ</p>
-              <Form.Control type="text" placeholder="กรอกสัญชาติ" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <Form.Control
+                type='text'
+                name='nationality'
+                value={formData.nationality}
+                onChange={handleChange}
+                placeholder='กรอกสัญชาติ'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>หมู่โลหิต</p>
-              <Form.Select aria-label="Default select example" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                cursor: "pointer"
-              }}>
-                <option >ไม่ระบุ</option>
-                {blood_group.map((data, index) => {
-                  return (
-                    <option key={index} value={index}>{data}</option>
-                  )
-                })}
+              <Form.Select aria-label="Default select example"
+                type='text'
+                name='bloodType'
+                value={formData.bloodType}
+                onChange={handleChange}
+                placeholder='กรอกหมู่โลหิต'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                  cursor: "pointer"
+                }}
+                defaultValue={formData.bloodType} // ตั้งค่า default value
+              >
+                <option value="">ไม่ระบุ</option>
+                {blood_group.map((data, index) => (
+                  <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า gender จริงๆ
+                ))}
               </Form.Select>
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>โรคประจำตัว</p>
-              <Form.Control type="text" placeholder="กรอกโรคประจำตัว" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <Form.Control
+                type='text'
+                name='chronicDiseases'
+                value={formData.chronicDiseases}
+                onChange={handleChange}
+                placeholder='กรอกโรคประจำตัว'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
           </Row>
 
@@ -227,27 +313,45 @@ function Data_org_1(props) {
             <Col xl={6} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>ที่อยู่</p>
-              <Form.Control type="text" placeholder="กรอกที่อยู่" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <Form.Control
+                type='text'
+                name='address'
+                value={formData.address}
+                onChange={handleChange}
+                placeholder='ที่อยู่'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>ตำบล/แขวง</p>
-              <Form.Control type="text" placeholder="กรอกตำบล/แขวง" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <Form.Control
+                type='text'
+                name='subDistrict'
+                value={formData.subDistrict}
+                onChange={handleChange}
+                placeholder='ตำบล/แขวง'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
 
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>อำเภอ</p>
-              <Form.Control type="text" placeholder="กรอกอำเภอ" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <Form.Control
+                type='text'
+                name='district'
+                value={formData.district}
+                onChange={handleChange}
+                placeholder='อำเภอ'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
 
           </Row>
@@ -255,18 +359,29 @@ function Data_org_1(props) {
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>จังหวัด</p>
-              <Form.Control type="text" placeholder="กรอกจังหวัด" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <Form.Control type='text'
+                name='province'
+                value={formData.province}
+                onChange={handleChange}
+                placeholder='จังหวัด'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>รหัสไปรษณีย์</p>
-              <Form.Control type="text" placeholder="กรอกรหัสไปรษณีย์" style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+              <Form.Control
+                type='text'
+                name='zipCode'
+                value={formData.zipCode}
+                onChange={handleChange}
+                placeholder='รหัสไปรษณีย์'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
             </Col>
           </Row>
 

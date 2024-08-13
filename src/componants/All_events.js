@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../App.css';
 import { Container, Row } from 'react-bootstrap'
 
@@ -32,6 +32,40 @@ function All_events() {
       "img": 'event-pic-3.jpg'
     },
   ]
+
+  const [eventMe, setEventMe] = useState([]);
+
+  const changepage = (path) => {
+    window.location.href = "/" + path
+  }
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/events', {
+          method: 'GET',
+          credentials: 'include', // Include cookies for session-based auth
+        });
+
+        if (response.status === 401) {
+          // Redirect to login if not authenticated
+          changepage('login'); // Adjust the path as necessary
+          return;
+        }
+
+        if (response.ok) {
+          const data = await response.json();
+          setEventMe(data);
+        } else {
+          throw new Error('Failed to fetch event data');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchEvent();
+  }, []);
   return (
     <Container className='mt-5' style={{ minHeight: "100vh" }} >
       {/* Head */}
@@ -53,7 +87,7 @@ function All_events() {
           display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
           justifyContent: "center", alignItems: "center"
         }}>
-          {demo_api.map((data, index) => {
+          {eventMe.map((data, index) => {
             return (
               <Card_event key={index} data={data} />
             )
