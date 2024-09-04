@@ -9,7 +9,7 @@ function Card_event_detail() {
     const [userInfo, setUserInfo] = useState(null);
 
 
-    const imageSrc = require('../image/Thai.png')
+    const imageSrc = require('../image/event-pic-3.jpg')
 
     const changepage = (path) => {
         window.location.href = "/" + path

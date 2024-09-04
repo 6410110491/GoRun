@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -10,6 +10,45 @@ function Form_step_1() {
     const [dueDate, setDueDate] = useState(dayjs());
     const gender = ["ชาย", "หญิง", "อื่นๆ"];
     const blood_group = ["A", "B", "AB", "O"];
+
+    const [userInfo, setUserInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+
+    const changepage = (path) => {
+        window.location.href = '/' + path;
+    };
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const response = await fetch('http://localhost:4000/api/userinfo', {
+                    method: 'GET',
+                    credentials: 'include', // Include cookies for session-based auth
+                });
+
+                if (response.status === 401) {
+                    // Redirect to login if not authenticated
+                    changepage('login'); // Adjust the path as necessary
+                    return;
+                }
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setUserInfo(data);
+                } else {
+                    throw new Error('Failed to fetch user info');
+                }
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserInfo();
+    }, []);
 
     return (
         <div>

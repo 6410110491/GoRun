@@ -50,5 +50,14 @@ router.put('/user/update', verifyToken, async (req, res) => {
     }
 });
 
+router.patch('/user/update/', async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(req.body.id, req.body, { new: true });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 module.exports = router;

@@ -9,7 +9,7 @@ import Form_step_4 from './Form_step_4'
 import Form_page_success from './Form_page_success'
 
 function Form_page() {
-  const imageSrc = require('../../image/Thai.png')
+  const imageSrc = require('../../image/event-pic-3.jpg')
 
   const componants = [
     <Form_step_1 />, <Form_step_2 />, <Form_step_3 />, <Form_step_4 />

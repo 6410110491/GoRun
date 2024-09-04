@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import Card_event from './Card_event';
+import Card_Organize from './Card_Organize';
 
 
 function Evevt_history() {
@@ -87,7 +88,7 @@ function Evevt_history() {
                 }}>
                     {eventMe.map((data, index) => {
                         return (
-                            <Card_event key={index} data={data} />
+                            <Card_Organize key={index} data={data} />
                         )
                     })}
                 </Row>

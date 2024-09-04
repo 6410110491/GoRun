@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 
 import ScrollToTop from 'react-scroll-to-top';
 
+let selectedFile = null;
 function Personal_information() {
     const [userInfo, setUserInfo] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -116,12 +117,33 @@ function Personal_information() {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             setFormData({ ...formData, profilePicture: file });
+            selectedFile = file;
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            let imageUrl = formData.profilePicture;
+            if (selectedFile) {
+                const formDataForImage = new FormData();
+                formDataForImage.append('image', selectedFile);
+
+                // Upload image
+                const uploadImage = await fetch('http://localhost:4000/api/images_upload', {
+                    method: 'POST',
+                    credentials: 'include', // Include cookies for session-based auth
+                    body: formDataForImage,
+                });
+
+                if (!uploadImage.ok) {
+                    throw new Error('Failed to upload image');
+                }
+
+                const uploadResponse = await uploadImage.json();
+                imageUrl = uploadResponse.url
+            }
+
             const response = await fetch('http://localhost:4000/api/user/update', {
                 method: 'PUT',
                 headers: {
@@ -131,8 +153,8 @@ function Personal_information() {
                 body: JSON.stringify({
                     username: formData.username,
                     personalInfo: {
-                        profilePicture: formData.profilePicture,
                         gender: formData.gender,
+                        profilePicture: imageUrl,
                         birthDate: formData.birthDate,
                         idCardNumber: formData.idCardNumber,
                         phoneNumber: formData.phoneNumber,
@@ -161,7 +183,7 @@ function Personal_information() {
         } catch (err) {
             setError(err.message);
         }
-        console.log('Form data:', formData);
+        // console.log('Form data:', formData);
     };
 
     return (
@@ -203,7 +225,7 @@ function Personal_information() {
                                     src={userInfo.personalInfo && userInfo.personalInfo.profilePicture
                                         ? userInfo.personalInfo.profilePicture
                                         : require('../image/blank_profile_image.png')}
-                                    alt='profile-img.jpg'
+                                    alt='profile-img'
                                     style={{
                                         width: "150px", height: "150px", borderRadius: "100%",
                                         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginBottom: "1rem"
@@ -302,7 +324,7 @@ function Personal_information() {
                                             <Form.Control
                                                 accept=".png,.jpg,.jpeg,"
                                                 type='file'
-                                                name='profilePicture'
+                                                name='image'
                                                 placeholder='URL ของรูปโปรไฟล์'
                                                 onChange={handleFileChange}
                                             />

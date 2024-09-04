@@ -6,9 +6,9 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 function App_history() {
 
     const data = [
-        { id: 1, details: 'สมัครงาน A', date: '01/01/2024' },
-        { id: 2, details: 'สมัครงาน B', date: '05/01/2024' },
-        { id: 3, details: 'สมัครงาน C', date: '10/01/2024' },
+        { id: 1, details: 'ทดสอบ 1', date: '01/01/2024' },
+        { id: 2, details: 'ทดสอบ 2', date: '05/01/2024' },
+        { id: 3, details: 'ทดสอบ 3', date: '10/01/2024' },
     ];
 
     return (

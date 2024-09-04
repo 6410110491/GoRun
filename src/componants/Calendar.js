@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs';
 import { Container, Row } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
@@ -20,6 +20,40 @@ function Calendar() {
       "img": 'event-pic-1.jpg'
     },
   ]
+
+  const [event, setEvent] = useState([]);
+
+  const changepage = (path) => {
+    window.location.href = "/" + path
+  }
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/events', {
+          method: 'GET',
+          credentials: 'include', // Include cookies for session-based auth
+        });
+
+        if (response.status === 401) {
+          // Redirect to login if not authenticated
+          changepage('login'); // Adjust the path as necessary
+          return;
+        }
+
+        if (response.ok) {
+          const data = await response.json();
+          setEvent(data);
+        } else {
+          throw new Error('Failed to fetch event data');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchEvent();
+  }, []);
   return (
     <Container className='mt-5' style={{ minHeight: "100vh" }} >
       {/* Head */}
@@ -53,7 +87,7 @@ function Calendar() {
           display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
           justifyContent: "center", alignItems: "center"
         }}>
-          {demo_api.map((data, index) => {
+          {event.map((data, index) => {
             return (
               <Card_event key={index} data={data} />
             )

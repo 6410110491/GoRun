@@ -4,7 +4,7 @@ import RoomIcon from '@mui/icons-material/Room';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PersonIcon from '@mui/icons-material/Person';
 
-function Card_event(props) {
+function Card_Organize(props) {
     const changepage = (path) => {
         window.location.href = "/" + path
     }
@@ -18,16 +18,15 @@ function Card_event(props) {
         const day = String(d.getDate()).padStart(2, '0');
         return `${day}/${month}/${year}`;
     };
-
     return (
         <Col className='mb-5' xs={12} md={6} lg={6} xl={4} xxl={3}
             style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Card 
+            <Card
                 style={{
-                    width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", 
+                    width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                     borderRadius: "20px 20px 0px 0px", cursor: "pointer"
                 }}
-                onClick={() => changepage(`event/detail/${props.data._id}`)}
+                onClick={() => changepage('appinformation')}
             >
                 <Card.Img variant="top" src={require(`../image/event-pic-3.jpg`)} style={{ borderRadius: "20px" }} />
                 <Card.Body>
@@ -57,7 +56,7 @@ function Card_event(props) {
                 </Card.Body>
             </Card>
         </Col>
-    );
+    )
 }
 
-export default Card_event;
+export default Card_Organize

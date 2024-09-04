@@ -46,30 +46,27 @@ function App_information() {
                 <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ลำดับ</TableCell>
                 <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>รายละเอียด</TableCell>
                 <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>วันที่สมัคร</TableCell>
+                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>สถานะ</TableCell>
                 <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>การดำเนินการ</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {data.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell align="center">{item.id}</TableCell>
-                  <TableCell align="center">{item.details}</TableCell>
-                  <TableCell align="center">{item.date}</TableCell>
+                  <TableCell align="center"><p>{item.id}</p></TableCell>
+                  <TableCell align="center"><p>{item.details}</p></TableCell>
+                  <TableCell align="center"><p>{item.date}</p></TableCell>
                   <TableCell align="center">
-                    <Button
-                      variant="danger"
+                    <p>รอการตรวจสอบ</p>
+                  </TableCell>
+                  <TableCell align="center">
+                  <Button
+                      variant="warning"
                       color="secondary"
                       onClick={() => handleEdit(item.id)}
-                      style={{ marginRight: '8px' }}
+                      style={{ marginRight: '8px', color: "white" }}
                     >
-                      แก้ไข
-                    </Button>
-                    <Button
-                      variant="success"
-                      color="success"
-                      onClick={() => handleConfirm(item.id)}
-                    >
-                      ยืนยัน
+                      ตรวจสอบ
                     </Button>
                   </TableCell>
                 </TableRow>

@@ -130,7 +130,7 @@ function Form_step_4() {
                   <input type='file' name='image' onChange={handleOnChange} />
                   <p style={{ margin: "1rem", display: "flex", justifyContent: "center", alignItems: "center" }} >แนบรูปหลักฐานการชำระเงิน (Slip) </p>
 
-                  <Button style = {{ width: "20%", margin: "1rem"}} variant="primary"  onClick={onSubmmit}>submit</Button>
+                  {/* <Button style = {{ width: "20%", margin: "1rem"}} variant="primary"  onClick={onSubmmit}>submit</Button> */}
                   </Row>
                 </Container>
               </Col>
