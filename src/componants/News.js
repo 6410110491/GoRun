@@ -1,16 +1,124 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react';
+import { Container, Modal, Button, Row, Col, Form, } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
-
+import Card_News from './Card_News';
+import axios from 'axios';
 
 function News() {
+  const [formData, setFormData] = useState({
+    image: '',
+    title: '',
+    description: ''
+  })
+
+  const [newsData, setNewsData] = useState([]); // เพิ่ม setNewsData
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // เพิ่ม setError
+
   const changepage = (path) => {
     window.location.href = '/' + path;
-};
+  };
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    const fetchNewsData = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/news', {
+          method: 'GET',
+          credentials: 'include', // Include cookies for session-based auth
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setNewsData(data); // ตั้งค่าข้อมูลข่าวสาร
+        } else {
+          throw new Error('Failed to fetch news data');
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewsData();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      setFormData({ ...formData, image: file });
+    }
+  };
+
+  // ส่งข้อมูลและอัปโหลดรูปภาพ
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let imageUrl = '';
+      if (formData.image) {
+        const formDataForImage = new FormData();
+        formDataForImage.append('image', formData.image);
+
+        // อัปโหลดรูปภาพ
+        const uploadImage = await fetch('http://localhost:4000/api/images_upload', {
+          method: 'POST',
+          credentials: 'include', // Include cookies for session-based auth
+          body: formDataForImage,
+        });
+
+        if (!uploadImage.ok) {
+          throw new Error('Failed to upload image');
+        }
+
+        const uploadResponse = await uploadImage.json();
+        imageUrl = uploadResponse.url;
+      }
+
+      const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+        method: 'GET',
+        credentials: 'include', // Include cookies for session-based auth
+      });
+
+      if (!userResponse.ok) throw new Error('Failed to fetch user info');
+
+      const userData = await userResponse.json();
+
+
+      const response = await axios.post("http://localhost:4000/api/news", {
+        owner_id: userData._id,
+        title: formData.title,
+        description: formData.description,
+        image: imageUrl
+      }
+      )
+
+      if (response.status === 201) {
+        handleClose(); // ปิด Modal เมื่ออัปเดตสำเร็จ
+        window.location.reload();
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || 'Failed to update news');
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+
   return (
-    <Container className='mt-5' style={{ minHeight: "100vh" }} 
-    onClick={() => changepage("news=2")}
-    >
+    <Container className='mt-5' style={{ minHeight: "100vh" }}>
       {/* Head */}
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
@@ -22,20 +130,92 @@ function News() {
 
       {/* ScroolToTop */}
       <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />
-
-      <div style={{
-        display: "flex", alignItems: "center", marginTop: "1rem",
-        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", padding: "1rem", borderRadius: "15px"
-      }}>
-        <img src={require("../image/event-pic-1.jpg")} className="img-thumbnail" alt="Thai.png"
-          style={{ height: "180px" }} />
-        <p className="text-start"
-          style={{ marginLeft: "2rem" }}
-        >ทัพนักวิ่ง “หมอชวนวิ่ง” ยกพลเข้าจังหวัดสุดท้าย สรุปยอดผู้เข้าร่วมโครงการกว่า 1 ล้านคน! </p>
+      <div style={{ width: "100%", display: "flex", justifyContent: "flex-end", margin: "16px 40px 16px 0px" }}>
+        <Button variant="success" style={{ border: "none" }}
+          onClick={handleShow}>
+          เพิ่มข่าวสาร
+        </Button>
       </div>
 
+      <div style={{ marginBottom: "5rem" }}>
+        {newsData.map((data, index) => {
+          return (
+            <Card_News key={index} data={data} />
+          )
+        })}
+      </div>
+
+
+
+      <Modal show={show} onHide={handleClose}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered>
+        <Modal.Header style={{ backgroundColor: "#F3C710", color: "#FFF" }} closeButton>
+          <Modal.Title>เพิ่มข่าวสารประชาสัมพันธ์</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Row>
+            <Col xl={6} md={6} sm={12} className='mt-2'
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "100%" }}>
+              <p>หัวข้อข่าวสาร</p>
+              <Form.Control
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                placeholder="กรอกหัวข้อ"
+                style={{ width: "100%" }}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col xl={6} md={6} sm={12} className='mt-4'
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "100%" }}>
+              <p>ข้อมูลข่าวสาร</p>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                type="text"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="กรอกข้อมูลข่าวสาร"
+                name="description"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col xl={6} md={6} sm={12} className='mt-4'>
+              <Form.Group controlId='formProfilePicture'>
+                <Form.Label>รูปภาพ</Form.Label>
+                <Form.Control
+                  accept=".png,.jpg,.jpeg,"
+                  type='file'
+                  name='image'
+                  placeholder='URL ของรูปภาพ'
+                  onChange={handleFileChange}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}
+            style={{ border: 'none', borderRadius: '10px' }}>
+            ปิด
+          </Button>
+          <Button variant="success" color="success" onClick={handleSubmit}
+            style={{ border: 'none', borderRadius: '10px' }}>
+            ยืนยัน
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
-  )
+  );
 }
+
 
 export default News

@@ -77,7 +77,14 @@ const UserSchema = new mongoose.Schema({
             ref: 'Event'
         },
         eventName: String
-    }]
+    }],
+    newsOwner: [{
+        news_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'News'
+        },
+        newsTitle: String
+    }],
 
 }, {
     timestamps: true
