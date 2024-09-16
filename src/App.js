@@ -35,11 +35,11 @@ function App() {
           <Route path="/event/form/:id" element={<Form_page />} />
           <Route path="/organizer" element={<Organizer />} />
           <Route path="/dataorganizer" element={<Data_org />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/apphistory" element={<App_history />} />
-          <Route path="/appinformation" element={<App_information />} />
-          <Route path="/personal" element={<Personal_information />} />
-          <Route path="/news=2" element={<News_2 />} />
+          <Route path="/news" element={<News/>} />
+          <Route path="/apphistory" element={<App_history/>} />
+          <Route path="/appinformation" element={<App_information/>} />
+          <Route path="/personal" element={<Personal_information/>} />
+          <Route path="/news/:id" element={<News_2/>} />
           <Route path="/eventhistory" element={<Evevt_history />} />
 
         </Routes>
