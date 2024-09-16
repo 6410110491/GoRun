@@ -1,7 +1,13 @@
 import React from 'react'
 import { Container, Row, Col, Form } from 'react-bootstrap'
 
-function Form_step_3() {
+function Form_step_3({ formData, setFormData, eventData, setEventData }) {
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   return (
     <div>
       <Container className='mt-3' fluid style={{
@@ -15,7 +21,11 @@ function Form_step_3() {
             <Form.Control type="text" placeholder="กรอกชื่อ" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }} />
+            }}
+              name='nameShip'
+              value={formData.nameShip}
+              onChange={handleChange}
+            />
           </Col>
           <Col xl={4} md={4} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -23,7 +33,11 @@ function Form_step_3() {
             <Form.Control type="text" placeholder="กรอกสกุล" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }} />
+            }}
+              name='lastNameShip'
+              value={formData.lastNameShip}
+              onChange={handleChange}
+            />
           </Col>
           <Col xl={4} md={4} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -31,7 +45,11 @@ function Form_step_3() {
             <Form.Control type="text" placeholder="กรอกเบอร์โทรศัพท์" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }} />
+            }}
+              name='phoneNumberShip'
+              value={formData.phoneNumberShip}
+              onChange={handleChange}
+            />
           </Col>
         </Row>
 
@@ -42,7 +60,11 @@ function Form_step_3() {
             <Form.Control type="text" placeholder="กรอกที่อยู่" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }} />
+            }}
+              name='addressShip'
+              value={formData.addressShip}
+              onChange={handleChange}
+            />
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -50,7 +72,11 @@ function Form_step_3() {
             <Form.Control type="text" placeholder="กรอกตำบล/แขวง" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }} />
+            }}
+              name='subDistrictShip'
+              value={formData.subDistrictShip}
+              onChange={handleChange}
+            />
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -58,7 +84,11 @@ function Form_step_3() {
             <Form.Control type="text" placeholder="กรอกอำเภอ/เขต" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }} />
+            }}
+              name='districtShip'
+              value={formData.districtShip}
+              onChange={handleChange}
+            />
           </Col>
         </Row>
 
@@ -69,7 +99,11 @@ function Form_step_3() {
             <Form.Control type="text" placeholder="กรอกจังหวัด" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }} />
+            }}
+              name='provinceShip'
+              value={formData.provinceShip}
+              onChange={handleChange}
+            />
           </Col>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -77,7 +111,11 @@ function Form_step_3() {
             <Form.Control type="text" placeholder="กรอกรหัสไปรษณีย์" style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }} />
+            }}
+              name='zipCodeShip'
+              value={formData.zipCodeShip}
+              onChange={handleChange}
+            />
           </Col>
         </Row>
       </Container>

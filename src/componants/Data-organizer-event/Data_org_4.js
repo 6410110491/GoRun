@@ -1,9 +1,9 @@
 import React from 'react'
 import ScrollToTop from "react-scroll-to-top";
 
-import { Container } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 
-function Data_org_4({ formData, setFormData }) {
+function Data_org_4({ formData, setFormData, loading, setLoading }) {
   return (
     <div>
       <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
@@ -100,34 +100,55 @@ function Data_org_4({ formData, setFormData }) {
             backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
             marginBottom: "-20px", position: "relative"
           }}>
-            ระยะวิ่ง/ค่าสมัคร
+            ประเภทการแข่งขัน/ค่าสมัคร
           </Container>
           <Container className='ms-3' fluid style={{
             backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
             borderRadius: "10px", width: "95%"
           }}>
-            <p className='ms-3'>ระยะทาง: {formData.distance}</p>
-            <p className='ms-3'>ค่าสมัคร: {formData.fee}</p>
-
+            {formData.competitionDetails && formData.competitionDetails.map((formDataItem, index) => (
+              <div key={index}>
+                <Row className='mt-1'>
+                  <Col xl={6} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
+                    <p className='ms-3'>ประเภท: {formDataItem.raceType}</p>
+                  </Col>
+                  <Col xl={6} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
+                    <p className='ms-3'>ค่าสมัคร: {formDataItem.fee}</p>
+                  </Col>
+                </Row>
+                {/* แสดง Divider ยกเว้นรายการสุดท้าย */}
+                {index < formData.competitionDetails.length - 1 && (
+                  <hr style={{ margin: "1rem", borderBottom: "1px solid #47474A" }} />
+                )}
+              </div>
+            ))}
           </Container>
 
 
 
           {/* เส้นทางการแข่งขัน */}
-          <Container className='mt-4 ms-5' fluid style={{
+          < Container className='mt-4 ms-5' fluid style={{
             backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
             marginBottom: "-20px", position: "relative"
           }}>
             เส้นทางการแข่งขัน
           </Container>
           <Container className='ms-3' fluid style={{
-            backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
-            borderRadius: "10px", width: "95%"
+            backgroundColor: "#fff",
+            minHeight: "100px",
+            padding: "1.5rem 0 16px 0",
+            marginBottom: "1.25rem",
+            borderRadius: "10px",
+            width: "95%"
           }}>
-            <p className='ms-3'>{formData.route}</p>
-
+            {formData.route && formData.route.length > 0 ? (
+              formData.route.map((file, index) => (
+                <p key={index} className='ms-3'>{file.name}</p>
+              ))
+            ) : (
+              <p className='ms-3'></p>
+            )}
           </Container>
-
 
 
           {/* รางวัล */}
@@ -141,10 +162,14 @@ function Data_org_4({ formData, setFormData }) {
             backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
             borderRadius: "10px", width: "95%"
           }}>
-            <p className='ms-3'>{formData.reward}</p>
-
+            {formData.reward && formData.reward.length > 0 ? (
+              formData.reward.map((file, index) => (
+                <p key={index} className='ms-3'>{file.name}</p>
+              ))
+            ) : (
+              <p className='ms-3'></p>
+            )}
           </Container>
-
 
 
           {/* สิ่งที่จะได้รับ */}
@@ -158,9 +183,15 @@ function Data_org_4({ formData, setFormData }) {
             backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
             borderRadius: "10px", width: "95%"
           }}>
-            <p className='ms-3'>{formData.whatToReceive}</p>
-
+            {formData.whatToReceive && formData.whatToReceive.length > 0 ? (
+              formData.whatToReceive.map((file, index) => (
+                <p key={index} className='ms-3'>{file.name}</p>
+              ))
+            ) : (
+              <p className='ms-3'></p>
+            )}
           </Container>
+
 
 
 
@@ -175,7 +206,7 @@ function Data_org_4({ formData, setFormData }) {
             backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
             borderRadius: "10px", width: "95%"
           }}>
-            <p className='ms-3'>RACEUP WORK</p>
+            <p className='ms-3'>{formData.etcInfo}</p>
 
           </Container>
         </Container>

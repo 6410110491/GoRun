@@ -10,34 +10,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 
-function Data_org_1({formData, setFormData}) {
+function Data_org_1({ formData, setFormData }) {
   const gender = ["ชาย", "หญิง", "อื่นๆ",]
   const blood_group = ["A", "B", "AB", "O"]
 
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // const [formData, setFormData] = useState({
-  //   profilePicture: '',
-  //   username: '',
-  //   gender: '',
-  //   birthDate: '',
-  //   idCardNumber: '',
-  //   email: '',
-  //   phoneNumber: '',
-  //   nationality: '',
-  //   bloodType: '',
-  //   chronicDiseases: '',
-
-
-  //   address: '',
-  //   subDistrict: '',
-  //   district: '',
-  //   province: '',
-  //   zipCode: '',
-
-  // });
 
   const changepage = (path) => {
     window.location.href = '/' + path;
@@ -76,6 +55,7 @@ function Data_org_1({formData, setFormData}) {
   useEffect(() => {
     if (userInfo) {
       setFormData({
+        organization: userInfo.organization || '',
         profilePicture: userInfo.personalInfo?.profilePicture || '',
         username: userInfo.username || '',
         gender: userInfo.personalInfo?.gender || '',
@@ -118,7 +98,7 @@ function Data_org_1({formData, setFormData}) {
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
-        <p>{ error }</p>
+        <p>{error}</p>
       ) : userInfo ? (
 
         <Container className='mt-5' fluid style={{
@@ -134,14 +114,28 @@ function Data_org_1({formData, setFormData}) {
           </div>
 
           <Row>
-            <Col xl={4} md={6} sm={12} className='mt-2'
-              style={{ display: "flex", alignItems: "center" }}>
+            <Col xl={4} md={12} sm={12} className='mt-2'
+              style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <img src={userInfo.personalInfo && userInfo.personalInfo.profilePicture
                 ? userInfo.personalInfo.profilePicture
                 : require('../../image/blank_profile_image.png')} alt='logo.jpg'
                 style={{ width: "100px", height: "100px", borderRadius: "100%" }} />
               <p className='ms-3'>รูปภาพประจำตัว</p>
             </Col>
+            <Col xl={4} md={6} sm={12} className='mt-2'
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <p>ชื่อองค์กร/หน่วยงาน</p>
+              <Form.Control type='text'
+                name='organization'
+                value={formData.organization}
+                onChange={handleChange}
+                placeholder='กรอกชื่อองค์กร/หน่วยงาน'
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }} />
+            </Col>
+
             <Col xl={4} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>ชื่อ-สกุล</p>
@@ -155,7 +149,11 @@ function Data_org_1({formData, setFormData}) {
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                 }} />
             </Col>
-            <Col xl={4} md={6} sm={12} className='mt-2'
+
+          </Row>
+
+          <Row className='mt-3'>
+            <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>เพศ</p>
               <Form.Select aria-label="Default select example"
@@ -179,10 +177,7 @@ function Data_org_1({formData, setFormData}) {
 
             </Col>
 
-          </Row>
-
-          <Row className='mt-3'>
-            <Col xl={4} md={6} sm={12} className='mt-2'
+            <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>วันเดือนปีเกิด</p>
               <div style={{ marginTop: "-12px" }}>
@@ -206,7 +201,7 @@ function Data_org_1({formData, setFormData}) {
                 </LocalizationProvider>
               </div>
             </Col>
-            <Col xl={4} md={6} sm={12} className='mt-2'
+            <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>เลขประจำตัวประชาชน</p>
               <Form.Control type='text'
@@ -219,7 +214,7 @@ function Data_org_1({formData, setFormData}) {
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                 }} />
             </Col>
-            <Col xl={4} md={6} sm={12} className='mt-2'
+            <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>อีเมล</p>
               <Form.Control type='email'
@@ -266,18 +261,14 @@ function Data_org_1({formData, setFormData}) {
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>หมู่โลหิต</p>
-              <Form.Select aria-label="Default select example"
-                type='text'
-                name='bloodType'
-                value={formData.bloodType}
-                onChange={handleChange}
-                placeholder='กรอกหมู่โลหิต'
-                style={{
-                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                  cursor: "pointer"
-                }}
+              <Form.Select aria-label="Default select example" style={{
+                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                cursor: "pointer"
+              }}
                 defaultValue={formData.bloodType} // ตั้งค่า default value
+                onChange={handleChange}
+                value={formData.bloodType}
               >
                 <option value="">ไม่ระบุ</option>
                 {blood_group.map((data, index) => (

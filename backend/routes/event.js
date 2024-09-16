@@ -27,10 +27,11 @@ router.post('/events', async (req, res) => {
             registrationOpenDate: req.body.registrationOpenDate,
             registrationCloseDate: req.body.registrationCloseDate,
             maxParticipants: req.body.maxParticipants,
-            raceCategory: req.body.raceCategory,
-            distance: req.body.distance,
-            registrationFee: req.body.registrationFee,
-            generalInfo: req.body.generalInfo,
+            competitionDetails:
+                req.body.competitionDetails.map(detail => ({
+                    raceType: detail.raceType,
+                    registrationFee: detail.registrationFee
+                })),
             objectives: req.body.objectives,
             eventHighlights: req.body.eventHighlights,
             prize: req.body.prize,
@@ -38,7 +39,14 @@ router.post('/events', async (req, res) => {
             route: req.body.route,
             map: req.body.map,
             accommodation: req.body.accommodation,
-            foodStalls: req.body.foodStalls
+            foodStalls: req.body.foodStalls,
+            coverPicture: req.body.coverPicture,
+            bannerPicture: req.body.bannerPicture,
+            etcInfo: req.body.etcInfo,
+            organization: req.body.organization,
+            product: req.body.product,
+            paymentInfo: req.body.paymentInfo,
+            shippingFee: req.body.shippingFee,
         });
 
         // บันทึกเหตุการณ์ใหม่ลงในฐานข้อมูล

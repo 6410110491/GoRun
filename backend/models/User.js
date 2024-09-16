@@ -77,7 +77,14 @@ const UserSchema = new mongoose.Schema({
             ref: 'Event'
         },
         eventName: String
-    }]
+    }],
+    eventRegistered: [{
+        event_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Event'
+        },
+        eventName: String
+    }],
 
 }, {
     timestamps: true

@@ -6,73 +6,133 @@ const EventSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
-        username: String    
+        username: String
     }],
+
+    participant: {
+        participant_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'EventParticipant'
+        },
+    },
+
+    coverPicture: { // รูปภาพหน้าปก
+        type: String,
+    },
+    bannerPicture: { // รูปภาพแบนเนอร์
+        type: String,
+    },
+
+
+    organization: { // ชื่อองค์กร
+        type: String,
+    },
     eventName: { // ชื่องาน
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: String,
         required: true // จำเป็นต้องมีค่า
     },
     sportType: { // ประเภทกีฬา
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: String,
         required: true // จำเป็นต้องมีค่า
     },
     location: { // สถานที่จัดงาน
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: String,
         required: true // จำเป็นต้องมีค่า
     },
     eventDate: { // วันที่แข่งขัน
-        type: Date, // ชนิดข้อมูลเป็นวันที่
+        type: Date,
     },
     eventTime: { // เวลาการแข่งขัน
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: String,
     },
     registrationOpenDate: { // วันที่เปิดรับสมัคร
-        type: Date, // ชนิดข้อมูลเป็นวันที่
+        type: Date,
     },
     registrationCloseDate: { // วันที่ปิดรับสมัคร
-        type: Date, // ชนิดข้อมูลเป็นวันที่
+        type: Date,
     },
     maxParticipants: { // จำนวนรับสมัคร
-        type: Number, // ชนิดข้อมูลเป็นตัวเลข
+        type: Number,
     },
-    raceCategory: { // รุ่นการแข่งขัน
-        type: String, // ชนิดข้อมูลเป็นสตริง
-    },
-    distance: { // ระยะทาง
-        type: Number, // ชนิดข้อมูลเป็นตัวเลข
-    },
-    registrationFee: { // ค่าสมัคร
-        type: Number, // ชนิดข้อมูลเป็นตัวเลข
-    },
+    competitionDetails:
+        [
+            {
+                raceType: { // ระยะทาง
+                    type: String,
+                },
+                registrationFee: { // ค่าสมัคร
+                    type: Number,
+                },
+            }
+        ]
+    ,
+
+
     generalInfo: { // ข้อมูลทั่วไป
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: String,
     },
     objectives: { // วัตถุประสงค์
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: String,
     },
     eventHighlights: { // ความน่าสนใจของงาน
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: String,
     },
     prize: { // รางวัล
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: [String],
     },
     whatToReceive: { // สิ่งที่จะได้รับ
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: [String],
     },
     route: { // เส้นทางการแข่งขัน
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: [String],
     },
-    map: { // แผนที่ตำแหน่งการจัดงาน
-        type: String, // ชนิดข้อมูลเป็นสตริง
+    map: {  //พิกัด
+        lat: { type: String },
+        lng: { type: String }
     },
     accommodation: { // ที่พัก/โรงแรม
-        type: String, // ชนิดข้อมูลเป็นสตริง
+        type: [String],
     },
     foodStalls: { // ร้านอาหาร
-        type: String, // ชนิดข้อมูลเป็นสตริง
-    }
+        type: [String],
+    },
+
+
+    product: {
+        shirt: {
+            type: [String],
+        },
+        shirtsize: {
+            type: [String],
+        },
+        etc: {
+            type: [String],
+        }
+    },
+    etcInfo: { // ข้อมูลอื่นๆ
+        type: String,
+    },
+    shippingFee: {
+        type: Number,
+    },
+
+
+    paymentInfo: {
+        bankName: { // ชื่อธนาคาร
+            type: String,
+        },
+        accountNumber: { // เลขที่บัญชี
+            type: String,
+        },
+        accountName: { // ชื่อบัญชี
+            type: String,
+        },
+        promptPayImage: { // พร้อมเพย์
+            type: String,
+        },
+    },
 }, {
-    timestamps: true // เพิ่มข้อมูล timestamp อัตโนมัติ เช่น createdAt และ updatedAt
+    timestamps: true
 });
 
-module.exports = mongoose.model('Event', EventSchema, 'events'); // ส่งออกโมเดล Event โดยใช้สคีมา EventSchema และกำหนดชื่อคอลเลคชั่นเป็น 'events'
+module.exports = mongoose.model('Event', EventSchema, 'events'); 

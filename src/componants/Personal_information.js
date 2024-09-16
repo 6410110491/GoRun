@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row, Modal, Form } from 'react-bootstrap';
+import { Button, Col, Container, Row, Modal, Form, Spinner } from 'react-bootstrap';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -211,7 +211,11 @@ function Personal_information() {
                 marginBottom: '2rem',
             }}>
                 {loading ? (
-                    <p>Loading...</p>
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
+                        <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                    </div>
                 ) : error ? (
                     <p>Error: {error}</p>
                 ) : userInfo ? (

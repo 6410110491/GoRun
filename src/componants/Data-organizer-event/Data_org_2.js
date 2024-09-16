@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { Col, Row, Container, Form, } from 'react-bootstrap'
+import React from 'react'
+import { Col, Row, Container, Form, Button } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
+import { FaTrash } from 'react-icons/fa';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -10,29 +11,84 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs from 'dayjs';
 
-function Data_org_2({formData, setFormData}) {
-  // const [formData, setFormData] = useState({
-  //   eventName: "",
-  //   sportType: "",
-  //   location: "",
-  //   competitionDate: "",
-  //   competitionTime: "",
-  //   openRegisDate: "",
-  //   closeRegisDate: "",
-  //   maxRegis: "",
-  //   competitionType: "",
-  //   distance: "",
-  //   fee: "",
-  //   generalInfo: "",
-  //   purpose: "",
-  //   interesting: "",
-  //   reward: "",
-  // });
+
+function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, BannerFile }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const handleAddForm = () => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      competitionDetails: [
+        ...(prevFormData.competitionDetails || []), // ตรวจสอบว่ามีค่าไหม ถ้าไม่มีให้เป็น array ว่าง
+        { raceType: '', fee: '' }
+      ]
+    }));
+  };
+
+  const handleAddformChange = (index, e) => {
+    const { name, value } = e.target;
+    const newCompetitionDetails = [...formData.competitionDetails];
+    newCompetitionDetails[index][name] = value;
+    setFormData({
+      ...formData,
+      competitionDetails: newCompetitionDetails
+    });
+  };
+
+  const handleRemoveForm = () => {
+    setFormData(prevFormData => {
+      const newFormArray = [...prevFormData.competitionDetails];
+      newFormArray.pop(); // ลบฟอร์มตัวสุดท้ายออก
+      return {
+        ...prevFormData,
+        competitionDetails: newFormArray // ตั้งค่าให้เป็นอาร์เรย์ ไม่ใช่อ็อบเจ็กต์
+      };
+    });
+  };
+
+
+  const handlePrizeChange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length) {
+      const fileContents = await Promise.all(
+        files.map((file) =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          })
+        )
+      );
+      setFormData({ ...formData, reward: files });
+      prizeFile = files; // เก็บไฟล์ลงในตัวแปร prizeFile
+    }
+  };
+
+  const handleCoverPictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      setFormData({ ...formData, coverPicture: file });
+      coverPictureFile = file;
+    }
+  };
+
+  const handleBannerPictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      setFormData({ ...formData, banner: file });
+      BannerFile = file;
+    }
+  };
+
 
   return (
     <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
@@ -50,19 +106,20 @@ function Data_org_2({formData, setFormData}) {
 
       <Container className='mt-5' fluid style={{
         minHeight: "100vh",
-        backgroundColor: "#E3E3E3", minHeightheight: "260px", padding: "1rem 2rem 1rem 2rem",
+        backgroundColor: "#E3E3E3", padding: "1rem 2rem 1rem 2rem",
         borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
       }}>
         <Row>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ชื่องาน</p>
+            <p>ชื่องาน <span className='requiredstar'>*</span> </p>
             <Form.Control
               type="text"
               placeholder="กรอกชื่องาน"
               name="eventName"
               value={formData.eventName}
               onChange={handleChange}
+              required
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -70,13 +127,14 @@ function Data_org_2({formData, setFormData}) {
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ประเภทกีฬา</p>
+            <p>ประเภทกีฬา <span className='requiredstar'>*</span></p>
             <Form.Control
               type="text"
-              placeholder="กรอกสถานที่จัดงาน"
+              placeholder="กรอกประเภทกีฬา"
               name='sportType'
               value={formData.sportType}
               onChange={handleChange}
+              required
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -84,13 +142,14 @@ function Data_org_2({formData, setFormData}) {
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>สถานที่จัดงาน</p>
+            <p>สถานที่จัดงาน <span className='requiredstar'>*</span></p>
             <Form.Control
               type="text"
               placeholder="กรอกสถานที่จัดงาน"
               name="location"
               value={formData.location}
               onChange={handleChange}
+              required
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -212,48 +271,95 @@ function Data_org_2({formData, setFormData}) {
           </Col>
         </Row>
 
+
         <Row className='mt-3'>
-          <Col xl={3} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>รุ่นการแข่งขัน</p>
-            <Form.Control
-              type="text"
-              placeholder="กรอกจำนวนรับสมัคร"
-              name='competitionType'
-              value={formData.competitionType}
-              onChange={handleChange}
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+          <div>
+            {formData.competitionDetails && formData.competitionDetails.map((formDataItem, index) => (
+              <Row className='mt-3' key={index}>
+                <Col xl={3} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
+                  <p>ประเภทการแข่งขัน</p>
+                  <Form.Control
+                    type="text"
+                    placeholder="กรอกประเภทการแข่งขัน"
+                    name='raceType'
+                    value={formDataItem.raceType}
+                    onChange={(e) => handleAddformChange(index, e)}
+                    style={{
+                      borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                      backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                    }} />
+                  <Form.Text id="raceTypeHelpBlock" muted>
+                    เช่น Fun Run, Half Marathon, VIP
+                  </Form.Text>
+                </Col>
+                <Col xl={3} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
+                  <p>ค่าสมัคร</p>
+                  <Form.Control
+                    type="number"
+                    placeholder="กรอกค่าสมัคร"
+                    name='fee'
+                    value={formDataItem.fee}
+                    onChange={(e) => handleAddformChange(index, e)}
+                    style={{
+                      borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                      backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                    }} />
+                </Col>
+              </Row>
+            ))}
+            <Row className='mt-1'>
+              <Col xl={6} md={12} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", justifyContent: "end" }}>
+                  <Button className="mt-3" onClick={handleAddForm}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      border: "none", borderRadius: "10px", width: "fit-content", padding: "10px"
+                    }}>
+                    เพิ่มประเภทการแข่งขัน
+                  </Button>
+                  {formData.competitionDetails?.length > 0 && (
+                    <Button className="mt-3" onClick={handleRemoveForm}
+                      style={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "red", marginLeft: "1rem" }}>
+                      <FaTrash />
+                    </Button>
+                  )}
+                </div>
+              </Col>
+            </Row>
+          </div>
+        </Row>
+
+
+        <Row className='mt-5'>
+          <Col xl={6} md={6} sm={12} className='mt-2'
+            style={{ display: "flex", flexDirection: "column" }}>
+            <p style={{ margin: "0" }}>เพิ่มรูปปก</p>
+            <Form.Group controlId='formprizePicture'>
+              <Form.Control
+                accept=".png,.jpg,.jpeg,"
+                type='file'
+                multiple
+                name='image'
+                rows={3}
+                placeholder='รูปหน้าปก'
+                onChange={handleCoverPictureChange}
+              />
+            </Form.Group>
           </Col>
-          <Col xl={3} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ระยะทาง</p>
-            <Form.Control
-              type="number"
-              placeholder="กรอกจำนวนรับสมัคร"
-              name='distance'
-              value={formData.distance}
-              onChange={handleChange}
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
-          </Col>
-          <Col xl={3} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ค่าสมัคร</p>
-            <Form.Control
-              type="number"
-              placeholder="กรอกจำนวนรับสมัคร"
-              name='fee'
-              value={formData.fee}
-              onChange={handleChange}
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+          <Col xl={6} md={6} sm={12} className='mt-2'
+            style={{ display: "flex", flexDirection: "column" }}>
+            <p style={{ margin: "0" }}>เพิ่มรูปปก (ขนาด 970 x 250 พิกเซล)</p>
+            <Form.Group controlId='formprizePicture'>
+              <Form.Control
+                accept=".png,.jpg,.jpeg,"
+                type='file'
+                multiple
+                name='image'
+                rows={3}
+                placeholder='รูปปกแบนเนอร์'
+                onChange={handleBannerPictureChange}
+              />
+            </Form.Group>
           </Col>
         </Row>
 
@@ -304,23 +410,24 @@ function Data_org_2({formData, setFormData}) {
               }} />
           </Col>
           <Col xl={6} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>รางวัล</p>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              name='reward'
-              value={formData.reward}
-              onChange={handleChange}
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+            style={{ display: "flex", flexDirection: "column" }}>
+            <p style={{ margin: "0" }}>รางวัล</p>
+            <Form.Group controlId='formprizePicture'>
+              <Form.Control
+                accept=".png,.jpg,.jpeg,"
+                type='file'
+                multiple
+                name='image'
+                rows={3}
+                placeholder='รูปรางวัล'
+                onChange={handlePrizeChange}
+              />
+            </Form.Group>
           </Col>
         </Row>
       </Container>
 
-    </Container>
+    </Container >
 
 
 

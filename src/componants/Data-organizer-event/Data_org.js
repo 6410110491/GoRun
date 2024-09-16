@@ -9,9 +9,16 @@ import Data_org_4 from './Data_org_4'
 import Data_org_success from './Data_org_success'
 import axios from 'axios'
 
+
 function Data_org() {
+    let prizeFile = [null];
+    let whatToReceiveFile = [null];
+    let routeFile = [null];
+    let coverPictureFile = null;
+    let BannerFile = null;
     const [formData, setFormData] = useState({
         //Start Page 1
+        organization: '',
         profilePicture: '',
         username: '',
         gender: '',
@@ -22,7 +29,6 @@ function Data_org() {
         nationality: '',
         bloodType: '',
         chronicDiseases: '',
-
 
         address: '',
         subDistrict: '',
@@ -40,30 +46,54 @@ function Data_org() {
         openRegisDate: "",
         closeRegisDate: "",
         maxRegis: "",
-        competitionType: "",
-        distance: "",
-        fee: "",
+        competitionDetails: [
+            { raceType: '', fee: '' }
+        ],
         generalInfo: "",
         purpose: "",
         interesting: "",
-        reward: "",
+        reward: [""],
+        coverPicture: "",
+        banner: "",
         // End Page 2
 
         // Start Page 3
-        whatToReceive: "",
-        route: "",
-        map: "",
+        whatToReceive: [""],
+        route: [""],
+        latitude: "",
+        longitude: "",
         accommodation: "",
         foodStalls: "",
+        product:
+        {
+            shirt: [""],
+            shirtsize: [""],
+            etc: [""]
+        }
+        ,
+        etcInfo: "",
+        shippingFee: "",
+
+        bankName: "",
+        accountNumber: "",
+        accountName: "",
+        promptPayImage: "",
+
+
         // End Page 3
     });
 
-    const componants = [
-        <Data_org_1 formData={formData} setFormData={setFormData} />,
-        <Data_org_2 formData={formData} setFormData={setFormData} />,
-        <Data_org_3 formData={formData} setFormData={setFormData} />,
-        <Data_org_4 formData={formData} setFormData={setFormData} />
-    ]
+
+    console.log(formData)
+    const [userInfo, setUserInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [activeStep, setActiveStep] = React.useState(0);
+    const [skipped, setSkipped] = React.useState(new Set());
+
+
+    const isStepSkipped = (step) => {
+        return skipped.has(step);
+    };
 
     const steps = [
         'ข้อมูลผู้สมัคร',
@@ -71,6 +101,7 @@ function Data_org() {
         'ที่อยู่การจัดส่ง',
         'การชำระเงิน',
     ];
+
     const stepStyle = {
         padding: 2,
         "& .Mui-active": {
@@ -95,17 +126,6 @@ function Data_org() {
             border: 'none', // Add other styles as needed
         },
     }
-    const [userInfo, setUserInfo] = useState(null);
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [skipped, setSkipped] = React.useState(new Set());
-    const clearForm = () => {
-        setFormData(prevState => Object.fromEntries(Object.keys(prevState).map(key => [key, ''])));
-    };
-
-
-    const isStepSkipped = (step) => {
-        return skipped.has(step);
-    };
 
     const handleNext = async () => {
         setSkipped((prevSkipped) => {
@@ -117,6 +137,7 @@ function Data_org() {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
         if (activeStep === 3) {
+            setLoading(true);
             try {
                 // Fetch user info from the server
                 const userResponse = await fetch('http://localhost:4000/api/userinfo', {
@@ -129,8 +150,60 @@ function Data_org() {
                 const userData = await userResponse.json();
                 setUserInfo(userData);
 
-                // Send event data to the server to create a new event
-                const eventResponse = await axios.post('http://localhost:4000/api/events', {
+                const uploadFile = async (file) => {
+                    const formDataForImage = new FormData();
+                    formDataForImage.append('image', file);
+
+                    const uploadImageResponse = await fetch('http://localhost:4000/api/images_upload', {
+                        method: 'POST',
+                        credentials: 'include', // รวมคุกกี้สำหรับการตรวจสอบสิทธิ์แบบเซสชัน
+                        body: formDataForImage,
+                    });
+
+                    if (!uploadImageResponse.ok) {
+                        throw new Error('Failed to upload image');
+                    }
+
+                    const uploadResponse = await uploadImageResponse.json();
+                    return uploadResponse.url; // ส่งกลับ URL ของรูปภาพที่อัปโหลด
+                };
+
+                // Process files for reward, whatToReceive, and route
+                const processFiles = async (files) => {
+                    if (!files || files.length === 0) return [];
+
+                    const urls = await Promise.all(
+                        files.map(async (file) => {
+                            const url = await uploadFile(file);
+                            return url;
+                        })
+                    );
+
+                    return urls;
+                };
+
+                const processSingleFile = async (file) => {
+                    if (!file) return ''; // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
+
+                    try {
+                        const url = await uploadFile(file);
+                        return url;
+                    } catch (error) {
+                        console.error('Error uploading file:', error);
+                        return ''; // ส่งคืนค่าที่ว่างหากเกิดข้อผิดพลาด
+                    }
+                };
+
+                // Upload images and get URLs
+                const rewardUrls = await processFiles(formData.reward);
+                const receiveUrls = await processFiles(formData.whatToReceive);
+                const routeUrls = await processFiles(formData.route);
+                const coverPictureUrls = await processSingleFile(formData.coverPicture);
+                const bannerUrls = await processSingleFile(formData.banner);
+                const promptPayImageUrls = await processSingleFile(formData.promptPayImage);
+
+                // Prepare event data including the uploaded image URLs
+                const eventData = {
                     owner_id: userData._id,
                     eventName: formData.eventName,
                     sportType: formData.sportType,
@@ -140,37 +213,76 @@ function Data_org() {
                     registrationOpenDate: formData.openRegisDate,
                     registrationCloseDate: formData.closeRegisDate,
                     maxParticipants: formData.maxRegis,
-                    raceCategory: formData.competitionType,
-                    distance: formData.distance,
-                    registrationFee: formData.fee,
+                    competitionDetails:
+                        formData.competitionDetails.map(detail => ({
+                            raceType: detail.raceType,
+                            registrationFee: detail.fee
+                        })),
                     generalInfo: formData.generalInfo,
                     objectives: formData.purpose,
                     eventHighlights: formData.interesting,
-                    prize: formData.reward,
-                    whatToReceive: formData.whatToReceive,
-                    route: formData.route,
-                    map: formData.map,
+                    prize: rewardUrls,
+                    whatToReceive: receiveUrls,
+                    route: routeUrls,
+                    coverPicture: coverPictureUrls,
+                    bannerPicture: bannerUrls,
+                    map: {
+                        lat: formData.latitude,
+                        lng: formData.longtitude,
+                    },
                     accommodation: formData.accommodation,
                     foodStalls: formData.foodStalls,
-                });
+                    etcInfo: formData.etcInfo,
+                    organization: formData.organization,
+                    product: {
+                        shirt: formData.product.shirt,
+                        shirtsize: formData.product.shirtsize,
+                        etc: formData.product.etc
+                    },
+                    shippingFee: formData.shippingFee,
+                    paymentInfo: {
+                        bankName: formData.bankName,
+                        accountNumber: formData.accountNumber,
+                        accountName: formData.accountName,
+                        promptPayImage: promptPayImageUrls,
+                    },
+                };
 
-                console.log(eventResponse.data);
+                // Send event data to the server to create a new event
+                const eventResponse = await axios.post('http://localhost:4000/api/events', eventData);
+
+
+                if (eventResponse.status == 201) {
+                    setLoading(false); // หยุดการโหลดเมื่อเสร็จสิ้น
+                    console.log('Event created successfully:', eventResponse.data.event);
+                }
+
+                // console.log('Event created successfully:', eventResponse);
+
             } catch (error) {
-                console.error('Error:', error.message);
+                console.error('Error:', error);
+                setLoading(false);
             }
         }
     };
-
-
 
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleReset = () => {
-        setActiveStep(0);
-    };
+    const componants = [
+        <Data_org_1 formData={formData} setFormData={setFormData} />,
+        <Data_org_2 formData={formData} setFormData={setFormData}
+            prizeFile={prizeFile}
+            coverPictureFile={coverPictureFile}
+            BannerFile={BannerFile}
+        />,
+        <Data_org_3 formData={formData} setFormData={setFormData}
+            whatToReceiveFile={whatToReceiveFile}
+            routeFile={routeFile} />,
+        <Data_org_4 formData={formData} />
+    ]
 
 
     return (
@@ -191,7 +303,7 @@ function Data_org() {
                     })}
                 </Stepper>
                 {activeStep === steps.length ? (
-                    <Data_org_success />
+                    <Data_org_success loading={loading} setLoading={setLoading} />
                 ) : (
                     <React.Fragment>
                         <Typography sx={{ mt: 2, mb: 1 }}>

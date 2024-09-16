@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Col, Container, Row } from 'react-bootstrap'
+import { Button, Col, Container, Row, Form } from 'react-bootstrap'
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -9,7 +9,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs from 'dayjs'
 
-function Form_step_4() {
+
+function Form_step_4({ formData, setFormData, eventData, setEventData, slipFile }) {
   const [dueDate, setDueDate] = useState(dayjs())
   const [dueTime, setDueTime] = useState(dayjs());
   const [file, setFile] = useState()
@@ -22,6 +23,29 @@ function Form_step_4() {
   function onSubmmit() {
     console.log(file)
   }
+
+  const formatDate = (date) => {
+    if (!date) return '';
+
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // เดือนเริ่มจาก 0
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${day}/${month}/${year}`;
+  };
+
+  const totalPayment = (parseInt(formData.registrationFee, 10) || 0) + (eventData.shippingFee || 0);
+
+  const handleSlipsPictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      setFormData({ ...formData, slipImage: file });
+      slipFile = file;
+    }
+  };
+
   return (
     <div>
       <Container className='mt-3' fluid style={{
@@ -41,10 +65,10 @@ function Form_step_4() {
             สรุปรายการสมัคร
           </Container>
 
-          <p className='ms-3'>ประเภท : </p>
-          <p className='ms-3'>ค่าสมัคร :  </p>
-          <p className='ms-3'>ค่าจัดส่ง : </p>
-          <p className='ms-3'>ยอดชำระทั้งหมด : </p>
+          <p className='ms-3'>ประเภท : {formData.sportType}</p>
+          <p className='ms-3'>ค่าสมัคร :  THB {formData.registrationFee}</p>
+          <p className='ms-3'>ค่าจัดส่ง : THB {eventData.shippingFee}</p>
+          <p className='ms-3'>ยอดชำระทั้งหมด : THB {totalPayment}</p>
 
         </Container>
 
@@ -60,7 +84,9 @@ function Form_step_4() {
             ข้อมูลการจัดส่ง
           </Container>
 
-          <p className='ms-3'>ที่อยู่การจัดส่ง : </p>
+          <p className='ms-3' style={{
+            wordBreak: "break-all"
+          }}>ที่อยู่การจัดส่ง : {formData.addressShip}</p>
         </Container>
 
 
@@ -76,24 +102,24 @@ function Form_step_4() {
             ข้อมูลผู้สมัคร
           </Container>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>ชื่อผู้สมัคร : </p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>ระยะที่สมัคร : </p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>ชื่อผู้สมัคร : {formData.username}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>ประเภทการแข่งขัน : {formData.raceType}</p></Col>
           </Row>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>วันเดือนปีเกิด : </p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>เลขประจำตัวประชาชน : </p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>วันเดือนปีเกิด : {formatDate(formData.birthDate)}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>เลขประจำตัวประชาชน : {formData.idCardNumber}</p></Col>
           </Row>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>เบอร์โทรศัพท์ : </p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>โรคประจำตัว : </p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>เบอร์โทรศัพท์ : {formData.phoneNumber}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>โรคประจำตัว : {formData.chronicDiseases}</p></Col>
           </Row>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>สัญชาติ : </p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>หมู่โลหิต : </p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>สัญชาติ : {formData.nationality}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>หมู่โลหิต : {formData.bloodType}</p></Col>
           </Row>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>ประเภทเสื้อ : </p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>ขนาดเสื้อ : </p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>ประเภทเสื้อ : {formData.shirt}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>ขนาดเสื้อ : {formData.shirtSize}</p></Col>
           </Row>
         </Container>
 
@@ -111,29 +137,39 @@ function Form_step_4() {
 
           <Row>
             <Col xl={5} md={12} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <img src={require('../../image/QR-Code.jpg')} alt='logo.jpg'
+              <img src={eventData?.paymentInfo?.promptPayImage} alt='logo.jpg'
                 style={{ width: "300px", height: "400px" }} />
             </Col>
             <Col xl={7} md={12}>
-              <p className='ms-3'>ธนาคาร : </p>
-              <p className='ms-3'>ชื่อบัญชี : </p>
-              <p className='ms-3'>เลขที่บัญชี : </p>
-              <p className='ms-3' style={{ fontWeight: "700" }}>จำนวนเงินที่ต้องชำระ : </p>
+              <p className='ms-3'>ธนาคาร : {eventData.paymentInfo.bankName}</p>
+              <p className='ms-3'>ชื่อบัญชี : {eventData.paymentInfo.accountName}</p>
+              <p className='ms-3'>เลขที่บัญชี : {eventData.paymentInfo.accountNumber}</p>
+              <p className='ms-3' style={{ fontWeight: "700" }}>จำนวนเงินที่ต้องชำระ : THB {totalPayment}</p>
 
             </Col>
-              <Col xl={12} style={{ marginTop: "2rem" }}>
-                <Container fluid style={{
-                  backgroundColor: "#E3E3E3", height: "180px", padding: "1rem", width: "50%",
-                  borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                }}>
-                  <Row style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                  <input type='file' name='image' onChange={handleOnChange} />
-                  <p style={{ margin: "1rem", display: "flex", justifyContent: "center", alignItems: "center" }} >แนบรูปหลักฐานการชำระเงิน (Slip) </p>
-
-                  {/* <Button style = {{ width: "20%", margin: "1rem"}} variant="primary"  onClick={onSubmmit}>submit</Button> */}
-                  </Row>
-                </Container>
-              </Col>
+            <Col xl={12} style={{ marginTop: "2rem" }}>
+              <Container fluid style={{
+                backgroundColor: "#E3E3E3", height: "180px", padding: "1rem", width: "50%",
+                borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+              }}>
+                <Row style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "2rem 0" }}>
+                  <Form.Group controlId='formReceivePicture'>
+                    <Form.Control
+                      accept=".png,.jpg,.jpeg,"
+                      type='file'
+                      multiple
+                      name='image'
+                      rows={3}
+                      placeholder='รูปภาพสิ่งที่จะได้รับ'
+                      onChange={handleSlipsPictureChange}
+                    />
+                  </Form.Group>
+                  <p style={{ textAlign: 'center', margin: "2rem 0" }}>
+                    อัพโหลดหลักฐานการโอนเงิน
+                  </p>
+                </Row>
+              </Container>
+            </Col>
 
             <Col xl={12} style={{ marginTop: "2rem", marginBottom: "3rem" }}>
               <Container fluid style={{
@@ -148,7 +184,6 @@ function Form_step_4() {
                         <DemoContainer components={['DatePicker']} >
                           <DatePicker
                             slotProps={{ textField: { size: 'small' } }}
-                            value={dueDate}
                             sx={{
                               width: '95%',
                               backgroundColor: "#FFF",
@@ -157,9 +192,9 @@ function Form_step_4() {
                               "& .MuiOutlinedInput-notchedOutline": { border: "none" },
                               "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
                             }}
-                            onChange={(dueDate) => setDueDate(dueDate)}
-                            // onChange={(dueDate) => setDueDate(dueDate.format('DD-MM-YYYY'))}
-                            format="DD-MM-YYYY"
+                            onChange={(dueDate) => setFormData({ ...formData, datePay: dueDate })}
+                            value={dueDate}
+                            format="DD/MM/YYYY"
                           />
                         </DemoContainer>
                       </LocalizationProvider>
@@ -175,7 +210,7 @@ function Form_step_4() {
                             clearable
                             ampm={false}
                             value={dueTime}
-                            onChange={(newTime) => setDueTime(newTime)}
+                            onChange={(dueDate) => setFormData({ ...formData, timePay: dueDate })}
                             slotProps={{ textField: { size: 'small' } }}
                             sx={{
                               width: '95%',

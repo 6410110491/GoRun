@@ -29,7 +29,7 @@ function Card_event(props) {
                 }}
                 onClick={() => changepage(`event/detail/${props.data._id}`)}
             >
-                <Card.Img variant="top" src={require(`../image/event-pic-3.jpg`)} style={{ borderRadius: "20px" }} />
+                <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px" }} />
                 <Card.Body>
                     <Card.Title>{props.data.eventName}</Card.Title>
                 </Card.Body>
@@ -51,7 +51,7 @@ function Card_event(props) {
                     <div style={{ display: "flex" }}>
                         <PersonIcon />
                         <Card.Text style={{ fontSize: "1rem", marginLeft: "5px" }}>
-                            {props.data.owner[0].username}
+                            {props.data.organization ? props.data.organization : props.data.owner[0].username} 
                         </Card.Text>
                     </div>
                 </Card.Body>
