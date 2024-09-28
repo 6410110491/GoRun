@@ -1,21 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
-import Card_event from './Card_event';
 import Card_Organize from './Card_Organize';
 
 
 function Evevt_history() {
-    const demo_api = [
-        {
-            "id": 1,
-            "name": "งานวิ่งมาราธอน",
-            "province": "กรุงเทพมหานคร",
-            "date": "2024-4-17",
-            "organizer": "สมาคมวิ่ง",
-            "img": 'event-pic-1.jpg'
-        },
-    ]
     const [eventMe, setEventMe] = useState([]);
 
     // console.log(eventMe);
@@ -48,20 +37,15 @@ function Evevt_history() {
         fetchEvent();
     }, []);
 
-    const handleEdit = (id) => {
-        console.log(`แก้ไขข้อมูลที่ ${id}`);
-    };
+    console.log(eventMe);
 
-    const handleConfirm = (id) => {
-        console.log(`ยืนยันข้อมูลที่ ${id}`);
-    };
 
     const changepage = (path) => {
         window.location.href = "/" + path
     }
 
     return (
-        <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
+        <Container style={{ marginTop: '2rem', marginBottom: "2rem", minHeight: "80vh" }}>
             {/* Head */}
             <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>

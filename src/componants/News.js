@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Modal, Button, Row, Col, Form, } from 'react-bootstrap'
+import { Container, Modal, Button, Row, Col, Form, Spinner, } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import Card_News from './Card_News';
 import axios from 'axios';
@@ -10,19 +10,43 @@ function News() {
     title: '',
     description: ''
   })
-
+  const [userInfor, setUserInfor] = useState({});
   const [newsData, setNewsData] = useState([]); // เพิ่ม setNewsData
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); // เพิ่ม setError
-
-  const changepage = (path) => {
-    window.location.href = '/' + path;
-  };
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/userinfo', {
+          method: 'GET',
+          credentials: 'include', // Include cookies for session-based auth
+        });
+
+        if (response.status === 401) {
+          return;
+        }
+
+        if (response.ok) {
+          const data = await response.json();
+          setUserInfor(data);
+        } else {
+          throw new Error('Failed to fetch user info');
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   useEffect(() => {
     const fetchNewsData = async () => {
@@ -86,18 +110,8 @@ function News() {
         imageUrl = uploadResponse.url;
       }
 
-      const userResponse = await fetch('http://localhost:4000/api/userinfo', {
-        method: 'GET',
-        credentials: 'include', // Include cookies for session-based auth
-      });
-
-      if (!userResponse.ok) throw new Error('Failed to fetch user info');
-
-      const userData = await userResponse.json();
-
-
       const response = await axios.post("http://localhost:4000/api/news", {
-        owner_id: userData._id,
+        owner_id: userInfor._id,
         title: formData.title,
         description: formData.description,
         image: imageUrl
@@ -116,7 +130,6 @@ function News() {
     }
   };
 
-
   return (
     <Container className='mt-5' style={{ minHeight: "100vh" }}>
       {/* Head */}
@@ -130,20 +143,33 @@ function News() {
 
       {/* ScroolToTop */}
       <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />
-      <div style={{ width: "100%", display: "flex", justifyContent: "flex-end", margin: "16px 40px 16px 0px" }}>
-        <Button variant="success" style={{ border: "none" }}
-          onClick={handleShow}>
-          เพิ่มข่าวสาร
-        </Button>
-      </div>
+      {userInfor.role === 'organize' || userInfor.role === 'admin' ? (
+        <div style={{ width: "100%", display: "flex", justifyContent: "flex-end", margin: "16px 40px 16px 0px" }}>
+          <Button variant="success" style={{ border: "none" }}
+            onClick={handleShow}>
+            เพิ่มข่าวสาร
+          </Button>
+        </div>
+      ) : null}
 
-      <div style={{ marginBottom: "5rem" }}>
-        {newsData.map((data, index) => {
-          return (
-            <Card_News key={index} data={data} />
-          )
-        })}
-      </div>
+      {loading ? (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      ) : error ? (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
+          <p>Error: {error}</p>
+        </div>
+      ) : (
+        <div style={{ marginBottom: "5rem", marginTop: "3rem" }}>
+          {newsData.map((data, index) => {
+            return (
+              <Card_News key={index} data={data} />
+            )
+          })}
+        </div>)}
 
 
 

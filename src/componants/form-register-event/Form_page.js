@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Row, Form, Spinner } from 'react-bootstrap'
+import { Button, Col, Container, Row,  Spinner } from 'react-bootstrap'
 import { Box, Stepper, Step, StepLabel, Typography } from '@mui/material'
 import ScrollToTop from 'react-scroll-to-top'
 import Form_step_1 from './Form_step_1'
@@ -222,7 +222,7 @@ function Form_page() {
         const eventResponse = await axios.post(`http://localhost:4000/api/register/${id}`, eventRegisData);
 
 
-        if (eventResponse.status == 201) {
+        if (eventResponse.status === 201) {
           setLoading(false); // หยุดการโหลดเมื่อเสร็จสิ้น
           console.log('Event created successfully:', eventResponse.data.event);
         }
@@ -239,10 +239,6 @@ function Form_page() {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
   };
 
   useEffect(() => {

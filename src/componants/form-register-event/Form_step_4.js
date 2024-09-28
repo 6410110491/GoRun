@@ -1,29 +1,14 @@
-import React, { useState } from 'react'
-import { Button, Col, Container, Row, Form } from 'react-bootstrap'
+import React from 'react'
+import { Col, Container, Row, Form } from 'react-bootstrap'
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { DesktopTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-import dayjs from 'dayjs'
 
 
-function Form_step_4({ formData, setFormData, eventData, setEventData, slipFile }) {
-  const [dueDate, setDueDate] = useState(dayjs())
-  const [dueTime, setDueTime] = useState(dayjs());
-  const [file, setFile] = useState()
-
-  function handleOnChange(e) {
-    const target = e.target
-    setFile(target.files[0])
-  }
-
-  function onSubmmit() {
-    console.log(file)
-  }
-
+function Form_step_4({ formData, setFormData, eventData, slipFile }) {
   const formatDate = (date) => {
     if (!date) return '';
 
@@ -193,7 +178,7 @@ function Form_step_4({ formData, setFormData, eventData, setEventData, slipFile 
                               "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
                             }}
                             onChange={(dueDate) => setFormData({ ...formData, datePay: dueDate })}
-                            value={dueDate}
+                            // value={dueDate}
                             format="DD/MM/YYYY"
                           />
                         </DemoContainer>
@@ -205,11 +190,12 @@ function Form_step_4({ formData, setFormData, eventData, setEventData, slipFile 
                     <p>เวลาที่โอน</p>
                     <div style={{ marginTop: "-10px" }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['TimePicker']}>
-                          <TimePicker
+                        <DemoContainer components={['DesktopTimePicker']}>
+                          <DesktopTimePicker
                             clearable
                             ampm={false}
-                            value={dueTime}
+                            // value={dueTime}
+                            timeSteps={{ minutes: 1 }}
                             onChange={(dueDate) => setFormData({ ...formData, timePay: dueDate })}
                             slotProps={{ textField: { size: 'small' } }}
                             sx={{

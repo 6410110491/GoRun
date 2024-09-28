@@ -3,6 +3,8 @@ const router = express.Router();
 const Event = require('../models/Event');
 const User = require('../models/User');
 const verifyToken = require('../middleware/auth');
+const isEventOwner = require('../middleware/isOwnerEvent');
+const EventRegistration = require('../models/EventRegistration');
 
 
 // เส้นทางสำหรับการสร้างงานใหม่
@@ -60,6 +62,13 @@ router.post('/events', async (req, res) => {
 
         // บันทึกการอัปเดตของผู้ใช้
         await user.save();
+
+        const eventRegistration = new EventRegistration({
+            event_id: newEvent._id,
+            registrations: []
+        });
+
+        await eventRegistration.save();
 
         res.status(201).json({ message: 'Create event successfully', event: newEvent });
     } catch (error) {

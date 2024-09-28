@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
+import { FaList } from 'react-icons/fa';
 import { useMediaQuery } from 'react-responsive';
 import { useParams } from 'react-router-dom';
 import ScrollToTop from 'react-scroll-to-top'
@@ -460,7 +461,25 @@ function Card_event_detail() {
                                         </Button>
                                     </div>
 
+
                                 </Container>
+
+
+                                <div style={{
+                                    marginTop: "3rem", width: "100%",
+                                    display: "flex", justifyContent: "center", alignItems: "center"
+                                }}>
+                                    <Button variant="primary" style={{
+                                        border: 'none', borderRadius: '10px',
+                                        width: "100%", backgroundColor: "#A9A9A9",
+                                    }}
+                                        onClick={() => changepage(`event/${eventDetail._id}/applicants-info`)}
+                                    >
+                                        <FaList />  รายชื่อผู้สมัคร
+                                    </Button>
+                                </div>
+
+
                             </Col>
 
                             {/* Go Back Button */}

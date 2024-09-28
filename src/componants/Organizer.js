@@ -1,14 +1,24 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Button, Row, Container, Modal } from 'react-bootstrap'
+import { Button, Row, Container, Modal, Form } from 'react-bootstrap'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+
 import ScrollToTop from 'react-scroll-to-top'
 
+let selectedFile = null;
 function Organizer() {
     const [userInfor, setUserInfor] = useState({});
+    const [formData, setFormData] = useState({
+        idCardImage: '',
+    });
+    const [error, setError] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
     const changepage = (path) => {
         window.location.href = "/" + path
     }
 
-    const [showPopup, setShowPopup] = useState(false);
     const handleOpen = () => {
         setShowPopup(true);
     };
@@ -17,55 +27,103 @@ function Organizer() {
         setShowPopup(false);
     };
 
-    const handleConfirm = async (e) => {
-        e.preventDefault();
-        try {
-            const getinfoResponse = await fetch('http://localhost:4000/api/userinfo', {
-                method: 'GET',
-                credentials: 'include', // Include cookies for session-based auth
-            });
-
-            if (getinfoResponse.ok) {
-                const data = await getinfoResponse.json();
-                setUserInfor(data);
-            } else {
-                throw new Error('Failed to fetch user info');
-            }
-
-            const updatedUserData = {
-                ...userInfor,
-                role: 'organize',
-            };
-
-            if (userInfor.role !== 'organize') {
-                const response = await fetch('http://localhost:4000/api/user/update', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include', // Include cookies for session-based auth
-                    body: JSON.stringify(updatedUserData),
-                });
-                if (response.ok) {
-                    console.log("Change role to Organize success")
-                } else {
-                    console.log("Failed")
-
-                }
-            }
-        }
-        catch (err) {
-            console.log(err.message);
-        }
-
-        changepage("dataorganizer")
+    const handleOpenConFirmPopup = () => {
+        setShowPopup(false);
+        setShowSuccessPopup(true);
     };
 
-    useEffect(() => {
-        if (userInfor.role === 'organize') {
-            changepage("dataorganizer")
+    const handleCloseConFirmPopup = () => {
+        setShowPopup(true);
+        setShowSuccessPopup(false);
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setError(''); // เคลียร์ข้อผิดพลาดเมื่อผู้ใช้เลือกไฟล์
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            setFormData({ ...formData, idCardImage: file });
+            selectedFile = file;
+        }
+    };
+
+    const handleConfirm = async (e) => {
+        e.preventDefault();
+
+        // ตรวจสอบว่ามีการเลือกไฟล์หรือไม่
+        if (!selectedFile) {
+            setError('กรุณาแนบไฟล์รูปภาพบัตรประชาชน');
+            return;
+        }
+
+        try {
+            const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            if (!userResponse.ok) throw new Error('Failed to fetch user info');
+
+            const userData = await userResponse.json();
+
+            let imageUrl = formData.idCardImage;
+            if (selectedFile) {
+                const formDataForImage = new FormData();
+                formDataForImage.append('image', selectedFile);
+
+                // Upload image
+                const uploadImage = await fetch('http://localhost:4000/api/images_upload', {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: formDataForImage,
+                });
+
+                if (!uploadImage.ok) {
+                    throw new Error('Failed to upload image');
+                }
+
+                const uploadResponse = await uploadImage.json();
+                imageUrl = uploadResponse.url;
+            }
+
+            const sendVerificationResponse = await axios.post("http://localhost:4000/api/verifyOrganized", {
+                user: userData._id,
+                idCardImage: imageUrl
+            });
+
+            if (sendVerificationResponse.status === 200) {
+                console.log('Success:', sendVerificationResponse);
+                setShowSuccessPopup(true); // แสดง popup แจ้งเตือนเมื่อส่งสำเร็จ
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    useEffect(() => async () => {
+        const getinfoResponse = await fetch('http://localhost:4000/api/userinfo', {
+            method: 'GET',
+            credentials: 'include',
+        });
+
+        if (getinfoResponse.status === 401) {
+            changepage("login");
+        }
+
+        if (getinfoResponse.ok) {
+            const data = await getinfoResponse.json();
+            setUserInfor(data);
+        } else {
+            throw new Error('Failed to fetch user info');
+        }
+
+        if (userInfor.role === 'organize' || userInfor.role === 'admin') {
+            changepage("dataorganizer");
         }
     }, []);
+
 
     return (
         <Container className='mt-5' style={{ minHeight: "100vh" }} >
@@ -78,7 +136,7 @@ function Organizer() {
                 </div>
             </div>
 
-            {/* ScroolToTop */}
+            {/* ScrollToTop */}
             <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />
 
             <Row className="vh-100 d-flex justify-content-center align-items-center">
@@ -111,7 +169,24 @@ function Organizer() {
                     <Modal.Title>เปิดรับสมัครงานกีฬา</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>ยืนยันการเปิดรับสมัครงานกีฬาหรือไม่</p>
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
+                        <p>ยืนยันการเปิดรับสมัครงานกีฬาหรือไม่</p>
+                    </div>
+                    <p style={{
+                        fontSize: "16px", fontWeight: "bold",
+                        marginTop: "30px", marginBottom: "10px"
+                    }}>แนบหลักฐานการยืนยันตัวตน</p>
+                    <Form.Group controlId='idCardImage'>
+                        <Form.Label>รูปบัตรประชาชน</Form.Label>
+                        <Form.Control
+                            required
+                            accept=".png,.jpg,.jpeg"
+                            type='file'
+                            name='idCardImage'
+                            onChange={handleFileChange}
+                        />
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                    </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}
@@ -125,11 +200,30 @@ function Organizer() {
                 </Modal.Footer>
             </Modal>
 
+            {/* Success Popup */}
+            <Modal show={showSuccessPopup} onHide={handleCloseConFirmPopup} centered size='lg'>
+                <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+                    <Modal.Title>สำเร็จ</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div style={{
+                        display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column",
+                        padding: "3rem"
+                    }}>
+                        <CheckCircleOutlineIcon style={{ fontSize: "10rem", color: "#4CAF50" }} />
+                        <p style={{ fontSize: "2.75rem" }}>การส่งหลักฐานยืนยันตัวตนสำเร็จแล้ว</p>
+                        <p style={{ fontSize: "1.25rem" }}>กรุณารอการตรวจสอบ</p>
 
+                        <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', marginTop: "3rem" }}
+                            onClick={() => changepage("")}>
+                            กลับสู่หน้าหลัก
+                        </Button>
+                    </div>
+                </Modal.Body>
 
+            </Modal>
         </Container>
-
     )
 }
 
-export default Organizer
+export default Organizer;

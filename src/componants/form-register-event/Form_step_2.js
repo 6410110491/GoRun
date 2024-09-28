@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Col, Container, Row, Form } from 'react-bootstrap'
 
 function Form_step_2({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData }) {
-  const [selectedRaceIndex, setSelectedRaceIndex] = useState(0); // เก็บ index ของ raceType ที่เลือก
+  const [selectedRaceIndex, setSelectedRaceIndex] = useState(''); // กำหนดค่าเริ่มต้นเป็น ''
 
   // ตั้งค่า selectedRaceIndex ตามค่าใน formData เมื่อ formData เปลี่ยนแปลง
   useEffect(() => {
-    if (eventData.competitionDetails) {
+    if (eventData.competitionDetails && formData.raceType) {
       const index = eventData.competitionDetails.findIndex(item => item.raceType === formData.raceType);
       if (index !== -1) {
         setSelectedRaceIndex(index);
@@ -19,7 +19,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
     if (eventData.sportType) {
       setFormData(prevFormData => ({
         ...prevFormData,
-        sportType: eventData.sportType
+        sportType: eventData.sportType || ''
       }));
     }
   }, [eventData, setFormData]);
@@ -31,13 +31,23 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
 
   // เมื่อมีการเลือก raceType จะเก็บ index ที่เลือก และตั้งค่า raceType และ registrationFee ใน formData
   const handleRaceTypeChange = (e) => {
-    const selectedIndex = e.target.value;
-    setSelectedRaceIndex(selectedIndex);
-    setFormData({
-      ...formData,
-      raceType: eventData.competitionDetails[selectedIndex].raceType, // กำหนด raceType
-      registrationFee: eventData.competitionDetails[selectedIndex].registrationFee // กำหนดค่าสมัคร
-    });
+    const selectedValue = e.target.value;
+    if (selectedValue === '') {
+      setSelectedRaceIndex('');
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        raceType: '',
+        registrationFee: ''
+      }));
+    } else {
+      const selectedIndex = parseInt(selectedValue, 10);
+      setSelectedRaceIndex(selectedIndex);
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        raceType: eventData.competitionDetails[selectedIndex]?.raceType || '',
+        registrationFee: eventData.competitionDetails[selectedIndex]?.registrationFee || 0
+      }));
+    }
   };
 
   return (
@@ -58,7 +68,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
             <p>ประเภทกีฬา</p>
             <Form.Control type='text'
               name='sportType'
-              value={formData.sportType} // ใช้ค่า sportType จาก formData
+              value={formData.sportType || ''}
               onChange={handleChange}
               disabled
               placeholder='กรอกประเภทกีฬา'
@@ -72,14 +82,15 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p>ประเภทการแข่งขัน</p>
             <Form.Select
-              value={selectedRaceIndex} // ค่าที่เลือกใน raceType
-              onChange={handleRaceTypeChange} // ฟังก์ชันเมื่อเปลี่ยนค่า
+              value={selectedRaceIndex}
+              onChange={handleRaceTypeChange}
               name='raceType'
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 cursor: "pointer"
               }}>
+              <option value="">เลือกประเภทการแข่งขัน</option>
               {eventData.competitionDetails && eventData.competitionDetails.length > 0 ? (
                 eventData.competitionDetails.map((data, index) => (
                   <option key={index} value={index}>
@@ -94,10 +105,14 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
 
           <Col xl={4} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ค่าสมัคร</p>
+            <p>ค่าสมัคร(THB)</p>
             <Form.Control
               type='text'
-              value={formData.registrationFee || eventData.competitionDetails[selectedRaceIndex]?.registrationFee || ''} // แสดงค่าสมัครตาม raceType ที่เลือก
+              value={
+                formData.registrationFee !== undefined
+                  ? formData.registrationFee
+                  : (selectedRaceIndex !== '' && eventData.competitionDetails[selectedRaceIndex]?.registrationFee) || ''
+              }
               disabled
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -121,7 +136,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
             <p>ประเภทเสื้อ</p>
             <Form.Select
               aria-label="Default select example"
-              value={formData.shirt}
+              value={formData.shirt || ''}
               name='shirt'
               onChange={handleChange}
               style={{
@@ -129,9 +144,14 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 cursor: "pointer"
               }}>
-              {eventData.product.shirt.map((data, index) => (
-                <option key={index} value={data}>{data}</option>
-              ))}
+              <option value="">เลือกประเภทเสื้อ</option>
+              {eventData.product && eventData.product.shirt && eventData.product.shirt.length > 0 ? (
+                eventData.product.shirt.map((data, index) => (
+                  <option key={index} value={data}>{data}</option>
+                ))
+              ) : (
+                <option value="">ไม่มีข้อมูล</option>
+              )}
             </Form.Select>
           </Col>
 
@@ -140,7 +160,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
             <p>ขนาดเสื้อ</p>
             <Form.Select
               aria-label="Default select example"
-              value={formData.shirtSize}
+              value={formData.shirtSize || ''}
               name='shirtSize'
               onChange={handleChange}
               style={{
@@ -148,9 +168,14 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 cursor: "pointer"
               }}>
-              {eventData.product.shirtsize.map((data, index) => (
-                <option key={index} value={data}>{data}</option>
-              ))}
+              <option value="">เลือกขนาดเสื้อ</option>
+              {eventData.product && eventData.product.shirtsize && eventData.product.shirtsize.length > 0 ? (
+                eventData.product.shirtsize.map((data, index) => (
+                  <option key={index} value={data}>{data}</option>
+                ))
+              ) : (
+                <option value="">ไม่มีข้อมูล</option>
+              )}
             </Form.Select>
           </Col>
 
@@ -159,7 +184,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
             <p>อื่นๆ</p>
             <Form.Select
               aria-label="Default select example"
-              value={formData.etc}
+              value={formData.etc || ''}
               name='etc'
               onChange={handleChange}
               style={{
@@ -167,10 +192,14 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 cursor: "pointer"
               }}>
-              <option value=""></option>
-              {eventData.product.etc.map((data, index) => (
-                <option key={index} value={data}>{data}</option>
-              ))}
+              <option value="">เลือกอื่นๆ</option>
+              {eventData.product && eventData.product.etc && eventData.product.etc.length > 0 ? (
+                eventData.product.etc.map((data, index) => (
+                  <option key={index} value={data}>{data}</option>
+                ))
+              ) : (
+                <option value="">ไม่มีข้อมูล</option>
+              )}
             </Form.Select>
           </Col>
         </Row>

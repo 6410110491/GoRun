@@ -26,7 +26,7 @@ function Card_Organize(props) {
                     width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                     borderRadius: "20px 20px 0px 0px", cursor: "pointer"
                 }}
-                onClick={() => changepage('appinformation')}
+                onClick={() => changepage(`myevent/${props.data._id}/applicants-info`)}
             >
                 <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px" }} />
                 <Card.Body>

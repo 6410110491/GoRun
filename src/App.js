@@ -19,6 +19,8 @@ import App_information from './componants/App_information';
 import Personal_information from './componants/Personal_information';
 import News_2 from './componants/News_2';
 import Evevt_history from './componants/Evevt_history';
+import Admin_page from './componants/Admin_page';
+import ApplicantsInfo from './componants/ApplicantsInfo';
 
 function App() {
   return (
@@ -35,12 +37,14 @@ function App() {
           <Route path="/event/form/:id" element={<Form_page />} />
           <Route path="/organizer" element={<Organizer />} />
           <Route path="/dataorganizer" element={<Data_org />} />
-          <Route path="/news" element={<News/>} />
-          <Route path="/apphistory" element={<App_history/>} />
-          <Route path="/appinformation" element={<App_information/>} />
-          <Route path="/personal" element={<Personal_information/>} />
-          <Route path="/news/:id" element={<News_2/>} />
+          <Route path="/news" element={<News />} />
+          <Route path="/apphistory" element={<App_history />} />
+          <Route path="/myevent/:id/applicants-info" element={<App_information />} />
+          <Route path="/personal" element={<Personal_information />} />
+          <Route path="/news/:id" element={<News_2 />} />
           <Route path="/eventhistory" element={<Evevt_history />} />
+          <Route path="/admin" element={<Admin_page />} />
+          <Route path='/event/:id/applicants-info' element={<ApplicantsInfo />} />
 
         </Routes>
         <Footer />

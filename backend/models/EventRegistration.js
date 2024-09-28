@@ -109,18 +109,23 @@ const eventRegistrationSchema = new mongoose.Schema({
         },
 
         status: {
-            type: String, 
-            default: 'Pending'
+            type: String,
+            enum: ['pending', 'approved', 'rejected'],
+            default: 'pending'
         },
         registrationDate: {
             type: Date,
-            default: Date.now 
+            default: Date.now
         },
         paymentSlipDate: {
-            type: Date 
+            type: Date
         },
         completionDate: {
-            type: Date 
+            type: Date
+        },
+
+        comment: {
+            type: String
         }
     }],
 

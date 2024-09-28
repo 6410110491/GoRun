@@ -47,6 +47,7 @@ app.use('/api', require('./routes/user'));
 app.use('/api', require('./routes/images_upload'));
 app.use('/api', require('./routes/EventRegistration'));
 app.use('/api', require('./routes/news'));
+app.use('/api', require('./routes/VerifyOrganized'));
 
 // Port
 const port = process.env.PORT || 4000;

@@ -136,6 +136,16 @@ function Topbar() {
                                                 </Dropdown.Item>
                                             ) : ''}
 
+                                            {role === "admin" ? (
+                                                <Dropdown.Item style={{ marginBottom: "0.5rem" }}
+                                                    onClick={() => changepage("admin")}>
+                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <MdWorkHistory style={{ color: "#000", marginRight: '8px' }} />
+                                                        <p style={{ color: "#000", margin: 0 }}>แอดมิน</p>
+                                                    </div>
+                                                </Dropdown.Item>
+                                            ) : ''}
+
                                             <Dropdown.Item onClick={handleLogout} style={{ marginBottom: "0.5rem" }}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaSignOutAlt style={{ color: "#000", marginRight: '8px' }} />

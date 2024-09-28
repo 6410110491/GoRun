@@ -38,16 +38,26 @@ router.patch('/register/:eventId/:registrationId', async (req, res) => {
         const { eventId, registrationId } = req.params;
         const updateData = req.body;
 
-        // ค้นหาและอัปเดตข้อมูลการลงทะเบียน
-        const eventRegistration = await EventRegistration.findOneAndUpdate(
-            { event_id: eventId, 'registrations._id': registrationId },
-            { $set: { 'registrations.$': updateData } },
-            { new: true }
-        );
+        // ค้นหาข้อมูลการลงทะเบียน
+        const eventRegistration = await EventRegistration.findOne({
+            event_id: eventId,
+            'registrations._id': registrationId
+        });
 
         if (!eventRegistration) {
             return res.status(404).json({ message: 'Registration not found' });
         }
+
+        // ค้นหาฟิลด์ registrations ที่ตรงกับ registrationId
+        const registration = eventRegistration.registrations.id(registrationId);
+
+        // อัปเดตเฉพาะฟิลด์ที่ระบุใน updateData
+        Object.keys(updateData).forEach(key => {
+            registration[key] = updateData[key]; // อัปเดตเฉพาะฟิลด์ที่ถูกส่งมา
+        });
+
+        // บันทึกการอัปเดตในฐานข้อมูล
+        await eventRegistration.save();
 
         res.status(200).json(eventRegistration);
     } catch (error) {
@@ -55,6 +65,9 @@ router.patch('/register/:eventId/:registrationId', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+
+
 
 // Route สำหรับดึงข้อมูลการลงทะเบียนทั้งหมดของ event
 router.get('/register/:eventId', async (req, res) => {
@@ -74,31 +87,6 @@ router.get('/register/:eventId', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
-
-// Route สำหรับลบการลงทะเบียน
-router.delete('/event-registration/:eventId/:registrationId', async (req, res) => {
-    try {
-        const { eventId, registrationId } = req.params;
-
-        // ลบการลงทะเบียนที่ระบุ
-        const eventRegistration = await EventRegistration.findOneAndUpdate(
-            { event_id: eventId },
-            { $pull: { registrations: { _id: registrationId } } },
-            { new: true }
-        );
-
-        if (!eventRegistration) {
-            return res.status(404).json({ message: 'Registration not found' });
-        }
-
-        res.status(200).json(eventRegistration);
-    } catch (error) {
-        console.error('Error deleting registration:', error);
-        res.status(500).json({ message: 'Server error' });
-    }
-});
-
-
 
 
 module.exports = router;

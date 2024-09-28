@@ -31,4 +31,36 @@ router.post('/register', async (req, res) => {
     }
 });
 
+const createAdminUser = async () => {
+    const adminData = {
+        username: process.env.USERADMIN,
+        email: process.env.EMAILADMIN, // ตั้งชื่อผู้ใช้งาน
+        password: process.env.PASSWORDADMIN, // รหัสผ่านที่ต้องการ
+        role: 'admin', // ระบุเป็น admin หรือ superuser
+        registerMethod: 'website' // ระบุว่าเป็นการลงทะเบียนด้วยตนเอง
+    };
+
+    try {
+        // เข้ารหัสรหัสผ่าน
+        const salt = await bcrypt.genSalt(10);
+        adminData.password = await bcrypt.hash(adminData.password, salt);
+
+        // สร้างผู้ใช้งานในฐานข้อมูล
+        const existingUser = await User.findOne({ username: adminData.username });
+        if (existingUser) {
+            console.log('Admin user already exists');
+            return;
+        }
+
+        const adminUser = new User(adminData);
+        await adminUser.save();
+        console.log('Admin user created successfully');
+    } catch (error) {
+        console.error('Error creating admin user:', error);
+    }
+};
+
+// เรียกใช้ฟังก์ชันนี้เมื่อแอปพลิเคชันเริ่มต้น
+createAdminUser();
+
 module.exports = router;
