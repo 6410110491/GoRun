@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Col, Button, Row, Container, Form, Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
+import Lottie from 'lottie-react';
+import loginAnimation from '../animations/loginanimation.json';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -84,10 +86,20 @@ function Login() {
     return (
         <div style={{ display: "flex", width: "100%" }}>
             <Container style={{ height: "700px", padding: "0" }}>
-                <img src={require("../image/img_login_page.png")} alt="logo" style={{
+                {/* <img src={require("../image/img_login_page.png")} alt="logo" style={{
                     marginTop: "2rem",
                     width: "100%", height: "100%", objectFit: "cover", padding: "0", margin: "0"
-                }} />
+                }} /> */}
+                <div style={{
+                    textAlign: 'center', width: "100%", height: "100%",
+                    display: "flex", justifyContent: "center", alignItems: 'center'
+                }}>
+                    <Lottie
+                        animationData={loginAnimation}
+                        loop={true}
+                        style={{ maxWidth: 500, height: 500 }}  // ขนาดของแอนิเมชัน
+                    />
+                </div>
             </Container>
             <Container>
                 <Row style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>

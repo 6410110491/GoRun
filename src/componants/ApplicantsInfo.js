@@ -232,9 +232,6 @@ function ApplicantsInfo() {
                                     <Accordion.Body>
                                         ประเภท : {selectedItem.raceType}<br />
                                         เสื้อ : {selectedItem.shirt} {selectedItem.shirtSize} <br />
-                                        หลักฐานการโอนเงิน : <br />
-                                        <br />
-                                        <img src={selectedItem.slipImage} alt="image" style={{ maxWidth: "300px", height: 'auto' }} />
 
                                     </Accordion.Body>
                                 </Accordion.Item>

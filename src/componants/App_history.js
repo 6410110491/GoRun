@@ -1,14 +1,14 @@
 import React from 'react'
-import { Container } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 function App_history() {
 
     const data = [
-        { id: 1, details: 'ทดสอบ 1', date: '01/01/2024' },
-        { id: 2, details: 'ทดสอบ 2', date: '05/01/2024' },
-        { id: 3, details: 'ทดสอบ 3', date: '10/01/2024' },
+        { id: 1, details: 'FLY GREEN CHARITY RUN 2024', date: '01/01/2024' },
+        { id: 2, details: 'งานวิ่งครบรอบ 45 ปี เครือนำทอง เอไอเอ', date: '5/03/2024' },
+        { id: 3, details: 'DOK FAI BAN Marathon 2025', date: '10/04/2024' },
     ];
 
     return (
@@ -37,8 +37,9 @@ function App_history() {
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ลำดับ</TableCell>
-                                    <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>รายละเอียด</TableCell>
+                                    <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ชื่องาน</TableCell>
                                     <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>วันที่สมัคร</TableCell>
+                                    <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -47,6 +48,16 @@ function App_history() {
                                         <TableCell align="center">{item.id}</TableCell>
                                         <TableCell align="center">{item.details}</TableCell>
                                         <TableCell align="center">{item.date}</TableCell>
+                                        <TableCell align="center">
+                                            <Button
+                                                variant="warning"
+                                                color="secondary"
+                                                onClick={() => { }}
+                                                style={{ marginRight: '8px', color: "white" }}
+                                            >
+                                                ดูรายละเอียด
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

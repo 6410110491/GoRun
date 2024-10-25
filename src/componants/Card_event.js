@@ -22,14 +22,14 @@ function Card_event(props) {
     return (
         <Col className='mb-5' xs={12} md={6} lg={6} xl={4} xxl={3}
             style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Card 
+            <Card
                 style={{
-                    width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", 
-                    borderRadius: "20px 20px 0px 0px", cursor: "pointer"
+                    width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                    borderRadius: "20px 20px 0px 0px", cursor: "pointer", minHeight: "345px"
                 }}
                 onClick={() => changepage(`event/detail/${props.data._id}`)}
             >
-                <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px" }} />
+                <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px", minHeight: "160px" }} />
                 <Card.Body>
                     <Card.Title>{props.data.eventName}</Card.Title>
                 </Card.Body>
@@ -51,7 +51,7 @@ function Card_event(props) {
                     <div style={{ display: "flex" }}>
                         <PersonIcon />
                         <Card.Text style={{ fontSize: "1rem", marginLeft: "5px" }}>
-                            {props.data.organization ? props.data.organization : props.data.owner[0].username} 
+                            {props.data.organization ? props.data.organization : props.data.owner[0].username}
                         </Card.Text>
                     </div>
                 </Card.Body>

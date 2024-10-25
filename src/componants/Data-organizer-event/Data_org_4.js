@@ -53,7 +53,7 @@ function Data_org_4({ formData, setFormData, loading, setLoading }) {
           </Container>
           <Container className='ms-3' fluid style={{
             backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
-            borderRadius: "10px", width: "95%"
+            borderRadius: "10px", width: "95%", whiteSpace: 'pre-line'
           }}>
             <p className='ms-3'>{formData.generalInfo}</p>
 
@@ -70,7 +70,7 @@ function Data_org_4({ formData, setFormData, loading, setLoading }) {
           </Container>
           <Container className='ms-3' fluid style={{
             backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
-            borderRadius: "10px", width: "95%"
+            borderRadius: "10px", width: "95%", whiteSpace: 'pre-line'
           }}>
             <p className='ms-3'>{formData.purpose}</p>
 
@@ -87,7 +87,7 @@ function Data_org_4({ formData, setFormData, loading, setLoading }) {
           </Container>
           <Container className='ms-3' fluid style={{
             backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
-            borderRadius: "10px", width: "95%"
+            borderRadius: "10px", width: "95%", whiteSpace: 'pre-line'
           }}>
             <p className='ms-3'>{formData.interesting}</p>
 

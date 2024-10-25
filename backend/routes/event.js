@@ -34,6 +34,7 @@ router.post('/events', async (req, res) => {
                     raceType: detail.raceType,
                     registrationFee: detail.registrationFee
                 })),
+            generalInfo: req.body.generalInfo,
             objectives: req.body.objectives,
             eventHighlights: req.body.eventHighlights,
             prize: req.body.prize,

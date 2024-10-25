@@ -19,10 +19,10 @@ function News_2() {
                     credentials: 'include',
                 });
 
-                if (response.status === 401) {
-                    changepage('login');
-                    return;
-                }
+                // if (response.status === 401) {
+                //     changepage('login');
+                //     return;
+                // }
 
                 if (response.ok) {
                     const data = await response.json();
@@ -65,7 +65,7 @@ function News_2() {
                     >
                         {newsDetail ? newsDetail.title : ""}
                     </p>
-                    <p className="text-start" >
+                    <p style={{ whiteSpace: 'pre-line' }}>
                         {newsDetail ? newsDetail.description : ""}
                     </p>
                 </div>

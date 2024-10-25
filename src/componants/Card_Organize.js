@@ -24,11 +24,11 @@ function Card_Organize(props) {
             <Card
                 style={{
                     width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                    borderRadius: "20px 20px 0px 0px", cursor: "pointer"
+                    borderRadius: "20px 20px 0px 0px", cursor: "pointer", minHeight: "345px"
                 }}
                 onClick={() => changepage(`myevent/${props.data._id}/applicants-info`)}
             >
-                <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px" }} />
+                <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px", minHeight: "160px" }} />
                 <Card.Body>
                     <Card.Title>{props.data.eventName}</Card.Title>
                 </Card.Body>

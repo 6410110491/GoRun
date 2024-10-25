@@ -446,7 +446,7 @@ function Admin_page() {
                                         src={selectedItem.idCardImage || require('../image/QR-Code.jpg')} // แสดงรูปภาพจากข้อมูลที่เลือก
                                         alt='image'
                                         style={{
-                                            maxWidth: "70%",
+                                            maxWidth: "50%",
                                             height: "auto",
                                             borderRadius: "10px",
                                             marginBottom: "10px",
@@ -471,7 +471,7 @@ function Admin_page() {
             </Modal>
 
             {/* Modal showDetail */}
-            <Modal show={showDetail} onHide={handleCloseDetail} size="xl">
+            <Modal show={showDetail} onHide={handleCloseDetail} size="lg">
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
                     <Modal.Title>รายละเอียดข้อมูลการสมัคร</Modal.Title>
                 </Modal.Header>
@@ -488,7 +488,7 @@ function Admin_page() {
                                         src={selectedItem.idCardImage || require('../image/QR-Code.jpg')} // แสดงรูปภาพจากข้อมูลที่เลือก
                                         alt='image'
                                         style={{
-                                            maxWidth: "70%",
+                                            maxWidth: "50%",
                                             height: "auto",
                                             borderRadius: "10px",
                                             marginBottom: "10px",

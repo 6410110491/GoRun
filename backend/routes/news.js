@@ -52,7 +52,7 @@ router.get('/news', async (req, res) => {
     }
 });
 
-router.get('/news/:id', verifyToken, async (req, res) => {
+router.get('/news/:id', async (req, res) => {
     try {
         const news = await News.findById(req.params.id);
         if (!news) {

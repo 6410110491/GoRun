@@ -190,6 +190,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
                   <TimePicker
                     clearable
                     ampm={false}
+                    timeSteps={{ minutes: 1 }}
                     slotProps={{ textField: { size: 'small' } }}
                     sx={{
                       width: '95%',

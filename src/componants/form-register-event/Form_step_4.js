@@ -69,9 +69,15 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
             ข้อมูลการจัดส่ง
           </Container>
 
-          <p className='ms-3' style={{
-            wordBreak: "break-all"
-          }}>ที่อยู่การจัดส่ง : {formData.addressShip}</p>
+          <p className='ms-3' style={{ wordBreak: "break-word", lineHeight: "1.6", marginBottom: "15px" }}>
+            <strong>ที่อยู่การจัดส่ง:</strong><br />
+            {formData.nameShip} {formData.lastNameShip}<br />
+            {formData.addressShip}<br />
+            ตำบล: {formData.subDistrictShip} อำเภอ: {formData.districtShip}<br />
+            จังหวัด: {formData.provinceShip} รหัสไปรษณีย์: {formData.zipCodeShip}<br />
+            โทรศัพท์: {formData.phoneNumberShip}
+          </p>
+
         </Container>
 
 

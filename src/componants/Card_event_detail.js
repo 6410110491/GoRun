@@ -171,7 +171,7 @@ function Card_event_detail() {
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
                                         borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
                                     }}>
-                                        <p className='ms-3'>{eventDetail ? eventDetail.generalInfo : ""}</p>
+                                        <p className='ms-3' style={{ whiteSpace: 'pre-line' }}>{eventDetail ? eventDetail.generalInfo : ""}</p>
 
                                     </Container>
 
@@ -188,7 +188,9 @@ function Card_event_detail() {
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
                                         borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
                                     }}>
-                                        <p className='ms-3'>{eventDetail ? eventDetail.objectives : ""}</p>
+                                        <p className='ms-3' style={{ whiteSpace: 'pre-line' }}>
+                                            {eventDetail ? eventDetail.objectives : ""}
+                                        </p>
 
                                     </Container>
 
