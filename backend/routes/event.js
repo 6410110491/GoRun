@@ -3,7 +3,7 @@ const router = express.Router();
 const Event = require('../models/Event');
 const User = require('../models/User');
 const verifyToken = require('../middleware/auth');
-const isEventOwner = require('../middleware/isOwnerEvent');
+const isOwnerEvent = require('../middleware/isOwnerEvent');
 const EventRegistration = require('../models/EventRegistration');
 
 
@@ -114,7 +114,7 @@ router.get('/events/:id', async (req, res) => {
 });
 
 
-router.put('/events/:id', verifyToken, async (req, res) => {
+router.put('/events/:id', verifyToken, isOwnerEvent, async (req, res) => {
     try {
         const event = await Event.findById(req.params.id);
         if (!event) {
@@ -132,7 +132,7 @@ router.put('/events/:id', verifyToken, async (req, res) => {
 });
 
 
-router.delete('/events/:id', verifyToken, async (req, res) => {
+router.delete('/events/:id', verifyToken, isOwnerEvent, async (req, res) => {
     try {
         const event = await Event.findById(req.params.id);
         if (!event) {

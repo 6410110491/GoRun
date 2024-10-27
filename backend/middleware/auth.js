@@ -1,22 +1,26 @@
 const User = require('../models/User');
+const jwt = require('jsonwebtoken')
 
 const verifyToken = async (req, res, next) => {
-    if (!req.session.user) {
-        return res.status(401).json({ error: 'Unauthorized' });
-    }
-
     try {
-        // Find the user based on session data
-        const user = await User.findById(req.session.user.id);
+        // ดึง token จากคุกกี้
+        const token = req.cookies.token;
+        if (!token) {
+            return res.status(401).json({ message: "No Token, Unauthorized" });
+        }
 
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const user = await User.findById(decoded.id).select('-password');
         if (!user) {
-            return res.status(401).json({ error: 'Invalid session' });
+            return res.status(400).json({ message: 'Invalid user' });
         }
 
         req.user = user;
         next();
-    } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
 

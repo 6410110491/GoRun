@@ -18,10 +18,7 @@ router.get('/users', async (req, res) => {
 
 router.get('/userinfo', verifyToken, (req, res) => {
     try {
-        // Exclude sensitive information from the response
-        const { password, ...userInfo } = req.user.toObject(); // req.user should be populated by verifySession
-
-        res.status(200).json(userInfo);
+        res.status(200).json(req.user);
     } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
     }

@@ -25,13 +25,19 @@ function Card_event(props) {
             <Card
                 style={{
                     width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                    borderRadius: "20px 20px 0px 0px", cursor: "pointer", minHeight: "345px"
+                    borderRadius: "20px 20px 0px 0px", cursor: "pointer", height: "345px"
                 }}
                 onClick={() => changepage(`event/detail/${props.data._id}`)}
             >
-                <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px", minHeight: "160px" }} />
+                <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px", height: "160px" }} />
                 <Card.Body>
-                    <Card.Title>{props.data.eventName}</Card.Title>
+                    <Card.Title style={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis"
+                    }}>{props.data.eventName}</Card.Title>
                 </Card.Body>
                 <Card.Body style={{ marginTop: "-20px" }}>
                     <div style={{ display: "flex" }}>

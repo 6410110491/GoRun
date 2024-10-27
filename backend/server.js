@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const createError = require('http-errors');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -22,6 +23,7 @@ const store = new MongoDBStore({
 // Middleware
 app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: '50mb' }));
+app.use(cookieParser());
 app.use(cors({
     origin: 'http://localhost:3000', // Update this with your frontend's URL
     credentials: true,

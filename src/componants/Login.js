@@ -3,7 +3,7 @@ import { Col, Button, Row, Container, Form, Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import Lottie from 'lottie-react';
-import loginAnimation from '../animations/loginanimation.json';
+import loginAnimation from '../animations/login-2.json';
 
 function Login() {
     const [email, setEmail] = useState('');
