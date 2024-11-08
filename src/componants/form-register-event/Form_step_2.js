@@ -1,7 +1,10 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { Col, Container, Row, Form } from 'react-bootstrap'
+import { useParams } from 'react-router-dom';
 
 function Form_step_2({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData }) {
+  const { id } = useParams();
   const [selectedRaceIndex, setSelectedRaceIndex] = useState(''); // กำหนดค่าเริ่มต้นเป็น ''
 
   // ตั้งค่า selectedRaceIndex ตามค่าใน formData เมื่อ formData เปลี่ยนแปลง
@@ -50,6 +53,62 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
     }
   };
 
+  const saveDraft = async () => {
+    const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+      method: 'GET',
+      credentials: 'include', // Include cookies for session-based auth
+    });
+
+    if (!userResponse.ok) throw new Error('Failed to fetch user info');
+
+    const userData = await userResponse.json();
+
+
+    const eventRegisData = {
+      user_id: userData._id,
+      username: formData.username,
+      gender: formData.gender,
+      birthDate: formData.birthDate,
+      idCardNumber: formData.idCardNumber,
+      email: formData.email,
+      phoneNumber: formData.phoneNumber,
+      nationality: formData.nationality,
+      bloodType: formData.bloodType,
+      chronicDiseases: formData.chronicDiseases,
+      address: formData.address,
+      subDistrict: formData.subDistrict,
+      district: formData.district,
+      province: formData.province,
+      zipCode: formData.zipCode,
+      sportType: formData.sport,
+      raceType: formData.raceType,
+      registrationFee: formData.registrationFee,
+      shirt: formData.shirt,
+      shirtSize: formData.shirtSize,
+      etc: formData.etc,
+      nameShip: formData.nameShip,
+      lastNameShip: formData.lastNameShip,
+      phoneNumberShip: formData.phoneNumberShip,
+      addressShip: formData.addressShip,
+      subDistrictShip: formData.subDistrictShip,
+      districtShip: formData.districtShip,
+      provinceShip: formData.provinceShip,
+      zipCodeShip: formData.zipCodeShip,
+      datePay: formData.datePay,
+      timePay: formData.timePay,
+
+      registrationDate: new Date(),
+      paymentSlipDate: formData.datePay,
+      paymentSlipTime: formData.timePay,
+    };
+
+
+    try {
+      const eventResponse = await axios.post(`http://localhost:4000/api/register/${id}`, eventRegisData);
+    } catch (err) {
+      console.error('Error:', err);
+    }
+  }
   return (
     <div>
       <Container className='mt-3' fluid style={{
@@ -70,6 +129,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
               name='sportType'
               value={formData.sportType || ''}
               onChange={handleChange}
+              onBlur={saveDraft}
               disabled
               placeholder='กรอกประเภทกีฬา'
               style={{
@@ -84,6 +144,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
             <Form.Select
               value={selectedRaceIndex}
               onChange={handleRaceTypeChange}
+              onBlur={saveDraft}
               name='raceType'
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -139,6 +200,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
               value={formData.shirt || ''}
               name='shirt'
               onChange={handleChange}
+              onBlur={saveDraft}
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
@@ -163,6 +225,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
               value={formData.shirtSize || ''}
               name='shirtSize'
               onChange={handleChange}
+              onBlur={saveDraft}
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
@@ -187,6 +250,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
               value={formData.etc || ''}
               name='etc'
               onChange={handleChange}
+              onBlur={saveDraft}
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",

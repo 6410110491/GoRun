@@ -434,10 +434,19 @@ function App_information() {
 
               <div style={{ margin: "1rem 0rem" }}>
                 <p style={{ fontSize: "16px", fontWeight: "bold" }}>หลักฐานการโอนเงิน</p>
-                <img src={selectedItem.slipImage} alt="image" style={{
-                  maxWidth: "300px", width: "60%", height: 'auto',
-                  marginLeft: "3rem"
-                }} />
+                {selectedItem.slipImage && (
+                  <img
+                    src={selectedItem.slipImage}
+                    alt="image"
+                    style={{
+                      maxWidth: "300px",
+                      width: "60%",
+                      height: 'auto',
+                      marginLeft: "3rem"
+                    }}
+                  />
+                )}
+
               </div>
             </Modal.Body>
             <Modal.Footer>

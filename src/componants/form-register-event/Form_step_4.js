@@ -6,9 +6,11 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DesktopTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function Form_step_4({ formData, setFormData, eventData, slipFile }) {
+  const { id } = useParams();
   const formatDate = (date) => {
     if (!date) return '';
 
@@ -30,6 +32,98 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
       slipFile = file;
     }
   };
+
+
+
+  const saveDraft = async () => {
+    const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+      method: 'GET',
+      credentials: 'include', // Include cookies for session-based auth
+    });
+
+    if (!userResponse.ok) throw new Error('Failed to fetch user info');
+
+    const userData = await userResponse.json();
+
+    const uploadFile = async (file) => {
+      const formDataForImage = new FormData();
+      formDataForImage.append('image', file);
+
+      const uploadImageResponse = await fetch('http://localhost:4000/api/images_upload', {
+        method: 'POST',
+        credentials: 'include', // รวมคุกกี้สำหรับการตรวจสอบสิทธิ์แบบเซสชัน
+        body: formDataForImage,
+      });
+
+      if (!uploadImageResponse.ok) {
+        throw new Error('Failed to upload image');
+      }
+
+      const uploadResponse = await uploadImageResponse.json();
+      return uploadResponse.url; // ส่งกลับ URL ของรูปภาพที่อัปโหลด
+    };
+
+    const processSingleFile = async (file) => {
+      if (!file) return ''; // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
+
+      try {
+        const url = await uploadFile(file);
+        return url;
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        return ''; // ส่งคืนค่าที่ว่างหากเกิดข้อผิดพลาด
+      }
+    };
+
+    const slipFileUrls = await processSingleFile(formData.slipImage);
+
+
+    const eventRegisData = {
+      user_id: userData._id,
+      username: formData.username,
+      gender: formData.gender,
+      birthDate: formData.birthDate,
+      idCardNumber: formData.idCardNumber,
+      email: formData.email,
+      phoneNumber: formData.phoneNumber,
+      nationality: formData.nationality,
+      bloodType: formData.bloodType,
+      chronicDiseases: formData.chronicDiseases,
+      address: formData.address,
+      subDistrict: formData.subDistrict,
+      district: formData.district,
+      province: formData.province,
+      zipCode: formData.zipCode,
+      sportType: formData.sport,
+      raceType: formData.raceType,
+      registrationFee: formData.registrationFee,
+      shirt: formData.shirt,
+      shirtSize: formData.shirtSize,
+      etc: formData.etc,
+      nameShip: formData.nameShip,
+      lastNameShip: formData.lastNameShip,
+      phoneNumberShip: formData.phoneNumberShip,
+      addressShip: formData.addressShip,
+      subDistrictShip: formData.subDistrictShip,
+      districtShip: formData.districtShip,
+      provinceShip: formData.provinceShip,
+      zipCodeShip: formData.zipCodeShip,
+      slipImage: slipFileUrls,
+      datePay: formData.datePay,
+      timePay: formData.timePay,
+
+      registrationDate: new Date(),
+      paymentSlipDate: formData.datePay,
+      paymentSlipTime: formData.timePay,
+    };
+
+
+    try {
+      const eventResponse = await axios.post(`http://localhost:4000/api/register/${id}`, eventRegisData);
+    } catch (err) {
+      console.error('Error:', err);
+    }
+  }
 
   return (
     <div>

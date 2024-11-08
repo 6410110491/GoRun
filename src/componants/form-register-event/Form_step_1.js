@@ -5,17 +5,15 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-function Form_step_1({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData }) {
+function Form_step_1({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData, userInfo }) {
+    const { id } = useParams();
     const gender = ["ชาย", "หญิง", "อื่นๆ"];
     const blood_group = ["A", "B", "AB", "O"];
+    const [isUserInfoLoaded, setIsUserInfoLoaded] = useState(false);
 
-    const [userInfo, setUserInfo] = useState(null);
-
-
-    const changepage = (path) => {
-        window.location.href = '/' + path;
-    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,66 +22,83 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
 
 
     useEffect(() => {
-        const fetchUserInfo = async () => {
-            try {
-                const response = await fetch('http://localhost:4000/api/userinfo', {
-                    method: 'GET',
-                    credentials: 'include', // Include cookies for session-based auth
-                });
+        if (userInfo && !isUserInfoLoaded) {
+            setFormData((prevData) => ({
+                ...prevData,
+                profilePicture: formData.profilePicture || userInfo?.personalInfo?.profilePicture,
+                username: formData.username || userInfo?.username,
+                gender: formData.gender || userInfo?.personalInfo?.gender,
+                birthDate: formData.birthDate || userInfo?.personalInfo?.birthDate,
+                idCardNumber: formData.idCardNumber || userInfo?.personalInfo?.idCardNumber,
+                email: formData.email || userInfo?.email,
+                phoneNumber: formData.phoneNumber || userInfo?.personalInfo?.phoneNumber,
+                nationality: formData.nationality || userInfo?.personalInfo?.nationality,
+                bloodType: formData.bloodType || userInfo?.personalInfo?.bloodType,
+                chronicDiseases: formData.chronicDiseases || userInfo?.personalInfo?.chronicDiseases?.join(', '),
 
-                if (response.status === 401) {
-                    // Redirect to login if not authenticated
-                    changepage('login'); // Adjust the path as necessary
-                    return;
-                }
+                address: formData.address || userInfo?.address?.address,
+                subDistrict: formData.subDistrict || userInfo?.address?.subDistrict,
+                district: formData.district || userInfo?.address?.district,
+                province: formData.province || userInfo?.address?.province,
+                zipCode: formData.zipCode || userInfo?.address?.postalCode,
+            }));
+            setIsUserInfoLoaded(true); // ตั้งค่า state ว่าข้อมูลโหลดแล้ว
+        }
+    }, [userInfo, isUserInfoLoaded]);
 
-                if (response.ok) {
-                    const data = await response.json();
-                    setUserInfo(data);
-                } else {
-                    throw new Error('Failed to fetch user info');
-                }
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
+
+    const saveDraft = async () => {
+        const eventRegisData = {
+            user_id: userInfo._id,
+            username: formData.username,
+            gender: formData.gender,
+            birthDate: formData.birthDate,
+            idCardNumber: formData.idCardNumber,
+            email: formData.email,
+            phoneNumber: formData.phoneNumber,
+            nationality: formData.nationality,
+            bloodType: formData.bloodType,
+            chronicDiseases: formData.chronicDiseases,
+            address: formData.address,
+            subDistrict: formData.subDistrict,
+            district: formData.district,
+            province: formData.province,
+            zipCode: formData.zipCode,
+            sportType: formData.sport,
+            raceType: formData.raceType,
+            registrationFee: formData.registrationFee,
+            shirt: formData.shirt,
+            shirtSize: formData.shirtSize,
+            etc: formData.etc,
+            nameShip: formData.nameShip,
+            lastNameShip: formData.lastNameShip,
+            phoneNumberShip: formData.phoneNumberShip,
+            addressShip: formData.addressShip,
+            subDistrictShip: formData.subDistrictShip,
+            districtShip: formData.districtShip,
+            provinceShip: formData.provinceShip,
+            zipCodeShip: formData.zipCodeShip,
+            datePay: formData.datePay,
+            timePay: formData.timePay,
+
+            registrationDate: new Date(),
+            paymentSlipDate: formData.datePay,
+            paymentSlipTime: formData.timePay,
         };
 
-        fetchUserInfo();
-    }, []); // Add history to dependencies to avoid warnings
-
-    useEffect(() => {
-        if (userInfo) {
-            setFormData({
-                organization: userInfo.organization || '',
-                profilePicture: userInfo.personalInfo?.profilePicture || '',
-                username: userInfo.username || '',
-                gender: userInfo.personalInfo?.gender || '',
-                birthDate: userInfo.personalInfo?.birthDate || '',
-                idCardNumber: userInfo.personalInfo?.idCardNumber || '',
-                email: userInfo.email || '',
-                phoneNumber: userInfo.personalInfo?.phoneNumber || '',
-                nationality: userInfo.personalInfo?.nationality || '',
-                bloodType: userInfo.personalInfo?.bloodType || '',
-                chronicDiseases: userInfo.personalInfo?.chronicDiseases?.join(', ') || '',
-
-                address: userInfo.address?.address || '',
-                subDistrict: userInfo.address?.subDistrict || '',
-                district: userInfo.address?.district || '',
-                province: userInfo.address?.province || '',
-                zipCode: userInfo.address?.postalCode || '',
-            });
+        try {
+            const eventResponse = await axios.post(`http://localhost:4000/api/register/${id}`, eventRegisData);
+        } catch (err) {
+            console.error('Error:', err);
         }
-    }, [userInfo]);
-
+    }
 
     return (
         <div>
             {loading ? (
                 <p>Loading...</p>
             ) : error ? (
-                <p>{error}</p>
+                <div>{error}</div>
             ) : userInfo ? (
                 <Container className='mt-3' fluid style={{
                     backgroundColor: "#E3E3E3", minHeight: "260px", padding: "1rem 2rem 1rem 2rem",
@@ -92,10 +107,12 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                     <Row>
                         <Col xl={3} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", alignItems: "center" }}>
-                            <img src={userInfo.personalInfo && userInfo.personalInfo.profilePicture
-                                ? userInfo.personalInfo.profilePicture
-                                : require('../../image/blank_profile_image.png')} alt='logo.jpg'
-                                style={{ width: "100px", height: "100px", borderRadius: "100%" }} />
+                            <img
+                                src={userInfo.personalInfo?.profilePicture || require('../../image/blank_profile_image.png')}
+                                alt='logo.jpg'
+                                style={{ width: "100px", height: "100px", borderRadius: "100%" }}
+                            />
+
                             <div className='ms-3'>
                                 <p>รูปภาพประจำตัว</p>
                             </div>
@@ -108,6 +125,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                     name='username'
                                     value={formData.username}
                                     onChange={handleChange}
+                                    onBlur={saveDraft}
                                     placeholder='กรอกชื่อ'
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -124,13 +142,14 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                     name='gender'
                                     value={formData.gender}
                                     onChange={handleChange}
+                                    onBlur={saveDraft}
                                     placeholder='กรอกเพศ'
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                                         cursor: "pointer"
                                     }}
-                                    defaultValue={formData.gender} // ตั้งค่า default value
+                                // defaultValue={formData.gender} // ตั้งค่า default value
                                 >
                                     <option value="">ไม่ระบุ</option>
                                     {gender.map((data, index) => (
@@ -176,6 +195,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                     name='idCardNumber'
                                     value={formData.idCardNumber}
                                     onChange={handleChange}
+                                    onBlur={saveDraft}
                                     placeholder='กรอกเลขบัตรประชาชน'
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -209,6 +229,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                     name='phoneNumber'
                                     value={formData.phoneNumber}
                                     onChange={handleChange}
+                                    onBlur={saveDraft}
                                     placeholder='กรอกเบอร์โทรศัพท์'
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -225,6 +246,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                     name='nationality'
                                     value={formData.nationality}
                                     onChange={handleChange}
+                                    onBlur={saveDraft}
                                     placeholder='กรอกสัญชาติ'
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -242,8 +264,9 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                     cursor: "pointer"
                                 }}
                                     name='bloodType'
-                                    defaultValue={formData.bloodType} // ตั้งค่า default value
+                                    // defaultValue={formData.bloodType} // ตั้งค่า default value
                                     onChange={handleChange}
+                                    onBlur={saveDraft}
                                     value={formData.bloodType}
                                 >
                                     <option value="">ไม่ระบุ</option>
@@ -262,6 +285,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                     name='chronicDiseases'
                                     value={formData.chronicDiseases}
                                     onChange={handleChange}
+                                    onBlur={saveDraft}
                                     placeholder='กรอกโรคประจำตัว'
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",

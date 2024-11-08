@@ -54,7 +54,8 @@ function Data_org_1({ formData, setFormData }) {
 
   useEffect(() => {
     if (userInfo) {
-      setFormData({
+      setFormData((prevData) => ({
+        ...prevData,
         organization: userInfo.organization || '',
         profilePicture: userInfo.personalInfo?.profilePicture || '',
         username: userInfo.username || '',
@@ -72,7 +73,7 @@ function Data_org_1({ formData, setFormData }) {
         district: userInfo.address?.district || '',
         province: userInfo.address?.province || '',
         zipCode: userInfo.address?.postalCode || '',
-      });
+      }));
     }
   }, [userInfo]);
 
@@ -116,20 +117,22 @@ function Data_org_1({ formData, setFormData }) {
           <Row>
             <Col xl={4} md={12} sm={12} className='mt-2'
               style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <img src={userInfo.personalInfo && userInfo.personalInfo.profilePicture
-                ? userInfo.personalInfo.profilePicture
-                : require('../../image/blank_profile_image.png')} alt='logo.jpg'
-                style={{ width: "100px", height: "100px", borderRadius: "100%" }} />
+              <img
+                src={userInfo.personalInfo?.profilePicture || require('../../image/blank_profile_image.png')}
+                alt='logo.jpg'
+                style={{ width: "100px", height: "100px", borderRadius: "100%" }}
+              />
               <p className='ms-3'>รูปภาพประจำตัว</p>
             </Col>
             <Col xl={4} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>ชื่อองค์กร/หน่วยงาน</p>
+              <p>ชื่อองค์กร/หน่วยงาน <span className='requiredstar'>*</span></p>
               <Form.Control type='text'
                 name='organization'
                 value={formData.organization}
                 onChange={handleChange}
                 placeholder='กรอกชื่อองค์กร/หน่วยงาน'
+                required
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"

@@ -1,12 +1,72 @@
 import React from 'react'
 import { Container, Row, Col, Form } from 'react-bootstrap'
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function Form_step_3({ formData, setFormData, eventData, setEventData }) {
+  const { id } = useParams();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const saveDraft = async () => {
+    const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+      method: 'GET',
+      credentials: 'include', // Include cookies for session-based auth
+    });
+
+    if (!userResponse.ok) throw new Error('Failed to fetch user info');
+
+    const userData = await userResponse.json();
+
+
+    const eventRegisData = {
+      user_id: userData._id,
+      username: formData.username,
+      gender: formData.gender,
+      birthDate: formData.birthDate,
+      idCardNumber: formData.idCardNumber,
+      email: formData.email,
+      phoneNumber: formData.phoneNumber,
+      nationality: formData.nationality,
+      bloodType: formData.bloodType,
+      chronicDiseases: formData.chronicDiseases,
+      address: formData.address,
+      subDistrict: formData.subDistrict,
+      district: formData.district,
+      province: formData.province,
+      zipCode: formData.zipCode,
+      sportType: formData.sport,
+      raceType: formData.raceType,
+      registrationFee: formData.registrationFee,
+      shirt: formData.shirt,
+      shirtSize: formData.shirtSize,
+      etc: formData.etc,
+      nameShip: formData.nameShip,
+      lastNameShip: formData.lastNameShip,
+      phoneNumberShip: formData.phoneNumberShip,
+      addressShip: formData.addressShip,
+      subDistrictShip: formData.subDistrictShip,
+      districtShip: formData.districtShip,
+      provinceShip: formData.provinceShip,
+      zipCodeShip: formData.zipCodeShip,
+      datePay: formData.datePay,
+      timePay: formData.timePay,
+
+      registrationDate: new Date(),
+      paymentSlipDate: formData.datePay,
+      paymentSlipTime: formData.timePay,
+    };
+
+
+    try {
+      const eventResponse = await axios.post(`http://localhost:4000/api/register/${id}`, eventRegisData);
+    } catch (err) {
+      console.error('Error:', err);
+    }
+  }
 
   return (
     <div>
@@ -25,6 +85,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
               name='nameShip'
               value={formData.nameShip}
               onChange={handleChange}
+              onBlur={saveDraft}
             />
           </Col>
           <Col xl={4} md={4} sm={12} className='mt-2'
@@ -37,6 +98,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
               name='lastNameShip'
               value={formData.lastNameShip}
               onChange={handleChange}
+              onBlur={saveDraft}
             />
           </Col>
           <Col xl={4} md={4} sm={12} className='mt-2'
@@ -49,6 +111,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
               name='phoneNumberShip'
               value={formData.phoneNumberShip}
               onChange={handleChange}
+              onBlur={saveDraft}
             />
           </Col>
         </Row>
@@ -64,6 +127,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
               name='addressShip'
               value={formData.addressShip}
               onChange={handleChange}
+              onBlur={saveDraft}
             />
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
@@ -76,6 +140,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
               name='subDistrictShip'
               value={formData.subDistrictShip}
               onChange={handleChange}
+              onBlur={saveDraft}
             />
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
@@ -88,6 +153,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
               name='districtShip'
               value={formData.districtShip}
               onChange={handleChange}
+              onBlur={saveDraft}
             />
           </Col>
         </Row>
@@ -103,6 +169,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
               name='provinceShip'
               value={formData.provinceShip}
               onChange={handleChange}
+              onBlur={saveDraft}
             />
           </Col>
           <Col xl={6} md={6} sm={12} className='mt-2'
@@ -115,6 +182,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
               name='zipCodeShip'
               value={formData.zipCodeShip}
               onChange={handleChange}
+              onBlur={saveDraft}
             />
           </Col>
         </Row>
