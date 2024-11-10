@@ -28,15 +28,23 @@ function Home() {
         'หนองคาย', 'หนองบัวลำภู',
         'อ่างทอง', 'อำนาจเจริญ', 'อุดรธานี', 'อุตรดิตถ์', 'อุทัยธานี', 'อุบลราชธานี']
 
-    const sport_type = ['วิ่งมาราธอน', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
+    const sport_type = ['วิ่ง', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
 
     const [eventMe, setEventMe] = useState([]);
+
+    const [searchName, setSearchName] = useState('');
+    const [searchProvince, setSearchProvince] = useState('');
+    const [searchCategory, setSearchCategory] = useState('');
+    const [filteredEvents, setFilteredEvents] = useState([]);
+    const [isSearched, setIsSearched] = useState(false);
+
     const { t, i18n } = useTranslation()
 
     const changepage = (path) => {
         window.location.href = "/" + path
     }
 
+    console.log(searchCategory)
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -66,6 +74,23 @@ function Home() {
         fetchEvent();
     }, []);
 
+    const filterEvents = () => {
+        const result = eventMe.filter(event => {
+            return (
+                event.eventName.toLowerCase().includes(searchName.toLowerCase()) &&
+                event.location.toLowerCase().includes(searchProvince.toLowerCase()) &&
+                event.sportType.toLowerCase().includes(searchCategory.toLowerCase())
+            );
+        });
+        setFilteredEvents(result);
+        setIsSearched(true);
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        filterEvents();
+    };
+
     return (
         <Container fluid style={{ padding: "0" }}>
             <div style={{
@@ -84,7 +109,9 @@ function Home() {
                         <Form.Control type="text" placeholder="ค้นหาชื่องาน" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                             backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        }} />
+                        }}
+                            value={searchName}
+                            onChange={(e) => setSearchName(e.target.value)} />
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
                         <p>สถานที่จัดงาน</p>
@@ -92,11 +119,13 @@ function Home() {
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                             backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                             cursor: "pointer"
-                        }}>
+                        }}
+                            value={searchProvince}
+                            onChange={(e) => setSearchProvince(e.target.value)}>
                             <option >ค้นหาจังหวัด</option>
                             {province.map((data, index) => {
                                 return (
-                                    <option key={index} value={index}>{data}</option>
+                                    <option key={index} value={data}>{data}</option>
                                 )
                             })}
                         </Form.Select>
@@ -107,18 +136,21 @@ function Home() {
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                             backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                             cursor: "pointer"
-                        }}>
+                        }}
+                            value={searchCategory}
+                            onChange={(e) => setSearchCategory(e.target.value)}>
                             <option>ค้นหาประเภท</option>
                             {sport_type.map((data, index) => {
                                 return (
-                                    <option key={index} value={index}>{data}</option>
+                                    <option key={index} value={data}>{data}</option>
                                 )
                             })}
                         </Form.Select>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={1} >
                         <p></p>
-                        <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: "100%" }}>
+                        <Button type="submit" onClick={handleSearch}
+                            style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: "100%" }}>
                             ค้นหา
                         </Button>
                     </Col>
@@ -136,15 +168,23 @@ function Home() {
                     display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
                     justifyContent: "center", alignItems: "center"
                 }}>
-                    {eventMe && eventMe.length === 0 ? (
-                        <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
+                    {isSearched ? (
+                        filteredEvents && filteredEvents.length === 0 ? (
+                            <h5 style={{ textAlign: "center" }}>ไม่พบข้อมูลที่ค้นหา</h5>
+                        ) : (
+                            filteredEvents.map((data, index) => (
+                                <Card_event key={index} data={data} />
+                            ))
+                        )
                     ) : (
-                        eventMe && eventMe.map((data, index) => (
-                            <Card_event key={index} data={data} />
-                        ))
+                        eventMe && eventMe.length === 0 ? (
+                            <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
+                        ) : (
+                            eventMe.map((data, index) => (
+                                <Card_event key={index} data={data} />
+                            ))
+                        )
                     )}
-
-
                 </Row>
             </div>
 
