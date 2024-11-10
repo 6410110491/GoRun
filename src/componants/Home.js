@@ -3,9 +3,11 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import background from '../image/bg-banner.png'
 import ScrollToTop from "react-scroll-to-top";
 
-
 import Card_event from './Card_event'
 import { useTranslation } from 'react-i18next';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function Home() {
     const province = ['กระบี่', 'กรุงเทพมหานคร', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร',
@@ -72,6 +74,14 @@ function Home() {
         };
 
         fetchEvent();
+    }, []);
+
+    useEffect(() => {
+        AOS.init({
+            duration: 1000, // กำหนดเวลาของแอนิเมชัน (มิลลิวินาที)
+            easing: 'ease-in-out', // ปรับค่า easing ของแอนิเมชัน
+            once: true, // ให้แอนิเมชันทำงานครั้งเดียวเมื่อเห็น element
+        });
     }, []);
 
     const filterEvents = () => {
@@ -173,7 +183,14 @@ function Home() {
                             <h5 style={{ textAlign: "center" }}>ไม่พบข้อมูลที่ค้นหา</h5>
                         ) : (
                             filteredEvents.map((data, index) => (
-                                <Card_event key={index} data={data} />
+                                <div
+                                    key={index}
+                                    data-aos="fade-up"
+                                    data-aos-delay={`${index * 50}`}
+                                    style={{ width: "fit-content" }}
+                                >
+                                    <Card_event data={data} />
+                                </div>
                             ))
                         )
                     ) : (
@@ -181,12 +198,20 @@ function Home() {
                             <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
                         ) : (
                             eventMe.map((data, index) => (
-                                <Card_event key={index} data={data} />
+                                <div
+                                    key={index}
+                                    data-aos="fade-up"
+                                    data-aos-delay={`${index * 50}`}
+                                    style={{ width: "fit-content" }}
+                                >
+                                    <Card_event data={data} />
+                                </div>
                             ))
                         )
                     )}
                 </Row>
             </div>
+
 
 
         </Container>

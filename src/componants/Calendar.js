@@ -8,6 +8,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import Card_event from './Card_event';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function Calendar() {
   const demo_api = [
@@ -54,6 +56,14 @@ function Calendar() {
 
     fetchEvent();
   }, []);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // กำหนดเวลาของแอนิเมชัน (มิลลิวินาที)
+      easing: 'ease-in-out', // ปรับค่า easing ของแอนิเมชัน
+      once: true, // ให้แอนิเมชันทำงานครั้งเดียวเมื่อเห็น element
+    });
+  }, []);
   return (
     <Container className='mt-5' style={{ minHeight: "100vh" }} >
       {/* Head */}
@@ -89,7 +99,14 @@ function Calendar() {
         }}>
           {event.map((data, index) => {
             return (
-              <Card_event key={index} data={data} />
+              <div
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={`${index * 50}`}
+                style={{ width: "fit-content" }}
+              >
+                <Card_event data={data} />
+              </div>
             )
           })}
         </Row>

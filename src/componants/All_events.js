@@ -5,6 +5,9 @@ import { Container, Row } from 'react-bootstrap'
 import Card_event from './Card_event'
 import ScrollToTop from 'react-scroll-to-top'
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 function All_events() {
   const demo_api = [
     {
@@ -66,8 +69,18 @@ function All_events() {
 
     fetchEvent();
   }, []);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // กำหนดเวลาของแอนิเมชัน (มิลลิวินาที)
+      easing: 'ease-in-out', // ปรับค่า easing ของแอนิเมชัน
+      once: true, // ให้แอนิเมชันทำงานครั้งเดียวเมื่อเห็น element
+    });
+  }, []);
+
+
   return (
-    <Container className='mt-5' style={{ minHeight: "100vh" }} >
+    <Container className='mt-5' fluid style={{ minHeight: "100vh", padding: "0" }} >
       {/* Head */}
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
@@ -82,14 +95,21 @@ function All_events() {
 
 
       {/* Card */}
-      <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+      <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", minHeight: "50vh" }}>
         <Row style={{
           display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
           justifyContent: "center", alignItems: "center"
         }}>
           {eventMe.map((data, index) => {
             return (
-              <Card_event key={index} data={data} />
+              <div
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={`${index * 50}`}
+                style={{ width: "fit-content" }}
+              >
+                <Card_event data={data} />
+              </div>
             )
           })}
         </Row>

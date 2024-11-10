@@ -21,7 +21,7 @@ function Card_event(props) {
 
     return (
         <Col className='mb-5' xs={12} md={6} lg={6} xl={4} xxl={3}
-            style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            style={{ display: "flex", justifyContent: "center", alignItems: "center", width:"100%" }}>
             <Card
                 style={{
                     width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
