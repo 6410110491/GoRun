@@ -5,6 +5,7 @@ import ScrollToTop from "react-scroll-to-top";
 
 
 import Card_event from './Card_event'
+import { useTranslation } from 'react-i18next';
 
 function Home() {
     const province = ['กระบี่', 'กรุงเทพมหานคร', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร',
@@ -30,10 +31,12 @@ function Home() {
     const sport_type = ['วิ่งมาราธอน', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
 
     const [eventMe, setEventMe] = useState([]);
+    const { t, i18n } = useTranslation()
 
     const changepage = (path) => {
         window.location.href = "/" + path
     }
+
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -77,7 +80,7 @@ function Home() {
                         padding: "1rem", width: "85%"
                     }}>
                     <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
-                        <p>ชื่องาน</p>
+                        <p>{t('ชื่องาน')}</p>
                         <Form.Control type="text" placeholder="ค้นหาชื่องาน" style={{
                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                             backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -134,7 +137,7 @@ function Home() {
                     justifyContent: "center", alignItems: "center"
                 }}>
                     {eventMe && eventMe.length === 0 ? (
-                        <h5 style={{textAlign:"center"}}>ไม่มีข้อมูลงานกีฬา</h5>
+                        <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
                     ) : (
                         eventMe && eventMe.map((data, index) => (
                             <Card_event key={index} data={data} />

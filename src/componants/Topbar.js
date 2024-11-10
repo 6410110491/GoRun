@@ -7,12 +7,20 @@ import { FaHome, FaCalendarAlt, FaBullhorn, FaRegCalendar, FaUser, FaHistory, Fa
 import { MdWorkHistory } from "react-icons/md";
 
 
+import i18n from '../i18n';
+import { useTranslation } from 'react-i18next';
+
+
 function Topbar() {
-    const [langtitle, setLangtitle] = useState('TH');
+    const [langtitle, setLangtitle] = useState('th');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const isDesktop = useMediaQuery({ query: '(min-width: 992px)' });
     const [username, setUsername] = useState('');
     const [role, setRole] = useState('');
+
+    const [lang, setLang] = useState(window.localStorage.getItem('lang') || 'th');
+
+    const { t, i18n } = useTranslation()
 
     useEffect(() => {
         const checkAuthStatus = async () => {
@@ -55,8 +63,18 @@ function Topbar() {
         checkAuthStatus();
     }, []);
 
-    const handleItemlang = (selectedTitle) => {
-        setLangtitle(selectedTitle);
+    useEffect(() => {
+        if (lang) {
+            i18n.changeLanguage(lang);
+            setLangtitle(lang);
+        }
+    }, [lang]); // เมื่อค่า 'lang' เปลี่ยนแปลง, จะเปลี่ยนภาษา
+
+
+    const changeLanguage = (lang) => {
+        window.localStorage.setItem('lang', lang)
+        setLangtitle(lang);
+        setLang(lang);
     };
 
     const changepage = (path) => {
@@ -97,10 +115,10 @@ function Topbar() {
                     {isDesktop ? (
                         // Desktop Screen
                         <Nav className="align-items-center">
-                            <Nav.Link href="/" className='text-white mx-2'>หน้าหลัก</Nav.Link>
-                            <Nav.Link href="/event" className='text-white mx-2'>งานทั้งหมด</Nav.Link>
-                            <Nav.Link href="/news" className='text-white mx-2'>ประชาสัมพันธ์</Nav.Link>
-                            <Nav.Link href="/calendar" className='text-white mx-2'>ปฏิทิน</Nav.Link>
+                            <Nav.Link href="/" className='text-white mx-2'>{t('หน้าหลัก')}</Nav.Link>
+                            <Nav.Link href="/event" className='text-white mx-2'>{t('งานทั้งหมด')}</Nav.Link>
+                            <Nav.Link href="/news" className='text-white mx-2'>{t('ประชาสัมพันธ์')}</Nav.Link>
+                            <Nav.Link href="/calendar" className='text-white mx-2'>{t('ปฏิทิน')}</Nav.Link>
                             {isLoggedIn ? (
                                 <>
                                     <Dropdown style={{ margin: "8px 8px 8px 16px" }}>
@@ -116,14 +134,14 @@ function Topbar() {
                                             >
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaUser style={{ color: "#000", marginRight: '8px' }} />
-                                                    <p style={{ color: "#000", margin: 0 }}>ข้อมูลส่วนตัว</p>
+                                                    <p style={{ color: "#000", margin: 0 }}>{t('ข้อมูลส่วนตัว')}</p>
                                                 </div>
                                             </Dropdown.Item>
                                             <Dropdown.Item style={{ marginBottom: "0.5rem" }}
                                                 onClick={() => changepage("apphistory")}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaHistory style={{ color: "#000", marginRight: '8px' }} />
-                                                    <p style={{ color: "#000", margin: 0 }}>ประวัติการสมัคร</p>
+                                                    <p style={{ color: "#000", margin: 0 }}>{t('ประวัติการสมัคร')}</p>
                                                 </div>
                                             </Dropdown.Item>
                                             {role === "organize" ? (
@@ -131,7 +149,7 @@ function Topbar() {
                                                     onClick={() => changepage("eventhistory")}>
                                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                                         <MdWorkHistory style={{ color: "#000", marginRight: '8px' }} />
-                                                        <p style={{ color: "#000", margin: 0 }}>ประวัติการจัดงาน</p>
+                                                        <p style={{ color: "#000", margin: 0 }}>{t('ประวัติการจัดงาน')}</p>
                                                     </div>
                                                 </Dropdown.Item>
                                             ) : ''}
@@ -141,7 +159,7 @@ function Topbar() {
                                                     onClick={() => changepage("admin")}>
                                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                                         <MdWorkHistory style={{ color: "#000", marginRight: '8px' }} />
-                                                        <p style={{ color: "#000", margin: 0 }}>แอดมิน</p>
+                                                        <p style={{ color: "#000", margin: 0 }}>{t('แอดมิน')}</p>
                                                     </div>
                                                 </Dropdown.Item>
                                             ) : ''}
@@ -149,7 +167,7 @@ function Topbar() {
                                             <Dropdown.Item onClick={handleLogout} style={{ marginBottom: "0.5rem" }}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <FaSignOutAlt style={{ color: "#000", marginRight: '8px' }} />
-                                                    <p style={{ color: "#000", margin: 0 }}>ออกจากระบบ</p>
+                                                    <p style={{ color: "#000", margin: 0 }}>{t('ออกจากระบบ')}</p>
                                                 </div>
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
@@ -158,16 +176,16 @@ function Topbar() {
                                         onClick={checkRoleOrganize}
                                         style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
                                         className='me-3'>
-                                        ผู้จัดงาน
+                                        {t('ผู้จัดงาน')}
                                     </Button>
                                     <div style={{ display: 'flex', alignItems: "center" }}>
-                                        <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
+                                        <img src={langtitle === 'th' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
                                             style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }}
                                             alt='lang-pic' />
                                         <NavDropdown title={langtitle} id="dropdown-menu-align-right" className="custom-dropdown-menu">
-                                            <NavDropdown.Item onClick={() => handleItemlang('TH')}>TH</NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => changeLanguage('th')}>TH</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item onClick={() => handleItemlang('EN')}>EN</NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => changeLanguage('en')}>EN</NavDropdown.Item>
                                         </NavDropdown>
                                     </div>
                                 </>
@@ -178,22 +196,22 @@ function Topbar() {
                                         className='me-2'
                                         onClick={() => changepage("login")}
                                     >
-                                        เข้าสู่ระบบ/สมัครสมาชิก
+                                        {t('เข้าสู่ระบบ/สมัครสมาชิก')}
                                     </Button>
                                     <Button
                                         onClick={checkRoleOrganize}
                                         style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
                                         className='me-3'>
-                                        ผู้จัดงาน
+                                        {t('ผู้จัดงาน')}
                                     </Button>
                                     <div style={{ display: 'flex', alignItems: "center" }}>
-                                        <img src={langtitle === 'TH' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
+                                        <img src={langtitle === 'th' ? require('../image/Thai.png') : require('../image/US-flag.jpg')}
                                             style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }}
                                             alt='lang-pic' />
                                         <NavDropdown title={langtitle} id="dropdown-menu-align-right" className="custom-dropdown-menu">
-                                            <NavDropdown.Item onClick={() => handleItemlang('TH')}>TH</NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => changeLanguage('th')}>TH</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item onClick={() => handleItemlang('EN')}>EN</NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => changeLanguage('en')}>EN</NavDropdown.Item>
                                         </NavDropdown>
                                     </div>
                                 </>
@@ -218,7 +236,7 @@ function Topbar() {
                                                             <Button
                                                                 variant="link"
                                                                 style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
-                                                                onClick={() => handleItemlang('TH')}
+                                                                onClick={() => changeLanguage('th')}
                                                             >
                                                                 TH
                                                             </Button>
@@ -231,7 +249,7 @@ function Topbar() {
                                                             <Button
                                                                 variant="link"
                                                                 style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
-                                                                onClick={() => handleItemlang('EN')}
+                                                                onClick={() => changeLanguage('en')}
                                                             >
                                                                 EN
                                                             </Button>
@@ -247,7 +265,7 @@ function Topbar() {
                                                 style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: 'fit-content' }}
                                                 onClick={() => changepage("login")}
                                             >
-                                                เข้าสู่ระบบ/สมัครสมาชิก
+                                                {t('เข้าสู่ระบบ/สมัครสมาชิก')}
                                             </Button>
                                         </Col>
                                         <Col xs={6} sm={6} style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -259,7 +277,7 @@ function Topbar() {
                                                         <Button
                                                             variant="link"
                                                             style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
-                                                            onClick={() => handleItemlang('TH')}
+                                                            onClick={() => changeLanguage('th')}
                                                         >
                                                             TH
                                                         </Button>
@@ -272,7 +290,7 @@ function Topbar() {
                                                         <Button
                                                             variant="link"
                                                             style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
-                                                            onClick={() => handleItemlang('EN')}
+                                                            onClick={() => changeLanguage('en')}
                                                         >
                                                             EN
                                                         </Button>
@@ -285,36 +303,36 @@ function Topbar() {
 
                             <Nav.Link href="/" className='text-white mb-2'>
                                 <FaHome style={{ marginRight: '8px' }} />
-                                หน้าหลัก
+                                {t('หน้าหลัก')}
                             </Nav.Link>
                             <Nav.Link href="/event" className='text-white mb-2'>
                                 <FaCalendarAlt style={{ marginRight: '8px' }} />
-                                งานทั้งหมด
+                                {t('งานทั้งหมด')}
                             </Nav.Link>
                             <Nav.Link href="/news" className='text-white mb-2'>
                                 <FaBullhorn style={{ marginRight: '8px' }} />
-                                ประชาสัมพันธ์
+                                {t('ประชาสัมพันธ์')}
                             </Nav.Link>
                             <Nav.Link href="/calendar" className='text-white mb-2'>
                                 <FaRegCalendar style={{ marginRight: '8px' }} />
-                                ปฏิทิน
+                                {t('ปฏิทิน')}
                             </Nav.Link>
                             {isLoggedIn ? (
                                 <>
                                     <Nav.Link className='text-white mb-2'
                                         onClick={() => changepage("personal")}>
                                         <FaUser style={{ marginRight: '8px' }} />
-                                        ข้อมูลส่วนตัว
+                                        {t('ข้อมูลส่วนตัว')}
                                     </Nav.Link><Nav.Link className='text-white mb-2'
                                         onClick={() => changepage("apphistory")}>
                                         <FaHistory style={{ marginRight: '8px' }} />
-                                        ประวัติการสมัคร
+                                        {t('ประวัติการสมัคร')}
                                     </Nav.Link>
                                     {role === "organize" ? (
                                         <Nav.Link className='text-white mb-2'
                                             onClick={() => changepage("eventhistory")}>
                                             <MdWorkHistory style={{ marginRight: '8px' }} />
-                                            ประวัติการจัดงาน
+                                            {t('ประวัติการจัดงาน')}
                                         </Nav.Link>
                                     ) : ''}
                                 </>) : ("")}
@@ -322,7 +340,7 @@ function Topbar() {
                             <Nav.Link href="/#" className='text-white mb-2'
                                 onClick={checkRoleOrganize}>
                                 <FaUsersCog style={{ marginRight: '8px' }} />
-                                ผู้จัดงาน
+                                {t('ผู้จัดงาน')}
                             </Nav.Link>
 
                             {isLoggedIn ? (
@@ -332,7 +350,7 @@ function Topbar() {
                                             style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '100%', }}
                                             onClick={handleLogout}>
                                             <FaSignOutAlt style={{ color: "#fff", marginRight: '8px' }} />
-                                            ออกจากระบบ
+                                            {t('ออกจากระบบ')}
                                         </Button>
                                     </Col>
                                 </Row>
