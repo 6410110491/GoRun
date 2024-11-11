@@ -3,6 +3,7 @@ import { Accordion, Button, Container, Modal, Spinner, Tabs, Tab, Badge, Form, R
 import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function App_information() {
   const { id } = useParams();
@@ -14,6 +15,8 @@ function App_information() {
   const [error, setError] = useState(null);
 
   const [key, setKey] = useState('pending');
+
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     comment: '',
@@ -67,6 +70,7 @@ function App_information() {
         if (response.ok) {
           const data = await response.json();
           setEventInfo(data);
+          setIsRegistrationOpen(data.status)
         } else {
           throw new Error('Failed to fetch event data');
         }
@@ -184,6 +188,36 @@ function App_information() {
     return applicantsInfo.registrations.filter(registration => registration.status === status);
   };
 
+  // ฟังก์ชันสำหรับสลับสถานะการเปิด/ปิดรับสมัคร
+  const toggleRegistration = async () => {
+    setIsRegistrationOpen(!isRegistrationOpen);
+    setLoading(true)
+    try {
+      // สลับสถานะและอัปเดตในฐานข้อมูล
+      const newStatus = !isRegistrationOpen;
+      const response = await fetch(`http://localhost:4000/api/events/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          ...eventInfo,
+          status: newStatus,
+        }),
+      });
+      if (response.ok) {
+        return
+      }
+      // ถ้าสำเร็จให้ปรับสถานะใน client
+      setIsRegistrationOpen(newStatus);
+    } catch (error) {
+      console.error("Error updating event registration status:", error);
+    } finally {
+      setLoading(false)
+    }
+  };
+
   return (
     <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
       {loading ? (
@@ -205,6 +239,18 @@ function App_information() {
                 ข้อมูลการสมัคร
               </p>
             </div>
+          </div>
+
+          <div style={{
+            display: "flex", justifyContent: "flex-end", margin: '1.25rem'
+          }}>
+            <div style={{ display: "flex", alignItems: 'center' }}>
+              สภานะเปิดรับสมัคร :
+            </div>
+            <Button onClick={toggleRegistration}
+              style={{ backgroundColor: isRegistrationOpen ? '#28a745' : '#dc3545', border: 'none', marginLeft: '0.75rem' }}>
+              {isRegistrationOpen ? 'ปิดรับสมัคร' : 'เปิดรับสมัคร'}
+            </Button>
           </div>
 
           {/* ScrollToTop */}

@@ -22,6 +22,10 @@ const EventSchema = new mongoose.Schema({
     bannerPicture: { // รูปภาพแบนเนอร์
         type: String,
     },
+    status: {   //สถานะเปิดรับสมัครของงานกีฬา
+        type: Boolean,
+        default: true
+    },
 
 
     organization: { // ชื่อองค์กร

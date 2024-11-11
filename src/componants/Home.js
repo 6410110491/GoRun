@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Closed_Regis_Card from './Closed_Regis_Card';
 
 function Home() {
     const province = ['กระบี่', 'กรุงเทพมหานคร', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร',
@@ -33,6 +34,10 @@ function Home() {
     const sport_type = ['วิ่ง', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
 
     const [eventMe, setEventMe] = useState([]);
+
+
+    const [activeEvents, setActiveEvents] = useState([]);
+    const [inactiveEvents, setInactiveEvents] = useState([]);
 
     const [searchName, setSearchName] = useState('');
     const [searchProvince, setSearchProvince] = useState('');
@@ -83,7 +88,7 @@ function Home() {
     }, []);
 
     const filterEvents = () => {
-        const result = eventMe.filter(event => {
+        const result = activeEvents.filter(event => {
             return (
                 event.eventName.toLowerCase().includes(searchName.toLowerCase()) &&
                 event.location.toLowerCase().includes(searchProvince.toLowerCase()) &&
@@ -99,6 +104,26 @@ function Home() {
         filterEvents();
     };
 
+    useEffect(() => {
+        // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น true
+        const filteredActiveEvents = eventMe.filter(event => {
+            return (
+                event.status === true
+            );
+        });
+
+        // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น false
+        const filteredInactiveEvents = eventMe.filter(event => {
+            return (
+                event.status === false
+            );
+        });
+
+        // อัปเดตตัวแปร state สำหรับ active และ inactive events
+        setActiveEvents(filteredActiveEvents);
+        setInactiveEvents(filteredInactiveEvents);
+
+    }, [eventMe]);
     return (
         <Container fluid style={{ padding: "0" }}>
             <div style={{
@@ -171,11 +196,14 @@ function Home() {
             <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />
 
             {/* card */}
-            <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", minHeight: "50vh" }}>
+            <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", minHeight: "50vh", flexDirection: 'column' }}>
                 <Row style={{
                     display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
                     justifyContent: "center", alignItems: "center"
                 }}>
+                    <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
+                        งานกีฬาที่กำลังดำเนินการอยู่
+                    </div>
                     {isSearched ? (
                         filteredEvents && filteredEvents.length === 0 ? (
                             <h5 style={{ textAlign: "center" }}>ไม่พบข้อมูลที่ค้นหา</h5>
@@ -192,10 +220,10 @@ function Home() {
                             ))
                         )
                     ) : (
-                        eventMe && eventMe.length === 0 ? (
+                        activeEvents && activeEvents.length === 0 ? (
                             <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
                         ) : (
-                            eventMe.map((data, index) => (
+                            activeEvents.map((data, index) => (
                                 <div
                                     key={index}
                                     data-aos="fade-up"
@@ -206,6 +234,30 @@ function Home() {
                                 </div>
                             ))
                         )
+                    )}
+
+                </Row>
+
+                <Row style={{
+                    display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
+                    justifyContent: "center", alignItems: "center"
+                }}>
+                    <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
+                        งานกีฬาที่สิ้นสุดแล้ว
+                    </div>
+                    {inactiveEvents && inactiveEvents.length === 0 ? (
+                        <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
+                    ) : (
+                        inactiveEvents.map((data, index) => (
+                            <div
+                                key={index}
+                                data-aos="fade-up"
+                                data-aos-delay={`${index * 50}`}
+                                style={{ width: "fit-content" }}
+                            >
+                                <Closed_Regis_Card data={data} />
+                            </div>
+                        ))
                     )}
                 </Row>
             </div>

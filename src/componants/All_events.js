@@ -7,6 +7,7 @@ import ScrollToTop from 'react-scroll-to-top'
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Closed_Regis_Card from './Closed_Regis_Card';
 
 function All_events() {
   const demo_api = [
@@ -37,6 +38,8 @@ function All_events() {
   ]
 
   const [eventMe, setEventMe] = useState([]);
+  const [activeEvents, setActiveEvents] = useState([]);
+  const [inactiveEvents, setInactiveEvents] = useState([]);
 
   const changepage = (path) => {
     window.location.href = "/" + path
@@ -78,6 +81,27 @@ function All_events() {
     });
   }, []);
 
+  useEffect(() => {
+    // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น true
+    const filteredActiveEvents = eventMe.filter(event => {
+      return (
+        event.status === true
+      );
+    });
+
+    // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น false
+    const filteredInactiveEvents = eventMe.filter(event => {
+      return (
+        event.status === false
+      );
+    });
+
+    // อัปเดตตัวแปร state สำหรับ active และ inactive events
+    setActiveEvents(filteredActiveEvents);
+    setInactiveEvents(filteredInactiveEvents);
+
+  }, [eventMe]);
+
 
   return (
     <Container className='mt-5' fluid style={{ minHeight: "100vh", padding: "0" }} >
@@ -95,13 +119,21 @@ function All_events() {
 
 
       {/* Card */}
-      <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", minHeight: "50vh" }}>
+      <div style={{
+        display: "flex", flexDirection: 'column', justifyContent: "space-around",
+        alignItems: "center", minHeight: "50vh"
+      }}>
         <Row style={{
           display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
           justifyContent: "center", alignItems: "center"
         }}>
-          {eventMe.map((data, index) => {
-            return (
+          <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
+            งานกีฬาที่กำลังดำเนินการอยู่
+          </div>
+          {activeEvents && activeEvents.length === 0 ? (
+            <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
+          ) : (
+            activeEvents.map((data, index) => (
               <div
                 key={index}
                 data-aos="fade-up"
@@ -110,8 +142,31 @@ function All_events() {
               >
                 <Card_event data={data} />
               </div>
-            )
-          })}
+            ))
+          )}
+        </Row>
+
+        <Row style={{
+          display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
+          justifyContent: "center", alignItems: "center"
+        }}>
+          <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
+            งานกีฬาที่สิ้นสุดแล้ว
+          </div>
+          {inactiveEvents && inactiveEvents.length === 0 ? (
+            <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
+          ) : (
+            inactiveEvents.map((data, index) => (
+              <div
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={`${index * 50}`}
+                style={{ width: "fit-content" }}
+              >
+                <Closed_Regis_Card data={data} />
+              </div>
+            ))
+          )}
         </Row>
       </div>
 
