@@ -46,8 +46,6 @@ function Home() {
         window.location.href = "/" + path
     }
 
-    console.log(searchCategory)
-
     useEffect(() => {
         const fetchEvent = async () => {
             try {
@@ -132,7 +130,7 @@ function Home() {
                         }}
                             value={searchProvince}
                             onChange={(e) => setSearchProvince(e.target.value)}>
-                            <option >ค้นหาจังหวัด</option>
+                            <option value="">ค้นหาจังหวัด</option>
                             {province.map((data, index) => {
                                 return (
                                     <option key={index} value={data}>{data}</option>
@@ -149,7 +147,7 @@ function Home() {
                         }}
                             value={searchCategory}
                             onChange={(e) => setSearchCategory(e.target.value)}>
-                            <option>ค้นหาประเภท</option>
+                            <option value="">ค้นหาประเภท</option>
                             {sport_type.map((data, index) => {
                                 return (
                                     <option key={index} value={data}>{data}</option>

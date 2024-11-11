@@ -3,6 +3,7 @@ import { Container, Modal, Button, Row, Col, Form, Spinner, } from 'react-bootst
 import ScrollToTop from 'react-scroll-to-top'
 import Card_News from './Card_News';
 import axios from 'axios';
+import Aos from 'aos';
 
 function News() {
   const [formData, setFormData] = useState({
@@ -70,6 +71,14 @@ function News() {
     };
 
     fetchNewsData();
+  }, []);
+
+  useEffect(() => {
+    Aos.init({
+      duration: 1000, // กำหนดเวลาของแอนิเมชัน (มิลลิวินาที)
+      easing: 'ease-in-out', // ปรับค่า easing ของแอนิเมชัน
+      once: true, // ให้แอนิเมชันทำงานครั้งเดียวเมื่อเห็น element
+    });
   }, []);
 
   const handleChange = (e) => {
@@ -166,7 +175,7 @@ function News() {
         <div style={{ marginBottom: "5rem", marginTop: "3rem" }}>
           {newsData.map((data, index) => {
             return (
-              <Card_News key={index} data={data} />
+              <Card_News key={index} data={data} data-aos="fade-up" />
             )
           })}
         </div>)}
