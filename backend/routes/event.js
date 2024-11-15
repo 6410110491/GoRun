@@ -149,5 +149,24 @@ router.delete('/events/:id', verifyToken, isOwnerEvent, async (req, res) => {
     }
 });
 
+router.get('/events/:id/getparticipants', async (req, res) => {
+    try {
+        const event = await Event.findById(req.params.id);
+        const eventRegistration = await EventRegistration.findOne({ event_id: req.params.id });
+
+        if (!event || !eventRegistration) {
+            return res.status(404).json({ error: 'Event or registrations not found' });
+        }
+
+        res.status(200).json({
+            maxParticipants: event.maxParticipants,
+            registrations: eventRegistration.registrations.length  
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
 module.exports = router;

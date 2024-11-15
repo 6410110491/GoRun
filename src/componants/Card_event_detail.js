@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { FaList } from 'react-icons/fa';
@@ -13,6 +14,9 @@ function Card_event_detail() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const [maxParticipants, setMaxParticipants] = useState(null);
+    const [registrations, setRegistrations] = useState(null);
 
     const imageSrc = require('../image/event-pic-3.jpg')
 
@@ -102,6 +106,28 @@ function Card_event_detail() {
             fetchUserInfo();
         }
     }, [eventDetail]);
+
+    useEffect(() => {
+        setLoading(true);
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://localhost:4000/api/events/${id}/getparticipants`, {
+                    method: 'GET',
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setMaxParticipants(data.maxParticipants);
+                    setRegistrations(data.registrations);
+                }
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData(); // เรียกฟังก์ชันดึงข้อมูล
+    }, [id]); // ใช้ useEffect เมื่อ eventId เปลี่ยน
 
 
     return (
@@ -435,6 +461,7 @@ function Card_event_detail() {
 
                                     <p className='ms-3'>เปิดรับสมัคร : {formatDate(eventDetail ? eventDetail.registrationOpenDate : "")} </p>
                                     <p className='ms-3'>ปิดรับสมัคร : {formatDate(eventDetail ? eventDetail.registrationCloseDate : "")}</p>
+                                    <p className='ms-3'>จำนวนผู้สมัคร : {registrations}/{maxParticipants}</p>
 
                                 </Container>
 
