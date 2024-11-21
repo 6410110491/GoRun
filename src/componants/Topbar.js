@@ -183,9 +183,9 @@ function Topbar() {
                                             style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }}
                                             alt='lang-pic' />
                                         <NavDropdown title={langtitle} id="dropdown-menu-align-right" className="custom-dropdown-menu">
-                                            <NavDropdown.Item onClick={() => changeLanguage('th')}>TH</NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => changeLanguage('th')}>th</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item onClick={() => changeLanguage('en')}>EN</NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => changeLanguage('en')}>en</NavDropdown.Item>
                                         </NavDropdown>
                                     </div>
                                 </>
@@ -209,9 +209,9 @@ function Topbar() {
                                             style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "5px" }}
                                             alt='lang-pic' />
                                         <NavDropdown title={langtitle} id="dropdown-menu-align-right" className="custom-dropdown-menu">
-                                            <NavDropdown.Item onClick={() => changeLanguage('th')}>TH</NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => changeLanguage('th')}>th</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item onClick={() => changeLanguage('en')}>EN</NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => changeLanguage('en')}>en</NavDropdown.Item>
                                         </NavDropdown>
                                     </div>
                                 </>
@@ -238,7 +238,7 @@ function Topbar() {
                                                                 style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
                                                                 onClick={() => changeLanguage('th')}
                                                             >
-                                                                TH
+                                                                th
                                                             </Button>
                                                         </div>
                                                     </Col>
@@ -251,7 +251,7 @@ function Topbar() {
                                                                 style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
                                                                 onClick={() => changeLanguage('en')}
                                                             >
-                                                                EN
+                                                                en
                                                             </Button>
                                                         </div></Col>
                                                 </Row>
@@ -279,7 +279,7 @@ function Topbar() {
                                                             style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
                                                             onClick={() => changeLanguage('th')}
                                                         >
-                                                            TH
+                                                            th
                                                         </Button>
                                                     </div>
                                                 </Col>
@@ -292,7 +292,7 @@ function Topbar() {
                                                             style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
                                                             onClick={() => changeLanguage('en')}
                                                         >
-                                                            EN
+                                                            en
                                                         </Button>
                                                     </div></Col>
                                             </Row>
