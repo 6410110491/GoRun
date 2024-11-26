@@ -9,6 +9,7 @@ import Form_step_4 from './Form_step_4'
 import Form_page_success from './Form_page_success'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import { useTranslation } from 'react-i18next';
 
 function Form_page() {
   let slipFile = null;
@@ -48,6 +49,8 @@ function Form_page() {
   const [error, setError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [formInfo, setFormInfo] = useState(null);
+
+  const { t, i18n } = useTranslation()
 
 
   const [eventData, setEventData] = useState();
@@ -420,9 +423,9 @@ function Form_page() {
                   {eventData?.eventName}
                 </Container>
 
-                <p className='ms-3'>สถานที่ : {eventData?.location}</p>
-                <p className='ms-3'>วันที่ : {formatDate(eventData?.eventDate)} </p>
-                <p className='ms-3'>ผู้จัดงาน : {eventData.organization ? eventData.organization : eventData.owner[0].username} </p>
+                <p className='ms-3'>{t('สถานที่')} : {eventData?.location}</p>
+                <p className='ms-3'>{t('วันที่')} : {formatDate(eventData?.eventDate)} </p>
+                <p className='ms-3'>{t('ผู้จัดงาน')} : {eventData.organization ? eventData.organization : eventData.owner[0].username} </p>
 
               </Container>
             </Col>
@@ -464,7 +467,7 @@ function Form_page() {
                     onClick={handleBack}
                     style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}
                   >
-                    ย้อนกลับ
+                    {t('ย้อนกลับ')}
                   </Button>
                   <Box sx={{ flex: '1 1 auto' }} />
                   <Button

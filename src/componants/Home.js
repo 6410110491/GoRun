@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
+import { Button, Carousel, Col, Container, Form, Row } from 'react-bootstrap'
 import background from '../image/bg-banner.png'
 import ScrollToTop from "react-scroll-to-top";
 
@@ -124,72 +124,194 @@ function Home() {
         setInactiveEvents(filteredInactiveEvents);
 
     }, [eventMe]);
+
     return (
         <Container fluid style={{ padding: "0" }}>
-            <div style={{
-                width: "100%", height: "402px", backgroundSize: "cover", backgroundImage: `url(${background})`,
-                display: "flex", justifyContent: "center", alignItems: "flex-end",
-            }}>
-                {/* filter box */}
-                <Row className='mb-4 mt-4'
+            <div
+                style={{
+                    width: "100%",
+                    height: "402px",
+                    flexDirection: "column",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    position: "relative", 
+                }}
+            >
+                {/* Carousel */}
+                <Carousel
+                    touch={true}
+                    slide={true}
+                    indicators={false}
+                    controls={false} 
                     style={{
-                        backgroundColor: "#E3E3E3", minHeight: "30%", marginBottom: "1.5rem", borderRadius: "20px",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", display: 'flex', alignItems: 'center', justifyContent: "space-around",
-                        padding: "1rem", width: "85%"
-                    }}>
-                    <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
-                        <p>{t('ชื่องาน')}</p>
-                        <Form.Control type="text" placeholder="ค้นหาชื่องาน" style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        }}
-                            value={searchName}
-                            onChange={(e) => setSearchName(e.target.value)} />
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
-                        <p>สถานที่จัดงาน</p>
-                        <Form.Select aria-label="Default select example" style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                            cursor: "pointer"
-                        }}
-                            value={searchProvince}
-                            onChange={(e) => setSearchProvince(e.target.value)}>
-                            <option value="">ค้นหาจังหวัด</option>
-                            {province.map((data, index) => {
-                                return (
-                                    <option key={index} value={data}>{data}</option>
-                                )
-                            })}
-                        </Form.Select>
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3} >
-                        <p>ประเภทกีฬา</p>
-                        <Form.Select aria-label="Default select example" style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                            cursor: "pointer"
-                        }}
-                            value={searchCategory}
-                            onChange={(e) => setSearchCategory(e.target.value)}>
-                            <option value="">ค้นหาประเภท</option>
-                            {sport_type.map((data, index) => {
-                                return (
-                                    <option key={index} value={data}>{data}</option>
-                                )
-                            })}
-                        </Form.Select>
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={1} >
-                        <p></p>
-                        <Button type="submit" onClick={handleSearch}
-                            style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: "100%" }}>
-                            ค้นหา
-                        </Button>
-                    </Col>
+                        width: "100%",
+                        height: "100%",
+                    }}
+                >
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "402px",
+                                backgroundImage: `url(${require("../image/banner02.png")})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        ></div>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "402px",
+                                backgroundImage: `url(${require("../image/banner03.png")})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        ></div>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "402px",
+                                backgroundImage: `url(${require("../image/banner04.png")})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        ></div>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "402px",
+                                backgroundImage: `url(${require("../image/banner05.png")})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        ></div>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "402px",
+                                backgroundImage: `url(${require("../image/banner06.png")})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        ></div>
+                    </Carousel.Item>
+                </Carousel>
 
-                </Row>
+                {/* Filter Box */}
+                <div
+                    style={{
+                        position: "absolute", 
+                        bottom: "10%", 
+                        left: "50%", 
+                        transform: "translateX(-50%)", 
+                        backgroundColor: "#E3E3E3",
+                        minHeight: "30%",
+                        borderRadius: "20px",
+                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-around",
+                        padding: "1rem",
+                        width: "85%",
+                    }}
+                >
+                    <Row style={{ width: "100%", justifyContent: "center" }}>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
+                            <p>{t("ชื่องาน")}</p>
+                            <Form.Control
+                                type="text"
+                                placeholder={t("ค้นหาชื่องาน")}
+                                style={{
+                                    borderRadius: "10px",
+                                    marginTop: "-15px",
+                                    maxWidth: "95%",
+                                    backgroundColor: "#fff",
+                                    border: "none",
+                                    height: "40px",
+                                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                                }}
+                                value={searchName}
+                                onChange={(e) => setSearchName(e.target.value)}
+                            />
+                        </Col>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
+                            <p>{t('สถานที่จัดงาน')}</p>
+                            <Form.Select
+                                aria-label="Default select example"
+                                style={{
+                                    borderRadius: "10px",
+                                    marginTop: "-15px",
+                                    maxWidth: "95%",
+                                    backgroundColor: "#fff",
+                                    border: "none",
+                                    height: "40px",
+                                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                                    cursor: "pointer",
+                                }}
+                                value={searchProvince}
+                                onChange={(e) => setSearchProvince(e.target.value)}
+                            >
+                                <option value="">{t('ค้นหาจังหวัด')}</option>
+                                {province.map((data, index) => (
+                                    <option key={index} value={data}>
+                                        {data}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </Col>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
+                            <p>{t('ประเภทกีฬา')}</p>
+                            <Form.Select
+                                aria-label="Default select example"
+                                style={{
+                                    borderRadius: "10px",
+                                    marginTop: "-15px",
+                                    maxWidth: "95%",
+                                    backgroundColor: "#fff",
+                                    border: "none",
+                                    height: "40px",
+                                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                                    cursor: "pointer",
+                                }}
+                                value={searchCategory}
+                                onChange={(e) => setSearchCategory(e.target.value)}
+                            >
+                                <option value="" >{t('ค้นหาประเภท')}</option>
+                                {sport_type.map((data, index) => (
+                                    <option key={index} value={data}>
+                                        {data}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </Col>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={1}>
+                            <p></p>
+                            <Button
+                                type="submit"
+                                onClick={handleSearch}
+                                style={{
+                                    backgroundColor: "#F3C710",
+                                    border: "none",
+                                    borderRadius: "10px",
+                                    width: "100%",
+                                }}
+                            >
+                                {t('ค้นหา')}
+                            </Button>
+                        </Col>
+                    </Row>
+                </div>
             </div>
+
             <Container fluid style={{ backgroundColor: "#47474A", height: "40px" }}></Container>
 
             {/* ScroolToTop */}
@@ -202,11 +324,11 @@ function Home() {
                     justifyContent: "center", alignItems: "center"
                 }}>
                     <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
-                        งานกีฬาที่กำลังดำเนินการอยู่
+                        {t('งานกีฬาที่กำลังดำเนินการอยู่')}
                     </div>
                     {isSearched ? (
                         filteredEvents && filteredEvents.length === 0 ? (
-                            <h5 style={{ textAlign: "center" }}>ไม่พบข้อมูลที่ค้นหา</h5>
+                            <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
                         ) : (
                             filteredEvents.map((data, index) => (
                                 <div
@@ -221,7 +343,7 @@ function Home() {
                         )
                     ) : (
                         activeEvents && activeEvents.length === 0 ? (
-                            <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
+                            <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
                         ) : (
                             activeEvents.map((data, index) => (
                                 <div
@@ -243,10 +365,10 @@ function Home() {
                     justifyContent: "center", alignItems: "center"
                 }}>
                     <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
-                        งานกีฬาที่สิ้นสุดแล้ว
+                        {t('งานกีฬาที่สิ้นสุดแล้ว')}
                     </div>
                     {inactiveEvents && inactiveEvents.length === 0 ? (
-                        <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
+                        <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
                     ) : (
                         inactiveEvents.map((data, index) => (
                             <div

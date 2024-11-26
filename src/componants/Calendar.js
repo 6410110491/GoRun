@@ -10,6 +10,7 @@ import Card_event from './Card_event';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useTranslation } from 'react-i18next';
 
 function Calendar() {
   const [event, setEvent] = useState([]);  // Data for events from API
@@ -18,6 +19,8 @@ function Calendar() {
   const changepage = (path) => {
     window.location.href = "/" + path;
   }
+
+  const { t, i18n } = useTranslation()
 
   // Fetch events from the API
   useEffect(() => {
@@ -78,7 +81,7 @@ function Calendar() {
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A" }}>
           <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-            ปฏิทินงานทั้งหมด
+            {t('ปฏิทินงานทั้งหมด')}
           </p>
         </div>
       </div>
@@ -102,7 +105,7 @@ function Calendar() {
       <div style={{ display: "flex", marginTop: "2rem", alignItems: "center" }}>
         <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
         <p style={{ fontSize: "1.5rem", marginLeft: '0.5rem', marginRight: '0.5rem' }}>
-          รายการวิ่งทั้งหมดในเดือน {selectedMonth.format('MMMM YYYY')}
+          {t('รายการกีฬาทั้งหมดในเดือน')} {selectedMonth.format('MMMM YYYY')}
         </p>
         <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
       </div>
@@ -114,7 +117,7 @@ function Calendar() {
           justifyContent: "center", alignItems: "center"
         }}>
           {filteredEvents.length === 0 ? (
-            <h5 style={{ textAlign: "center" }}>ไม่พบงานในเดือนที่เลือก</h5>
+            <h5 style={{ textAlign: "center" }}>{t('ไม่พบข้อมูลที่ค้นหา')}</h5>
           ) : (
             filteredEvents.map((data, index) => (
               <div

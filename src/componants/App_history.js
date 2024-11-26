@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Accordion, Button, Container, Modal, Spinner } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 function App_history() {
 
@@ -17,7 +18,9 @@ function App_history() {
     const [selectedItem, setSelectedItem] = useState([]);
     const [selectedItemId, setSelectedItemId] = useState();
 
+
     console.log(selectedItem);
+    const { t, i18n } = useTranslation()
 
 
     const [showPopup, setShowPopup] = useState(false);
@@ -115,7 +118,7 @@ function App_history() {
             <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
                     <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-                        ประวัติการสมัคร
+                        {t('ประวัติการสมัคร')}
                     </p>
                 </div>
             </div>
@@ -142,9 +145,9 @@ function App_history() {
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ลำดับ</TableCell>
-                                        <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ชื่องาน</TableCell>
-                                        <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>วันที่สมัคร</TableCell>
+                                        <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ลำดับ')}</TableCell>
+                                        <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ชื่องาน')}</TableCell>
+                                        <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('วันที่สมัคร')}</TableCell>
                                         <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}></TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -152,7 +155,7 @@ function App_history() {
                                     {EventHistory === null || EventHistory.length === 0 || eventDetail === null || eventDetail.length === 0 ? (
                                         <TableRow>
                                             <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
-                                                <p>No data</p>
+                                                <p>{t('ไม่พบข้อมูล')}</p>
                                             </TableCell>
                                         </TableRow>
                                     ) : (
@@ -173,7 +176,7 @@ function App_history() {
                                                             setSelectedItemId(item.event_id)
                                                         }}
                                                     >
-                                                        ดูรายละเอียด
+                                                        {t('ดูรายละเอียด')}
                                                     </Button>
                                                 </TableCell>
                                             </TableRow>
@@ -189,29 +192,29 @@ function App_history() {
             {/* Popup Modal */}
             <Modal show={showPopup} onHide={handleClose} size="xl">
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>ข้อมูลการสมัคร</Modal.Title>
+                    <Modal.Title>{t('ข้อมูลการสมัคร')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p style={{ fontSize: "14px" }}>ยอดค่าสมัคร : {selectedItem.registrationFee}</p>
-                    {selectedItem.status === 'approved' && <p style={{ fontSize: "14px" }}>สถานะการสมัคร : อนุมัติแล้ว</p>}
-                    {selectedItem.status === 'rejected' && <p style={{ fontSize: "14px" }}>สถานะการสมัคร : ไม่อนุมัติ</p>}
-                    {selectedItem.status === 'pending' && <p style={{ fontSize: "14px" }}> สถานะการสมัคร : รอการตรวจสอบ</p>}
-                    <p style={{ fontSize: "14px" }}>วันที่สมัคร : {formatDate(selectedItem.registrationDate)}</p>
-                    <p style={{ fontSize: "14px" }}>วันที่โอน : {formatDate(selectedItem.datePay)}</p>
+                    <p style={{ fontSize: "14px" }}>{t('ยอดชำระทั้งหมด')} : {selectedItem.registrationFee}</p>
+                    {selectedItem.status === 'approved' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('อนุมัติแล้ว')}</p>}
+                    {selectedItem.status === 'rejected' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('ไม่อนุมัติ')}</p>}
+                    {selectedItem.status === 'pending' && <p style={{ fontSize: "14px" }}> {t('สถานะการสมัคร')} : {t('รอการตรวจสอบ')}</p>}
+                    <p style={{ fontSize: "14px" }}>{t('วันที่สมัคร')} : {formatDate(selectedItem.registrationDate)}</p>
+                    <p style={{ fontSize: "14px" }}>{t('วันที่โอน')} : {formatDate(selectedItem.datePay)}</p>
                     {/* <p style={{ fontSize: "14px" }}>วันที่ส่งหลักฐาน : </p> */}
-                    <p style={{ fontSize: "14px" }}>สมัครเสร็จสมบูรณ์ :</p>
+                    <p style={{ fontSize: "14px" }}>{t('สมัครเสร็จสมบูรณ์')} :</p>
                     <p style={{
                         fontSize: "14px",
                         color: selectedItem.comment && selectedItem.comment.length > 0 ? "red" : "black"
-                    }}>หมายเหตุ : {selectedItem.comment || ""} </p>
-                    <p style={{ fontSize: "16px", fontWeight: "bold" }}>รายชื่อผู้สมัคร</p>
+                    }}>{t('หมายเหตุ')} : {selectedItem.comment || ""} </p>
+                    <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('รายชื่อผู้สมัคร')}</p>
 
                     <Accordion >
                         <Accordion.Item eventKey="0">
                             <Accordion.Header>{selectedItem.username}</Accordion.Header>
                             <Accordion.Body>
-                                ประเภท : {selectedItem.raceType}<br />
-                                เสื้อ : {selectedItem.shirt} {selectedItem.shirtSize} <br />
+                                {t('ประเภทการแข่งขัน')} : {selectedItem.raceType}<br />
+                                {t('ประเภทเสื้อ')} : {selectedItem.shirt} {selectedItem.shirtSize} <br />
 
                             </Accordion.Body>
                         </Accordion.Item>
@@ -220,11 +223,11 @@ function App_history() {
                 <Modal.Footer>
                     <Button variant="warning" color="secondary" onClick={onEditForm}
                         style={{ border: 'none', borderRadius: '10px', color: "white" }}>
-                        แก้ไขข้อมูล
+                        {t('แก้ไข')}
                     </Button>
                     <Button variant="secondary" onClick={handleClose}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        ปิด
+                        {t('ปิด')}
                     </Button>
                 </Modal.Footer>
             </Modal>

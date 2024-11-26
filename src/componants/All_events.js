@@ -4,6 +4,7 @@ import { Container, Row } from 'react-bootstrap'
 
 import Card_event from './Card_event'
 import ScrollToTop from 'react-scroll-to-top'
+import { useTranslation } from 'react-i18next';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -40,6 +41,8 @@ function All_events() {
   const [eventMe, setEventMe] = useState([]);
   const [activeEvents, setActiveEvents] = useState([]);
   const [inactiveEvents, setInactiveEvents] = useState([]);
+
+  const { t, i18n } = useTranslation()
 
   const changepage = (path) => {
     window.location.href = "/" + path
@@ -109,7 +112,7 @@ function All_events() {
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
           <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-            งานทั้งหมด
+            {t('งานทั้งหมด')}
           </p>
         </div>
       </div>
@@ -128,10 +131,10 @@ function All_events() {
           justifyContent: "center", alignItems: "center"
         }}>
           <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
-            งานกีฬาที่กำลังดำเนินการอยู่
+            {t('งานกีฬาที่กำลังดำเนินการอยู่')}
           </div>
           {activeEvents && activeEvents.length === 0 ? (
-            <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
+            <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
           ) : (
             activeEvents.map((data, index) => (
               <div
@@ -151,10 +154,10 @@ function All_events() {
           justifyContent: "center", alignItems: "center"
         }}>
           <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
-            งานกีฬาที่สิ้นสุดแล้ว
+            {t('งานกีฬาที่สิ้นสุดแล้ว')}
           </div>
           {inactiveEvents && inactiveEvents.length === 0 ? (
-            <h5 style={{ textAlign: "center" }}>ไม่มีข้อมูลงานกีฬา</h5>
+            <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
           ) : (
             inactiveEvents.map((data, index) => (
               <div

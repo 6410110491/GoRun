@@ -5,6 +5,7 @@ import axios from 'axios';
 import Lottie from 'lottie-react';
 import signupAnimation from '../animations/signupanimation.json';
 import { TypeAnimation } from 'react-type-animation';
+import { useTranslation } from 'react-i18next';
 
 function Signup() {
     const [username, setUsername] = useState('');
@@ -12,6 +13,8 @@ function Signup() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState({});
+
+    const { t, i18n } = useTranslation()
 
     const [showPopup, setShowPopup] = useState(false);
     const handleClosePopup = () => {
@@ -103,15 +106,15 @@ function Signup() {
                                         style={{ fontSize: '2em', display: 'inline-block' }}
                                         repeat={Infinity}  // วนลูปอย่างต่อเนื่อง
                                     />
-                                    <p className=" mb-5">กรุณากรอกข้อมูลให้ถูกต้อง</p>
+                                    <p className=" mb-5">{t('กรุณากรอกข้อมูลให้ถูกต้อง')}</p>
                                     <Form onSubmit={handleRegister}>
                                         <Form.Group className="mb-3" controlId="formBasicUsername">
                                             <Form.Label className="text-center">
-                                                Username
+                                                {t('ชื่อผู้ใช้')}
                                             </Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                placeholder="Enter username"
+                                                placeholder={t("กรอกชื่อผู้ใช้")}
                                                 value={username}
                                                 onChange={(e) => setUsername(e.target.value)}
                                                 isInvalid={!!errors.username}
@@ -123,11 +126,11 @@ function Signup() {
 
                                         <Form.Group className="mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-center">
-                                                Email address
+                                                {t('ที่อยู่อีเมล')}
                                             </Form.Label>
                                             <Form.Control
                                                 type="email"
-                                                placeholder="Enter email"
+                                                placeholder={t("กรอกอีเมล")}
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 isInvalid={!!errors.email}
@@ -138,10 +141,10 @@ function Signup() {
                                         </Form.Group>
 
                                         <Form.Group className="mb-3" controlId="formBasicPassword">
-                                            <Form.Label>Password</Form.Label>
+                                            <Form.Label>{t('รหัสผ่าน')}</Form.Label>
                                             <Form.Control
                                                 type="password"
-                                                placeholder="Password"
+                                                placeholder={t("กรอกรหัสผ่าน")}
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 isInvalid={!!errors.password}
@@ -151,10 +154,10 @@ function Signup() {
                                             </Form.Control.Feedback>
                                         </Form.Group>
                                         <Form.Group className="mb-3" controlId="formBasicPasswordConfirm">
-                                            <Form.Label>Password again</Form.Label>
+                                            <Form.Label>{t('ยืนยันรหัสผ่าน')}</Form.Label>
                                             <Form.Control
                                                 type="password"
-                                                placeholder="Password again"
+                                                placeholder={t("กรอกรหัสผ่านอีกครั้ง")}
                                                 value={confirmPassword}
                                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                                 isInvalid={!!errors.confirmPassword}
@@ -165,15 +168,15 @@ function Signup() {
                                         </Form.Group>
                                         <div className="d-grid">
                                             <Button type="submit" style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}>
-                                                สมัครสมาชิก
+                                                {t('สมัครสมาชิก')}
                                             </Button>
                                         </div>
                                     </Form>
                                     <div className="mt-4">
                                         <p className="mb-0 text-center">
-                                            มีบัญชีผู้ใช้งานแล้วหรือไม่?{" "}
+                                            {t('ยังไม่มีบัญชี?')}{" "}
                                             <Link onClick={() => changepage("login")} style={{ color: "#F3C710", textDecoration: "none" }}>
-                                                เข้าสู่ระบบที่นี้
+                                                {t('เข้าสู่ระบบที่นี่')}
                                             </Link>
                                         </p>
                                     </div>

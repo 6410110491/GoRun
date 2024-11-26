@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Container, Col } from 'react-bootstrap'
 import { useParams } from 'react-router-dom';
 import ScrollToTop from 'react-scroll-to-top'
+import { useTranslation } from 'react-i18next';
 
 function News_2() {
     const { id } = useParams();
     const [newsDetail, setNewsDetail] = useState();
+
+    const { t, i18n } = useTranslation()
 
     const changepage = (path) => {
         window.location.href = "/" + path
@@ -45,7 +48,7 @@ function News_2() {
             <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
                     <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-                        ประชาสัมพันธ์
+                        {t('ประชาสัมพันธ์')}
                     </p>
                 </div>
             </div>

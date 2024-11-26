@@ -8,6 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 function Form_step_4({ formData, setFormData, eventData, slipFile }) {
   const { id } = useParams();
@@ -22,6 +23,8 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
   };
 
   const totalPayment = (parseInt(formData.registrationFee, 10) || 0) + (eventData.shippingFee || 0);
+
+  const { t, i18n } = useTranslation()
 
   const handleSlipsPictureChange = (e) => {
     const file = e.target.files[0];
@@ -141,13 +144,13 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
             backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
             display: "flex", justifyContent: "center", alignItems: "center"
           }}>
-            สรุปรายการสมัคร
+            {t('สรุปรายการสมัคร')}
           </Container>
 
-          <p className='ms-3'>ประเภท : {formData.sportType}</p>
-          <p className='ms-3'>ค่าสมัคร :  THB {formData.registrationFee}</p>
-          <p className='ms-3'>ค่าจัดส่ง : THB {eventData.shippingFee}</p>
-          <p className='ms-3'>ยอดชำระทั้งหมด : THB {totalPayment}</p>
+          <p className='ms-3'>{t('ประเภทกีฬา')} : {formData.sportType}</p>
+          <p className='ms-3'>{t('ค่าสมัคร')} :  THB {formData.registrationFee}</p>
+          <p className='ms-3'>{t('ค่าจัดส่ง')} : THB {eventData.shippingFee}</p>
+          <p className='ms-3'>{t('ยอดชำระทั้งหมด')} : THB {totalPayment}</p>
 
         </Container>
 
@@ -160,16 +163,16 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
             backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
             display: "flex", justifyContent: "center", alignItems: "center"
           }}>
-            ข้อมูลการจัดส่ง
+            {t('ข้อมูลการจัดส่ง')}
           </Container>
 
           <p className='ms-3' style={{ wordBreak: "break-word", lineHeight: "1.6", marginBottom: "15px" }}>
-            <strong>ที่อยู่การจัดส่ง:</strong><br />
+            <strong>{t('ที่อยู่การจัดส่ง')}:</strong><br />
             {formData.nameShip} {formData.lastNameShip}<br />
             {formData.addressShip}<br />
-            ตำบล: {formData.subDistrictShip} อำเภอ: {formData.districtShip}<br />
-            จังหวัด: {formData.provinceShip} รหัสไปรษณีย์: {formData.zipCodeShip}<br />
-            โทรศัพท์: {formData.phoneNumberShip}
+            {t('ตำบล/แขวง')}: {formData.subDistrictShip} {t('อำเภอ/เขต')}: {formData.districtShip}<br />
+            {t('จังหวัด')}: {formData.provinceShip} {t('รหัสไปรษณีย์')}: {formData.zipCodeShip}<br />
+            {t('เบอร์โทรศัพท์')}: {formData.phoneNumberShip}
           </p>
 
         </Container>
@@ -184,27 +187,27 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
             backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
             display: "flex", justifyContent: "center", alignItems: "center"
           }}>
-            ข้อมูลผู้สมัคร
+            {t('ข้อมูลผู้สมัคร')}
           </Container>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>ชื่อผู้สมัคร : {formData.username}</p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>ประเภทการแข่งขัน : {formData.raceType}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>{t('ชื่อผู้สมัคร')} : {formData.username}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>{t('ประเภทการแข่งขัน')} : {formData.raceType}</p></Col>
           </Row>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>วันเดือนปีเกิด : {formatDate(formData.birthDate)}</p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>เลขประจำตัวประชาชน : {formData.idCardNumber}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>{t('วันเดือนปีเกิด')} : {formatDate(formData.birthDate)}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>{t('เลขบัตรประชาชน')} : {formData.idCardNumber}</p></Col>
           </Row>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>เบอร์โทรศัพท์ : {formData.phoneNumber}</p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>โรคประจำตัว : {formData.chronicDiseases}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>{t('เบอร์โทรศัพท์')} : {formData.phoneNumber}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>{t('โรคประจำตัว')} : {formData.chronicDiseases}</p></Col>
           </Row>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>สัญชาติ : {formData.nationality}</p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>หมู่โลหิต : {formData.bloodType}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>{t('สัญชาติ')} : {formData.nationality}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>{t('หมู่โลหิต')} : {formData.bloodType}</p></Col>
           </Row>
           <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>ประเภทเสื้อ : {formData.shirt}</p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>ขนาดเสื้อ : {formData.shirtSize}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>{t('ประเภทเสื้อ')} : {formData.shirt}</p></Col>
+            <Col xl={6} sm={12}><p className='ms-3'>{t('ขนาดเสื้อ')} : {formData.shirtSize}</p></Col>
           </Row>
         </Container>
 
@@ -217,7 +220,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
             backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
             display: "flex", justifyContent: "center", alignItems: "center"
           }}>
-            ช่องทางชำระเงิน
+            {t('ช่องทางชำระเงิน')}
           </Container>
 
           <Row>
@@ -226,10 +229,10 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
                 style={{ width: "300px", height: "400px" }} />
             </Col>
             <Col xl={7} md={12}>
-              <p className='ms-3'>ธนาคาร : {eventData.paymentInfo.bankName}</p>
-              <p className='ms-3'>ชื่อบัญชี : {eventData.paymentInfo.accountName}</p>
-              <p className='ms-3'>เลขที่บัญชี : {eventData.paymentInfo.accountNumber}</p>
-              <p className='ms-3' style={{ fontWeight: "700" }}>จำนวนเงินที่ต้องชำระ : THB {totalPayment}</p>
+              <p className='ms-3'>{t('ธนาคาร')} : {eventData.paymentInfo.bankName}</p>
+              <p className='ms-3'>{t('ชื่อบัญชี')} : {eventData.paymentInfo.accountName}</p>
+              <p className='ms-3'>{t('เลขที่บัญชี')} : {eventData.paymentInfo.accountNumber}</p>
+              <p className='ms-3' style={{ fontWeight: "700" }}>{t('จำนวนเงินที่ต้องชำระ')} : THB {totalPayment}</p>
 
             </Col>
             <Col xl={12} style={{ marginTop: "2rem" }}>
@@ -250,7 +253,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
                     />
                   </Form.Group>
                   <p style={{ textAlign: 'center', margin: "2rem 0" }}>
-                    อัพโหลดหลักฐานการโอนเงิน
+                    {t('อัพโหลดหลักฐานการโอนเงิน')}
                   </p>
                 </Row>
               </Container>
@@ -263,7 +266,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
               }}>
                 <Row>
                   <Col xl={6} md={6} sm={12}>
-                    <p>วันที่โอน</p>
+                    <p>{t('วันที่โอน')}</p>
                     <div style={{ marginTop: "-10px" }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']} >
@@ -287,7 +290,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
                   </Col>
 
                   <Col xl={6} md={6} sm={12}>
-                    <p>เวลาที่โอน</p>
+                    <p>{t('เวลาที่โอน')}</p>
                     <div style={{ marginTop: "-10px" }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DesktopTimePicker']}>

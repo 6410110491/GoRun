@@ -3,6 +3,7 @@ import { Accordion, Button, Container, Modal, Spinner, Tabs, Tab, Badge } from '
 import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function ApplicantsInfo() {
     const { id } = useParams();
@@ -13,6 +14,8 @@ function ApplicantsInfo() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const { t, i18n } = useTranslation()
 
     const changepage = (path) => {
         window.location.href = "/" + path
@@ -135,7 +138,7 @@ function ApplicantsInfo() {
                     <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
                             <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-                                รายชื่อผู้สมัครงาน {eventInfo.eventName}
+                                {t('รายชื่อผู้สมัครงาน')} {eventInfo.eventName}
                             </p>
                         </div>
                     </div>
@@ -154,19 +157,19 @@ function ApplicantsInfo() {
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ลำดับ</TableCell>
-                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ชื่อ-สกุล</TableCell>
-                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>รายละเอียด</TableCell>
-                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>วันที่สมัคร</TableCell>
-                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>สถานะ</TableCell>
-                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>การดำเนินการ</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ลำดับ')}</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ชื่อ-สกุล')}</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('รายละเอียด')}</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('วันที่สมัคร')}</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('สถานะ')}</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('การดำเนินการ')}</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {applicantsInfo === null || applicantsInfo.length === 0 ? (
                                             <TableRow>
                                                 <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
-                                                    <p>No data</p>
+                                                    <p>{t('ไม่พบข้อมูล')}</p>
                                                 </TableCell>
                                             </TableRow>
                                         ) : (
@@ -175,14 +178,14 @@ function ApplicantsInfo() {
                                                     <TableCell align="center"><p>{index + 1}</p></TableCell>
                                                     <TableCell align="center"><p>{item.username}</p></TableCell>
                                                     <TableCell align="center"><p>
-                                                        ชื่องาน: {eventInfo.eventName} <br />
-                                                        ประเภทงาน: {eventInfo.sportType} <br />
+                                                        {t('ชื่องาน')}: {eventInfo.eventName} <br />
+                                                        {t('ประเภทงาน')}: {eventInfo.sportType} <br />
                                                     </p></TableCell>
                                                     <TableCell align="center"><p>{formatDate(item.registrationDate)}</p></TableCell>
                                                     <TableCell align="center">
-                                                        {item.status === 'approved' && <p style={{ color: 'green' }}>อนุมัติแล้ว</p>}
-                                                        {item.status === 'rejected' && <p style={{ color: 'red' }}>ไม่อนุมัติ</p>}
-                                                        {item.status === 'pending' && <p>รอการตรวจสอบ</p>}
+                                                        {item.status === 'approved' && <p style={{ color: 'green' }}>{t("อนุมัติแล้ว")}</p>}
+                                                        {item.status === 'rejected' && <p style={{ color: 'red' }}>{t('ไม่อนุมัติ')}</p>}
+                                                        {item.status === 'pending' && <p>{t('รอการตรวจสอบ')}</p>}
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         <Button
@@ -194,7 +197,7 @@ function ApplicantsInfo() {
                                                             }}
                                                             style={{ marginRight: '8px', color: "white" }}
                                                         >
-                                                            ดูรายละเอียด
+                                                            {t('ดูรายละเอียด')}
                                                         </Button>
                                                     </TableCell>
                                                 </TableRow>
@@ -209,29 +212,30 @@ function ApplicantsInfo() {
                     {/* Popup Modal */}
                     <Modal show={showPopup} onHide={handleClose} size="xl">
                         <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                            <Modal.Title>ตรวจสอบข้อมูลการสมัคร</Modal.Title>
+                            <Modal.Title>{t('ตรวจสอบข้อมูลการสมัคร')}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <p style={{ fontSize: "14px" }}>ยอดค่าสมัคร : {selectedItem.registrationFee}</p>
-                            {selectedItem.status === 'approved' && <p style={{ fontSize: "14px" }}>สถานะการสมัคร : อนุมัติแล้ว</p>}
-                            {selectedItem.status === 'rejected' && <p style={{ fontSize: "14px" }}>สถานะการสมัคร : ไม่อนุมัติ</p>}
-                            {selectedItem.status === 'pending' && <p style={{ fontSize: "14px" }}> สถานะการสมัคร : รอการตรวจสอบ</p>}
-                            <p style={{ fontSize: "14px" }}>วันที่สมัคร : {formatDate(selectedItem.registrationDate)}</p>
-                            <p style={{ fontSize: "14px" }}>วันที่โอน : {formatDate(selectedItem.datePay)}</p>
-                            {/* <p style={{ fontSize: "14px" }}>วันที่ส่งหลักฐาน : </p> */}
-                            <p style={{ fontSize: "14px" }}>สมัครเสร็จสมบูรณ์ :</p>
-                            <p style={{
-                                fontSize: "14px",
-                                color: selectedItem.comment && selectedItem.comment.length > 0 ? "red" : "black"
-                            }}>หมายเหตุ : {selectedItem.comment || ""} </p>
-                            <p style={{ fontSize: "16px", fontWeight: "bold" }}>รายชื่อผู้สมัคร</p>
+                        <p style={{ fontSize: "14px" }}>{t('ยอดชำระทั้งหมด')} : {selectedItem.registrationFee}</p>
+                        {selectedItem.status === 'approved' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('อนุมัติแล้ว')}</p>}
+                        {selectedItem.status === 'rejected' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('ไม่อนุมัติ')}</p>}
+                        {selectedItem.status === 'pending' && <p style={{ fontSize: "14px" }}> {t('สถานะการสมัคร')} : {t('รอการตรวจสอบ')}</p>}
+                        <p style={{ fontSize: "14px" }}>{t('วันที่สมัคร')} : {formatDate(selectedItem.registrationDate)}</p>
+                        <p style={{ fontSize: "14px" }}>{t('วันที่โอน')} : {formatDate(selectedItem.datePay)}</p>
+                        {/* <p style={{ fontSize: "14px" }}>วันที่ส่งหลักฐาน : </p> */}
+                        <p style={{ fontSize: "14px" }}>{t('สมัครเสร็จสมบูรณ์')} :</p>
+                        <p style={{
+                            fontSize: "14px",
+                            color: selectedItem.comment && selectedItem.comment.length > 0 ? "red" : "black"
+                        }}>{t('หมายเหตุ')} : {selectedItem.comment || ""} </p>
+                        <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('รายชื่อผู้สมัคร')}</p>
+
 
                             <Accordion >
                                 <Accordion.Item eventKey="0">
                                     <Accordion.Header>{selectedItem.username}</Accordion.Header>
                                     <Accordion.Body>
-                                        ประเภท : {selectedItem.raceType}<br />
-                                        เสื้อ : {selectedItem.shirt} {selectedItem.shirtSize} <br />
+                                        {t('ประเภทการแข่งขัน')} : {selectedItem.raceType}<br />
+                                        {t('ประเภทเสื้อ')} : {selectedItem.shirt} {selectedItem.shirtSize} <br />
 
                                     </Accordion.Body>
                                 </Accordion.Item>
@@ -240,7 +244,7 @@ function ApplicantsInfo() {
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}
                                 style={{ border: 'none', borderRadius: '10px' }}>
-                                ปิด
+                                {t('ปิด')}
                             </Button>
                         </Modal.Footer>
                     </Modal>

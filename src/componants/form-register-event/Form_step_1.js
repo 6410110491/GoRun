@@ -7,12 +7,15 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 function Form_step_1({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData, userInfo }) {
     const { id } = useParams();
     const gender = ["ชาย", "หญิง", "อื่นๆ"];
     const blood_group = ["A", "B", "AB", "O"];
     const [isUserInfoLoaded, setIsUserInfoLoaded] = useState(false);
+
+    const { t, i18n } = useTranslation()
 
 
     const handleChange = (e) => {
@@ -114,19 +117,19 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                             />
 
                             <div className='ms-3'>
-                                <p>รูปภาพประจำตัว</p>
+                                <p>{t('รูปภาพประจำตัว')}</p>
                             </div>
                         </Col>
                         <Col xl={3} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Form.Group>
-                                <p>ชื่อ-สกุล</p>
+                                <p>{t('ชื่อ-สกุล')}</p>
                                 <Form.Control type='text'
                                     name='username'
                                     value={formData.username}
                                     onChange={handleChange}
                                     onBlur={saveDraft}
-                                    placeholder='กรอกชื่อ'
+                                    placeholder={t('กรอกชื่อ')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -136,14 +139,14 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                         <Col xl={3} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Form.Group>
-                                <p>เพศ</p>
+                                <p>{t('เพศ')}</p>
                                 <Form.Select aria-label="Default select example"
                                     type='text'
                                     name='gender'
                                     value={formData.gender}
                                     onChange={handleChange}
                                     onBlur={saveDraft}
-                                    placeholder='กรอกเพศ'
+                                    placeholder={t('กรอกเพศ')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
@@ -151,7 +154,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                     }}
                                 // defaultValue={formData.gender} // ตั้งค่า default value
                                 >
-                                    <option value="">ไม่ระบุ</option>
+                                    <option value="">{t('ไม่ระบุ')}</option>
                                     {gender.map((data, index) => (
                                         <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า gender จริงๆ
                                     ))}
@@ -164,7 +167,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                         <Col xl={4} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Form.Group>
-                                <p>วันเดือนปีเกิด</p>
+                                <p>{t('วันเดือนปีเกิด')}</p>
                                 <div style={{ marginTop: "-12px" }}>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DemoContainer components={['DatePicker']} >
@@ -190,13 +193,13 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                         <Col xl={4} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Form.Group>
-                                <p>เลขประจำตัวประชาชน</p>
+                                <p>{t('เลขบัตรประชาชน')}</p>
                                 <Form.Control type='text'
                                     name='idCardNumber'
                                     value={formData.idCardNumber}
                                     onChange={handleChange}
                                     onBlur={saveDraft}
-                                    placeholder='กรอกเลขบัตรประชาชน'
+                                    placeholder={t('กรอกเลขบัตรประชาชน')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -206,7 +209,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                         <Col xl={4} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Form.Group>
-                                <p>อีเมล</p>
+                                <p>{t('อีเมล')}</p>
                                 <Form.Control type='email'
                                     name='email'
                                     value={formData.email}
@@ -224,13 +227,13 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                         <Col xl={3} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Form.Group>
-                                <p>เบอร์โทรศัพท์</p>
+                                <p>{t('เบอร์โทรศัพท์')}</p>
                                 <Form.Control type='text'
                                     name='phoneNumber'
                                     value={formData.phoneNumber}
                                     onChange={handleChange}
                                     onBlur={saveDraft}
-                                    placeholder='กรอกเบอร์โทรศัพท์'
+                                    placeholder={t('กรอกเบอร์โทรศัพท์')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -240,14 +243,14 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                         <Col xl={3} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Form.Group>
-                                <p>สัญชาติ</p>
+                                <p>{t('สัญชาติ')}</p>
                                 <Form.Control
                                     type='text'
                                     name='nationality'
                                     value={formData.nationality}
                                     onChange={handleChange}
                                     onBlur={saveDraft}
-                                    placeholder='กรอกสัญชาติ'
+                                    placeholder={t('กรอกสัญชาติ')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -257,7 +260,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                         <Col xl={3} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Form.Group>
-                                <p>หมู่โลหิต</p>
+                                <p>{t('หมู่โลหิต')}</p>
                                 <Form.Select aria-label="Default select example" style={{
                                     borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                     backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
@@ -269,7 +272,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                     onBlur={saveDraft}
                                     value={formData.bloodType}
                                 >
-                                    <option value="">ไม่ระบุ</option>
+                                    <option value="">{t('ไม่ระบุ')}</option>
                                     {blood_group.map((data, index) => (
                                         <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า bloodType จริงๆ
                                     ))}
@@ -279,14 +282,14 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                         <Col xl={3} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Form.Group>
-                                <p>โรคประจำตัว</p>
+                                <p>{t('โรคประจำตัว')}</p>
                                 <Form.Control
                                     type='text'
                                     name='chronicDiseases'
                                     value={formData.chronicDiseases}
                                     onChange={handleChange}
                                     onBlur={saveDraft}
-                                    placeholder='กรอกโรคประจำตัว'
+                                    placeholder={t('กรอกโรคประจำตัว')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"

@@ -2,9 +2,11 @@ import React from 'react'
 import { Container, Row, Col, Form } from 'react-bootstrap'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 function Form_step_3({ formData, setFormData, eventData, setEventData }) {
   const { id } = useParams();
+  const { t, i18n } = useTranslation()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,8 +79,8 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
         <Row className='mt-3'>
           <Col xl={4} md={4} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ชื่อ</p>
-            <Form.Control type="text" placeholder="กรอกชื่อ" style={{
+            <p>{t('ชื่อ')}</p>
+            <Form.Control type="text" placeholder={t("กรอกชื่อ")} style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
             }}
@@ -90,8 +92,8 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
           </Col>
           <Col xl={4} md={4} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>สกุล</p>
-            <Form.Control type="text" placeholder="กรอกสกุล" style={{
+            <p>{t('สกุล')}</p>
+            <Form.Control type="text" placeholder={t("กรอกสกุล")} style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
             }}
@@ -103,8 +105,8 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
           </Col>
           <Col xl={4} md={4} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>เบอร์โทรศัพท์</p>
-            <Form.Control type="text" placeholder="กรอกเบอร์โทรศัพท์" style={{
+            <p>{t('เบอร์โทรศัพท์')}</p>
+            <Form.Control type="text" placeholder={t("กรอกเบอร์โทรศัพท์")} style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
             }}
@@ -119,8 +121,8 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
         <Row className='mt-3'>
           <Col xl={6} md={12} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ที่อยู่</p>
-            <Form.Control type="text" placeholder="กรอกที่อยู่" style={{
+            <p>{t('ที่อยู่')}</p>
+            <Form.Control type="text" placeholder={t("กรอกที่อยู่")} style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
             }}
@@ -132,8 +134,8 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ตำบล/แขวง</p>
-            <Form.Control type="text" placeholder="กรอกตำบล/แขวง" style={{
+            <p>{t('ตำบล/แขวง')}</p>
+            <Form.Control type="text" placeholder={t("กรอกตำบล/แขวง")} style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
             }}
@@ -145,8 +147,8 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>อำเภอ/เขต</p>
-            <Form.Control type="text" placeholder="กรอกอำเภอ/เขต" style={{
+            <p>{t('อำเภอ/เขต')}</p>
+            <Form.Control type="text" placeholder={t("กรอกอำเภอ/เขต")} style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
             }}
@@ -161,8 +163,8 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
         <Row className='mt-3 mb-5'>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>จังหวัด</p>
-            <Form.Control type="text" placeholder="กรอกจังหวัด" style={{
+            <p>{t('จังหวัด')}</p>
+            <Form.Control type="text" placeholder={t("กรอกจังหวัด")} style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
             }}
@@ -174,8 +176,8 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
           </Col>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>รหัสไปรษณีย์</p>
-            <Form.Control type="text" placeholder="กรอกรหัสไปรษณีย์" style={{
+            <p>{t('รหัสไปรษณีย์')}</p>
+            <Form.Control type="text" placeholder={t("กรอกรหัสไปรษณีย์")} style={{
               borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
               backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
             }}

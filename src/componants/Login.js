@@ -5,11 +5,14 @@ import { GoogleLogin } from '@react-oauth/google';
 import Lottie from 'lottie-react';
 import loginAnimation from '../animations/login-2.json';
 import { TypeAnimation } from 'react-type-animation';
+import { useTranslation } from 'react-i18next';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPopup, setShowPopup] = useState(false);
+
+    const { t, i18n } = useTranslation()
 
     const handleClosePopup = () => {
         setShowPopup(false);
@@ -116,23 +119,23 @@ function Login() {
                                     repeat={Infinity}  // วนลูปอย่างต่อเนื่อง
                                 />
 
-                                <p className="mb-5">กรุณากรอกข้อมูลให้ถูกต้อง</p>
+                                <p className="mb-5">{t('กรุณากรอกข้อมูลให้ถูกต้อง')}</p>
                                 <Form onSubmit={handleLogin}>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>Email address</Form.Label>
+                                        <Form.Label>{t('ที่อยู่อีเมล')}</Form.Label>
                                         <Form.Control
                                             type="string"
-                                            placeholder="Enter email"
+                                            placeholder={t("กรอกที่อยู่อีเมล")}
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                                        <Form.Label>Password</Form.Label>
+                                        <Form.Label>{t('รหัสผ่าน')}</Form.Label>
                                         <Form.Control
                                             type="password"
-                                            placeholder="Password"
+                                            placeholder={t("กรอกรหัสผ่าน")}
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                         />
@@ -142,10 +145,10 @@ function Login() {
                                         <Form.Check
                                             type="checkbox"
                                             id='default-Checkbox'
-                                            label='จดจำรหัสผ่าน'
+                                            label={t('จดจำรหัสผ่าน')}
                                         />
                                         <Link to="#!" style={{ color: "#F3C710", textDecoration: "none" }}>
-                                            ลืมรหัสผ่าน
+                                            {t('ลืมรหัสผ่าน')}
                                         </Link>
                                     </div>
 
@@ -154,7 +157,7 @@ function Login() {
                                         style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
                                         type="submit"
                                     >
-                                        Login
+                                        {t('เข้าสู่ระบบ')}
                                     </Button>
                                     <GoogleLogin
                                         width="100%"
@@ -165,9 +168,9 @@ function Login() {
                                     />
                                 </Form>
                                 <p className="mt-4 text-center">
-                                    ยังไม่มีบัญชีผู้ใช้งานหรือไม่?{" "}
+                                    {t('ยังไม่มีบัญชี?')}{" "}
                                     <Link onClick={() => changepage("signup")} style={{ color: "#F3C710", textDecoration: "none" }}>
-                                        สมัครสมาชิกที่นี้
+                                        {t('สมัครสมาชิกได้ที่นี่')}
                                     </Link>
                                 </p>
                             </div>
@@ -178,14 +181,14 @@ function Login() {
 
             <Modal show={showPopup} onHide={handleClosePopup} centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>ข้อผิดพลาด</Modal.Title>
+                    <Modal.Title>{t('ข้อผิดพลาด')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง</p>
+                    <p>{t('อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง')}</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClosePopup}>
-                        ปิด
+                        {t('ปิด')}
                     </Button>
                 </Modal.Footer>
             </Modal>
