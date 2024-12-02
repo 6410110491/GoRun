@@ -240,6 +240,7 @@ const resources = {
             'สิ้นสุดแล้ว': 'สิ้นสุดแล้ว',
             'จัดทำโดย': 'จัดทำโดย',
             'ถัดไป': 'ถัดไป',
+            'เสร็จสิ้น': 'เสร็จสิ้น',
 
         
             
@@ -482,7 +483,6 @@ const resources = {
             'กรอกเลขที่บัญชี': 'Enter account number',
             'รูปภาพ QR Code พร้อมเพย์': 'PromptPay QR Code image',
             'รูปภาพพร้อมเพย์': 'PromptPay image', 
-
             'สรุปรายละเอียดงาน': 'Summary of event details',
             'ข้อมูลส่วนตัวผู้จัดงาน': 'Organizer Profile',
             'เปิดรับสมัครงานกีฬาเสร็จสิ้น': 'Sports recruitment completed',
@@ -492,6 +492,7 @@ const resources = {
             'สิ้นสุดแล้ว': 'Ended',
             'จัดทำโดย': 'Prepared by',
             'ถัดไป': 'Next',
+            'เสร็จสิ้น': 'Done',
 
             
 

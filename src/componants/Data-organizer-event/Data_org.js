@@ -331,7 +331,7 @@ function Data_org() {
 
                             <Box sx={{ flex: '1 1 auto' }} />
                             <Button onClick={handleNext} style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '15%' }}>
-                                {activeStep === steps.length - 1 ? 'เสร็จสิ้น' : t('ถัดไป')}
+                                {activeStep === steps.length - 1 ? t('เสร็จสิ้น') : t('ถัดไป')}
                             </Button>
                         </Box>
                     </React.Fragment>
