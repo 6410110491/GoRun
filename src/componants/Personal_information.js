@@ -8,6 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 import ScrollToTop from 'react-scroll-to-top';
+import { useTranslation } from 'react-i18next';
 
 let selectedFile = null;
 function Personal_information() {
@@ -42,6 +43,8 @@ function Personal_information() {
     const changepage = (path) => {
         window.location.href = '/' + path;
     };
+
+    const { t, i18n } = useTranslation()
 
     const formatDate = (date) => {
         if (!date) return '';
@@ -192,7 +195,7 @@ function Personal_information() {
             <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
                     <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-                        ข้อมูลส่วนตัว
+                        {t('ข้อมูลส่วนตัว')}
                     </p>
                 </div>
             </div>
@@ -235,48 +238,48 @@ function Personal_information() {
                                         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginBottom: "1rem"
                                     }}
                                 />
-                                <p><strong>ชื่อ:</strong> {userInfo.username}</p>
+                                <p><strong>{t('ชื่อ')}:</strong> {userInfo.username}</p>
                             </Col>
                         </Row>
 
                         <Row>
-                            <Col><p><strong>เพศ:</strong> {userInfo.personalInfo?.gender || ""}</p></Col>
-                            <Col><p><strong>วันเดือนปีเกิด:</strong> {formatDate(userInfo.personalInfo?.birthDate) || ""}</p></Col>
-                            <Col><p><strong>เลขบัตรประชาชน:</strong> {userInfo.personalInfo?.idCardNumber || ""}</p></Col>
+                            <Col><p><strong>{t('เพศ')}:</strong> {userInfo.personalInfo?.gender || ""}</p></Col>
+                            <Col><p><strong>{t('วันเดือนปีเกิด')}:</strong> {formatDate(userInfo.personalInfo?.birthDate) || ""}</p></Col>
+                            <Col><p><strong>{t('เลขบัตรประชาชน')}:</strong> {userInfo.personalInfo?.idCardNumber || ""}</p></Col>
                         </Row>
 
                         <Row>
                             <Col xl={4} md={4} sm={6} xs={12}>
-                                <p><strong>อีเมล:</strong> {userInfo.email}
+                                <p><strong>{t('อีเมล')}:</strong> {userInfo.email}
                                 </p></Col>
                             <Col xl={4} md={4} sm={6} xs={12}>
-                                <p><strong>เบอร์โทรศัพท์:</strong> {userInfo.personalInfo?.phoneNumber || ""}
+                                <p><strong>{t('เบอร์โทรศัพท์')}:</strong> {userInfo.personalInfo?.phoneNumber || ""}
                                 </p></Col>
                         </Row>
 
                         <Row>
-                            <Col><p><strong>สัญชาติ:</strong> {userInfo.personalInfo?.nationality || ""}</p></Col>
-                            <Col><p><strong>หมู่โลหิต:</strong> {userInfo.personalInfo?.bloodType || ""}</p></Col>
-                            <Col><p><strong>โรคประจำตัว:</strong> {userInfo.personalInfo?.chronicDiseases?.join(', ') || ""}</p></Col>
+                            <Col><p><strong>{t('สัญชาติ')}:</strong> {userInfo.personalInfo?.nationality || ""}</p></Col>
+                            <Col><p><strong>{t('หมู่โลหิต')}:</strong> {userInfo.personalInfo?.bloodType || ""}</p></Col>
+                            <Col><p><strong>{t('โรคประจำตัว')}:</strong> {userInfo.personalInfo?.chronicDiseases?.join(', ') || ""}</p></Col>
                         </Row>
 
                         <div style={{ maxWidth: "fit-content", textAlign: 'center', marginTop: "0.75rem" }}>
                             <p style={{ borderBottom: "5px solid #47474A", fontSize: "1.7rem" }}>
-                                ที่อยู่ปัจจุบัน
+                                {t('ที่อยู่ปัจจุบัน')}
                             </p>
                         </div>
                         <Row>
-                            <Col><p><strong>ที่อยู่:</strong> {userInfo.address?.address || ""}</p></Col>
-                            <Col><p><strong>ตำบล/แขวง:</strong> {userInfo.address?.subDistrict || ""}</p></Col>
-                            <Col><p><strong>อำเภอ:</strong> {userInfo.address?.district || ""}</p></Col>
+                            <Col><p><strong>{t('ที่อยู่')}:</strong> {userInfo.address?.address || ""}</p></Col>
+                            <Col><p><strong>{t('ตำบล/แขวง')}:</strong> {userInfo.address?.subDistrict || ""}</p></Col>
+                            <Col><p><strong>{t('อำเภอ/เขต')}:</strong> {userInfo.address?.district || ""}</p></Col>
                         </Row>
 
                         <Row>
                             <Col xl={4} md={4} sm={6} xs={12}>
-                                <p><strong>จังหวัด:</strong> {userInfo.address?.province}
+                                <p><strong>{t('จังหวัด')}:</strong> {userInfo.address?.province}
                                 </p></Col>
                             <Col xl={4} md={4} sm={6} xs={12}>
-                                <p><strong>รหัสไปรษณีย์:</strong> {userInfo.address?.postalCode || ""}
+                                <p><strong>{t('รหัสไปรษณีย์')}:</strong> {userInfo.address?.postalCode || ""}
                                 </p></Col>
                         </Row>
 
@@ -286,9 +289,9 @@ function Personal_information() {
                 )}
             </div>
             <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                <Button variant="danger" style={{ border: "none" }}
+                <Button variant="danger" style={{ border: "none", width: "150px" }}
                     onClick={handleShow}>
-                    แก้ไขข้อมูลส่วนตัว
+                    {t('แก้ไข')}
                 </Button>
             </div>
 
@@ -297,7 +300,7 @@ function Personal_information() {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>
                 <Modal.Header style={{ backgroundColor: "#F3C710", color: "#FFF" }} closeButton>
-                    <Modal.Title>แก้ไขข้อมูลส่วนตัว</Modal.Title>
+                    <Modal.Title>{t('แก้ไขข้อมูลส่วนตัว')}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -312,24 +315,24 @@ function Personal_information() {
                                 <Row className='mb-3'>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formUsername'>
-                                            <Form.Label>ชื่อ</Form.Label>
+                                            <Form.Label>{t('ชื่อ')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='username'
                                                 value={formData.username}
                                                 onChange={handleChange}
-                                                placeholder='กรอกชื่อ'
+                                                placeholder={t('กรอกชื่อ')}
                                             />
                                         </Form.Group>
                                     </Col>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formProfilePicture'>
-                                            <Form.Label>รูปโปรไฟล์</Form.Label>
+                                            <Form.Label>{t('รูปโปรไฟล์')}</Form.Label>
                                             <Form.Control
                                                 accept=".png,.jpg,.jpeg,"
                                                 type='file'
                                                 name='image'
-                                                placeholder='URL ของรูปโปรไฟล์'
+                                                placeholder={t('URL ของรูปโปรไฟล์')}
                                                 onChange={handleFileChange}
                                             />
                                         </Form.Group>
@@ -339,19 +342,19 @@ function Personal_information() {
                                 <Row className='mb-3'>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formGender'>
-                                            <Form.Label>เพศ</Form.Label>
+                                            <Form.Label>{t('เพศ')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='gender'
                                                 value={formData.gender}
                                                 onChange={handleChange}
-                                                placeholder='กรอกเพศ'
+                                                placeholder={t('กรอกเพศ')}
                                             />
                                         </Form.Group>
                                     </Col>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formBirthDate'>
-                                            <Form.Label>วันเดือนปีเกิด</Form.Label>
+                                            <Form.Label>{t('วันเดือนปีเกิด')}</Form.Label>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DemoContainer components={['DatePicker']} >
                                                     <DatePicker
@@ -394,19 +397,19 @@ function Personal_information() {
                                 <Row className='mb-3'>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formIdCardNumber'>
-                                            <Form.Label>เลขบัตรประชาชน</Form.Label>
+                                            <Form.Label>{t('เลขบัตรประชาชน')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='idCardNumber'
                                                 value={formData.idCardNumber}
                                                 onChange={handleChange}
-                                                placeholder='กรอกเลขบัตรประชาชน'
+                                                placeholder={t('กรอกเลขบัตรประชาชน')}
                                             />
                                         </Form.Group>
                                     </Col>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formEmail'>
-                                            <Form.Label>อีเมล</Form.Label>
+                                            <Form.Label>{t('อีเมล')}</Form.Label>
                                             <Form.Control
                                                 type='email'
                                                 name='email'
@@ -421,25 +424,25 @@ function Personal_information() {
                                 <Row className='mb-3'>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formPhoneNumber'>
-                                            <Form.Label>เบอร์โทรศัพท์</Form.Label>
+                                            <Form.Label>{t('เบอร์โทรศัพท์')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='phoneNumber'
                                                 value={formData.phoneNumber}
                                                 onChange={handleChange}
-                                                placeholder='กรอกเบอร์โทรศัพท์'
+                                                placeholder={t('กรอกเบอร์โทรศัพท์')}
                                             />
                                         </Form.Group>
                                     </Col>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formNationality'>
-                                            <Form.Label>สัญชาติ</Form.Label>
+                                            <Form.Label>{t('สัญชาติ')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='nationality'
                                                 value={formData.nationality}
                                                 onChange={handleChange}
-                                                placeholder='กรอกสัญชาติ'
+                                                placeholder={t('กรอกสัญชาติ')}
                                             />
                                         </Form.Group>
                                     </Col>
@@ -448,25 +451,25 @@ function Personal_information() {
                                 <Row className='mb-3'>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formBloodType'>
-                                            <Form.Label>หมู่โลหิต</Form.Label>
+                                            <Form.Label>{t('หมู่โลหิต')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='bloodType'
                                                 value={formData.bloodType}
                                                 onChange={handleChange}
-                                                placeholder='กรอกหมู่โลหิต'
+                                                placeholder={t('กรอกหมู่โลหิต')}
                                             />
                                         </Form.Group>
                                     </Col>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formChronicDiseases'>
-                                            <Form.Label>โรคประจำตัว</Form.Label>
+                                            <Form.Label>{t('โรคประจำตัว')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='chronicDiseases'
                                                 value={formData.chronicDiseases}
                                                 onChange={handleChange}
-                                                placeholder='กรอกโรคประจำตัว (คั่นด้วยคอมมา)'
+                                                placeholder={t('กรอกโรคประจำตัว')}
                                             />
                                         </Form.Group>
                                     </Col>
@@ -475,25 +478,25 @@ function Personal_information() {
                                 <Row className='mb-3'>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formBloodType'>
-                                            <Form.Label>ที่อยู่</Form.Label>
+                                            <Form.Label>{t('ที่อยู่')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='address'
                                                 value={formData.address}
                                                 onChange={handleChange}
-                                                placeholder='ที่อยู่'
+                                                placeholder={t('กรอกที่อยู่')}
                                             />
                                         </Form.Group>
                                     </Col>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formChronicDiseases'>
-                                            <Form.Label>ตำบล/แขวง</Form.Label>
+                                            <Form.Label>{t('ตำบล/แขวง')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='subDistrict'
                                                 value={formData.subDistrict}
                                                 onChange={handleChange}
-                                                placeholder='ตำบล/แขวง'
+                                                placeholder={t('กรอกตำบล/แขวง')}
                                             />
                                         </Form.Group>
                                     </Col>
@@ -502,25 +505,25 @@ function Personal_information() {
                                 <Row className='mb-3'>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formBloodType'>
-                                            <Form.Label>อำเภอ</Form.Label>
+                                            <Form.Label>{t('อำเภอ/เขต')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='district'
                                                 value={formData.district}
                                                 onChange={handleChange}
-                                                placeholder='อำเภอ'
+                                                placeholder={t('กรอกอำเภอ/เขต')}
                                             />
                                         </Form.Group>
                                     </Col>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formChronicDiseases'>
-                                            <Form.Label>จังหวัด</Form.Label>
+                                            <Form.Label>{t('จังหวัด')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='province'
                                                 value={formData.province}
                                                 onChange={handleChange}
-                                                placeholder='จังหวัด'
+                                                placeholder={t('กรอกจังหวัด')}
                                             />
                                         </Form.Group>
                                     </Col>
@@ -529,13 +532,13 @@ function Personal_information() {
                                 <Row className='mb-3'>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formBloodType'>
-                                            <Form.Label>รหัสไปรษณีย์</Form.Label>
+                                            <Form.Label>{t('รหัสไปรษณีย์')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='zipCode'
                                                 value={formData.zipCode}
                                                 onChange={handleChange}
-                                                placeholder='รหัสไปรษณีย์'
+                                                placeholder={t('กรอกรหัสไปรษณีย์')}
                                             />
                                         </Form.Group>
                                     </Col>
@@ -544,18 +547,18 @@ function Personal_information() {
                             </Form>
                         </div>
                     ) : (
-                        <p>No user information available.</p>
+                        <p>{t('ไม่พบข้อมูล')}</p>
                     )}
                 </Modal.Body>
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        ปิด
+                        {t('ปิด')}
                     </Button>
                     <Button variant="success" color="success" onClick={handleSubmit}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        บันทึก
+                        {t('บันทึก')}
                     </Button>
                 </Modal.Footer>
             </Modal>

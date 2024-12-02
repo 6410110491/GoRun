@@ -3,7 +3,7 @@ const router = express.Router();
 const Event = require('../models/Event');
 const User = require('../models/User');
 const verifyToken = require('../middleware/auth');
-const isEventOwner = require('../middleware/isOwnerEvent');
+const isOwnerEvent = require('../middleware/isOwnerEvent');
 const EventRegistration = require('../models/EventRegistration');
 
 
@@ -114,7 +114,7 @@ router.get('/events/:id', async (req, res) => {
 });
 
 
-router.put('/events/:id', verifyToken, async (req, res) => {
+router.put('/events/:id', verifyToken, isOwnerEvent, async (req, res) => {
     try {
         const event = await Event.findById(req.params.id);
         if (!event) {
@@ -132,7 +132,7 @@ router.put('/events/:id', verifyToken, async (req, res) => {
 });
 
 
-router.delete('/events/:id', verifyToken, async (req, res) => {
+router.delete('/events/:id', verifyToken, isOwnerEvent, async (req, res) => {
     try {
         const event = await Event.findById(req.params.id);
         if (!event) {
@@ -148,6 +148,44 @@ router.delete('/events/:id', verifyToken, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+router.get('/events/:id/getparticipants', async (req, res) => {
+    try {
+        const event = await Event.findById(req.params.id);
+        const eventRegistration = await EventRegistration.findOne({ event_id: req.params.id });
+
+        if (!event || !eventRegistration) {
+            return res.status(404).json({ error: 'Event or registrations not found' });
+        }
+
+        res.status(200).json({
+            maxParticipants: event.maxParticipants,
+            registrations: eventRegistration.registrations.length
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.post('/events/filter', async (req, res) => {
+    const { name, province, category } = req.body;
+
+    try {
+        // Query ฐานข้อมูลโดยใช้เงื่อนไขที่ได้รับมา
+        const filteredEvents = await Event.find({
+            eventName: { $regex: name, $options: 'i' },
+            location: { $regex: province, $options: 'i' },
+            sportType: { $regex: category, $options: 'i' },
+        });
+
+        res.status(200).json(filteredEvents);
+    } catch (error) {
+        console.error('Error filtering events:', error);
+        res.status(500).json({ message: 'Error filtering events' });
+    }
+});
+
+
 
 
 module.exports = router;

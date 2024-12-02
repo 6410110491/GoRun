@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Lottie from 'lottie-react';
 import signupAnimation from '../animations/signupanimation.json';
+import { TypeAnimation } from 'react-type-animation';
+import { useTranslation } from 'react-i18next';
 
 function Signup() {
     const [username, setUsername] = useState('');
@@ -11,6 +13,8 @@ function Signup() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState({});
+
+    const { t, i18n } = useTranslation()
 
     const [showPopup, setShowPopup] = useState(false);
     const handleClosePopup = () => {
@@ -65,42 +69,52 @@ function Signup() {
     };
 
     return (
-        <div style={{ display: "flex", width: "100%" }}>
-            <Container style={{ height: "700px", padding: "0" }}>
-                {/* <img src={require("../image/img_signup_page.png")} alt="logo" style={{
-                    marginTop: "2rem",
-                    width: "100%", height: "100%", objectFit: "cover", padding: "0", margin: "0"
-                }} /> */}
-                <div style={{
-                    textAlign: 'center', width: "100%", height: "100%",
-                    display: "flex", justifyContent: "center", alignItems: 'center'
-                }}>
-                    <Lottie
-                        animationData={signupAnimation}  
-                        loop={true}  
-                        style={{ maxWidth: 500, height: 300 }}  // ขนาดของแอนิเมชัน
-                    />
-                </div>
-            </Container>
-            <Container>
-                <Row style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
-                    <Col md={8} lg={6} xs={12} style={{ width: "fit-content", height: 'auto' }}>
-                        <Container style={{
-                            borderRadius: "15px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", padding: '1.5rem 4rem 1.5rem 4rem',
-                            backgroundColor: '#FFF'
+        <div style={{ display: "flex", width: "100%", flexDirection: "row" }}>
+            <Container fluid className="d-flex align-items-center justify-content-center p-0" style={{ minHeight: "100vh" }}>
+                <Row className="w-100 h-100">
+                    <Col md={6} className="d-none d-md-flex justify-content-center align-items-center p-0">
+                        <div className="d-flex justify-content-center align-items-center w-100 h-100">
+                            <Lottie
+                                animationData={signupAnimation}
+                                loop={true}
+                                style={{ maxWidth: 500, height: 300 }}  // ขนาดของแอนิเมชัน
+                            />
+                        </div>
+                    </Col>
+
+                    <Col md={6} className="d-flex justify-content-center align-items-center p-4">
+                        <Container className="p-4" style={{
+                            borderRadius: "15px",
+                            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                            backgroundColor: '#FFF',
+                            width: "100%",
+                            maxWidth: 500,
+                            marginBottom: "3rem",
                         }}>
                             <div className="mb3 mt-md-4">
-                                <h2 className="fw-bold mb-2 text-uppercase ">สมัครสมาชิกกับ Gorun!</h2>
-                                <p className=" mb-5">กรุณากรอกข้อมูลให้ถูกต้อง</p>
-                                <div className="mb-3">
+                                <div className="mb-3 mt-md-4">
+                                    <TypeAnimation
+                                        className="fw-bold mb-2 text-uppercase"
+                                        sequence={[
+                                            'สมัครสมาชิกกับ Gorun!',
+                                            2500,  // รอ 2 วินาทีก่อนวนลูปใหม่
+                                            '',
+                                            500,  // รอ 2 วินาทีก่อนวนลูปใหม่
+                                        ]}
+                                        wrapper="span"
+                                        speed={50}  // ความเร็วในการพิมพ์
+                                        style={{ fontSize: '2em', display: 'inline-block' }}
+                                        repeat={Infinity}  // วนลูปอย่างต่อเนื่อง
+                                    />
+                                    <p className=" mb-5">{t('กรุณากรอกข้อมูลให้ถูกต้อง')}</p>
                                     <Form onSubmit={handleRegister}>
                                         <Form.Group className="mb-3" controlId="formBasicUsername">
                                             <Form.Label className="text-center">
-                                                Username
+                                                {t('ชื่อผู้ใช้')}
                                             </Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                placeholder="Enter username"
+                                                placeholder={t("กรอกชื่อผู้ใช้")}
                                                 value={username}
                                                 onChange={(e) => setUsername(e.target.value)}
                                                 isInvalid={!!errors.username}
@@ -112,11 +126,11 @@ function Signup() {
 
                                         <Form.Group className="mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-center">
-                                                Email address
+                                                {t('ที่อยู่อีเมล')}
                                             </Form.Label>
                                             <Form.Control
                                                 type="email"
-                                                placeholder="Enter email"
+                                                placeholder={t("กรอกอีเมล")}
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 isInvalid={!!errors.email}
@@ -127,10 +141,10 @@ function Signup() {
                                         </Form.Group>
 
                                         <Form.Group className="mb-3" controlId="formBasicPassword">
-                                            <Form.Label>Password</Form.Label>
+                                            <Form.Label>{t('รหัสผ่าน')}</Form.Label>
                                             <Form.Control
                                                 type="password"
-                                                placeholder="Password"
+                                                placeholder={t("กรอกรหัสผ่าน")}
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 isInvalid={!!errors.password}
@@ -140,10 +154,10 @@ function Signup() {
                                             </Form.Control.Feedback>
                                         </Form.Group>
                                         <Form.Group className="mb-3" controlId="formBasicPasswordConfirm">
-                                            <Form.Label>Password again</Form.Label>
+                                            <Form.Label>{t('ยืนยันรหัสผ่าน')}</Form.Label>
                                             <Form.Control
                                                 type="password"
-                                                placeholder="Password again"
+                                                placeholder={t("กรอกรหัสผ่านอีกครั้ง")}
                                                 value={confirmPassword}
                                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                                 isInvalid={!!errors.confirmPassword}
@@ -154,15 +168,15 @@ function Signup() {
                                         </Form.Group>
                                         <div className="d-grid">
                                             <Button type="submit" style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}>
-                                                สมัครสมาชิก
+                                                {t('สมัครสมาชิก')}
                                             </Button>
                                         </div>
                                     </Form>
                                     <div className="mt-4">
                                         <p className="mb-0 text-center">
-                                            มีบัญชีผู้ใช้งานแล้วหรือไม่?{" "}
+                                            {t('ยังไม่มีบัญชี?')}{" "}
                                             <Link onClick={() => changepage("login")} style={{ color: "#F3C710", textDecoration: "none" }}>
-                                                เข้าสู่ระบบที่นี้
+                                                {t('เข้าสู่ระบบที่นี่')}
                                             </Link>
                                         </p>
                                     </div>
@@ -170,21 +184,22 @@ function Signup() {
                             </div>
                         </Container>
                     </Col>
-                </Row>
 
-                <Modal show={showPopup} onHide={handleClosePopup} centered>
-                    <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                        <Modal.Title>ข้อผิดพลาด</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p>มีอีเมลนี้ในระบบอยู่แล้ว กรุณาลองใหม่อีกครั้ง</p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClosePopup}>
-                            ปิด
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                    <Modal show={showPopup} onHide={handleClosePopup} centered>
+                        <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+                            <Modal.Title>{t('ข้อผิดพลาด')}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p>{t('มีอีเมลนี้ในระบบอยู่แล้ว กรุณาลองใหม่อีกครั้ง')}</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClosePopup}>
+                                {t('ปิด')}
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
+                </Row>
             </Container>
         </div>
     );

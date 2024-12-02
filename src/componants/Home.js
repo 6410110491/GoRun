@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
+import { Button, Carousel, Col, Container, Form, Row } from 'react-bootstrap'
 import background from '../image/bg-banner.png'
 import ScrollToTop from "react-scroll-to-top";
 
-
 import Card_event from './Card_event'
+import { useTranslation } from 'react-i18next';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import Closed_Regis_Card from './Closed_Regis_Card';
 
 function Home() {
     const province = ['กระบี่', 'กรุงเทพมหานคร', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร',
@@ -27,9 +31,21 @@ function Home() {
         'หนองคาย', 'หนองบัวลำภู',
         'อ่างทอง', 'อำนาจเจริญ', 'อุดรธานี', 'อุตรดิตถ์', 'อุทัยธานี', 'อุบลราชธานี']
 
-    const sport_type = ['วิ่งมาราธอน', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
+    const sport_type = ['วิ่ง', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
 
     const [eventMe, setEventMe] = useState([]);
+
+
+    const [activeEvents, setActiveEvents] = useState([]);
+    const [inactiveEvents, setInactiveEvents] = useState([]);
+
+    const [searchName, setSearchName] = useState('');
+    const [searchProvince, setSearchProvince] = useState('');
+    const [searchCategory, setSearchCategory] = useState('');
+    const [filteredEvents, setFilteredEvents] = useState([]);
+    const [isSearched, setIsSearched] = useState(false);
+
+    const { t, i18n } = useTranslation()
 
     const changepage = (path) => {
         window.location.href = "/" + path
@@ -63,87 +79,327 @@ function Home() {
         fetchEvent();
     }, []);
 
+    useEffect(() => {
+        AOS.init({
+            duration: 1000, // กำหนดเวลาของแอนิเมชัน (มิลลิวินาที)
+            easing: 'ease-in-out', // ปรับค่า easing ของแอนิเมชัน
+            once: true, // ให้แอนิเมชันทำงานครั้งเดียวเมื่อเห็น element
+        });
+    }, []);
+
+    const filterEvents = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/api/events/filter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: searchName,
+                    province: searchProvince,
+                    category: searchCategory,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch filtered events');
+            }
+
+            const data = await response.json();
+            setFilteredEvents(data);
+            setIsSearched(true);
+        } catch (error) {
+            console.error('Error filtering events:', error);
+            // แสดงข้อความหรือจัดการกรณีเกิดข้อผิดพลาดที่นี่
+        }
+    };
+
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        filterEvents();
+    };
+
+    useEffect(() => {
+        // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น true
+        const filteredActiveEvents = eventMe.filter(event => {
+            return (
+                event.status === true
+            );
+        });
+
+        // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น false
+        const filteredInactiveEvents = eventMe.filter(event => {
+            return (
+                event.status === false
+            );
+        });
+
+        // อัปเดตตัวแปร state สำหรับ active และ inactive events
+        setActiveEvents(filteredActiveEvents);
+        setInactiveEvents(filteredInactiveEvents);
+
+    }, [eventMe]);
+
     return (
         <Container fluid style={{ padding: "0" }}>
-            <div style={{
-                width: "100%", height: "402px", backgroundSize: "cover", backgroundImage: `url(${background})`,
-                display: "flex", justifyContent: "center", alignItems: "flex-end",
-            }}>
-                {/* filter box */}
-                <Row className='mb-4 mt-4'
+            <div
+                style={{
+                    width: "100%",
+                    height: "402px",
+                    flexDirection: "column",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    position: "relative",
+                }}
+            >
+                {/* Carousel */}
+                <Carousel
+                    touch={true}
+                    slide={true}
+                    indicators={false}
+                    controls={false}
                     style={{
-                        backgroundColor: "#E3E3E3", minHeight: "30%", marginBottom: "1.5rem", borderRadius: "20px",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", display: 'flex', alignItems: 'center', justifyContent: "space-around",
-                        padding: "1rem", width: "85%"
-                    }}>
-                    <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
-                        <p>ชื่องาน</p>
-                        <Form.Control type="text" placeholder="ค้นหาชื่องาน" style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                        }} />
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
-                        <p>สถานที่จัดงาน</p>
-                        <Form.Select aria-label="Default select example" style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                            cursor: "pointer"
-                        }}>
-                            <option >ค้นหาจังหวัด</option>
-                            {province.map((data, index) => {
-                                return (
-                                    <option key={index} value={index}>{data}</option>
-                                )
-                            })}
-                        </Form.Select>
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3} >
-                        <p>ประเภทกีฬา</p>
-                        <Form.Select aria-label="Default select example" style={{
-                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                            backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                            cursor: "pointer"
-                        }}>
-                            <option>ค้นหาประเภท</option>
-                            {sport_type.map((data, index) => {
-                                return (
-                                    <option key={index} value={index}>{data}</option>
-                                )
-                            })}
-                        </Form.Select>
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={1} >
-                        <p></p>
-                        <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: "100%" }}>
-                            ค้นหา
-                        </Button>
-                    </Col>
+                        width: "100%",
+                        height: "100%",
+                    }}
+                >
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "402px",
+                                backgroundImage: `url(${require("../image/banner02.png")})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        ></div>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "402px",
+                                backgroundImage: `url(${require("../image/banner03.png")})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        ></div>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "402px",
+                                backgroundImage: `url(${require("../image/banner04.png")})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        ></div>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "402px",
+                                backgroundImage: `url(${require("../image/banner05.png")})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        ></div>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "402px",
+                                backgroundImage: `url(${require("../image/banner06.png")})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        ></div>
+                    </Carousel.Item>
+                </Carousel>
 
-                </Row>
+                {/* Filter Box */}
+                <div
+                    style={{
+                        position: "absolute",
+                        bottom: "10%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "#E3E3E3",
+                        minHeight: "30%",
+                        borderRadius: "20px",
+                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-around",
+                        padding: "1rem",
+                        width: "85%",
+                    }}
+                >
+                    <Row style={{ width: "100%", justifyContent: "center" }}>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
+                            <p>{t("ชื่องาน")}</p>
+                            <Form.Control
+                                type="text"
+                                placeholder={t("ค้นหาชื่องาน")}
+                                style={{
+                                    borderRadius: "10px",
+                                    marginTop: "-15px",
+                                    maxWidth: "95%",
+                                    backgroundColor: "#fff",
+                                    border: "none",
+                                    height: "40px",
+                                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                                }}
+                                value={searchName}
+                                onChange={(e) => setSearchName(e.target.value)}
+                            />
+                        </Col>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
+                            <p>{t('สถานที่จัดงาน')}</p>
+                            <Form.Select
+                                aria-label="Default select example"
+                                style={{
+                                    borderRadius: "10px",
+                                    marginTop: "-15px",
+                                    maxWidth: "95%",
+                                    backgroundColor: "#fff",
+                                    border: "none",
+                                    height: "40px",
+                                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                                    cursor: "pointer",
+                                }}
+                                value={searchProvince}
+                                onChange={(e) => setSearchProvince(e.target.value)}
+                            >
+                                <option value="">{t('ค้นหาจังหวัด')}</option>
+                                {province.map((data, index) => (
+                                    <option key={index} value={data}>
+                                        {data}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </Col>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
+                            <p>{t('ประเภทกีฬา')}</p>
+                            <Form.Select
+                                aria-label="Default select example"
+                                style={{
+                                    borderRadius: "10px",
+                                    marginTop: "-15px",
+                                    maxWidth: "95%",
+                                    backgroundColor: "#fff",
+                                    border: "none",
+                                    height: "40px",
+                                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                                    cursor: "pointer",
+                                }}
+                                value={searchCategory}
+                                onChange={(e) => setSearchCategory(e.target.value)}
+                            >
+                                <option value="" >{t('ค้นหาประเภท')}</option>
+                                {sport_type.map((data, index) => (
+                                    <option key={index} value={data}>
+                                        {data}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </Col>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={1}>
+                            <p></p>
+                            <Button
+                                type="submit"
+                                onClick={handleSearch}
+                                style={{
+                                    backgroundColor: "#F3C710",
+                                    border: "none",
+                                    borderRadius: "10px",
+                                    width: "100%",
+                                }}
+                            >
+                                {t('ค้นหา')}
+                            </Button>
+                        </Col>
+                    </Row>
+                </div>
             </div>
+
             <Container fluid style={{ backgroundColor: "#47474A", height: "40px" }}></Container>
 
             {/* ScroolToTop */}
             <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />
 
             {/* card */}
-            <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", minHeight: "50vh" }}>
+            <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", minHeight: "50vh", flexDirection: 'column' }}>
                 <Row style={{
                     display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
                     justifyContent: "center", alignItems: "center"
                 }}>
-                    {eventMe && eventMe.length === 0 ? (
-                        <h5 style={{textAlign:"center"}}>ไม่มีข้อมูลงานกีฬา</h5>
+                    <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
+                        {t('งานกีฬาที่กำลังดำเนินการอยู่')}
+                    </div>
+                    {isSearched ? (
+                        filteredEvents && filteredEvents.length === 0 ? (
+                            <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
+                        ) : (
+                            filteredEvents.map((data, index) => (
+                                <div
+                                    key={index}
+                                    data-aos="fade-up"
+                                    data-aos-delay={`${index * 50}`}
+                                    style={{ width: "fit-content" }}
+                                >
+                                    <Card_event data={data} />
+                                </div>
+                            ))
+                        )
                     ) : (
-                        eventMe && eventMe.map((data, index) => (
-                            <Card_event key={index} data={data} />
-                        ))
+                        activeEvents && activeEvents.length === 0 ? (
+                            <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
+                        ) : (
+                            activeEvents.map((data, index) => (
+                                <div
+                                    key={index}
+                                    data-aos="fade-up"
+                                    data-aos-delay={`${index * 50}`}
+                                    style={{ width: "fit-content" }}
+                                >
+                                    <Card_event data={data} />
+                                </div>
+                            ))
+                        )
                     )}
 
+                </Row>
 
+                <Row style={{
+                    display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
+                    justifyContent: "center", alignItems: "center"
+                }}>
+                    <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
+                        {t('งานกีฬาที่สิ้นสุดแล้ว')}
+                    </div>
+                    {inactiveEvents && inactiveEvents.length === 0 ? (
+                        <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
+                    ) : (
+                        inactiveEvents.map((data, index) => (
+                            <div
+                                key={index}
+                                data-aos="fade-up"
+                                data-aos-delay={`${index * 50}`}
+                                style={{ width: "fit-content" }}
+                            >
+                                <Closed_Regis_Card data={data} />
+                            </div>
+                        ))
+                    )}
                 </Row>
             </div>
+
 
 
         </Container>

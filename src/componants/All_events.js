@@ -4,6 +4,11 @@ import { Container, Row } from 'react-bootstrap'
 
 import Card_event from './Card_event'
 import ScrollToTop from 'react-scroll-to-top'
+import { useTranslation } from 'react-i18next';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import Closed_Regis_Card from './Closed_Regis_Card';
 
 function All_events() {
   const demo_api = [
@@ -34,6 +39,10 @@ function All_events() {
   ]
 
   const [eventMe, setEventMe] = useState([]);
+  const [activeEvents, setActiveEvents] = useState([]);
+  const [inactiveEvents, setInactiveEvents] = useState([]);
+
+  const { t, i18n } = useTranslation()
 
   const changepage = (path) => {
     window.location.href = "/" + path
@@ -66,13 +75,44 @@ function All_events() {
 
     fetchEvent();
   }, []);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // กำหนดเวลาของแอนิเมชัน (มิลลิวินาที)
+      easing: 'ease-in-out', // ปรับค่า easing ของแอนิเมชัน
+      once: true, // ให้แอนิเมชันทำงานครั้งเดียวเมื่อเห็น element
+    });
+  }, []);
+
+  useEffect(() => {
+    // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น true
+    const filteredActiveEvents = eventMe.filter(event => {
+      return (
+        event.status === true
+      );
+    });
+
+    // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น false
+    const filteredInactiveEvents = eventMe.filter(event => {
+      return (
+        event.status === false
+      );
+    });
+
+    // อัปเดตตัวแปร state สำหรับ active และ inactive events
+    setActiveEvents(filteredActiveEvents);
+    setInactiveEvents(filteredInactiveEvents);
+
+  }, [eventMe]);
+
+
   return (
-    <Container className='mt-5' style={{ minHeight: "100vh" }} >
+    <Container className='mt-5' fluid style={{ minHeight: "100vh", padding: "0" }} >
       {/* Head */}
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
           <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-            งานทั้งหมด
+            {t('งานทั้งหมด')}
           </p>
         </div>
       </div>
@@ -82,16 +122,54 @@ function All_events() {
 
 
       {/* Card */}
-      <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+      <div style={{
+        display: "flex", flexDirection: 'column', justifyContent: "space-around",
+        alignItems: "center", minHeight: "50vh"
+      }}>
         <Row style={{
           display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
           justifyContent: "center", alignItems: "center"
         }}>
-          {eventMe.map((data, index) => {
-            return (
-              <Card_event key={index} data={data} />
-            )
-          })}
+          <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
+            {t('งานกีฬาที่กำลังดำเนินการอยู่')}
+          </div>
+          {activeEvents && activeEvents.length === 0 ? (
+            <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
+          ) : (
+            activeEvents.map((data, index) => (
+              <div
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={`${index * 50}`}
+                style={{ width: "fit-content" }}
+              >
+                <Card_event data={data} />
+              </div>
+            ))
+          )}
+        </Row>
+
+        <Row style={{
+          display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
+          justifyContent: "center", alignItems: "center"
+        }}>
+          <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
+            {t('งานกีฬาที่สิ้นสุดแล้ว')}
+          </div>
+          {inactiveEvents && inactiveEvents.length === 0 ? (
+            <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
+          ) : (
+            inactiveEvents.map((data, index) => (
+              <div
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={`${index * 50}`}
+                style={{ width: "fit-content" }}
+              >
+                <Closed_Regis_Card data={data} />
+              </div>
+            ))
+          )}
         </Row>
       </div>
 

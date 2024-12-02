@@ -8,9 +8,11 @@ import Data_org_3 from './Data_org_3'
 import Data_org_4 from './Data_org_4'
 import Data_org_success from './Data_org_success'
 import axios from 'axios'
-
+import { useTranslation } from 'react-i18next';
 
 function Data_org() {
+    const { t, i18n } = useTranslation()
+    
     let prizeFile = [null];
     let whatToReceiveFile = [null];
     let routeFile = [null];
@@ -324,12 +326,12 @@ function Data_org() {
                                 sx={{ mr: 1 }}
                                 style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}
                             >
-                                ย้อนกลับ
+                                {t('ย้อนกลับ')}
                             </Button>
 
                             <Box sx={{ flex: '1 1 auto' }} />
                             <Button onClick={handleNext} style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '15%' }}>
-                                {activeStep === steps.length - 1 ? 'เสร็จสิ้น' : 'ถัดไป'}
+                                {activeStep === steps.length - 1 ? t('เสร็จสิ้น') : t('ถัดไป')}
                             </Button>
                         </Box>
                     </React.Fragment>

@@ -7,6 +7,10 @@ const eventRegistrationSchema = new mongoose.Schema({
         required: true,
     },
     registrations: [{
+        user_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
         profilePicture: {
             type: String,
         },

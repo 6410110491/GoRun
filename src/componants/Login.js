@@ -3,20 +3,22 @@ import { Col, Button, Row, Container, Form, Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import Lottie from 'lottie-react';
-import loginAnimation from '../animations/loginanimation.json';
+import loginAnimation from '../animations/login-2.json';
+import { TypeAnimation } from 'react-type-animation';
+import { useTranslation } from 'react-i18next';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const [showPopup, setShowPopup] = useState(false);
+
+    const { t, i18n } = useTranslation()
+
     const handleClosePopup = () => {
         setShowPopup(false);
     };
 
-
     const responseMessage = (response) => {
-        // console.log('Google Login Response:', response);
         if (response.credential) {
             const tokenId = response.credential;
             fetch('http://localhost:4000/api/login/google', {
@@ -24,7 +26,7 @@ function Login() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ tokenId }), // ส่งโทเค็นไปยังเซิร์ฟเวอร์
+                body: JSON.stringify({ tokenId }),
                 credentials: 'include'
             })
                 .then(res => res.json())
@@ -40,7 +42,6 @@ function Login() {
         }
     };
 
-
     const errorMessage = (error) => {
         console.log(error);
     };
@@ -54,7 +55,7 @@ function Login() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
-                credentials: 'include' // Important for sessions to send cookies
+                credentials: 'include'
             });
 
             if (response.status === 401) {
@@ -66,8 +67,7 @@ function Login() {
                 console.log('Login success:', data);
                 setEmail('');
                 setPassword('');
-                console.log(data);
-                changepage(""); // Redirect to a new page or refresh
+                changepage("");
             } else {
                 const errorData = await response.json();
                 throw new Error(errorData.error || 'Login failed');
@@ -77,121 +77,122 @@ function Login() {
         }
     };
 
-
-
     const changepage = (path) => {
         window.location.href = "/" + path;
     };
 
     return (
-        <div style={{ display: "flex", width: "100%" }}>
-            <Container style={{ height: "700px", padding: "0" }}>
-                {/* <img src={require("../image/img_login_page.png")} alt="logo" style={{
-                    marginTop: "2rem",
-                    width: "100%", height: "100%", objectFit: "cover", padding: "0", margin: "0"
-                }} /> */}
-                <div style={{
-                    textAlign: 'center', width: "100%", height: "100%",
-                    display: "flex", justifyContent: "center", alignItems: 'center'
-                }}>
-                    <Lottie
-                        animationData={loginAnimation}
-                        loop={true}
-                        style={{ maxWidth: 500, height: 500 }}  // ขนาดของแอนิเมชัน
-                    />
-                </div>
-            </Container>
-            <Container>
-                <Row style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
-                    <Col md={8} lg={6} xs={12} style={{ width: "fit-content", height: 'auto' }}>
-                        <Container style={{
-                            borderRadius: "15px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", padding: '1.5rem 4rem 1.5rem 4rem',
-                            backgroundColor: '#FFF'
+        <div style={{ display: "flex", width: "100%", flexDirection: "row" }}>
+            <Container fluid className="d-flex align-items-center justify-content-center p-0" style={{ minHeight: "100vh" }}>
+                <Row className="w-100 h-100">
+                    <Col md={6} className="d-none d-md-flex justify-content-center align-items-center p-0">
+                        <div className="d-flex justify-content-center align-items-center w-100 h-100">
+                            <Lottie
+                                animationData={loginAnimation}
+                                loop={true}
+                                style={{ maxWidth: 500, height: "auto", maxHeight: 400 }}
+                            />
+                        </div>
+                    </Col>
+
+                    <Col md={6} className="d-flex justify-content-center align-items-center p-4">
+                        <Container className="p-4" style={{
+                            borderRadius: "15px",
+                            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                            backgroundColor: '#FFF',
+                            width: "100%",
+                            maxWidth: 500,
+                            marginBottom: "3rem",
                         }}>
                             <div className="mb-3 mt-md-4">
-                                <h2 className="fw-bold mb-2 text-uppercase">ยินดีต้อนรับเข้าสู่ Gorun!</h2>
-                                <p className="mb-5">กรุณากรอกข้อมูลให้ถูกต้อง</p>
-                                <div className="mb-3">
-                                    <Form onSubmit={handleLogin}>
-                                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                                            <Form.Label className="text-center">
-                                                Email address
-                                            </Form.Label>
-                                            <Form.Control
-                                                type="string"
-                                                placeholder="Enter email"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                            />
-                                        </Form.Group>
+                                <TypeAnimation
+                                    className="fw-bold mb-2 text-uppercase"
+                                    sequence={[
+                                        'ยินดีต้อนรับเข้าสู่ Gorun!',
+                                        2500,  // รอ 2 วินาทีก่อนวนลูปใหม่
+                                        '',
+                                        500,  // รอ 2 วินาทีก่อนวนลูปใหม่
+                                    ]}
+                                    wrapper="span"
+                                    speed={50}  // ความเร็วในการพิมพ์
+                                    style={{ fontSize: '2em', display: 'inline-block' }}
+                                    repeat={Infinity}  // วนลูปอย่างต่อเนื่อง
+                                />
 
-                                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                                            <Form.Label>Password</Form.Label>
-                                            <Form.Control
-                                                type="password"
-                                                placeholder="Password"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                            />
-                                        </Form.Group>
+                                <p className="mb-5">{t('กรุณากรอกข้อมูลให้ถูกต้อง')}</p>
+                                <Form onSubmit={handleLogin}>
+                                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                                        <Form.Label>{t('ที่อยู่อีเมล')}</Form.Label>
+                                        <Form.Control
+                                            type="string"
+                                            placeholder={t("กรอกที่อยู่อีเมล")}
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
+                                    </Form.Group>
 
-                                        <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                            <Form.Check
-                                                type="checkbox"
-                                                id='default-Checkbox'
-                                                label='จดจำรหัสผ่าน'
-                                            />
-                                            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                                <Link to="#!" style={{ color: "#F3C710", textDecoration: "none" }}>
-                                                    ลืมรหัสผ่าน
-                                                </Link>
-                                            </Form.Group>
-                                        </div>
+                                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                                        <Form.Label>{t('รหัสผ่าน')}</Form.Label>
+                                        <Form.Control
+                                            type="password"
+                                            placeholder={t("กรอกรหัสผ่าน")}
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                    </Form.Group>
 
-                                        <div className="d-grid">
-                                            <Button
-                                                style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', marginBottom: "16px" }}
-                                                type="submit"
-                                            >
-                                                Login
-                                            </Button>
-                                            <GoogleLogin
-                                                width={350}
-                                                auto_select={true}
-                                                text='Login with Google'
-                                                onSuccess={responseMessage} onError={errorMessage}
-                                            />
-                                        </div>
-                                    </Form>
-                                    <div className="mt-4">
-                                        <p className="mb-0 text-center">
-                                            ยังไม่มีบัญชีผู้ใช้งานหรือไม่?{" "}
-                                            <Link onClick={() => changepage("signup")} style={{ color: "#F3C710", textDecoration: "none" }}>
-                                                สมัครสมาชิกที่นี้
-                                            </Link>
-                                        </p>
+                                    <div className="d-flex justify-content-between">
+                                        <Form.Check
+                                            type="checkbox"
+                                            id='default-Checkbox'
+                                            label={t('จดจำรหัสผ่าน')}
+                                        />
+                                        <Link to="#!" style={{ color: "#F3C710", textDecoration: "none" }}>
+                                            {t('ลืมรหัสผ่าน')}
+                                        </Link>
                                     </div>
-                                </div>
+
+                                    <Button
+                                        className="w-100 my-3"
+                                        style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px' }}
+                                        type="submit"
+                                    >
+                                        {t('เข้าสู่ระบบ')}
+                                    </Button>
+                                    <GoogleLogin
+                                        width="100%"
+                                        auto_select={false}
+                                        text='Login with Google'
+                                        onSuccess={responseMessage}
+                                        onError={errorMessage}
+                                    />
+                                </Form>
+                                <p className="mt-4 text-center">
+                                    {t('ยังไม่มีบัญชี?')}{" "}
+                                    <Link onClick={() => changepage("signup")} style={{ color: "#F3C710", textDecoration: "none" }}>
+                                        {t('สมัครสมาชิกได้ที่นี่')}
+                                    </Link>
+                                </p>
                             </div>
                         </Container>
                     </Col>
-                </Row >
-            </Container >
+                </Row>
+            </Container>
 
             <Modal show={showPopup} onHide={handleClosePopup} centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>ข้อผิดพลาด</Modal.Title>
+                    <Modal.Title>{t('ข้อผิดพลาด')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง</p>
+                    <p>{t('อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง')}</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClosePopup}>
-                        ปิด
+                        {t('ปิด')}
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div >
+        </div>
     );
 }
 

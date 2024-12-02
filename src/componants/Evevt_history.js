@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import Card_Organize from './Card_Organize';
-
+import { useTranslation } from 'react-i18next';
 
 function Evevt_history() {
     const [eventMe, setEventMe] = useState([]);
+    const { t, i18n } = useTranslation()
 
     // console.log(eventMe);
 
@@ -50,7 +51,7 @@ function Evevt_history() {
             <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
                     <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-                        ประวัติการจัดงาน
+                        {t('ประวัติการจัดงาน')}
                     </p>
                 </div>
             </div>
@@ -60,7 +61,7 @@ function Evevt_history() {
 
             <div style={{ display: "flex", marginTop: "2rem", alignItems: "center" }}>
                 <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
-                <p style={{ fontSize: "1.5rem", marginLeft: '0.5rem', marginRight: '0.5rem' }}>กำลังดำเนินการ</p>
+                <p style={{ fontSize: "1.5rem", marginLeft: '0.5rem', marginRight: '0.5rem' }}>{t('กำลังดำเนินการ')}</p>
                 <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
             </div>
 
@@ -80,7 +81,7 @@ function Evevt_history() {
 
             <div style={{ display: "flex", marginTop: "2rem", alignItems: "center" }}>
                 <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
-                <p style={{ fontSize: "1.5rem", marginLeft: '0.5rem', marginRight: '0.5rem' }}>สิ้นสุดแล้ว</p>
+                <p style={{ fontSize: "1.5rem", marginLeft: '0.5rem', marginRight: '0.5rem' }}>t{('สิ้นสุดแล้ว')}</p>
                 <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
 
                 {/* <Row key={item.id} >

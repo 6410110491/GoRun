@@ -20,15 +20,15 @@ function Card_Organize(props) {
     };
     return (
         <Col className='mb-5' xs={12} md={6} lg={6} xl={4} xxl={3}
-            style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
             <Card
                 style={{
                     width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                    borderRadius: "20px 20px 0px 0px", cursor: "pointer", minHeight: "345px"
+                    borderRadius: "20px 20px 0px 0px", cursor: "pointer", height: "345px"
                 }}
                 onClick={() => changepage(`myevent/${props.data._id}/applicants-info`)}
             >
-                <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px", minHeight: "160px" }} />
+                <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px", height: "160px" }} />
                 <Card.Body>
                     <Card.Title>{props.data.eventName}</Card.Title>
                 </Card.Body>

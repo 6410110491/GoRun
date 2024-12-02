@@ -3,6 +3,8 @@ import { Container, Modal, Button, Row, Col, Form, Spinner, } from 'react-bootst
 import ScrollToTop from 'react-scroll-to-top'
 import Card_News from './Card_News';
 import axios from 'axios';
+import Aos from 'aos';
+import { useTranslation } from 'react-i18next';
 
 function News() {
   const [formData, setFormData] = useState({
@@ -16,6 +18,7 @@ function News() {
   const [error, setError] = useState(null); // เพิ่ม setError
 
   const [show, setShow] = useState(false);
+  const { t, i18n } = useTranslation()
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -70,6 +73,14 @@ function News() {
     };
 
     fetchNewsData();
+  }, []);
+
+  useEffect(() => {
+    Aos.init({
+      duration: 1000, // กำหนดเวลาของแอนิเมชัน (มิลลิวินาที)
+      easing: 'ease-in-out', // ปรับค่า easing ของแอนิเมชัน
+      once: true, // ให้แอนิเมชันทำงานครั้งเดียวเมื่อเห็น element
+    });
   }, []);
 
   const handleChange = (e) => {
@@ -136,7 +147,7 @@ function News() {
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
           <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-            ประชาสัมพันธ์
+            {t('ประชาสัมพันธ์')}
           </p>
         </div>
       </div>
@@ -147,7 +158,7 @@ function News() {
         <div style={{ width: "100%", display: "flex", justifyContent: "flex-end", margin: "16px 40px 16px 0px" }}>
           <Button variant="success" style={{ border: "none" }}
             onClick={handleShow}>
-            เพิ่มข่าวสาร
+            {t('เพิ่มข่าวสาร')}
           </Button>
         </div>
       ) : null}
@@ -166,7 +177,7 @@ function News() {
         <div style={{ marginBottom: "5rem", marginTop: "3rem" }}>
           {newsData.map((data, index) => {
             return (
-              <Card_News key={index} data={data} />
+              <Card_News key={index} data={data} data-aos="fade-up" />
             )
           })}
         </div>)}
@@ -178,20 +189,20 @@ function News() {
         aria-labelledby="contained-modal-title-vcenter"
         centered>
         <Modal.Header style={{ backgroundColor: "#F3C710", color: "#FFF" }} closeButton>
-          <Modal.Title>เพิ่มข่าวสารประชาสัมพันธ์</Modal.Title>
+          <Modal.Title>{t('เพิ่มข่าวสารประชาสัมพันธ์')}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
           <Row>
             <Col xl={6} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "100%" }}>
-              <p>หัวข้อข่าวสาร</p>
+              <p>{t('หัวข้อข่าวสาร')}</p>
               <Form.Control
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                placeholder="กรอกหัวข้อ"
+                placeholder={t("กรอกหัวข้อ")}
                 style={{ width: "100%" }}
               />
             </Col>
@@ -199,14 +210,14 @@ function News() {
           <Row>
             <Col xl={6} md={6} sm={12} className='mt-4'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "100%" }}>
-              <p>ข้อมูลข่าวสาร</p>
+              <p>{t('ข้อมูลข่าวสาร')}</p>
               <Form.Control
                 as="textarea"
                 rows={3}
                 type="text"
                 value={formData.description}
                 onChange={handleChange}
-                placeholder="กรอกข้อมูลข่าวสาร"
+                placeholder={t("กรอกข้อมูลข่าวสาร")}
                 name="description"
               />
             </Col>
@@ -214,7 +225,7 @@ function News() {
           <Row>
             <Col xl={6} md={6} sm={12} className='mt-4'>
               <Form.Group controlId='formProfilePicture'>
-                <Form.Label>รูปภาพ</Form.Label>
+                <Form.Label>{t('รูปภาพ')}</Form.Label>
                 <Form.Control
                   accept=".png,.jpg,.jpeg,"
                   type='file'
@@ -231,11 +242,11 @@ function News() {
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}
             style={{ border: 'none', borderRadius: '10px' }}>
-            ปิด
+            {t('ปิด')}
           </Button>
           <Button variant="success" color="success" onClick={handleSubmit}
             style={{ border: 'none', borderRadius: '10px' }}>
-            ยืนยัน
+            {t('ยืนยัน')}
           </Button>
         </Modal.Footer>
       </Modal>

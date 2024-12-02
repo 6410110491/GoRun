@@ -4,6 +4,7 @@ import { Button, Row, Container, Modal, Form } from 'react-bootstrap'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 import ScrollToTop from 'react-scroll-to-top'
+import { useTranslation } from 'react-i18next';
 
 let selectedFile = null;
 function Organizer() {
@@ -14,6 +15,8 @@ function Organizer() {
     const [error, setError] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+    const { t, i18n } = useTranslation()
 
     const changepage = (path) => {
         window.location.href = "/" + path
@@ -131,7 +134,7 @@ function Organizer() {
             <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
                     <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-                        สำหรับผู้ที่สนใจจัดงาน
+                        {t('สำหรับผู้ที่สนใจจัดงาน')}
                     </p>
                 </div>
             </div>
@@ -147,10 +150,9 @@ function Organizer() {
                     <div className="mb-3 mt-md-4">
                         <img src={require("../image/logo2.jpg")} className="card-img-top" alt="logo.jpg"
                             style={{ width: "100px", height: "100px" }} />
-                        <h2 className="fw-bold mb-7 text-uppercase">ระบบรับสมัครงานกีฬา</h2>
+                        <h2 className="fw-bold mb-7 text-uppercase">{t('ระบบรับสมัครงานกีฬา')}</h2>
                         <p className="mb-5">
-                            เว็บไซต์เปิดรับสมัครรายการกีฬา รองรับงานกีฬาหลากหลายประเภท
-                            สามารถตรวจสอบการชำระเงินและ เก็บข้อมูลผู้สมัครไว้ให้คุณแล้ว
+                            {t('เว็บไซต์เปิดรับสมัครรายการกีฬา รองรับงานกีฬาหลากหลายประเภทสามารถตรวจสอบการชำระเงินและ เก็บข้อมูลผู้สมัครไว้ให้คุณแล้ว')}
                         </p>
                     </div>
                     <div className="d-grid">
@@ -158,7 +160,7 @@ function Organizer() {
                             style={{
                                 backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: "300px",
                             }}>
-                            เปิดรายการกีฬา
+                            {t('เปิดรายการกีฬา')}
                         </Button>
                     </div>
                 </div>
@@ -166,18 +168,18 @@ function Organizer() {
 
             <Modal show={showPopup} onHide={handleClose} centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>เปิดรับสมัครงานกีฬา</Modal.Title>
+                    <Modal.Title>{t('เปิดรับสมัครงานกีฬา')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
-                        <p>ยืนยันการเปิดรับสมัครงานกีฬาหรือไม่</p>
+                        <p>{t('ยืนยันการเปิดรับสมัครงานกีฬาหรือไม่')}</p>
                     </div>
                     <p style={{
                         fontSize: "16px", fontWeight: "bold",
                         marginTop: "30px", marginBottom: "10px"
-                    }}>แนบหลักฐานการยืนยันตัวตน</p>
+                    }}>{t('แนบหลักฐานการยืนยันตัวตน')}</p>
                     <Form.Group controlId='idCardImage'>
-                        <Form.Label>รูปบัตรประชาชน</Form.Label>
+                        <Form.Label>{t('รูปบัตรประชาชน')}</Form.Label>
                         <Form.Control
                             required
                             accept=".png,.jpg,.jpeg"
@@ -191,11 +193,11 @@ function Organizer() {
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        ยกเลิก
+                        {t('ยกเลิก')}
                     </Button>
                     <Button variant="success" color="success" onClick={handleConfirm}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        ยืนยัน
+                        {t('ยืนยัน')}
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -203,7 +205,7 @@ function Organizer() {
             {/* Success Popup */}
             <Modal show={showSuccessPopup} onHide={handleCloseConFirmPopup} centered size='lg'>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>สำเร็จ</Modal.Title>
+                    <Modal.Title>{t('สำเร็จ')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div style={{
@@ -211,12 +213,12 @@ function Organizer() {
                         padding: "3rem"
                     }}>
                         <CheckCircleOutlineIcon style={{ fontSize: "10rem", color: "#4CAF50" }} />
-                        <p style={{ fontSize: "2.75rem" }}>การส่งหลักฐานยืนยันตัวตนสำเร็จแล้ว</p>
-                        <p style={{ fontSize: "1.25rem" }}>กรุณารอการตรวจสอบ</p>
+                        <p style={{ fontSize: "2.75rem" }}>{t('การส่งหลักฐานยืนยันตัวตนสำเร็จแล้ว')}</p>
+                        <p style={{ fontSize: "1.25rem" }}>{t('กรุณารอการตรวจสอบ')}</p>
 
                         <Button style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', marginTop: "3rem" }}
                             onClick={() => changepage("")}>
-                            กลับสู่หน้าหลัก
+                            {t('กลับสู่หน้าหลัก')}
                         </Button>
                     </div>
                 </Modal.Body>

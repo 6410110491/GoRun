@@ -1,8 +1,14 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { Col, Container, Row, Form } from 'react-bootstrap'
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function Form_step_2({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData }) {
+  const { id } = useParams();
   const [selectedRaceIndex, setSelectedRaceIndex] = useState(''); // กำหนดค่าเริ่มต้นเป็น ''
+  
+  const { t, i18n } = useTranslation()
 
   // ตั้งค่า selectedRaceIndex ตามค่าใน formData เมื่อ formData เปลี่ยนแปลง
   useEffect(() => {
@@ -50,6 +56,62 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
     }
   };
 
+  const saveDraft = async () => {
+    const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+      method: 'GET',
+      credentials: 'include', // Include cookies for session-based auth
+    });
+
+    if (!userResponse.ok) throw new Error('Failed to fetch user info');
+
+    const userData = await userResponse.json();
+
+
+    const eventRegisData = {
+      user_id: userData._id,
+      username: formData.username,
+      gender: formData.gender,
+      birthDate: formData.birthDate,
+      idCardNumber: formData.idCardNumber,
+      email: formData.email,
+      phoneNumber: formData.phoneNumber,
+      nationality: formData.nationality,
+      bloodType: formData.bloodType,
+      chronicDiseases: formData.chronicDiseases,
+      address: formData.address,
+      subDistrict: formData.subDistrict,
+      district: formData.district,
+      province: formData.province,
+      zipCode: formData.zipCode,
+      sportType: formData.sport,
+      raceType: formData.raceType,
+      registrationFee: formData.registrationFee,
+      shirt: formData.shirt,
+      shirtSize: formData.shirtSize,
+      etc: formData.etc,
+      nameShip: formData.nameShip,
+      lastNameShip: formData.lastNameShip,
+      phoneNumberShip: formData.phoneNumberShip,
+      addressShip: formData.addressShip,
+      subDistrictShip: formData.subDistrictShip,
+      districtShip: formData.districtShip,
+      provinceShip: formData.provinceShip,
+      zipCodeShip: formData.zipCodeShip,
+      datePay: formData.datePay,
+      timePay: formData.timePay,
+
+      registrationDate: new Date(),
+      paymentSlipDate: formData.datePay,
+      paymentSlipTime: formData.timePay,
+    };
+
+
+    try {
+      const eventResponse = await axios.post(`http://localhost:4000/api/register/${id}`, eventRegisData);
+    } catch (err) {
+      console.error('Error:', err);
+    }
+  }
   return (
     <div>
       <Container className='mt-3' fluid style={{
@@ -58,20 +120,21 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
       }}>
         <Row>
           <Col className='ms-5' style={{ display: "flex", flexDirection: "column", justifyContent: "center", marginTop: "1rem" }}>
-            <p style={{ fontSize: "1.2rem", borderBottom: "5px solid #47474A", width: "fit-content" }}>ประเภทการสมัคร</p>
+            <p style={{ fontSize: "1.2rem", borderBottom: "5px solid #47474A", width: "fit-content" }}>{t('ประเภทการสมัคร')}</p>
           </Col>
         </Row>
 
         <Row>
           <Col xl={4} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ประเภทกีฬา</p>
+            <p>{t('ประเภทกีฬา')}</p>
             <Form.Control type='text'
               name='sportType'
               value={formData.sportType || ''}
               onChange={handleChange}
+              onBlur={saveDraft}
               disabled
-              placeholder='กรอกประเภทกีฬา'
+              placeholder={t('กรอกประเภทกีฬา')}
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -80,17 +143,18 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
 
           <Col xl={4} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ประเภทการแข่งขัน</p>
+            <p>{t('ประเภทการแข่งขัน')}</p>
             <Form.Select
               value={selectedRaceIndex}
               onChange={handleRaceTypeChange}
+              onBlur={saveDraft}
               name='raceType'
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 cursor: "pointer"
               }}>
-              <option value="">เลือกประเภทการแข่งขัน</option>
+              <option value="">{t('เลือกประเภทการแข่งขัน')}</option>
               {eventData.competitionDetails && eventData.competitionDetails.length > 0 ? (
                 eventData.competitionDetails.map((data, index) => (
                   <option key={index} value={index}>
@@ -98,14 +162,14 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                   </option>
                 ))
               ) : (
-                <option value="">ไม่มีข้อมูล</option>
+                <option value="">{t('ไม่มีข้อมูล')}</option>
               )}
             </Form.Select>
           </Col>
 
           <Col xl={4} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ค่าสมัคร(THB)</p>
+            <p>{t('ค่าสมัคร')}(THB)</p>
             <Form.Control
               type='text'
               value={
@@ -126,79 +190,82 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
         {/* สินค้า */}
         <Row>
           <Col className='ms-5' style={{ display: "flex", flexDirection: "column", justifyContent: "center", marginTop: "1rem" }}>
-            <p style={{ fontSize: "1.2rem", borderBottom: "5px solid #47474A", width: "fit-content" }}>สินค้า</p>
+            <p style={{ fontSize: "1.2rem", borderBottom: "5px solid #47474A", width: "fit-content" }}>{t('สินค้า')}</p>
           </Col>
         </Row>
 
         <Row className='mt-3 mb-5'>
           <Col xl={4} md={4} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ประเภทเสื้อ</p>
+            <p>{t('ประเภทเสื้อ')}</p>
             <Form.Select
               aria-label="Default select example"
               value={formData.shirt || ''}
               name='shirt'
               onChange={handleChange}
+              onBlur={saveDraft}
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 cursor: "pointer"
               }}>
-              <option value="">เลือกประเภทเสื้อ</option>
+              <option value="">{t('เลือกประเภทเสื้อ')}</option>
               {eventData.product && eventData.product.shirt && eventData.product.shirt.length > 0 ? (
                 eventData.product.shirt.map((data, index) => (
                   <option key={index} value={data}>{data}</option>
                 ))
               ) : (
-                <option value="">ไม่มีข้อมูล</option>
+                <option value="">{t('ไม่มีข้อมูล')}</option>
               )}
             </Form.Select>
           </Col>
 
           <Col xl={4} md={4} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ขนาดเสื้อ</p>
+            <p>{t('ขนาดเสื้อ')}</p>
             <Form.Select
               aria-label="Default select example"
               value={formData.shirtSize || ''}
               name='shirtSize'
               onChange={handleChange}
+              onBlur={saveDraft}
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 cursor: "pointer"
               }}>
-              <option value="">เลือกขนาดเสื้อ</option>
+              <option value="">{t('เลือกขนาดเสื้อ')}</option>
               {eventData.product && eventData.product.shirtsize && eventData.product.shirtsize.length > 0 ? (
                 eventData.product.shirtsize.map((data, index) => (
                   <option key={index} value={data}>{data}</option>
                 ))
               ) : (
-                <option value="">ไม่มีข้อมูล</option>
+                <option value="">{t('ไม่มีข้อมูล')}</option>
               )}
             </Form.Select>
           </Col>
 
           <Col xl={4} md={4} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>อื่นๆ</p>
+            <p>{t('อื่นๆ')}</p>
             <Form.Select
               aria-label="Default select example"
               value={formData.etc || ''}
               name='etc'
               onChange={handleChange}
+              onBlur={saveDraft}
               style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 cursor: "pointer"
               }}>
-              <option value="">เลือกอื่นๆ</option>
+              <option value="">{t('เลือกอื่นๆ')}</option>
               {eventData.product && eventData.product.etc && eventData.product.etc.length > 0 ? (
                 eventData.product.etc.map((data, index) => (
                   <option key={index} value={data}>{data}</option>
                 ))
               ) : (
-                <option value="">ไม่มีข้อมูล</option>
+                <option value="">{t('ไม่มีข้อมูล')}</option>
               )}
             </Form.Select>
           </Col>

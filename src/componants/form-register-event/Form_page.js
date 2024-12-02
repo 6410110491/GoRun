@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Row,  Spinner } from 'react-bootstrap'
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { Box, Stepper, Step, StepLabel, Typography } from '@mui/material'
 import ScrollToTop from 'react-scroll-to-top'
 import Form_step_1 from './Form_step_1'
@@ -9,6 +9,7 @@ import Form_step_4 from './Form_step_4'
 import Form_page_success from './Form_page_success'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import { useTranslation } from 'react-i18next';
 
 function Form_page() {
   let slipFile = null;
@@ -22,7 +23,7 @@ function Form_page() {
   const stepStyle = {
     padding: 2,
     "& .Mui-active": {
-      "&.MuiStepIcon-root": {
+      "& .MuiStepIcon-root": {
         color: "#F3C710",
         fontSize: "2rem",
       },
@@ -31,7 +32,7 @@ function Form_page() {
       }
     },
     "& .Mui-completed": {
-      "&.MuiStepIcon-root": {
+      "& .MuiStepIcon-root": {
         color: "#F3C710",
         fontSize: "2rem",
       },
@@ -39,12 +40,18 @@ function Form_page() {
         borderColor: "#F3C710",
       }
     }
-  }
+  };
+
   const { id } = useParams();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
+  const [formInfo, setFormInfo] = useState(null);
+
+  const { t, i18n } = useTranslation()
+
 
   const [eventData, setEventData] = useState();
   const [formData, setFormData] = useState({
@@ -96,13 +103,12 @@ function Form_page() {
     // End Page 4
   });
 
-  console.log(formData)
-
   const componants = [
     <Form_step_1 formData={formData} setFormData={setFormData}
       loading={loading} setLoading={setLoading}
       error={error} setError={setError}
       eventData={eventData} setEventData={setEventData}
+      userInfo={userInfo}
     />,
     <Form_step_2 formData={formData} setFormData={setFormData}
       loading={loading} setLoading={setLoading}
@@ -130,6 +136,10 @@ function Form_page() {
     const month = String(d.getMonth() + 1).padStart(2, '0'); // เดือนเริ่มจาก 0
     const day = String(d.getDate()).padStart(2, '0');
     return `${day}/${month}/${year}`;
+  };
+
+  const changepage = (path) => {
+    window.location.href = '/' + path;
   };
 
   const isStepSkipped = (step) => {
@@ -267,6 +277,108 @@ function Form_page() {
     fetchEventInfo();
   }, []); // Add history to dependencies to avoid warnings
 
+  useEffect(() => {
+    setLoading(true);
+
+    const fetchUserInfo = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/userinfo', {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        if (response.status === 401) {
+          changepage('login');
+          return;
+        }
+
+        if (response.ok) {
+          const data = await response.json();
+          setUserInfo(data);
+          await fetchFormInfo(data._id);
+        } else {
+          throw new Error('Failed to fetch user info');
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchFormInfo = async (userId) => {
+      try {
+        const formResponse = await fetch(`http://localhost:4000/api/register/${id}/${userId}`, {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        if (formResponse.ok) {
+          const formData = await formResponse.json();
+
+
+          setLoading(true)
+          // ทำการตั้งค่า setFormInfo ก่อน
+          setFormInfo(formData);
+
+          // รอให้ setFormInfo ทำงานเสร็จก่อน จากนั้นค่อยทำ setFormData
+          setFormData(() => ({
+            profilePicture: formData.profilePicture || userInfo?.personalInfo?.profilePicture,
+            username: formData.username || userInfo?.username,
+            gender: formData.gender || userInfo?.personalInfo?.gender,
+            birthDate: formData.birthDate || userInfo?.personalInfo?.birthDate,
+            idCardNumber: formData.idCardNumber || userInfo?.personalInfo?.idCardNumber,
+            email: formData.email || userInfo?.email,
+            phoneNumber: formData.phoneNumber || userInfo?.personalInfo?.phoneNumber,
+            nationality: formData.nationality || userInfo?.personalInfo?.nationality,
+            bloodType: formData.bloodType || userInfo?.personalInfo?.bloodType,
+            chronicDiseases: formData.chronicDiseases || userInfo?.personalInfo?.chronicDiseases?.join(', '),
+
+            address: formData.address || userInfo?.address?.address,
+            subDistrict: formData.subDistrict || userInfo?.address?.subDistrict,
+            district: formData.district || userInfo?.address?.district,
+            province: formData.province || userInfo?.address?.province,
+            zipCode: formData.zipCode || userInfo?.address?.postalCode,
+
+            sportType: formData.sportType || eventData?.sportType || '',
+            raceType: formData.raceType || '',
+            registrationFee: formData.registrationFee || '',
+            shirt: formData.shirt || '',
+            shirtSize: formData.shirtSize || '',
+            etc: formData.etc || '',
+            nameShip: formData.nameShip || '',
+            lastNameShip: formData.lastNameShip || '',
+            phoneNumberShip: formData.phoneNumberShip || '',
+            addressShip: formData.addressShip || '',
+            subDistrictShip: formData.subDistrictShip || '',
+            districtShip: formData.districtShip || '',
+            provinceShip: formData.provinceShip || '',
+            zipCodeShip: formData.zipCodeShip || '',
+            slipImage: formData.slipImage || '',
+            datePay: formData.datePay || '',
+            timePay: formData.timePay || ''
+          }));
+
+
+
+
+        } else {
+          throw new Error('Failed to fetch form info');
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false)
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
+  console.log(formData)
+
+
+
   return (
     <div style={{ minHeight: "100vh" }}>
       {/* ScroolToTop */}
@@ -311,9 +423,9 @@ function Form_page() {
                   {eventData?.eventName}
                 </Container>
 
-                <p className='ms-3'>สถานที่ : {eventData?.location}</p>
-                <p className='ms-3'>วันที่ : {formatDate(eventData?.eventDate)} </p>
-                <p className='ms-3'>ผู้จัดงาน : {eventData.organization ? eventData.organization : eventData.owner[0].username} </p>
+                <p className='ms-3'>{t('สถานที่')} : {eventData?.location}</p>
+                <p className='ms-3'>{t('วันที่')} : {formatDate(eventData?.eventDate)} </p>
+                <p className='ms-3'>{t('ผู้จัดงาน')} : {eventData.organization ? eventData.organization : eventData.owner[0].username} </p>
 
               </Container>
             </Col>
@@ -353,16 +465,20 @@ function Form_page() {
                   <Button
                     disabled={activeStep === 0}
                     onClick={handleBack}
-                    sx={{ mr: 1 }}
                     style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}
                   >
-                    ย้อนกลับ
+                    {t('ย้อนกลับ')}
+                  </Button>
+                  <Box sx={{ flex: '1 1 auto' }} />
+                  <Button
+                    onClick={handleNext}
+                    disabled={loading}
+                    style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '15%' }}
+                  >
+                    {loading ? <Spinner animation="border" size="sm" /> : (activeStep === steps.length - 1 ? t('เสร็จสิ้น') : t('ถัดไป'))}
                   </Button>
 
-                  <Box sx={{ flex: '1 1 auto' }} />
-                  <Button onClick={handleNext} style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '15%' }}>
-                    {activeStep === steps.length - 1 ? 'เสร็จสิ้น' : 'ถัดไป'}
-                  </Button>
+
                 </Box>
               </React.Fragment>
             )}
