@@ -87,17 +87,33 @@ function Home() {
         });
     }, []);
 
-    const filterEvents = () => {
-        const result = activeEvents.filter(event => {
-            return (
-                event.eventName.toLowerCase().includes(searchName.toLowerCase()) &&
-                event.location.toLowerCase().includes(searchProvince.toLowerCase()) &&
-                event.sportType.toLowerCase().includes(searchCategory.toLowerCase())
-            );
-        });
-        setFilteredEvents(result);
-        setIsSearched(true);
+    const filterEvents = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/api/events/filter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: searchName,
+                    province: searchProvince,
+                    category: searchCategory,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch filtered events');
+            }
+
+            const data = await response.json();
+            setFilteredEvents(data);
+            setIsSearched(true);
+        } catch (error) {
+            console.error('Error filtering events:', error);
+            // แสดงข้อความหรือจัดการกรณีเกิดข้อผิดพลาดที่นี่
+        }
     };
+
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -135,7 +151,7 @@ function Home() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    position: "relative", 
+                    position: "relative",
                 }}
             >
                 {/* Carousel */}
@@ -143,7 +159,7 @@ function Home() {
                     touch={true}
                     slide={true}
                     indicators={false}
-                    controls={false} 
+                    controls={false}
                     style={{
                         width: "100%",
                         height: "100%",
@@ -209,10 +225,10 @@ function Home() {
                 {/* Filter Box */}
                 <div
                     style={{
-                        position: "absolute", 
-                        bottom: "10%", 
-                        left: "50%", 
-                        transform: "translateX(-50%)", 
+                        position: "absolute",
+                        bottom: "10%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
                         backgroundColor: "#E3E3E3",
                         minHeight: "30%",
                         borderRadius: "20px",

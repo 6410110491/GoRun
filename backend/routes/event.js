@@ -160,12 +160,31 @@ router.get('/events/:id/getparticipants', async (req, res) => {
 
         res.status(200).json({
             maxParticipants: event.maxParticipants,
-            registrations: eventRegistration.registrations.length  
+            registrations: eventRegistration.registrations.length
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
+
+router.post('/events/filter', async (req, res) => {
+    const { name, province, category } = req.body;
+
+    try {
+        // Query ฐานข้อมูลโดยใช้เงื่อนไขที่ได้รับมา
+        const filteredEvents = await Event.find({
+            eventName: { $regex: name, $options: 'i' },
+            location: { $regex: province, $options: 'i' },
+            sportType: { $regex: category, $options: 'i' },
+        });
+
+        res.status(200).json(filteredEvents);
+    } catch (error) {
+        console.error('Error filtering events:', error);
+        res.status(500).json({ message: 'Error filtering events' });
+    }
+});
+
 
 
 
