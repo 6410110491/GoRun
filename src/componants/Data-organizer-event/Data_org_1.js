@@ -8,11 +8,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs from 'dayjs';
-
+import { useTranslation } from 'react-i18next';
 
 function Data_org_1({ formData, setFormData }) {
   const gender = ["ชาย", "หญิง", "อื่นๆ",]
   const blood_group = ["A", "B", "AB", "O"]
+  const { t, i18n } = useTranslation()
 
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -88,7 +89,7 @@ function Data_org_1({ formData, setFormData }) {
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
           <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-            ข้อมูลผู้จัดงาน
+            {t('ข้อมูลผู้จัดงาน')}
           </p>
         </div>
       </div>
@@ -110,7 +111,7 @@ function Data_org_1({ formData, setFormData }) {
 
           <div style={{ width: "15%", textAlign: 'center' }}>
             <p style={{ borderBottom: "5px solid #47474A", fontSize: "1.7rem" }}>
-              ข้อมูลทั่วไป
+              {t('ข้อมูลทั่วไป')}
             </p>
           </div>
 
@@ -122,16 +123,16 @@ function Data_org_1({ formData, setFormData }) {
                 alt='logo.jpg'
                 style={{ width: "100px", height: "100px", borderRadius: "100%" }}
               />
-              <p className='ms-3'>รูปภาพประจำตัว</p>
+              <p className='ms-3'>{t('รูปภาพประจำตัว')}</p>
             </Col>
             <Col xl={4} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>ชื่อองค์กร/หน่วยงาน <span className='requiredstar'>*</span></p>
+              <p>{t('ชื่อองค์กร/หน่วยงาน')} <span className='requiredstar'>*</span></p>
               <Form.Control type='text'
                 name='organization'
                 value={formData.organization}
                 onChange={handleChange}
-                placeholder='กรอกชื่อองค์กร/หน่วยงาน'
+                placeholder={t('กรอกชื่อองค์กร/หน่วยงาน')}
                 required
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -141,12 +142,12 @@ function Data_org_1({ formData, setFormData }) {
 
             <Col xl={4} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>ชื่อ-สกุล</p>
+              <p>{t('ชื่อ-สกุล')}</p>
               <Form.Control type='text'
                 name='username'
                 value={formData.username}
                 onChange={handleChange}
-                placeholder='กรอกชื่อ'
+                placeholder={t('กรอกชื่อ')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -158,13 +159,13 @@ function Data_org_1({ formData, setFormData }) {
           <Row className='mt-3'>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>เพศ</p>
+              <p>{t('เพศ')}</p>
               <Form.Select aria-label="Default select example"
                 type='text'
                 name='gender'
                 value={formData.gender}
                 onChange={handleChange}
-                placeholder='กรอกเพศ'
+                placeholder={t('กรอกเพศ')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
@@ -172,7 +173,7 @@ function Data_org_1({ formData, setFormData }) {
                 }}
                 defaultValue={formData.gender} // ตั้งค่า default value
               >
-                <option value="">ไม่ระบุ</option>
+                <option value="">{t('ไม่ระบุ')}</option>
                 {gender.map((data, index) => (
                   <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า gender จริงๆ
                 ))}
@@ -182,7 +183,7 @@ function Data_org_1({ formData, setFormData }) {
 
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>วันเดือนปีเกิด</p>
+              <p>{t('วันเดือนปีเกิด')}</p>
               <div style={{ marginTop: "-12px" }}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={['DatePicker']} >
@@ -206,12 +207,12 @@ function Data_org_1({ formData, setFormData }) {
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>เลขประจำตัวประชาชน</p>
+              <p>{t('เลขบัตรประชาชน')}</p>
               <Form.Control type='text'
                 name='idCardNumber'
                 value={formData.idCardNumber}
                 onChange={handleChange}
-                placeholder='กรอกเลขบัตรประชาชน'
+                placeholder={t('กรอกเลขบัตรประชาชน')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -219,7 +220,7 @@ function Data_org_1({ formData, setFormData }) {
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>อีเมล</p>
+              <p>{t('อีเมล')}</p>
               <Form.Control type='email'
                 name='email'
                 value={formData.email}
@@ -236,12 +237,12 @@ function Data_org_1({ formData, setFormData }) {
           <Row className='mt-3 mb-5'>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>เบอร์โทรศัพท์</p>
+              <p>{t('เบอร์โทรศัพท์')}</p>
               <Form.Control type='text'
                 name='phoneNumber'
                 value={formData.phoneNumber}
                 onChange={handleChange}
-                placeholder='กรอกเบอร์โทรศัพท์'
+                placeholder={t('กรอกเบอร์โทรศัพท์')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -249,13 +250,13 @@ function Data_org_1({ formData, setFormData }) {
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>สัญชาติ</p>
+              <p>{t('สัญชาติ')}</p>
               <Form.Control
                 type='text'
                 name='nationality'
                 value={formData.nationality}
                 onChange={handleChange}
-                placeholder='กรอกสัญชาติ'
+                placeholder={t('กรอกสัญชาติ')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -263,7 +264,7 @@ function Data_org_1({ formData, setFormData }) {
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>หมู่โลหิต</p>
+              <p>{t('หมู่โลหิต')}</p>
               <Form.Select aria-label="Default select example" style={{
                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
@@ -273,7 +274,7 @@ function Data_org_1({ formData, setFormData }) {
                 onChange={handleChange}
                 value={formData.bloodType}
               >
-                <option value="">ไม่ระบุ</option>
+                <option value="">{t('ไม่ระบุ')}</option>
                 {blood_group.map((data, index) => (
                   <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า gender จริงๆ
                 ))}
@@ -281,13 +282,13 @@ function Data_org_1({ formData, setFormData }) {
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>โรคประจำตัว</p>
+              <p>{t('โรคประจำตัว')}</p>
               <Form.Control
                 type='text'
                 name='chronicDiseases'
                 value={formData.chronicDiseases}
                 onChange={handleChange}
-                placeholder='กรอกโรคประจำตัว'
+                placeholder={t('กรอกโรคประจำตัว')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -299,20 +300,20 @@ function Data_org_1({ formData, setFormData }) {
 
           <div style={{ width: "15%", textAlign: 'center' }}>
             <p style={{ borderBottom: "5px solid #47474A", fontSize: "1.7rem" }}>
-              ที่อยู่ปัจจุบัน
+              {t('ที่อยู่ปัจจุบัน')}
             </p>
           </div>
 
           <Row>
             <Col xl={6} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>ที่อยู่</p>
+              <p>{t('ที่อยู่')}</p>
               <Form.Control
                 type='text'
                 name='address'
                 value={formData.address}
                 onChange={handleChange}
-                placeholder='ที่อยู่'
+                placeholder={t('กรอกที่อยู่')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -320,13 +321,13 @@ function Data_org_1({ formData, setFormData }) {
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>ตำบล/แขวง</p>
+              <p>{t('ตำบล/แขวง')}</p>
               <Form.Control
                 type='text'
                 name='subDistrict'
                 value={formData.subDistrict}
                 onChange={handleChange}
-                placeholder='ตำบล/แขวง'
+                placeholder={t('กรอกตำบล/แขวง')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -335,13 +336,13 @@ function Data_org_1({ formData, setFormData }) {
 
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>อำเภอ</p>
+              <p>{t('อำเภอ/เขต')}</p>
               <Form.Control
                 type='text'
                 name='district'
                 value={formData.district}
                 onChange={handleChange}
-                placeholder='อำเภอ'
+                placeholder={t('อำเภอ/เขต')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -352,12 +353,12 @@ function Data_org_1({ formData, setFormData }) {
           <Row className='mt-3'>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>จังหวัด</p>
+              <p>{t('จังหวัด')}</p>
               <Form.Control type='text'
                 name='province'
                 value={formData.province}
                 onChange={handleChange}
-                placeholder='จังหวัด'
+                placeholder={t('จังหวัด')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -365,13 +366,13 @@ function Data_org_1({ formData, setFormData }) {
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>รหัสไปรษณีย์</p>
+              <p>{t('รหัสไปรษณีย์')}</p>
               <Form.Control
                 type='text'
                 name='zipCode'
                 value={formData.zipCode}
                 onChange={handleChange}
-                placeholder='รหัสไปรษณีย์'
+                placeholder={t('กรอกรหัสไปรษณีย์')}
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                   backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -381,7 +382,7 @@ function Data_org_1({ formData, setFormData }) {
 
         </Container>
       ) : (
-        <p>No user information available.</p>
+        <p>{t('ไม่พบข้อมูล')}</p>
       )}
     </Container>
   )

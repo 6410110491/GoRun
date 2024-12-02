@@ -2,14 +2,17 @@ import React, { useState } from 'react'
 import { Col, Row, Container, Form, InputGroup, Button, } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { FaTrash } from 'react-icons/fa';
-
+import { useTranslation } from 'react-i18next';
 
 let selectedFile = null;
 function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
+    const { t, i18n } = useTranslation()
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
+    
 
     const handleReceiveChange = async (e) => {
         const files = Array.from(e.target.files);
@@ -178,7 +181,7 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
             <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
                     <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-                        รายละเอียดงาน
+                        {t('รายละเอียดงาน')}
                     </p>
                 </div>
             </div>
@@ -195,7 +198,7 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                 <Row>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p style={{ margin: "0" }}>สิ่งที่จะได้รับ</p>
+                        <p style={{ margin: "0" }}>{t('สิ่งที่จะได้รับ')}</p>
                         <Form.Group controlId='formReceivePicture'>
                             <Form.Control
                                 accept=".png,.jpg,.jpeg,"
@@ -203,14 +206,14 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                                 multiple
                                 name='image'
                                 rows={3}
-                                placeholder='รูปภาพสิ่งที่จะได้รับ'
+                                placeholder='เลือกรูปภาพสิ่งที่จะได้รับ'
                                 onChange={handleReceiveChange}
                             />
                         </Form.Group>
                     </Col>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p style={{ margin: "0" }}>เส้นทางการแข่งขัน</p>
+                        <p style={{ margin: "0" }}>{t('เส้นทางการแข่งขัน')}</p>
                         <Form.Group controlId='formRoutePicture'>
                             <Form.Control
                                 accept=".png,.jpg,.jpeg,"
@@ -218,7 +221,7 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                                 multiple
                                 name='image'
                                 rows={3}
-                                placeholder='รูปภาพเส้นทางการแข่งขัน'
+                                placeholder='เลือกรูปภาพเส้นทางการแข่งขัน'
                                 onChange={handleRouteChange}
                             />
                         </Form.Group>
@@ -227,12 +230,12 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                 <Row className='mt-3'>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>ที่พัก/โรงแรม</p>
+                        <p>{t('ที่พัก/โรงแรม')}</p>
                         <Form.Control
                             as="textarea"
                             rows={3}
                             type="text"
-                            placeholder="กรอกที่พัก/โรงแรม"
+                            placeholder={t("กรอกที่พัก/โรงแรม")}
                             name="accommodation"
                             value={formData.accommodation}
                             onChange={handleChange}
@@ -243,11 +246,11 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                     </Col>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>ร้านอาหาร</p>
+                        <p>{t('ร้านอาหาร')}</p>
                         <Form.Control as="textarea"
                             rows={3}
                             type="text"
-                            placeholder="กรอกร้านอาหาร"
+                            placeholder={t("กรอกร้านอาหาร")}
                             name="foodStalls"
                             value={formData.foodStalls}
                             onChange={handleChange}
@@ -261,11 +264,11 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                 <Row className='mt-3'>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p>ข้อมูลเพิ่มเติม</p>
+                        <p>{t('ข้อมูลเพิ่มเติม')}</p>
                         <Form.Control as="textarea"
                             rows={3}
                             type="text"
-                            placeholder="กรอกข้อมูลเพิ่มเติม"
+                            placeholder={t("กรอกข้อมูลเพิ่มเติม")}
                             name="etcInfo"
                             value={formData.etcInfo}
                             onChange={handleChange}
@@ -280,27 +283,27 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                 <Row className='mt-3' style={{ marginBottom: "48px" }}>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p >แผนที่ตำแหน่งการจัดงาน</p>
+                        <p >{t('แผนที่ตำแหน่งการจัดงาน')}</p>
                         <Row>
                             <Col xl={6} md={6} sm={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                <p>ละติจูด</p>
+                                <p>{t('ละติจูด')}</p>
                                 <Form.Control type='text'
                                     name='latitude'
                                     value={formData.latitude}
                                     onChange={handleChange}
-                                    placeholder='กรอกละติจูด'
+                                    placeholder={t('กรอกละติจูด')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                                     }} />
                             </Col>
                             <Col xl={6} md={6} sm={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                <p>ลองจิจูด</p>
+                                <p>{t('ลองจิจูด')}</p>
                                 <Form.Control type='text'
                                     name='longtitude'
                                     value={formData.longtitude}
                                     onChange={handleChange}
-                                    placeholder='กรอกลองจิจูด'
+                                    placeholder={t('กรอกลองจิจูด')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -315,7 +318,7 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
 
                 <div style={{ width: "15%", textAlign: 'center' }}>
                     <p style={{ borderBottom: "5px solid #47474A", fontSize: "1.7rem" }}>
-                        สินค้า
+                        {t('สินค้า')}
                     </p>
                 </div>
 
@@ -324,13 +327,13 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                         style={{ display: "flex", flexDirection: "column" }}>
                         {formData.product?.shirt && formData.product.shirt.map((product, index) => (
                             <Row key={index} className='mt-2'>
-                                <p>ประเภทเสื้อ</p>
+                                <p>{t('ประเภทเสื้อ')}</p>
                                 <Form.Control
                                     type='text'
                                     name='shirt'
                                     value={product}
                                     onChange={(e) => handleAddShirtChange(index, e)}
-                                    placeholder='กรอกประเภทเสื้อ'
+                                    placeholder={t('กรอกประเภทเสื้อ')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -344,7 +347,7 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                                     display: "flex", alignItems: "center", justifyContent: "center",
                                     border: "none", borderRadius: "10px", width: "fit-content", padding: "10px"
                                 }}>
-                                เพิ่มประเภทเสื้อ
+                                {t('เพิ่มประเภทเสื้อ')}
                             </Button>
                             {formData.product?.shirt?.length > 0 && (
                                 <Button className="mt-3" onClick={handleRemoveShirtForm}
@@ -358,13 +361,13 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                         style={{ display: "flex", flexDirection: "column" }}>
                         {formData.product?.shirtsize && formData.product.shirtsize.map((product, index) => (
                             <Row key={index} className='mt-2'>
-                                <p>ขนาดเสื้อ</p>
+                                <p>{t('ขนาดเสื้อ')}</p>
                                 <Form.Control
                                     type='text'
                                     name='shirtsize'
                                     value={product}
                                     onChange={(e) => handleAddShirtSizeChange(index, e)}
-                                    placeholder='กรอกขนาดเสื้อ'
+                                    placeholder={t('กรอกขนาดเสื้อ')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -378,7 +381,7 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                                     display: "flex", alignItems: "center", justifyContent: "center",
                                     border: "none", borderRadius: "10px", width: "fit-content", padding: "10px"
                                 }}>
-                                เพิ่มขนาดเสื้อ
+                                {t('เพิ่มขนาดเสื้อ')}
                             </Button>
                             {formData.product?.shirtsize?.length > 0 && (
                                 <Button className="mt-3" onClick={handleRemoveShirtSizeForm}
@@ -392,13 +395,13 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                         style={{ display: "flex", flexDirection: "column" }}>
                         {formData.product?.etc && formData.product.etc.map((product, index) => (
                             <Row key={index} className='mt-2'>
-                                <p>อื่นๆ</p>
+                                <p>{t('อื่นๆ')}</p>
                                 <Form.Control
                                     type='text'
                                     name='etc'
                                     value={product}
                                     onChange={(e) => handleAddEtcChange(index, e)}
-                                    placeholder='กรอกสินค้าอื่นๆ'
+                                    placeholder={t('กรอกสินค้าอื่นๆ')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                         backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -412,7 +415,7 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                                     display: "flex", alignItems: "center", justifyContent: "center",
                                     border: "none", borderRadius: "10px", width: "fit-content", padding: "10px"
                                 }}>
-                                เพิ่มสินค้าอื่นๆ
+                                {t('เพิ่มสินค้าอื่นๆ')}
                             </Button>
                             {formData.product?.etc?.length > 0 && (
                                 <Button className="mt-3" onClick={handleRemoveEtcForm}
@@ -426,10 +429,10 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
                         <Row className='mt-2'>
-                            <p>ค่าจัดส่ง(THB)</p>
+                            <p>{t('ค่าจัดส่ง')}(THB)</p>
                             <Form.Control
                                 type="number"
-                                placeholder="กรอกค่าจัดส่ง"
+                                placeholder={t("กรอกค่าจัดส่ง")}
                                 name="shippingFee"
                                 value={formData.shippingFee}
                                 onChange={handleChange}
@@ -445,19 +448,19 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
 
                 <div style={{ width: "15%", textAlign: 'center', margin: "3rem 0" }}>
                     <p style={{ borderBottom: "5px solid #47474A", fontSize: "1.7rem" }}>
-                        ช่องทางชำระเงิน
+                        {t('ช่องทางชำระเงิน')}
                     </p>
                 </div>
 
                 <Row className='mt-3'>
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p>ชื่อธนาคาร</p>
+                        <p>{t('ชื่อธนาคาร')}</p>
                         <Form.Control type='text'
                             name='bankName'
                             value={formData.bankName} // ใช้ค่า bankName จาก paymentInfo
                             onChange={handleChange}
-                            placeholder='กรอกชื่อธนาคาร'
+                            placeholder={t('กรอกชื่อธนาคาร')}
                             style={{
                                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -465,12 +468,12 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p>ชื่อบัญชี</p>
+                        <p>{t('ชื่อบัญชี')}</p>
                         <Form.Control type='text'
                             name='accountName'
                             value={formData.accountName} // ใช้ค่า accountName จาก paymentInfo
                             onChange={handleChange}
-                            placeholder='กรอกชื่อบัญชี'
+                            placeholder={t('กรอกชื่อบัญชี')}
                             style={{
                                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -478,12 +481,12 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p>เลขบัญชี</p>
+                        <p>{t('เลขที่บัญชี')}</p>
                         <Form.Control type='text'
                             name='accountNumber'
                             value={formData.accountNumber} // ใช้ค่า accountNumber จาก paymentInfo
                             onChange={handleChange}
-                            placeholder='กรอกเลขบัญชี'
+                            placeholder={t('กรอกเลขที่บัญชี')}
                             style={{
                                 borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                                 backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -491,7 +494,7 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p>รูปภาพ QR Code พร้อมเพย์</p>
+                        <p>{t('รูปภาพ QR Code พร้อมเพย์')}</p>
                         <Form.Group controlId='promptPayImage'>
                             <Form.Control
                                 style={{
@@ -502,7 +505,7 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                                 type='file'
                                 name='promptPayImage'
                                 rows={3}
-                                placeholder='รูปภาพพร้อมเพย์'
+                                placeholder={t('รูปภาพพร้อมเพย์')}
                                 onChange={handleFileChange}
                             />
                         </Form.Group>

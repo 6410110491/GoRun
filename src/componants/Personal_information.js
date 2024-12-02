@@ -547,7 +547,7 @@ function Personal_information() {
                             </Form>
                         </div>
                     ) : (
-                        <p>No user information available.</p>
+                        <p>{t('ไม่พบข้อมูล')}</p>
                     )}
                 </Modal.Body>
 

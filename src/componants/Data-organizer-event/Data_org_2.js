@@ -10,9 +10,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 
 
 function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, BannerFile }) {
+
+  const { t, i18n } = useTranslation()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -96,7 +99,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
           <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-            รายละเอียดงาน
+            {t('รายละเอียดงาน')}
           </p>
         </div>
       </div>
@@ -112,10 +115,10 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
         <Row>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ชื่องาน <span className='requiredstar'>*</span> </p>
+            <p>{t('ชื่องาน')} <span className='requiredstar'>*</span> </p>
             <Form.Control
               type="text"
-              placeholder="กรอกชื่องาน"
+              placeholder={t("กรอกชื่องาน")}
               name="eventName"
               value={formData.eventName}
               onChange={handleChange}
@@ -127,10 +130,10 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ประเภทกีฬา <span className='requiredstar'>*</span></p>
+            <p>{t('ประเภทกีฬา')} <span className='requiredstar'>*</span></p>
             <Form.Control
               type="text"
-              placeholder="กรอกประเภทกีฬา"
+              placeholder={t("กรอกประเภทกีฬา")}
               name='sportType'
               value={formData.sportType}
               onChange={handleChange}
@@ -142,10 +145,10 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>สถานที่จัดงาน <span className='requiredstar'>*</span></p>
+            <p>{t('สถานที่จัดงาน')} <span className='requiredstar'>*</span></p>
             <Form.Control
               type="text"
-              placeholder="กรอกสถานที่จัดงาน"
+              placeholder={t("กรอกสถานที่จัดงาน")}
               name="location"
               value={formData.location}
               onChange={handleChange}
@@ -157,7 +160,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>วันที่แข่งขัน</p>
+            <p>{t('วันที่แข่งขัน')}</p>
             <div style={{ marginTop: "-12px" }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']} >
@@ -183,7 +186,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
 
         <Row className='mt-3'>
           <Col xl={3} md={6} sm={12} className='mt-2'>
-            <p>เวลาการแข่งขัน</p>
+            <p>{t('เวลาการแข่งขัน')}</p>
             <div style={{ marginTop: "-12px" }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['TimePicker']}>
@@ -210,7 +213,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
 
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>วันที่เปิดรับสมัคร</p>
+            <p>{t('วันที่เปิดรับสมัคร')}</p>
             <div style={{ marginTop: "-12px" }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']} >
@@ -234,7 +237,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>วันที่ปิดรับสมัคร</p>
+            <p>{t('วันที่ปิดรับสมัคร')}</p>
             <div style={{ marginTop: "-12px" }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']} >
@@ -258,10 +261,10 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>จำนวนรับสมัคร</p>
+            <p>{t('จำนวนรับสมัคร')}</p>
             <Form.Control
               type="number"
-              placeholder="กรอกจำนวนรับสมัคร"
+              placeholder={t("กรอกจำนวนรับสมัคร")}
               name='maxRegis'
               value={formData.maxRegis}
               onChange={handleChange}
@@ -278,10 +281,10 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
             {formData.competitionDetails && formData.competitionDetails.map((formDataItem, index) => (
               <Row className='mt-3' key={index}>
                 <Col xl={3} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
-                  <p>ประเภทการแข่งขัน</p>
+                  <p>{t('ประเภทการแข่งขัน')}</p>
                   <Form.Control
                     type="text"
-                    placeholder="กรอกประเภทการแข่งขัน"
+                    placeholder={t("กรอกประเภทการแข่งขัน")}
                     name='raceType'
                     value={formDataItem.raceType}
                     onChange={(e) => handleAddformChange(index, e)}
@@ -294,10 +297,10 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
                   </Form.Text>
                 </Col>
                 <Col xl={3} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
-                  <p>ค่าสมัคร</p>
+                  <p>{t('ค่าสมัคร')}</p>
                   <Form.Control
                     type="number"
-                    placeholder="กรอกค่าสมัคร"
+                    placeholder={t("กรอกค่าสมัคร")}
                     name='fee'
                     value={formDataItem.fee}
                     onChange={(e) => handleAddformChange(index, e)}
@@ -316,7 +319,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
                       display: "flex", alignItems: "center", justifyContent: "center",
                       border: "none", borderRadius: "10px", width: "fit-content", padding: "10px"
                     }}>
-                    เพิ่มประเภทการแข่งขัน
+                    {t('เพิ่มประเภทการแข่งขัน')}
                   </Button>
                   {formData.competitionDetails?.length > 0 && (
                     <Button className="mt-3" onClick={handleRemoveForm}
@@ -334,7 +337,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
         <Row className='mt-5'>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column" }}>
-            <p style={{ margin: "0" }}>เพิ่มรูปปก</p>
+            <p style={{ margin: "0" }}>{t('เพิ่มรูปหน้าปก')}</p>
             <Form.Group controlId='formprizePicture'>
               <Form.Control
                 accept=".png,.jpg,.jpeg,"
@@ -342,14 +345,14 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
                 multiple
                 name='image'
                 rows={3}
-                placeholder='รูปหน้าปก'
+                placeholder={t('เลือกรูปหน้าปก')}
                 onChange={handleCoverPictureChange}
               />
             </Form.Group>
           </Col>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column" }}>
-            <p style={{ margin: "0" }}>เพิ่มรูปปก (ขนาด 970 x 250 พิกเซล)</p>
+            <p style={{ margin: "0" }}>{t('เพิ่มรูปปก (ขนาด 970 x 250 พิกเซล)')}</p>
             <Form.Group controlId='formprizePicture'>
               <Form.Control
                 accept=".png,.jpg,.jpeg,"
@@ -357,7 +360,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
                 multiple
                 name='image'
                 rows={3}
-                placeholder='รูปปกแบนเนอร์'
+                placeholder={t('เลือกรูปปกแบนเนอร์')}
                 onChange={handleBannerPictureChange}
               />
             </Form.Group>
@@ -367,7 +370,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
         <Row className='mt-5'>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ข้อมูลทั่วไป</p>
+            <p>{t('ข้อมูลทั่วไป')}</p>
             <Form.Control
               as="textarea"
               rows={3}
@@ -381,7 +384,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
           </Col>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>วัตถุประสงค์</p>
+            <p>{t('วัตถุประสงค์')}</p>
             <Form.Control
               as="textarea"
               rows={3}
@@ -398,7 +401,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
         <Row className='mt-5'>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>ความน่าสนใจของงาน</p>
+            <p>{t('ความน่าสนใจของงาน')}</p>
             <Form.Control
               as="textarea"
               rows={3}
@@ -412,7 +415,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
           </Col>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column" }}>
-            <p style={{ margin: "0" }}>รางวัล</p>
+            <p style={{ margin: "0" }}>{t('รางวัล')}</p>
             <Form.Group controlId='formprizePicture'>
               <Form.Control
                 accept=".png,.jpg,.jpeg,"

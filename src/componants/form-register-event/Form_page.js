@@ -475,7 +475,7 @@ function Form_page() {
                     disabled={loading}
                     style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '15%' }}
                   >
-                    {loading ? <Spinner animation="border" size="sm" /> : (activeStep === steps.length - 1 ? 'เสร็จสิ้น' : 'ถัดไป')}
+                    {loading ? <Spinner animation="border" size="sm" /> : (activeStep === steps.length - 1 ? 'เสร็จสิ้น' : t('ถัดไป'))}
                   </Button>
 
 

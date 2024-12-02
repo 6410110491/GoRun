@@ -187,14 +187,14 @@ function Signup() {
 
                     <Modal show={showPopup} onHide={handleClosePopup} centered>
                         <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                            <Modal.Title>ข้อผิดพลาด</Modal.Title>
+                            <Modal.Title>{t('ข้อผิดพลาด')}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <p>มีอีเมลนี้ในระบบอยู่แล้ว กรุณาลองใหม่อีกครั้ง</p>
+                            <p>{t('มีอีเมลนี้ในระบบอยู่แล้ว กรุณาลองใหม่อีกครั้ง')}</p>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClosePopup}>
-                                ปิด
+                                {t('ปิด')}
                             </Button>
                         </Modal.Footer>
                     </Modal>

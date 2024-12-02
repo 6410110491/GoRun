@@ -1,7 +1,9 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next';
 
 function Footer() {
+    const { t, i18n } = useTranslation()
     return (
         <div>
             <Container fluid style={{ backgroundColor: "#040404", height: "fit-content" }}>
@@ -28,7 +30,7 @@ function Footer() {
                             <Col>
                                 <div>
                                     <p style={{ color: "#FFF", fontSize: "15px", fontWeight: "bold", }}>
-                                        จัดทำโดย
+                                        {t('จัดทำโดย')}
                                     </p>
                                     <p style={{ color: "#FFF", fontSize: "15px", }}>
                                         6410110307@psu.ac.th

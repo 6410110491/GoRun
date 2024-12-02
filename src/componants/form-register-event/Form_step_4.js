@@ -229,7 +229,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
                 style={{ width: "300px", height: "400px" }} />
             </Col>
             <Col xl={7} md={12}>
-              <p className='ms-3'>{t('ธนาคาร')} : {eventData.paymentInfo.bankName}</p>
+              <p className='ms-3'>{t('ชื่อธนาคาร')} : {eventData.paymentInfo.bankName}</p>
               <p className='ms-3'>{t('ชื่อบัญชี')} : {eventData.paymentInfo.accountName}</p>
               <p className='ms-3'>{t('เลขที่บัญชี')} : {eventData.paymentInfo.accountNumber}</p>
               <p className='ms-3' style={{ fontWeight: "700" }}>{t('จำนวนเงินที่ต้องชำระ')} : THB {totalPayment}</p>

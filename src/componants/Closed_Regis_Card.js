@@ -3,6 +3,7 @@ import { Badge, Card, Col } from 'react-bootstrap';
 import RoomIcon from '@mui/icons-material/Room';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PersonIcon from '@mui/icons-material/Person';
+import { useTranslation } from 'react-i18next';
 
 function Closed_Regis_Card(props) {
     const formatDate = (date) => {
@@ -14,6 +15,8 @@ function Closed_Regis_Card(props) {
         const day = String(d.getDate()).padStart(2, '0');
         return `${day}/${month}/${year}`;
     };
+
+    const { t, i18n } = useTranslation()
     return (
         <Col className='mb-5' xs={12} md={6} lg={6} xl={4} xxl={3}
             style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
@@ -40,7 +43,7 @@ function Closed_Regis_Card(props) {
                             zIndex: 2
                         }}
                     >
-                        ปิดรับสมัคร
+                        {t('ปิดรับสมัคร')}
                     </Badge>
                     <Card.Title style={{
                         display: "-webkit-box",

@@ -5,6 +5,7 @@ import { FaList } from 'react-icons/fa';
 import { useMediaQuery } from 'react-responsive';
 import { useParams } from 'react-router-dom';
 import ScrollToTop from 'react-scroll-to-top'
+import { useTranslation } from 'react-i18next';
 
 function Card_event_detail() {
     const { id } = useParams();
@@ -17,6 +18,8 @@ function Card_event_detail() {
 
     const [maxParticipants, setMaxParticipants] = useState(null);
     const [registrations, setRegistrations] = useState(null);
+
+    const { t, i18n } = useTranslation()
 
     const imageSrc = require('../image/event-pic-3.jpg')
 
@@ -183,7 +186,7 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
                                         display: "flex", justifyContent: "center", alignItems: "center"
                                     }}>
-                                        รายละเอียดงาน
+                                        {t('รายละเอียดงาน')}
                                     </Container>
 
                                     {/* ข้อมูลทั่วไป */}
@@ -191,7 +194,7 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
                                         marginBottom: "-20px", position: "relative"
                                     }}>
-                                        ข้อมูลทั่วไป
+                                        {t('ข้อมูลทั่วไป')}
                                     </Container>
                                     <Container className='ms-3' fluid style={{
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
@@ -208,7 +211,7 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
                                         marginBottom: "-20px", position: "relative"
                                     }}>
-                                        วัตถุประสงค์
+                                        {t('วัตถุประสงค์')}
                                     </Container>
                                     <Container className='ms-3' fluid style={{
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
@@ -227,7 +230,7 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
                                         marginBottom: "-20px", position: "relative"
                                     }}>
-                                        ความน่าสนใจของงาน
+                                        {t('ความน่าสนใจของงาน')}
                                     </Container>
                                     <Container className='ms-3' fluid style={{
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
@@ -244,7 +247,7 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
                                         marginBottom: "-20px", position: "relative"
                                     }}>
-                                        ประเภทการแข่งขัน/ค่าสมัคร
+                                        {t('ประเภทการแข่งขัน/ค่าสมัคร')}
                                     </Container>
                                     <Container className='ms-3' fluid style={{
                                         backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0",
@@ -254,10 +257,10 @@ function Card_event_detail() {
                                             <div key={index}>
                                                 <Row className='mt-1'>
                                                     <Col xl={6} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
-                                                        <p className='ms-3'>ประเภท: {formDataItem.raceType}</p>
+                                                        <p className='ms-3'>{t('ประเภทการแข่งขัน')}: {formDataItem.raceType}</p>
                                                     </Col>
                                                     <Col xl={6} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
-                                                        <p className='ms-3'>ค่าสมัคร: THB {formDataItem.registrationFee}</p>
+                                                        <p className='ms-3'>{t('ค่าสมัคร')}: THB {formDataItem.registrationFee}</p>
                                                     </Col>
                                                 </Row>
                                                 {/* แสดง Divider ยกเว้นรายการสุดท้าย */}
@@ -276,7 +279,7 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
                                         marginBottom: "-20px", position: "relative"
                                     }}>
-                                        เส้นทางการแข่งขัน
+                                        {t('เส้นทางการแข่งขัน')}
                                     </Container>
                                     <Container className='ms-3' fluid style={{
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
@@ -298,7 +301,7 @@ function Card_event_detail() {
                                                 />
                                             ))
                                         ) : (
-                                            <p className='ms-3'>ไม่มีข้อมูลเส้นทางการแข่งขัน</p>
+                                            <p className='ms-3'>{t('ไม่มีข้อมูลเส้นทางการแข่งขัน')}</p>
                                         )}
                                     </Container>
 
@@ -309,7 +312,7 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
                                         marginBottom: "-20px", position: "relative"
                                     }}>
-                                        รางวัล
+                                        {t('รางวัล')}
                                     </Container>
                                     <Container className='ms-3' fluid style={{
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
@@ -331,7 +334,7 @@ function Card_event_detail() {
                                                 />
                                             ))
                                         ) : (
-                                            <p className='ms-3'>ไม่มีข้อมูลรางวัล</p>
+                                            <p className='ms-3'>{t('ไม่มีข้อมูลรางวัล')}</p>
                                         )}
                                     </Container>
 
@@ -342,7 +345,7 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
                                         marginBottom: "-20px", position: "relative"
                                     }}>
-                                        สิ่งที่จะได้รับ
+                                        {t('สิ่งที่จะได้รับ')}
                                     </Container>
                                     <Container className='ms-3' fluid style={{
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
@@ -364,7 +367,7 @@ function Card_event_detail() {
                                                 />
                                             ))
                                         ) : (
-                                            <p className='ms-3'>ไม่มีข้อมูลสิ่งที่จะได้รับ</p>
+                                            <p className='ms-3'>{t('ไม่มีข้อมูลสิ่งที่จะได้รับ')}</p>
                                         )}
                                     </Container>
 
@@ -375,7 +378,7 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
                                         marginBottom: "-20px", position: "relative"
                                     }}>
-                                        ข้อมูลเพิ่มเติม
+                                        {t('ข้อมูลเพิ่มเติม')}
                                     </Container>
                                     <Container className='ms-3' fluid style={{
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
@@ -398,7 +401,7 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
                                         display: "flex", justifyContent: "center", alignItems: "center"
                                     }}>
-                                        แผนที่จัดงาน
+                                        {t('แผนที่จัดงาน')}
                                     </Container>
 
 
@@ -413,13 +416,13 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
                                         display: "flex", justifyContent: "center", alignItems: "center"
                                     }}>
-                                        ที่พัก/ร้านอาหาร
+                                        {t('ที่พัก/ร้านอาหาร')}
                                     </Container>
 
-                                    <p className='ms-3'>ที่พัก/โรงแรม:
+                                    <p className='ms-3'>{t('ที่พัก/โรงแรม')}:
                                         {eventDetail ? eventDetail.accommodation : ""}
                                     </p>
-                                    <p className='ms-3'>ร้านอาหาร:
+                                    <p className='ms-3'>{t('ร้านอาหาร')}:
                                         {eventDetail ? eventDetail.foodStalls : ""}
                                     </p>
                                 </Container>
@@ -438,11 +441,11 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
                                         display: "flex", justifyContent: "center", alignItems: "center"
                                     }}>
-                                        ผู้จัดงาน
+                                        {t('ผู้จัดงาน')}
                                     </Container>
-                                    <p className='ms-3'>ชื่อผู้จัดงาน: {eventDetail.organization ? eventDetail.organization : eventDetail.owner[0].username}</p>
-                                    <p className='ms-3'>เบอร์โทรศัพท์: {userInfo ? userInfo.personalInfo.phoneNumber : ""}</p>
-                                    <p className='ms-3'>อีเมล: {userInfo ? userInfo.email : ""}</p>
+                                    <p className='ms-3'>{t('ชื่อผู้จัดงาน')}: {eventDetail.organization ? eventDetail.organization : eventDetail.owner[0].username}</p>
+                                    <p className='ms-3'>{t('เบอร์โทรศัพท์')}: {userInfo ? userInfo.personalInfo.phoneNumber : ""}</p>
+                                    <p className='ms-3'>{t('อีเมล')}: {userInfo ? userInfo.email : ""}</p>
 
                                 </Container>
 
@@ -456,12 +459,12 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
                                         display: "flex", justifyContent: "center", alignItems: "center"
                                     }}>
-                                        ช่วงการรับสมัคร
+                                        {t('ช่วงการรับสมัคร')}
                                     </Container>
 
-                                    <p className='ms-3'>เปิดรับสมัคร : {formatDate(eventDetail ? eventDetail.registrationOpenDate : "")} </p>
-                                    <p className='ms-3'>ปิดรับสมัคร : {formatDate(eventDetail ? eventDetail.registrationCloseDate : "")}</p>
-                                    <p className='ms-3'>จำนวนผู้สมัคร : {registrations}/{maxParticipants}</p>
+                                    <p className='ms-3'>{t('เปิดรับสมัคร')} : {formatDate(eventDetail ? eventDetail.registrationOpenDate : "")} </p>
+                                    <p className='ms-3'>{t('ปิดรับสมัคร')} : {formatDate(eventDetail ? eventDetail.registrationCloseDate : "")}</p>
+                                    <p className='ms-3'>{t('จำนวนผู้สมัคร')} : {registrations}/{maxParticipants}</p>
 
                                 </Container>
 
@@ -475,18 +478,18 @@ function Card_event_detail() {
                                         backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
                                         display: "flex", justifyContent: "center", alignItems: "center"
                                     }}>
-                                        การสมัคร
+                                        {t('การสมัคร')}
                                     </Container>
 
-                                    <p className='ms-3'>วันที่ :  {formatDate(eventDetail ? eventDetail.eventDate : "")}</p>
-                                    <p className='ms-3'>สถานที่ :  {eventDetail ? eventDetail.location : ""}</p>
-                                    <p className='ms-3'>เวลา : เริ่มตั้งแต่  {formatTime(eventDetail ? eventDetail.eventTime : "")} น. เป็นต้นไป</p>
+                                    <p className='ms-3'>{t('วันที่')} :  {formatDate(eventDetail ? eventDetail.eventDate : "")}</p>
+                                    <p className='ms-3'>{t('สถานที่')} :  {eventDetail ? eventDetail.location : ""}</p>
+                                    <p className='ms-3'>{t('เวลา')} : {t('เริ่มตั้งแต่')}  {formatTime(eventDetail ? eventDetail.eventTime : "")} น. เป็นต้นไป</p>
 
                                     <div style={{ display: "flex", justifyContent: "center" }}>
                                         <Button variant="danger" style={{ border: 'none', borderRadius: '10px', width: "40%" }}
                                             onClick={() => changepage(`event/form/${eventDetail._id}`)}
                                             className='me-3 ms-3'
-                                        >สมัคร
+                                        >{t('สมัคร')}
                                         </Button>
                                     </div>
 
@@ -504,7 +507,7 @@ function Card_event_detail() {
                                     }}
                                         onClick={() => changepage(`event/${eventDetail._id}/applicants-info`)}
                                     >
-                                        <FaList />  รายชื่อผู้สมัคร
+                                        <FaList />  {t('รายชื่อผู้สมัคร')}
                                     </Button>
                                 </div>
 
@@ -515,7 +518,7 @@ function Card_event_detail() {
                             <div style={{ display: 'flex', justifyContent: "space-between", paddingLeft: "5rem", paddingRight: "5rem" }}>
                                 <Button style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}
                                     onClick={() => changepage("")}>
-                                    ย้อนกลับ
+                                    {t('ย้อนกลับ')}
                                 </Button>
                             </div>
                         </Row>
