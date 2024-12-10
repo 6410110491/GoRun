@@ -189,7 +189,7 @@ function News() {
         aria-labelledby="contained-modal-title-vcenter"
         centered>
         <Modal.Header style={{ backgroundColor: "#F3C710", color: "#FFF" }} closeButton>
-          <Modal.Title>{t('เพิ่มข่าวสารประชาสัมพันธ์')}</Modal.Title>
+          <Modal.Title>{t('เพิ่มข่าวประชาสัมพันธ์')}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>

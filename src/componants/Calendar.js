@@ -117,7 +117,7 @@ function Calendar() {
           justifyContent: "center", alignItems: "center"
         }}>
           {filteredEvents.length === 0 ? (
-            <h5 style={{ textAlign: "center" }}>{t('ไม่พบข้อมูลที่ค้นหา')}</h5>
+            <h5 style={{ textAlign: "center" }}>{t('ไม่พบข้อมูล')}</h5>
           ) : (
             filteredEvents.map((data, index) => (
               <div

@@ -131,7 +131,7 @@ function All_events() {
           justifyContent: "center", alignItems: "center"
         }}>
           <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
-            {t('งานกีฬาที่กำลังดำเนินการอยู่')}
+            {t('กำลังดำเนินงาน')}
           </div>
           {activeEvents && activeEvents.length === 0 ? (
             <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
@@ -154,7 +154,7 @@ function All_events() {
           justifyContent: "center", alignItems: "center"
         }}>
           <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
-            {t('งานกีฬาที่สิ้นสุดแล้ว')}
+            {t('งานที่ผ่านมา')}
           </div>
           {inactiveEvents && inactiveEvents.length === 0 ? (
             <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>

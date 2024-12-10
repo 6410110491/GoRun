@@ -87,38 +87,31 @@ function Home() {
         });
     }, []);
 
-    const filterEvents = async () => {
-        try {
-            const response = await fetch('http://localhost:4000/api/events/filter', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: searchName,
-                    province: searchProvince,
-                    category: searchCategory,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch filtered events');
-            }
-
-            const data = await response.json();
-            setFilteredEvents(data);
-            setIsSearched(true);
-        } catch (error) {
-            console.error('Error filtering events:', error);
-            // แสดงข้อความหรือจัดการกรณีเกิดข้อผิดพลาดที่นี่
-        }
+    const filterEvents = () => {
+        const result = activeEvents.filter(event => {
+            return (
+                event.eventName.toLowerCase().includes(searchName.toLowerCase()) &&
+                event.location.toLowerCase().includes(searchProvince.toLowerCase()) &&
+                event.sportType.toLowerCase().includes(searchCategory.toLowerCase())
+            );
+        });
+        setFilteredEvents(result);
+        setIsSearched(true);
     };
-
 
     const handleSearch = (e) => {
         e.preventDefault();
         filterEvents();
     };
+
+    const handleReset = () => {
+        setSearchName(''); // รีเซ็ตชื่อที่ค้นหา
+        setSearchProvince(''); // รีเซ็ตจังหวัดที่ค้นหา
+        setSearchCategory(''); // รีเซ็ตประเภทกีฬาที่ค้นหา
+        setFilteredEvents([]); // รีเซ็ตผลลัพธ์ที่กรอง
+        setIsSearched(false); // ยกเลิกสถานะการค้นหา
+    };
+    
 
     useEffect(() => {
         // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น true
@@ -151,7 +144,7 @@ function Home() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    position: "relative",
+                    position: "relative", 
                 }}
             >
                 {/* Carousel */}
@@ -159,7 +152,7 @@ function Home() {
                     touch={true}
                     slide={true}
                     indicators={false}
-                    controls={false}
+                    controls={false} 
                     style={{
                         width: "100%",
                         height: "100%",
@@ -225,10 +218,10 @@ function Home() {
                 {/* Filter Box */}
                 <div
                     style={{
-                        position: "absolute",
-                        bottom: "10%",
-                        left: "50%",
-                        transform: "translateX(-50%)",
+                        position: "absolute", 
+                        bottom: "10%", 
+                        left: "50%", 
+                        transform: "translateX(-50%)", 
                         backgroundColor: "#E3E3E3",
                         minHeight: "30%",
                         borderRadius: "20px",
@@ -324,6 +317,21 @@ function Home() {
                                 {t('ค้นหา')}
                             </Button>
                         </Col>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={1}>
+                            <p></p>
+                            <Button
+                                type="button"
+                                onClick={handleReset}
+                                style={{
+                                    backgroundColor: "#696969",
+                                    border: "none",
+                                    borderRadius: "10px",
+                                    width: "100%",
+                                }}
+                            >
+                                {t("ล้าง")}
+                            </Button>
+                        </Col>
                     </Row>
                 </div>
             </div>
@@ -340,7 +348,7 @@ function Home() {
                     justifyContent: "center", alignItems: "center"
                 }}>
                     <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
-                        {t('งานกีฬาที่กำลังดำเนินการอยู่')}
+                        {t('กำลังดำเนินงาน')}
                     </div>
                     {isSearched ? (
                         filteredEvents && filteredEvents.length === 0 ? (
@@ -381,7 +389,7 @@ function Home() {
                     justifyContent: "center", alignItems: "center"
                 }}>
                     <div style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "1.75rem" }}>
-                        {t('งานกีฬาที่สิ้นสุดแล้ว')}
+                        {t('งานที่ผ่านมา')}
                     </div>
                     {inactiveEvents && inactiveEvents.length === 0 ? (
                         <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
