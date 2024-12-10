@@ -189,8 +189,13 @@ function Form_page() {
 
         const slipFileUrls = await processSingleFile(formData.slipImage);
 
+        const newStatus = slipFileUrls ? "pending" : "pending payment";
+
+        console.log(newStatus);
+
         // Prepare event data including the uploaded image URLs
         const eventRegisData = {
+          user_id: userInfo._id,
           username: formData.username,
           gender: formData.gender,
           birthDate: formData.birthDate,
@@ -222,6 +227,8 @@ function Form_page() {
           slipImage: slipFileUrls,
           datePay: formData.datePay,
           timePay: formData.timePay,
+
+          status: newStatus,
 
           registrationDate: new Date(),
           paymentSlipDate: formData.datePay,
@@ -374,9 +381,6 @@ function Form_page() {
 
     fetchUserInfo();
   }, []);
-
-  console.log(formData)
-
 
 
   return (

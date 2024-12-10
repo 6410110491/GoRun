@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Accordion, Button, Container, Modal, Spinner, Tabs, Tab, Badge } from 'react-bootstrap'
+import { Accordion, Button, Container, Modal, Spinner } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { useParams } from 'react-router-dom';
@@ -87,28 +87,6 @@ function ApplicantsInfo() {
         setShowPopup(false);
     };
 
-    // Confirm popup
-    const [showConfirmPopup, setConFirmPopup] = useState(false);
-    const [showDetail, setShowDetail] = useState(false);
-
-    const handleOpenConFirmPopup = () => {
-        setShowPopup(false);
-        setConFirmPopup(true);
-    };
-
-    const handleCloseConFirmPopup = () => {
-        setShowPopup(true);
-        setConFirmPopup(false);
-    };
-
-    const handleOpenDetail = (item) => {
-        setSelectedItem(item);
-        setShowDetail(true);
-    };
-
-    const handleCloseDetail = () => {
-        setShowDetail(false);
-    };
 
     const formatDate = (date) => {
         if (!date) return '';
@@ -184,6 +162,7 @@ function ApplicantsInfo() {
                                                     <TableCell align="center">
                                                         {item.status === 'approved' && <p style={{ color: 'green' }}>{t("อนุมัติแล้ว")}</p>}
                                                         {item.status === 'rejected' && <p style={{ color: 'red' }}>{t('ไม่อนุมัติ')}</p>}
+                                                        {item.status === 'pending payment' && <p>{t('รอการชำระเงิน')}</p>}
                                                         {item.status === 'pending' && <p>{t('รอการตรวจสอบ')}</p>}
                                                     </TableCell>
                                                     <TableCell align="center">

@@ -95,7 +95,7 @@ function App_history() {
     }, []);
 
     const onEditForm = () => {
-        changepage( `event/form/${selectedItemId}`)
+        changepage(`event/form/${selectedItemId}`)
     };
 
     const changepage = (path) => {
@@ -148,6 +148,7 @@ function App_history() {
                                         <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ลำดับ')}</TableCell>
                                         <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ชื่องาน')}</TableCell>
                                         <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('วันที่สมัคร')}</TableCell>
+                                        <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('สถานะ')}</TableCell>
                                         <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}></TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -165,6 +166,12 @@ function App_history() {
                                                 <TableCell align="center">{index + 1}</TableCell>
                                                 <TableCell align="center">{item.eventName}</TableCell>
                                                 <TableCell align="center">{formatDate(eventDetail[index].registrationDate)}</TableCell>
+                                                <TableCell align="center">
+                                                    {eventDetail[index].status === 'pending payment' && t('รอการชำระเงิน')}
+                                                    {eventDetail[index].status === 'approved' && t('อนุมัติแล้ว')}
+                                                    {eventDetail[index].status === 'rejected' && t('ไม่อนุมัติ')}
+                                                    {eventDetail[index].status === 'pending' && t('รอการตรวจสอบ')}
+                                                </TableCell>
                                                 <TableCell align="center">
                                                     <Button
                                                         variant="warning"
@@ -184,10 +191,11 @@ function App_history() {
                                     )}
                                 </TableBody>
                             </Table>
-                        </TableContainer>
-                    </div>
+                        </TableContainer >
+                    </div >
                 </Container >
-            )}
+            )
+            }
 
             {/* Popup Modal */}
             <Modal show={showPopup} onHide={handleClose} size="xl">
