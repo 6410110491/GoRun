@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { FaList } from 'react-icons/fa';
@@ -6,6 +5,8 @@ import { useMediaQuery } from 'react-responsive';
 import { useParams } from 'react-router-dom';
 import ScrollToTop from 'react-scroll-to-top'
 import { useTranslation } from 'react-i18next';
+
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api'
 
 function Card_event_detail() {
     const { id } = useParams();
@@ -20,6 +21,8 @@ function Card_event_detail() {
     const [registrations, setRegistrations] = useState(null);
 
     const { t, i18n } = useTranslation()
+
+    const [center, setCenter] = useState(null);
 
     const imageSrc = require('../image/event-pic-3.jpg')
 
@@ -49,34 +52,32 @@ function Card_event_detail() {
 
     useEffect(() => {
         const fetchEventDetail = async () => {
-            setLoading(true); // Set loading to true when starting data fetch
-            setError(null); // Reset error state before fetching
+            setLoading(true);
             try {
                 const response = await fetch(`http://localhost:4000/api/events/${id}`, {
                     method: 'GET',
                     credentials: 'include',
                 });
 
-                if (response.status === 401) {
-                    changepage('login');
-                    return;
-                }
-
                 if (response.ok) {
                     const data = await response.json();
                     setEventDetail(data);
+                    if (data?.map?.lat && data?.map?.lng) {
+                        setCenter({ lat: data.map.lat, lng: data.map.lng });
+                    }
                 } else {
                     throw new Error('Failed to fetch event data');
                 }
             } catch (err) {
-                setError(err.message); // Set error message
+                setError(err.message);
             } finally {
-                setLoading(false); // Set loading to false when fetch is complete
+                setLoading(false);
             }
         };
 
         fetchEventDetail();
     }, [id]);
+
 
     useEffect(() => {
         if (eventDetail) {
@@ -131,6 +132,12 @@ function Card_event_detail() {
 
         fetchData(); // เรียกฟังก์ชันดึงข้อมูล
     }, [id]); // ใช้ useEffect เมื่อ eventId เปลี่ยน
+
+
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
+    });
 
 
     return (
@@ -393,19 +400,60 @@ function Card_event_detail() {
 
 
                                 {/* แผนที่จัดงาน */}
-                                <Container className='mt-4' fluid style={{
-                                    backgroundColor: "#E3E3E3", padding: "0", height: "200px",
-                                    borderRadius: "10px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                                }}>
-                                    <Container className='mb-2' fluid style={{
-                                        backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
-                                        display: "flex", justifyContent: "center", alignItems: "center"
-                                    }}>
+                                <Container
+                                    className="mt-4"
+                                    fluid
+                                    style={{
+                                        backgroundColor: "#E3E3E3",
+                                        padding: "0",
+                                        height: "600px",
+                                        borderRadius: "10px",
+                                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                                    }}
+                                >
+                                    <Container
+                                        className="mb-2"
+                                        fluid
+                                        style={{
+                                            backgroundColor: "#F3C710",
+                                            height: "40px",
+                                            borderRadius: "10px",
+                                            fontSize: "20px",
+                                            textAlign: "center",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center"
+                                        }}
+                                    >
                                         {t('แผนที่จัดงาน')}
                                     </Container>
 
+                                    {!center ? (
+                                        <div style={{ width: "100%", height: "400px", backgroundColor: "#f0f0f0" }}>
+                                            <p>Loading map...</p>
+                                        </div>) : (
+                                        isLoaded ? (
+                                            <div style={{ width: "100%", height: "calc(100% - 40px)", borderRadius: "10px" }}>
+                                                <GoogleMap
+                                                    mapContainerStyle={{ width: "100%", height: "100%" }}
+                                                    center={center}
+                                                    zoom={16}
+                                                    options={{
+                                                        mapTypeControl: false,
+                                                        streetViewControl: false,
+                                                        fullscreenControl: false,
+                                                    }}
+                                                >
+                                                    <Marker position={center} />
+                                                </GoogleMap>
+                                            </div>
+                                        ) : (
+                                            <p>Loading map...</p>
+                                        )
+                                    )}
 
                                 </Container>
+
 
                                 {/* ที่พัก/ร้านอาหาร */}
                                 <Container className='mt-4' fluid style={{

@@ -91,8 +91,8 @@ const EventSchema = new mongoose.Schema({
         type: [String],
     },
     map: {  //พิกัด
-        lat: { type: String },
-        lng: { type: String }
+        lat: { type: Number },
+        lng: { type: Number }
     },
     accommodation: { // ที่พัก/โรงแรม
         type: [String],
