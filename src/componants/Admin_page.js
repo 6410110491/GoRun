@@ -4,6 +4,7 @@ import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 function Admin_page() {
     const [loading, setLoading] = useState(true);
@@ -11,6 +12,8 @@ function Admin_page() {
     const [error, setError] = useState('');
     const [verifyData, setVerifyData] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
+
+    const { t, i18n } = useTranslation()
 
     const [formData, setFormData] = useState({
         comment: '',
@@ -253,7 +256,7 @@ function Admin_page() {
             <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
                     <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-                        ตรวจสอบเป็นผู้จัดงาน
+                        {t('ตรวจสอบการเป็นผู้จัดงาน')}
                     </p>
                 </div>
             </div>
@@ -274,25 +277,25 @@ function Admin_page() {
                         >
                             <Tab eventKey="pending" title={
                                 <>
-                                    รอการตรวจสอบ {getFilteredRegistrations('pending').length === 0 ? "" : <Badge bg="danger">{getFilteredRegistrations('pending').length}</Badge>}
+                                    {t('รอการตรวจสอบ')} {getFilteredRegistrations('pending').length === 0 ? "" : <Badge bg="danger">{getFilteredRegistrations('pending').length}</Badge>}
                                 </>
                             }>
                                 <TableContainer component={Paper} sx={{ margin: 'auto', marginTop: 4 }}>
                                     <Table>
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ลำดับ</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ชื่อ-สกุล</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>วันที่สมัคร</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>สถานะ</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>การดำเนินการ</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ลำดับ')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ชื่อ-สกุล')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('วันที่สมัคร')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('สถานะ')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('การดำเนินการ')}</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {getFilteredRegistrations('pending').length === 0 ? (
                                                 <TableRow>
                                                     <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
-                                                        <p>No data</p>
+                                                        <p>{t('No data')}</p>
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (
@@ -302,7 +305,7 @@ function Admin_page() {
                                                         <TableCell align="center"><p>{item.username}</p></TableCell>
                                                         <TableCell align="center"><p>{formatDate(item.createdAt)}</p></TableCell>
                                                         <TableCell align="center">
-                                                            <p>รอการตรวจสอบ</p>
+                                                            <p>{t('รอการตรวจสอบ')}</p>
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <Button
@@ -314,7 +317,7 @@ function Admin_page() {
                                                                 }}
                                                                 style={{ marginRight: '8px', color: "white" }}
                                                             >
-                                                                ตรวจสอบ
+                                                                {t('ตรวจสอบ')}
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
@@ -325,23 +328,23 @@ function Admin_page() {
                                 </TableContainer>
                             </Tab>
 
-                            <Tab eventKey="approved" title="อนุมัติแล้ว">
+                            <Tab eventKey="approved" title={t("อนุมัติ")}>
                                 <TableContainer component={Paper} sx={{ margin: 'auto', marginTop: 4 }}>
                                     <Table>
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ลำดับ</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ชื่อ-สกุล</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>วันที่สมัคร</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>สถานะ</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>การดำเนินการ</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ลำดับ')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ชื่อ-สกุล')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('วันที่สมัคร')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('สถานะ')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('การดำเนินการ')}</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {getFilteredRegistrations('approved').length === 0 ? (
                                                 <TableRow>
                                                     <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
-                                                        <p>No data</p>
+                                                        <p>{t('No data')}</p>
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (
@@ -351,7 +354,7 @@ function Admin_page() {
                                                         <TableCell align="center"><p>{item.username}</p></TableCell>
                                                         <TableCell align="center"><p>{formatDate(item.createdAt)}</p></TableCell>
                                                         <TableCell align="center">
-                                                            <p style={{ color: 'green' }}>อนุมัติแล้ว</p>
+                                                            <p style={{ color: 'green' }}>{t('อนุมัติ')}</p>
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <Button
@@ -362,7 +365,7 @@ function Admin_page() {
                                                                 }}
                                                                 style={{ marginRight: '8px', color: "white" }}
                                                             >
-                                                                ดูรายละเอียด
+                                                                {t('ดูรายละเอียด')}
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
@@ -373,23 +376,23 @@ function Admin_page() {
                                 </TableContainer>
                             </Tab>
 
-                            <Tab eventKey="rejected" title="ไม่อนุมัติ">
+                            <Tab eventKey="rejected" title={t("ไม่อนุมัติ")}>
                                 <TableContainer component={Paper} sx={{ margin: 'auto', marginTop: 4 }}>
                                     <Table>
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ลำดับ</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>ชื่อ-สกุล</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>วันที่สมัคร</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>สถานะ</TableCell>
-                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>การดำเนินการ</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ลำดับ')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ชื่อ-สกุล')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('วันที่สมัคร')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('สถานะ')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('การดำเนินการ')}</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {getFilteredRegistrations('rejected').length === 0 ? (
                                                 <TableRow>
                                                     <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
-                                                        <p>No data</p>
+                                                        <p>{t('No data')}</p>
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (
@@ -399,7 +402,7 @@ function Admin_page() {
                                                         <TableCell align="center"><p>{item.username}</p></TableCell>
                                                         <TableCell align="center"><p>{formatDate(item.createdAt)}</p></TableCell>
                                                         <TableCell align="center">
-                                                            <p style={{ color: 'red' }}>ไม่อนุมัติ</p>
+                                                            <p style={{ color: 'red' }}>{t('ไม่อนุมัติ')}</p>
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <Button
@@ -410,7 +413,7 @@ function Admin_page() {
                                                                 }}
                                                                 style={{ marginRight: '8px', color: "white" }}
                                                             >
-                                                                ดูรายละเอียด
+                                                                {t('ดูรายละเอียด')}
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
@@ -423,7 +426,7 @@ function Admin_page() {
                         </Tabs>
                     </div>
                 ) : (
-                    <p>คุณไม่มีสิทธิ์ในการเข้าถึงหน้านี้</p>
+                    <p>{t('คุณไม่มีสิทธิ์ในการเข้าถึงหน้านี้')}</p>
                 )
             )}
 
@@ -431,15 +434,15 @@ function Admin_page() {
 
             <Modal show={showPopup} onHide={handleClose} size="xl">
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>ตรวจสอบข้อมูลผู้จัดงาน</Modal.Title>
+                    <Modal.Title>{t('ตรวจสอบข้อมูลผู้จัดงาน')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {selectedItem && ( // แสดงข้อมูลในโมดอลเฉพาะเมื่อมีผู้เลือก
                         <>
-                            <p style={{ fontSize: "14px" }}>สถานะการสมัคร : {selectedItem.status}</p>
-                            <p style={{ fontSize: "14px" }}>วันที่ส่งหลักฐาน : {formatDate(selectedItem.createdAt)}</p>
-                            <p style={{ fontSize: "14px" }}>ยืนยันเสร็จสมบูรณ์ : {/* ใส่ข้อมูลเกี่ยวกับการยืนยัน */}</p>
-                            <p style={{ fontSize: "16px", fontWeight: "bold" }}>หลักฐานการยืนยันตัวตน</p>
+                            <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {selectedItem.status}</p>
+                            <p style={{ fontSize: "14px" }}>{t('วันที่ส่งหลักฐาน')} : {formatDate(selectedItem.createdAt)}</p>
+                            <p style={{ fontSize: "14px" }}>{t('ยืนยันเสร็จสมบูรณ์')} : {/* ใส่ข้อมูลเกี่ยวกับการยืนยัน */}</p>
+                            <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('หลักฐานการยืนยันตัวตน')}</p>
                             <Row >
                                 <Col style={{ textAlign: "center", width: "100%" }}>
                                     <img
@@ -461,11 +464,11 @@ function Admin_page() {
                 <Modal.Footer>
                     <Button variant="danger" onClick={handleReject}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        ไม่อนุมัติ
+                        {t('ไม่อนุมัติ')}
                     </Button>
                     <Button variant="success" color="success" onClick={handleOpenConFirmPopup}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        อนุมัติ
+                        {t('อนุมัติ')}
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -473,15 +476,15 @@ function Admin_page() {
             {/* Modal showDetail */}
             <Modal show={showDetail} onHide={handleCloseDetail} size="lg">
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>รายละเอียดข้อมูลการสมัคร</Modal.Title>
+                    <Modal.Title>{t('รายละเอียดข้อมูลการสมัคร')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {selectedItem && (
                         <>
-                            <p style={{ fontSize: "14px" }}>สถานะการสมัคร : {selectedItem.status}</p>
-                            <p style={{ fontSize: "14px" }}>วันที่ส่งหลักฐาน : {formatDate(selectedItem.createdAt)}</p>
-                            <p style={{ fontSize: "14px" }}>ยืนยันเสร็จสมบูรณ์ : {/* ใส่ข้อมูลเกี่ยวกับการยืนยัน */}</p>
-                            <p style={{ fontSize: "16px", fontWeight: "bold" }}>หลักฐานการยืนยันตัวตน</p>
+                            <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {selectedItem.status}</p>
+                            <p style={{ fontSize: "14px" }}>{t('วันที่ส่งหลักฐาน')} : {formatDate(selectedItem.createdAt)}</p>
+                            <p style={{ fontSize: "14px" }}>{t('ยืนยันเสร็จสมบูรณ์')} : {/* ใส่ข้อมูลเกี่ยวกับการยืนยัน */}</p>
+                            <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('หลักฐานการยืนยันตัวตน')}</p>
                             <Row >
                                 <Col style={{ textAlign: "center", width: "100%" }}>
                                     <img
@@ -501,13 +504,9 @@ function Admin_page() {
                     )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseDetail}
-                        style={{ border: 'none', borderRadius: '10px' }}>
-                        ยกเลิก
-                    </Button>
                     <Button variant="success" onClick={handleCloseDetail}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        ตกลง
+                        {t('ปิด')}
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -515,19 +514,19 @@ function Admin_page() {
             {/* confirm popup */}
             <Modal show={showConfirmPopup} onHide={handleCloseConFirmPopup} centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>ยืนยันตัวตน</Modal.Title>
+                    <Modal.Title>{t('ยืนยันตัวตน')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>ยืนยันข้อมูลของผู้ใช้งานท่านนี้หรือไม่</p>
+                    <p>{t('ยืนยันข้อมูลของผู้ใช้งานท่านนี้หรือไม่')}</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseConFirmPopup}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        ยกเลิก
+                        {t('ยกเลิก')}
                     </Button>
                     <Button variant="success" color="success" onClick={handleConfirm}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        ยืนยัน
+                        {t('ยืนยัน')}
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -536,14 +535,14 @@ function Admin_page() {
             {/* confirm reject popup */}
             <Modal show={showRejectPopup} onHide={handleCloseRejectPopup} centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>ยืนยันตัวตน</Modal.Title>
+                    <Modal.Title>{t('ยืนยันตัวตน')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>คุณแน่ใจหรือไม่ที่จะไม่อนุมัติผู้ใช้งานดังกล่าว</p>
+                    <p>{t('คุณแน่ใจหรือไม่ที่จะไม่อนุมัติผู้ใช้งานดังกล่าว')}</p>
 
                     <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label>หมายเหตุ</Form.Label>
+                            <Form.Label>{t('หมายเหตุ')}</Form.Label>
                             <Form.Control as="textarea" rows={3} type="text" placeholder="กรอกหมายเหตุ"
                                 name="comment" onChange={handleChange}
                             />
@@ -553,11 +552,11 @@ function Admin_page() {
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseRejectPopup}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        ยกเลิก
+                        {t('ยกเลิก')}
                     </Button>
                     <Button variant="success" color="success" onClick={handleOpenConFirmRejectPopup}
                         style={{ border: 'none', borderRadius: '10px' }}>
-                        ยืนยัน
+                        {t('ยืนยัน')}
                     </Button>
                 </Modal.Footer>
             </Modal>

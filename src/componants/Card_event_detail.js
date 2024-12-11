@@ -234,7 +234,7 @@ function Card_event_detail() {
                                     </Container>
                                     <Container className='ms-3' fluid style={{
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
-                                        borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
+                                        borderRadius: "10px", width: "95%", paddingTop: "1.5rem", whiteSpace: 'pre-line'
                                     }}>
                                         <p className='ms-3'>{eventDetail ? eventDetail.eventHighlights : ""}</p>
 
@@ -382,7 +382,7 @@ function Card_event_detail() {
                                     </Container>
                                     <Container className='ms-3' fluid style={{
                                         backgroundColor: "#fff", minHeight: "100px", padding: "0",
-                                        borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
+                                        borderRadius: "10px", width: "95%", paddingTop: "1.5rem", whiteSpace: 'pre-line'
                                     }}>
                                         <p className='ms-3'> {eventDetail ? eventDetail.etcInfo : ""}</p>
 
@@ -419,7 +419,7 @@ function Card_event_detail() {
                                         {t('ที่พัก/ร้านอาหาร')}
                                     </Container>
 
-                                    <p className='ms-3'>{t('ที่พัก/โรงแรม')}:
+                                    <p className='ms-3'>{t('ที่พัก')}:
                                         {eventDetail ? eventDetail.accommodation : ""}
                                     </p>
                                     <p className='ms-3'>{t('ร้านอาหาร')}:
