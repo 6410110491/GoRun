@@ -6,7 +6,8 @@ import { useParams } from 'react-router-dom';
 import ScrollToTop from 'react-scroll-to-top'
 import { useTranslation } from 'react-i18next';
 
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api'
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
+import { MarkerF } from '@react-google-maps/api'
 
 function Card_event_detail() {
     const { id } = useParams();
@@ -444,7 +445,7 @@ function Card_event_detail() {
                                                         fullscreenControl: false,
                                                     }}
                                                 >
-                                                    <Marker position={center} />
+                                                    <MarkerF position={center} />
                                                 </GoogleMap>
                                             </div>
                                         ) : (
