@@ -221,6 +221,7 @@ function App_information() {
     }
   };
 
+  console.log(selectedItem)
   return (
     <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
       {loading ? (
@@ -454,6 +455,14 @@ function App_information() {
               <p style={{ fontSize: "14px" }}>{t('วันที่โอน')} : {formatDate(selectedItem.datePay)}</p>
               {/* <p style={{ fontSize: "14px" }}>วันที่ส่งหลักฐาน : </p> */}
               <p style={{ fontSize: "14px" }}>{t('สมัครเสร็จสมบูรณ์')} :</p>
+              <p style={{ fontSize: "14px" }}>
+                {t('ตัวเลือกการรับสินค้า')} : {selectedItem.shippingChoice === "onsite"
+                  ? t('รับสินค้าหน้างาน')
+                  : selectedItem.shippingChoice === "shipping"
+                    ? t('จัดส่งสินค้า')
+                    : ''}
+              </p>
+
               <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('ข้อมูลผู้สมัคร')}</p>
 
               <Accordion >
@@ -477,6 +486,28 @@ function App_information() {
                         {t('ขนาดเสื้อ')} : {selectedItem.shirtSize} <br />
                       </Col>
                     </Row>
+                    {selectedItem.shippingChoice === 'shipping' ?
+                      (<>
+                        <Row>
+                          <p style={{ fontSize: "16px", fontWeight: "bold", marginTop: '1.25rem', marginBottom: "0.125rem" }}>
+                            {t('ที่อยู่จัดส่งผู้สมัคร')}
+                          </p>
+                          <Col xl={6} lg={6} md={12} sm={12} style={{ gap: "0.5rem" }}>
+                            {t('ชื่อ')} : {selectedItem.nameShip} <br />
+                            {t('เบอร์โทรศัพท์')} : {selectedItem.phoneNumber} <br />
+                            {t('ตำบล/แขวง')} : {selectedItem.subDistrictShip} <br />
+                            {t('จังหวัด')} : {selectedItem.provinceShip} <br />
+                          </Col>
+
+                          <Col xl={6} lg={6} md={12} sm={12} style={{ gap: "0.5rem" }}>
+                            {t('สกุล')} : {selectedItem.lastNameShip} <br />
+                            {t('ที่อยู่')} : {selectedItem.addressShip} <br />
+                            {t('อำเภอ/เขต')} : {selectedItem.districtShip} <br />
+                            {t('รหัสไปรษณีย์')} : {selectedItem.zipCodeShip} <br />
+                          </Col>
+                        </Row>
+                      </>) : null
+                    }
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
@@ -524,6 +555,14 @@ function App_information() {
               <p style={{ fontSize: "14px" }}>{t('วันที่โอน')} : {formatDate(selectedItem.datePay)}</p>
               {/* <p style={{ fontSize: "14px" }}>วันที่ส่งหลักฐาน : </p> */}
               <p style={{ fontSize: "14px" }}>{t('สมัครเสร็จสมบูรณ์')} :</p>
+              <p style={{ fontSize: "14px" }}>
+                {t('ตัวเลือกการรับสินค้า')} : {selectedItem.shippingChoice === "onsite"
+                  ? t('รับสินค้าหน้างาน')
+                  : selectedItem.shippingChoice === "shipping"
+                    ? t('จัดส่งสินค้า')
+                    : ''}
+              </p>
+
               <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('ข้อมูลผู้สมัคร')}</p>
 
               <Accordion >
@@ -547,6 +586,29 @@ function App_information() {
                         {t('ขนาดเสื้อ')} : {selectedItem.shirtSize} <br />
                       </Col>
                     </Row>
+
+                    {selectedItem.shippingChoice === 'shipping' ?
+                      (<>
+                        <Row>
+                          <p style={{ fontSize: "16px", fontWeight: "bold", marginTop: '1.25rem', marginBottom: "0.125rem" }}>
+                            {t('ที่อยู่จัดส่งผู้สมัคร')}
+                          </p>
+                          <Col xl={6} lg={6} md={12} sm={12} style={{ gap: "0.5rem" }}>
+                            {t('ชื่อ')} : {selectedItem.nameShip} <br />
+                            {t('เบอร์โทรศัพท์')} : {selectedItem.phoneNumber} <br />
+                            {t('ตำบล/แขวง')} : {selectedItem.subDistrictShip} <br />
+                            {t('จังหวัด')} : {selectedItem.provinceShip} <br />
+                          </Col>
+
+                          <Col xl={6} lg={6} md={12} sm={12} style={{ gap: "0.5rem" }}>
+                            {t('สกุล')} : {selectedItem.lastNameShip} <br />
+                            {t('ที่อยู่')} : {selectedItem.addressShip} <br />
+                            {t('อำเภอ/เขต')} : {selectedItem.districtShip} <br />
+                            {t('รหัสไปรษณีย์')} : {selectedItem.zipCodeShip} <br />
+                          </Col>
+                        </Row>
+                      </>) : null
+                    }
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>

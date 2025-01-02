@@ -7,12 +7,12 @@ import { useTranslation } from 'react-i18next';
 let selectedFile = null;
 function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
     const { t, i18n } = useTranslation()
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-    
+
 
     const handleReceiveChange = async (e) => {
         const files = Array.from(e.target.files);
@@ -174,6 +174,16 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
         }
     };
 
+    const handleCheckboxChange = (e) => {
+        const { name, value, type, checked } = e.target;
+
+        const updatedValue = type === "checkbox" ? checked : value;
+
+        setFormData((prev) => ({
+            ...prev,
+            [name]: updatedValue,
+        }));
+    };
 
     return (
         <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
@@ -322,6 +332,26 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                     </p>
                 </div>
 
+                <Row>
+                    <Form.Check
+                        type="checkbox"
+                        id="onsiteStatus"
+                        label="รับสินค้าหน้างาน"
+                        name="onsiteStatus"
+                        onChange={handleCheckboxChange}
+                        checked={formData.onsiteStatus}
+                    />
+                    <Form.Check
+                        type="checkbox"
+                        id="shippingStatus"
+                        label="จัดส่งสินค้า"
+                        name="shippingStatus"
+                        onChange={handleCheckboxChange}
+                        checked={formData.shippingStatus}
+                    />
+                </Row>
+
+
                 <Row className='mt-3'>
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
@@ -440,6 +470,9 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                                     borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
                                     backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                                 }} />
+                            <Form.Text id="raceTypeHelpBlock" muted style={{ textAlign: "right" }}>
+                                กรณีจัดส่ง
+                            </Form.Text>
                         </Row>
                     </Col>
                 </Row>

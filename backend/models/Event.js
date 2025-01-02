@@ -135,6 +135,16 @@ const EventSchema = new mongoose.Schema({
             type: String,
         },
     },
+
+    onsiteStatus: {
+        type: Boolean,
+        default: false
+    },
+    shippingStatus: {
+        type: Boolean,
+        default: false
+    },
+
 }, {
     timestamps: true
 });

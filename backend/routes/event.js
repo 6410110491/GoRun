@@ -50,6 +50,8 @@ router.post('/events', async (req, res) => {
             product: req.body.product,
             paymentInfo: req.body.paymentInfo,
             shippingFee: req.body.shippingFee,
+            onsiteStatus: req.body.onsiteStatus,
+            shippingStatus: req.body.shippingStatus,
         });
 
         // บันทึกเหตุการณ์ใหม่ลงในฐานข้อมูล

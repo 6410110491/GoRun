@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 function Data_org() {
     const { t, i18n } = useTranslation()
-    
+
     let prizeFile = [null];
     let whatToReceiveFile = [null];
     let routeFile = [null];
@@ -76,6 +76,9 @@ function Data_org() {
         etcInfo: "",
         shippingFee: "",
 
+        onsiteStatus: false,
+        shippingStatus: false,
+
         bankName: "",
         accountNumber: "",
         accountName: "",
@@ -86,7 +89,6 @@ function Data_org() {
     });
 
 
-    console.log(formData)
     const [userInfo, setUserInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeStep, setActiveStep] = React.useState(0);
@@ -153,26 +155,40 @@ function Data_org() {
                 setUserInfo(userData);
 
                 const uploadFile = async (file) => {
-                    const formDataForImage = new FormData();
-                    formDataForImage.append('image', file);
-
-                    const uploadImageResponse = await fetch('http://localhost:4000/api/images_upload', {
-                        method: 'POST',
-                        credentials: 'include', // รวมคุกกี้สำหรับการตรวจสอบสิทธิ์แบบเซสชัน
-                        body: formDataForImage,
-                    });
-
-                    if (!uploadImageResponse.ok) {
-                        throw new Error('Failed to upload image');
+                    // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
+                    if (!file) {
+                        console.warn('No file provided for upload, skipping...');
+                        return ''; // ส่งกลับค่าที่ว่างเพื่อข้ามการทำงาน
                     }
 
-                    const uploadResponse = await uploadImageResponse.json();
-                    return uploadResponse.url; // ส่งกลับ URL ของรูปภาพที่อัปโหลด
+                    try {
+                        const formDataForImage = new FormData();
+                        formDataForImage.append('image', file);
+
+                        const uploadImageResponse = await fetch('http://localhost:4000/api/images_upload', {
+                            method: 'POST',
+                            credentials: 'include', // รวมคุกกี้สำหรับการตรวจสอบสิทธิ์แบบเซสชัน
+                            body: formDataForImage,
+                        });
+
+                        if (!uploadImageResponse.ok) {
+                            throw new Error(`Failed to upload image: ${uploadImageResponse.statusText}`);
+                        }
+
+                        const uploadResponse = await uploadImageResponse.json();
+                        return uploadResponse.url; // ส่งกลับ URL ของรูปภาพที่อัปโหลด
+                    } catch (error) {
+                        return ''; // ส่งคืนค่าที่ว่างหากเกิดข้อผิดพลาด
+                    }
                 };
+
 
                 // Process files for reward, whatToReceive, and route
                 const processFiles = async (files) => {
-                    if (!files || files.length === 0) return [];
+                    if (!files || files.length === 0) {
+                        console.warn('No files provided, skipping file processing...');
+                        return [];
+                    }
 
                     const urls = await Promise.all(
                         files.map(async (file) => {
@@ -181,20 +197,24 @@ function Data_org() {
                         })
                     );
 
-                    return urls;
+                    return urls.filter(url => url); // กรอง URL ที่ว่างออก (ถ้ามีข้อผิดพลาด)
                 };
 
+
                 const processSingleFile = async (file) => {
-                    if (!file) return ''; // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
+                    if (!file) {
+                        return ''; // ข้ามหากไม่มีไฟล์
+                    }
 
                     try {
                         const url = await uploadFile(file);
                         return url;
                     } catch (error) {
-                        console.error('Error uploading file:', error);
-                        return ''; // ส่งคืนค่าที่ว่างหากเกิดข้อผิดพลาด
+                        console.error('Error uploading single file:', error);
+                        return ''; // ส่งคืนค่าที่ว่างในกรณีเกิดข้อผิดพลาด
                     }
                 };
+
 
                 // Upload images and get URLs
                 const rewardUrls = await processFiles(formData.reward);
@@ -248,6 +268,8 @@ function Data_org() {
                         accountName: formData.accountName,
                         promptPayImage: promptPayImageUrls,
                     },
+                    onsiteStatus: formData.onsiteStatus,
+                    shippingStatus: formData.shippingStatus,
                 };
 
                 // Send event data to the server to create a new event

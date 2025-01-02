@@ -130,7 +130,11 @@ const eventRegistrationSchema = new mongoose.Schema({
 
         comment: {
             type: String
-        }
+        },
+
+        shippingChoice: {
+            type: String,
+        },
     }],
 
 }, { timestamps: true });

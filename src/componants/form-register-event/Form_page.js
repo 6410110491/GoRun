@@ -85,6 +85,7 @@ function Form_page() {
     // End Page 2
 
     // Start Page 3
+    shippingChoice: '',
     nameShip: '',
     lastNameShip: '',
     phoneNumberShip: '',
@@ -102,6 +103,8 @@ function Form_page() {
     timePay: '',
     // End Page 4
   });
+
+  console.log(formData.shippingChoice)
 
   const componants = [
     <Form_step_1 formData={formData} setFormData={setFormData}
@@ -233,6 +236,8 @@ function Form_page() {
           registrationDate: new Date(),
           paymentSlipDate: formData.datePay,
           paymentSlipTime: formData.timePay,
+
+          shippingChoice: formData.shippingChoice
         };
 
         // Send event data to the server to create a new event
@@ -363,7 +368,9 @@ function Form_page() {
             zipCodeShip: formData.zipCodeShip || '',
             slipImage: formData.slipImage || '',
             datePay: formData.datePay || '',
-            timePay: formData.timePay || ''
+            timePay: formData.timePay || '',
+
+            shippingChoice: formData.shippingChoice
           }));
 
 

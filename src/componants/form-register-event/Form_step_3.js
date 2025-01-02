@@ -60,11 +60,14 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
       registrationDate: new Date(),
       paymentSlipDate: formData.datePay,
       paymentSlipTime: formData.timePay,
+
+      shippingChoice: formData.shippingChoice
     };
 
 
     try {
       const eventResponse = await axios.post(`http://localhost:4000/api/register/${id}`, eventRegisData);
+      console.log(eventResponse)
     } catch (err) {
       console.error('Error:', err);
     }
@@ -73,121 +76,175 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
   return (
     <div>
       <Container className='mt-3' fluid style={{
-        backgroundColor: "#E3E3E3", minHeightheight: "260px", padding: "1rem 2rem 1rem 2rem",
+        backgroundColor: "#E3E3E3", minHeight: "260px", padding: "1rem 2rem 1rem 2rem",
         borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
       }}>
-        <Row className='mt-3'>
-          <Col xl={4} md={4} sm={12} className='mt-2'
+        <Row>
+          <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('ชื่อ')}</p>
-            <Form.Control type="text" placeholder={t("กรอกชื่อ")} style={{
-              borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-              backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }}
-              name='nameShip'
-              value={formData.nameShip}
-              onChange={handleChange}
-              onBlur={saveDraft}
-            />
-          </Col>
-          <Col xl={4} md={4} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('สกุล')}</p>
-            <Form.Control type="text" placeholder={t("กรอกสกุล")} style={{
-              borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-              backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }}
-              name='lastNameShip'
-              value={formData.lastNameShip}
-              onChange={handleChange}
-              onBlur={saveDraft}
-            />
-          </Col>
-          <Col xl={4} md={4} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('เบอร์โทรศัพท์')}</p>
-            <Form.Control type="text" placeholder={t("กรอกเบอร์โทรศัพท์")} style={{
-              borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-              backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }}
-              name='phoneNumberShip'
-              value={formData.phoneNumberShip}
-              onChange={handleChange}
-              onBlur={saveDraft}
-            />
+            <p>{t('ช่องทางการรับสินค้า')}</p>
+            <Form.Group>
+              <Row>
+                <Col xl={4} md={6} sm={12} className="mt-2"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  {eventData.shippingStatus && (
+                    <Form.Check
+                      type="radio"
+                      id="shipping"
+                      label="จัดส่งสินค้า"
+                      name="shippingChoice" // ชื่อเดียวกันสำหรับ radio group
+                      value="shipping"
+                      onChange={handleChange}
+                      onBlur={saveDraft}
+                      checked={formData.shippingChoice === "shipping"} // ตรวจสอบค่าที่เลือก
+                    />
+                  )}
+                </Col>
+                <Col xl={4} md={6} sm={12} className="mt-2"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  {eventData.onsiteStatus && (
+                    <Form.Check
+                      type="radio"
+                      id="onsite"
+                      label="รับสินค้าหน้างาน"
+                      name="shippingChoice" // ชื่อเดียวกันสำหรับ radio group
+                      value="onsite"
+                      onChange={handleChange}
+                      onBlur={saveDraft}
+                      checked={formData.shippingChoice === "onsite"} // ตรวจสอบค่าที่เลือก
+                    />
+                  )}
+                </Col>
+              </Row>
+            </Form.Group>
           </Col>
         </Row>
 
-        <Row className='mt-3'>
-          <Col xl={6} md={12} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('ที่อยู่')}</p>
-            <Form.Control type="text" placeholder={t("กรอกที่อยู่")} style={{
-              borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-              backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }}
-              name='addressShip'
-              value={formData.addressShip}
-              onChange={handleChange}
-              onBlur={saveDraft}
-            />
-          </Col>
-          <Col xl={3} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('ตำบล/แขวง')}</p>
-            <Form.Control type="text" placeholder={t("กรอกตำบล/แขวง")} style={{
-              borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-              backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }}
-              name='subDistrictShip'
-              value={formData.subDistrictShip}
-              onChange={handleChange}
-              onBlur={saveDraft}
-            />
-          </Col>
-          <Col xl={3} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('อำเภอ/เขต')}</p>
-            <Form.Control type="text" placeholder={t("กรอกอำเภอ/เขต")} style={{
-              borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-              backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }}
-              name='districtShip'
-              value={formData.districtShip}
-              onChange={handleChange}
-              onBlur={saveDraft}
-            />
-          </Col>
-        </Row>
+        {formData.shippingChoice === 'shipping' ? (
+          <>
+            <Row className='mt-3'>
+              <Col xl={4} md={4} sm={12} className='mt-2'
+                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <p>{t('ชื่อ')}</p>
+                <Form.Control type="text" placeholder={t("กรอกชื่อ")} style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }}
+                  name='nameShip'
+                  value={formData.nameShip}
+                  onChange={handleChange}
+                  onBlur={saveDraft}
+                />
+              </Col>
+              <Col xl={4} md={4} sm={12} className='mt-2'
+                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <p>{t('สกุล')}</p>
+                <Form.Control type="text" placeholder={t("กรอกสกุล")} style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }}
+                  name='lastNameShip'
+                  value={formData.lastNameShip}
+                  onChange={handleChange}
+                  onBlur={saveDraft}
+                />
+              </Col>
+              <Col xl={4} md={4} sm={12} className='mt-2'
+                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <p>{t('เบอร์โทรศัพท์')}</p>
+                <Form.Control type="text" placeholder={t("กรอกเบอร์โทรศัพท์")} style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }}
+                  name='phoneNumberShip'
+                  value={formData.phoneNumberShip}
+                  onChange={handleChange}
+                  onBlur={saveDraft}
+                />
+              </Col>
+            </Row>
 
-        <Row className='mt-3 mb-5'>
-          <Col xl={6} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('จังหวัด')}</p>
-            <Form.Control type="text" placeholder={t("กรอกจังหวัด")} style={{
-              borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-              backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }}
-              name='provinceShip'
-              value={formData.provinceShip}
-              onChange={handleChange}
-              onBlur={saveDraft}
-            />
-          </Col>
-          <Col xl={6} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('รหัสไปรษณีย์')}</p>
-            <Form.Control type="text" placeholder={t("กรอกรหัสไปรษณีย์")} style={{
-              borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-              backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-            }}
-              name='zipCodeShip'
-              value={formData.zipCodeShip}
-              onChange={handleChange}
-              onBlur={saveDraft}
-            />
-          </Col>
-        </Row>
+            <Row className='mt-3'>
+              <Col xl={6} md={12} sm={12} className='mt-2'
+                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <p>{t('ที่อยู่')}</p>
+                <Form.Control type="text" placeholder={t("กรอกที่อยู่")} style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }}
+                  name='addressShip'
+                  value={formData.addressShip}
+                  onChange={handleChange}
+                  onBlur={saveDraft}
+                />
+              </Col>
+              <Col xl={3} md={6} sm={12} className='mt-2'
+                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <p>{t('ตำบล/แขวง')}</p>
+                <Form.Control type="text" placeholder={t("กรอกตำบล/แขวง")} style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }}
+                  name='subDistrictShip'
+                  value={formData.subDistrictShip}
+                  onChange={handleChange}
+                  onBlur={saveDraft}
+                />
+              </Col>
+              <Col xl={3} md={6} sm={12} className='mt-2'
+                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <p>{t('อำเภอ/เขต')}</p>
+                <Form.Control type="text" placeholder={t("กรอกอำเภอ/เขต")} style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }}
+                  name='districtShip'
+                  value={formData.districtShip}
+                  onChange={handleChange}
+                  onBlur={saveDraft}
+                />
+              </Col>
+            </Row>
+
+            <Row className='mt-3 mb-5'>
+              <Col xl={6} md={6} sm={12} className='mt-2'
+                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <p>{t('จังหวัด')}</p>
+                <Form.Control type="text" placeholder={t("กรอกจังหวัด")} style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }}
+                  name='provinceShip'
+                  value={formData.provinceShip}
+                  onChange={handleChange}
+                  onBlur={saveDraft}
+                />
+              </Col>
+              <Col xl={6} md={6} sm={12} className='mt-2'
+                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <p>{t('รหัสไปรษณีย์')}</p>
+                <Form.Control type="text" placeholder={t("กรอกรหัสไปรษณีย์")} style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }}
+                  name='zipCodeShip'
+                  value={formData.zipCodeShip}
+                  onChange={handleChange}
+                  onBlur={saveDraft}
+                />
+              </Col>
+            </Row>
+          </>) : null}
       </Container>
     </div>
   )

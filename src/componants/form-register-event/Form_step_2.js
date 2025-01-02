@@ -103,6 +103,8 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
       registrationDate: new Date(),
       paymentSlipDate: formData.datePay,
       paymentSlipTime: formData.timePay,
+
+      shippingChoice: formData.shippingChoice
     };
 
 

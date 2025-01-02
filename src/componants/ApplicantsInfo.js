@@ -193,19 +193,27 @@ function ApplicantsInfo() {
                             <Modal.Title>{t('ตรวจสอบข้อมูลการสมัคร')}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                        <p style={{ fontSize: "14px" }}>{t('ยอดชำระทั้งหมด')} : {selectedItem.registrationFee}</p>
-                        {selectedItem.status === 'approved' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('อนุมัติแล้ว')}</p>}
-                        {selectedItem.status === 'rejected' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('ไม่อนุมัติ')}</p>}
-                        {selectedItem.status === 'pending' && <p style={{ fontSize: "14px" }}> {t('สถานะการสมัคร')} : {t('รอการตรวจสอบ')}</p>}
-                        <p style={{ fontSize: "14px" }}>{t('วันที่สมัคร')} : {formatDate(selectedItem.registrationDate)}</p>
-                        <p style={{ fontSize: "14px" }}>{t('วันที่โอน')} : {formatDate(selectedItem.datePay)}</p>
-                        {/* <p style={{ fontSize: "14px" }}>วันที่ส่งหลักฐาน : </p> */}
-                        <p style={{ fontSize: "14px" }}>{t('สมัครเสร็จสมบูรณ์')} :</p>
-                        <p style={{
-                            fontSize: "14px",
-                            color: selectedItem.comment && selectedItem.comment.length > 0 ? "red" : "black"
-                        }}>{t('หมายเหตุ')} : {selectedItem.comment || ""} </p>
-                        <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('รายชื่อผู้สมัคร')}</p>
+                            <p style={{ fontSize: "14px" }}>{t('ยอดชำระทั้งหมด')} : {selectedItem.registrationFee}</p>
+                            {selectedItem.status === 'approved' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('อนุมัติแล้ว')}</p>}
+                            {selectedItem.status === 'rejected' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('ไม่อนุมัติ')}</p>}
+                            {selectedItem.status === 'pending' && <p style={{ fontSize: "14px" }}> {t('สถานะการสมัคร')} : {t('รอการตรวจสอบ')}</p>}
+                            <p style={{ fontSize: "14px" }}>{t('วันที่สมัคร')} : {formatDate(selectedItem.registrationDate)}</p>
+                            <p style={{ fontSize: "14px" }}>{t('วันที่โอน')} : {formatDate(selectedItem.datePay)}</p>
+                            {/* <p style={{ fontSize: "14px" }}>วันที่ส่งหลักฐาน : </p> */}
+                            <p style={{ fontSize: "14px" }}>{t('สมัครเสร็จสมบูรณ์')} :</p>
+                            <p style={{ fontSize: "14px" }}>
+                                {t('ตัวเลือกการรับสินค้า')} : {selectedItem.shippingChoice === "onsite"
+                                    ? t('รับสินค้าหน้างาน')
+                                    : selectedItem.shippingChoice === "shipping"
+                                        ? t('จัดส่งสินค้า')
+                                        : ''}
+                            </p>
+
+                            <p style={{
+                                fontSize: "14px",
+                                color: selectedItem.comment && selectedItem.comment.length > 0 ? "red" : "black"
+                            }}>{t('หมายเหตุ')} : {selectedItem.comment || ""} </p>
+                            <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('รายชื่อผู้สมัคร')}</p>
 
 
                             <Accordion >
