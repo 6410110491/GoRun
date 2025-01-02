@@ -85,14 +85,14 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
             <p>{t('ช่องทางการรับสินค้า')}</p>
             <Form.Group>
               <Row>
-                <Col xl={4} md={6} sm={12} className="mt-2"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  {eventData.shippingStatus && (
+                {eventData.shippingStatus && (
+                  <Col xl={4} md={6} sm={12} className="mt-2"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
                     <Form.Check
                       type="radio"
                       id="shipping"
@@ -103,16 +103,16 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
                       onBlur={saveDraft}
                       checked={formData.shippingChoice === "shipping"} // ตรวจสอบค่าที่เลือก
                     />
-                  )}
-                </Col>
-                <Col xl={4} md={6} sm={12} className="mt-2"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  {eventData.onsiteStatus && (
+                  </Col>
+                )}
+                {eventData.onsiteStatus && (
+                  <Col xl={4} md={6} sm={12} className="mt-2"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
                     <Form.Check
                       type="radio"
                       id="onsite"
@@ -123,8 +123,8 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
                       onBlur={saveDraft}
                       checked={formData.shippingChoice === "onsite"} // ตรวจสอบค่าที่เลือก
                     />
-                  )}
-                </Col>
+                  </Col>
+                )}
               </Row>
             </Form.Group>
           </Col>
