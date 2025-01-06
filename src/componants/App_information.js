@@ -223,57 +223,64 @@ function App_information() {
     }
   };
 
-  const data = getFilteredRegistrations('approved').map(registration => ({
-    ชื่อผู้ใช้: registration.username,
-    เพศ: registration.gender,
-    วันเกิด: registration.birthDate,
-    เลขบัตรประชาชน: registration.idCardNumber,
-    อีเมล: registration.email,
-    เบอร์โทรศัพท์: registration.phoneNumber,
-    สัญชาติ: registration.nationality,
-    กรุ๊ปเลือด: registration.bloodType,
-    โรคประจำตัว: registration.chronicDiseases,
-    ประเภทการแข่งขัน: registration.raceType,
-    หลักฐานการโอนเงิน: registration.slipImage,
-    ค่าสมัคร: registration.registrationFee,
-    ขนาดเสื้อ: registration.shirtSize,
-    ตัวเลือกการรับสินค้า: registration.shippingChoice,
-    ชื่อผู้รับสินค้า: registration.nameShip,
-    นามสกุลผู้รับสินค้า: registration.lastNameShip,
-    เบอร์โทรศัพท์ผู้รับสินค้า: registration.phoneNumberShip,
-    ที่อยู่จัดส่ง: registration.addressShip,
-    ตำบลจัดส่ง: registration.subDistrictShip,
-    อำเภอจัดส่ง: registration.districtShip,
-    จังหวัดจัดส่ง: registration.provinceShip,
-    รหัสไปรษณีย์จัดส่ง: registration.zipCodeShip,
-    วันที่สมัคร: registration.registrationDate,
+  const data = getFilteredRegistrations("approved") || []; 
+  const formattedData = data.map((registration) => ({
+    ชื่อผู้ใช้: registration?.username || "-",
+    เพศ: registration?.gender || "-",
+    วันเกิด: registration?.birthDate || "-",
+    เลขบัตรประชาชน: registration?.idCardNumber || "-",
+    อีเมล: registration?.email || "-",
+    เบอร์โทรศัพท์: registration?.phoneNumber || "-",
+    สัญชาติ: registration?.nationality || "-",
+    กรุ๊ปเลือด: registration?.bloodType || "-",
+    โรคประจำตัว: registration?.chronicDiseases || "-",
+    ประเภทการแข่งขัน: registration?.raceType || "-",
+    หลักฐานการโอนเงิน: registration?.slipImage || "-",
+    ค่าสมัคร: registration?.registrationFee || 0,
+    ขนาดเสื้อ: registration?.shirtSize || "-",
+    ตัวเลือกการรับสินค้า: registration?.shippingChoice || "-",
+    ชื่อผู้รับสินค้า: registration?.nameShip || "-",
+    นามสกุลผู้รับสินค้า: registration?.lastNameShip || "-",
+    เบอร์โทรศัพท์ผู้รับสินค้า: registration?.phoneNumberShip || "-",
+    ที่อยู่จัดส่ง: registration?.addressShip || "-",
+    ตำบลจัดส่ง: registration?.subDistrictShip || "-",
+    อำเภอจัดส่ง: registration?.districtShip || "-",
+    จังหวัดจัดส่ง: registration?.provinceShip || "-",
+    รหัสไปรษณีย์จัดส่ง: registration?.zipCodeShip || "-",
+    วันที่สมัคร: registration?.registrationDate || "-",
   }));
-
 
   console.log(data);
 
   // ฟังก์ชันคำนวณความกว้างของคอลัมน์
   const calculateColumnWidths = (data) => {
-    const keys = Object.keys(data[0]); // หัวคอลัมน์ (keys)
+    if (!data || data.length === 0) return []; 
+
+    const keys = Object.keys(data[0]); 
     return keys.map((key) => ({
       wch: Math.max(
         key.length, // ความยาวของหัวคอลัมน์
         ...data.map((item) =>
-          item[key] ? item[key].toString().length : 0 // ความยาวสูงสุดของข้อมูลในแต่ละคอลัมน์
+          item[key] ? item[key].toString().length : 0 // ความยาวสูงสุดของข้อมูลในแต่ละแถว
         )
-      ) + 2, // เพิ่มระยะขอบเล็กน้อย
+      ) + 2, 
     }));
   };
 
   const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const columnWidths = calculateColumnWidths(data);
+    if (!data || data.length === 0) {
+      console.error("ไม่มีข้อมูลสำหรับการส่งออก");
+      return;
+    }
+
+    const worksheet = XLSX.utils.json_to_sheet(formattedData); // ใช้ข้อมูลที่ฟอร์แมตแล้ว
+    const columnWidths = calculateColumnWidths(formattedData);
     worksheet["!cols"] = columnWidths; // ตั้งค่าความกว้างของคอลัมน์
 
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Registrations");
 
-    XLSX.writeFile(workbook, `${eventInfo.eventName}.xlsx`);
+    XLSX.writeFile(workbook, `${eventInfo.eventName || "ExportedData"}.xlsx`);
   };
 
   return (
