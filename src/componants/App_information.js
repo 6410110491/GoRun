@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Accordion, Button, Container, Modal, Spinner, Tabs, Tab, Badge, Form, Row, Col } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Tooltip } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import * as XLSX from "xlsx";
@@ -223,11 +223,11 @@ function App_information() {
     }
   };
 
-  const data = getFilteredRegistrations("approved") || []; 
+  const data = getFilteredRegistrations("approved") || [];
   const formattedData = data.map((registration) => ({
     ชื่อผู้ใช้: registration?.username || "-",
     เพศ: registration?.gender || "-",
-    วันเกิด: registration?.birthDate || "-",
+    วันเกิด: formatDate(registration?.birthDate) || "-",
     เลขบัตรประชาชน: registration?.idCardNumber || "-",
     อีเมล: registration?.email || "-",
     เบอร์โทรศัพท์: registration?.phoneNumber || "-",
@@ -247,23 +247,23 @@ function App_information() {
     อำเภอจัดส่ง: registration?.districtShip || "-",
     จังหวัดจัดส่ง: registration?.provinceShip || "-",
     รหัสไปรษณีย์จัดส่ง: registration?.zipCodeShip || "-",
-    วันที่สมัคร: registration?.registrationDate || "-",
+    วันที่สมัคร: formatDate(registration?.registrationDate) || "-",
   }));
 
   console.log(data);
 
   // ฟังก์ชันคำนวณความกว้างของคอลัมน์
   const calculateColumnWidths = (data) => {
-    if (!data || data.length === 0) return []; 
+    if (!data || data.length === 0) return [];
 
-    const keys = Object.keys(data[0]); 
+    const keys = Object.keys(data[0]);
     return keys.map((key) => ({
       wch: Math.max(
         key.length, // ความยาวของหัวคอลัมน์
         ...data.map((item) =>
           item[key] ? item[key].toString().length : 0 // ความยาวสูงสุดของข้อมูลในแต่ละแถว
         )
-      ) + 2, 
+      ) + 2,
     }));
   };
 
@@ -310,10 +310,12 @@ function App_information() {
             display: "flex", justifyContent: "space-between", margin: '1.25rem'
           }}>
             <div>
-              <Button onClick={exportToExcel}
-                variant="outline-success">
-                <FaFileExcel /> {t('ส่งออกเป็นไฟล์ Excel')}
-              </Button>
+              <Tooltip title="ระบบจะส่งออกแค่ชื่อผู้สมัครที่อนุมัติแล้วเท่านั้น" arrow>
+                <Button onClick={exportToExcel}
+                  variant="outline-success">
+                  <FaFileExcel /> {t('ส่งออกเป็นไฟล์ Excel')}
+                </Button>
+              </Tooltip>
             </div>
 
             <div style={{ display: "flex", alignItems: 'center' }}>
@@ -322,7 +324,7 @@ function App_information() {
               </div>
               <Button onClick={toggleRegistration}
                 style={{ backgroundColor: isRegistrationOpen ? '#28a745' : '#dc3545', border: 'none', marginLeft: '0.75rem' }}>
-                {isRegistrationOpen ? 'ปิดรับสมัคร' : 'เปิดรับสมัคร'}
+                {isRegistrationOpen ? t('ปิดรับสมัคร') : t('เปิดรับสมัคร')}
               </Button>
             </div>
           </div>
