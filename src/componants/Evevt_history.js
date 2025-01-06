@@ -119,7 +119,7 @@ function Evevt_history() {
                                 data-aos-delay={`${index * 50}`}
                                 style={{ width: "fit-content" }}
                             >
-                                <Card_event data={data} />
+                                <Card_Organize  data={data} />
                             </div>
                         ))
                     )}

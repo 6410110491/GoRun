@@ -3,8 +3,10 @@ import { Accordion, Button, Container, Modal, Spinner, Tabs, Tab, Badge, Form, R
 import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import * as XLSX from "xlsx";
+
+import { FaFileExcel } from "react-icons/fa";
 
 function App_information() {
   const { id } = useParams();
@@ -221,7 +223,59 @@ function App_information() {
     }
   };
 
-  console.log(selectedItem)
+  const data = getFilteredRegistrations('approved').map(registration => ({
+    ชื่อผู้ใช้: registration.username,
+    เพศ: registration.gender,
+    วันเกิด: registration.birthDate,
+    เลขบัตรประชาชน: registration.idCardNumber,
+    อีเมล: registration.email,
+    เบอร์โทรศัพท์: registration.phoneNumber,
+    สัญชาติ: registration.nationality,
+    กรุ๊ปเลือด: registration.bloodType,
+    โรคประจำตัว: registration.chronicDiseases,
+    ประเภทการแข่งขัน: registration.raceType,
+    หลักฐานการโอนเงิน: registration.slipImage,
+    ค่าสมัคร: registration.registrationFee,
+    ขนาดเสื้อ: registration.shirtSize,
+    ตัวเลือกการรับสินค้า: registration.shippingChoice,
+    ชื่อผู้รับสินค้า: registration.nameShip,
+    นามสกุลผู้รับสินค้า: registration.lastNameShip,
+    เบอร์โทรศัพท์ผู้รับสินค้า: registration.phoneNumberShip,
+    ที่อยู่จัดส่ง: registration.addressShip,
+    ตำบลจัดส่ง: registration.subDistrictShip,
+    อำเภอจัดส่ง: registration.districtShip,
+    จังหวัดจัดส่ง: registration.provinceShip,
+    รหัสไปรษณีย์จัดส่ง: registration.zipCodeShip,
+    วันที่สมัคร: registration.registrationDate,
+  }));
+
+
+  console.log(data);
+
+  // ฟังก์ชันคำนวณความกว้างของคอลัมน์
+  const calculateColumnWidths = (data) => {
+    const keys = Object.keys(data[0]); // หัวคอลัมน์ (keys)
+    return keys.map((key) => ({
+      wch: Math.max(
+        key.length, // ความยาวของหัวคอลัมน์
+        ...data.map((item) =>
+          item[key] ? item[key].toString().length : 0 // ความยาวสูงสุดของข้อมูลในแต่ละคอลัมน์
+        )
+      ) + 2, // เพิ่มระยะขอบเล็กน้อย
+    }));
+  };
+
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const columnWidths = calculateColumnWidths(data);
+    worksheet["!cols"] = columnWidths; // ตั้งค่าความกว้างของคอลัมน์
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Registrations");
+
+    XLSX.writeFile(workbook, `${eventInfo.eventName}.xlsx`);
+  };
+
   return (
     <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
       {loading ? (
@@ -246,15 +300,24 @@ function App_information() {
           </div>
 
           <div style={{
-            display: "flex", justifyContent: "flex-end", margin: '1.25rem'
+            display: "flex", justifyContent: "space-between", margin: '1.25rem'
           }}>
-            <div style={{ display: "flex", alignItems: 'center' }}>
-              {t('สถานะเปิดรับสมัคร')} :
+            <div>
+              <Button onClick={exportToExcel}
+                variant="outline-success">
+                <FaFileExcel /> {t('ส่งออกเป็นไฟล์ Excel')}
+              </Button>
             </div>
-            <Button onClick={toggleRegistration}
-              style={{ backgroundColor: isRegistrationOpen ? '#28a745' : '#dc3545', border: 'none', marginLeft: '0.75rem' }}>
-              {isRegistrationOpen ? 'ปิดรับสมัคร' : 'เปิดรับสมัคร'}
-            </Button>
+
+            <div style={{ display: "flex", alignItems: 'center' }}>
+              <div style={{ display: "flex", alignItems: 'center' }}>
+                {t('สถานะเปิดรับสมัคร')} :
+              </div>
+              <Button onClick={toggleRegistration}
+                style={{ backgroundColor: isRegistrationOpen ? '#28a745' : '#dc3545', border: 'none', marginLeft: '0.75rem' }}>
+                {isRegistrationOpen ? 'ปิดรับสมัคร' : 'เปิดรับสมัคร'}
+              </Button>
+            </div>
           </div>
 
           {/* ScrollToTop */}
