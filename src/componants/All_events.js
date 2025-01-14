@@ -100,8 +100,8 @@ function All_events() {
     });
 
     // อัปเดตตัวแปร state สำหรับ active และ inactive events
-    setActiveEvents(filteredActiveEvents);
-    setInactiveEvents(filteredInactiveEvents);
+    setActiveEvents(filteredActiveEvents.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+    setInactiveEvents(filteredInactiveEvents.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
 
   }, [eventMe]);
 

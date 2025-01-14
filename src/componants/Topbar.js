@@ -103,7 +103,7 @@ function Topbar() {
 
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark"
-            style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}>
+            style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", position: "sticky", top: "0", "zIndex": "9999" }}>
             <Container>
                 <Navbar.Brand href="/">
                     <img src={require('../image/logo2.jpg')} alt='logo'

@@ -99,6 +99,13 @@ function Home() {
         setIsSearched(true);
     };
 
+    // จัดเรียง activeEvents 20 อันดับแรก
+    const latestActiveEvents = [...activeEvents] // สร้างสำเนาของ activeEvents
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // เรียงลำดับจากวันที่ใหม่ไปเก่า
+        .slice(0, 20); // เลือกเฉพาะ 20 งานแรก
+
+    console.log(latestActiveEvents)
+
     const handleSearch = (e) => {
         e.preventDefault();
         filterEvents();
@@ -111,7 +118,7 @@ function Home() {
         setFilteredEvents([]); // รีเซ็ตผลลัพธ์ที่กรอง
         setIsSearched(false); // ยกเลิกสถานะการค้นหา
     };
-    
+
 
     useEffect(() => {
         // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น true
@@ -130,7 +137,8 @@ function Home() {
 
         // อัปเดตตัวแปร state สำหรับ active และ inactive events
         setActiveEvents(filteredActiveEvents);
-        setInactiveEvents(filteredInactiveEvents);
+        setInactiveEvents(filteredInactiveEvents.slice(0, 8)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
 
     }, [eventMe]);
 
@@ -144,7 +152,7 @@ function Home() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    position: "relative", 
+                    position: "relative",
                 }}
             >
                 {/* Carousel */}
@@ -152,7 +160,7 @@ function Home() {
                     touch={true}
                     slide={true}
                     indicators={false}
-                    controls={false} 
+                    controls={false}
                     style={{
                         width: "100%",
                         height: "100%",
@@ -218,10 +226,10 @@ function Home() {
                 {/* Filter Box */}
                 <div
                     style={{
-                        position: "absolute", 
-                        bottom: "10%", 
-                        left: "50%", 
-                        transform: "translateX(-50%)", 
+                        position: "absolute",
+                        bottom: "10%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
                         backgroundColor: "#E3E3E3",
                         minHeight: "30%",
                         borderRadius: "20px",
@@ -366,10 +374,10 @@ function Home() {
                             ))
                         )
                     ) : (
-                        activeEvents && activeEvents.length === 0 ? (
+                        latestActiveEvents && latestActiveEvents.length === 0 ? (
                             <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
                         ) : (
-                            activeEvents.map((data, index) => (
+                            latestActiveEvents.map((data, index) => (
                                 <div
                                     key={index}
                                     data-aos="fade-up"
