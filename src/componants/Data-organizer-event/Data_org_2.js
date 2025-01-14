@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, BannerFile }) {
 
   const { t, i18n } = useTranslation()
+  const sport_type = ['วิ่ง', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -131,17 +132,31 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p>{t('ประเภทกีฬา')} <span className='requiredstar'>*</span></p>
-            <Form.Control
-              type="text"
+            <Form.Select
+              aria-label="sportType"
+              style={{
+                borderRadius: "10px",
+                marginTop: "-15px",
+                maxWidth: "95%",
+                backgroundColor: "#fff",
+                border: "none",
+                height: "40px",
+                boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                cursor: "pointer",
+              }}
               placeholder={t("กรอกประเภทกีฬา")}
               name='sportType'
               value={formData.sportType}
               onChange={handleChange}
               required
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+            >
+              <option value="" >{t('เลือกประเภทกีฬา')}</option>
+              {sport_type.map((data, index) => (
+                <option key={index} value={data}>
+                  {data}
+                </option>
+              ))}
+            </Form.Select>
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
