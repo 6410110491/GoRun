@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row, Container, Form, Button } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { FaTrash } from 'react-icons/fa';
@@ -13,10 +13,47 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
 
-function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, BannerFile }) {
+function Data_org_2({ formData, setFormData, isEditMode }) {
 
   const { t, i18n } = useTranslation()
   const sport_type = ['วิ่ง', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
+
+  // เก็บไฟล์และลิงก์รูปภาพที่จะแสดงตัวอย่าง
+  const [previewCoverImage, setPreviewCoverImage] = useState(null); // เก็บลิงก์หรือ URL สำหรับแสดงภาพตัวอย่างภาพปก
+  const [previewPrizeImages, setPreviewPrizeImages] = useState([]);
+  const [previewBannerImage, setPreviewBannerImage] = useState(null);
+
+
+  useEffect(() => {
+    // สำหรับภาพปก
+    if (formData.coverPicture) {
+      setPreviewCoverImage(
+        typeof formData.coverPicture === "string"
+          ? formData.coverPicture
+          : URL.createObjectURL(formData.coverPicture)
+      );
+    }
+
+    // สำหรับภาพรางวัล
+    if (formData.reward && Array.isArray(formData.reward)) {
+      setPreviewPrizeImages(
+        formData.reward.map((file) =>
+          typeof file === "string" ? file : URL.createObjectURL(file)
+        )
+      );
+    }
+
+    // สำหรับภาพแบนเนอร์
+    if (formData.banner) {
+      setPreviewBannerImage(
+        typeof formData.banner === "string"
+          ? formData.banner
+          : URL.createObjectURL(formData.banner)
+      );
+    }
+  }, [formData]);
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,8 +64,8 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
     setFormData(prevFormData => ({
       ...prevFormData,
       competitionDetails: [
-        ...(prevFormData.competitionDetails || []), // ตรวจสอบว่ามีค่าไหม ถ้าไม่มีให้เป็น array ว่าง
-        { raceType: '', fee: '' }
+        ...(prevFormData.competitionDetails || []),
+        { raceType: '', registrationFee: '' }
       ]
     }));
   };
@@ -46,52 +83,94 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
   const handleRemoveForm = () => {
     setFormData(prevFormData => {
       const newFormArray = [...prevFormData.competitionDetails];
-      newFormArray.pop(); // ลบฟอร์มตัวสุดท้ายออก
+      newFormArray.pop();
       return {
         ...prevFormData,
-        competitionDetails: newFormArray // ตั้งค่าให้เป็นอาร์เรย์ ไม่ใช่อ็อบเจ็กต์
+        competitionDetails: newFormArray
       };
     });
   };
 
 
-  const handlePrizeChange = async (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length) {
-      const fileContents = await Promise.all(
-        files.map((file) =>
-          new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-          })
-        )
-      );
-      setFormData({ ...formData, reward: files });
-      prizeFile = files; // เก็บไฟล์ลงในตัวแปร prizeFile
-    }
-  };
-
   const handleCoverPictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewCoverImage(reader.result);
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          coverPicture: file,
+        }));
+      };
       reader.readAsDataURL(file);
-      setFormData({ ...formData, coverPicture: file });
-      coverPictureFile = file;
     }
   };
+
+
+
+  const handlePrizeChange = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length) {
+      const previewUrls = files.map((file) => URL.createObjectURL(file));
+
+      setPreviewPrizeImages((prev) => [...prev, ...previewUrls]);
+
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        reward: [...(prevFormData.reward || []), ...files],
+      }));
+    }
+  };
+
+
+
 
   const handleBannerPictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewBannerImage(reader.result);
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          banner: file,
+        }));
+      };
       reader.readAsDataURL(file);
-      setFormData({ ...formData, banner: file });
-      BannerFile = file;
     }
   };
+
+
+
+
+  // ฟังก์ชันลบรูปภาพตัวอย่าง
+  const handleRemoveImage = () => {
+    setPreviewCoverImage(null);
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      coverPicture: ""
+    }));
+  };
+
+  // ฟังก์ชันลบตัวอย่างภาพรางวัล
+  const handleRemovePrizeImages = (index) => {
+    setPreviewPrizeImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      reward: prevFormData.reward.filter((_, i) => i !== index),
+    }));
+  };
+
+  // ฟังก์ชันลบตัวอย่างภาพแบนเนอร์
+  const handleRemoveBannerImage = () => {
+    setPreviewBannerImage(null);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      banner: null,
+    }));
+  };
+
 
 
   return (
@@ -100,7 +179,7 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
           <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-            {t('รายละเอียดงาน')}
+            {isEditMode ? t('แก้ไขรายละเอียดงาน') : t('รายละเอียดงาน')}
           </p>
         </div>
       </div>
@@ -316,8 +395,8 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
                   <Form.Control
                     type="number"
                     placeholder={t("กรอกค่าสมัคร")}
-                    name='fee'
-                    value={formDataItem.fee}
+                    name='registrationFee'
+                    value={formDataItem.registrationFee}
                     onChange={(e) => handleAddformChange(index, e)}
                     style={{
                       borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -350,35 +429,86 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
 
 
         <Row className='mt-5'>
-          <Col xl={6} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column" }}>
-            <p style={{ margin: "0" }}>{t('เพิ่มรูปหน้าปก')}</p>
-            <Form.Group controlId='formprizePicture'>
-              <Form.Control
-                accept=".png,.jpg,.jpeg,"
-                type='file'
-                multiple
-                name='image'
-                rows={3}
-                placeholder={t('เลือกรูปหน้าปก')}
-                onChange={handleCoverPictureChange}
-              />
-            </Form.Group>
+          <Col xl={6} md={6} sm={12} >
+            <Col className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
+              <p style={{ margin: "0" }}>{t('เพิ่มรูปหน้าปก')}</p>
+              <Form.Group controlId='formCoverPicture'>
+                <Form.Control
+                  accept=".png,.jpg,.jpeg"
+                  type='file'
+                  onChange={handleCoverPictureChange}
+                />
+              </Form.Group>
+            </Col>
+
+            {/* แสดงตัวอย่างรูปภาพ */}
+            <Row className="mt-3">
+              {previewCoverImage && (
+                <Col xs={6} md={4} lg={3} className="mb-3">
+                  <div style={{ position: 'relative', textAlign: 'center' }}>
+                    <img
+                      src={typeof previewCoverImage === "string" ? previewCoverImage : URL.createObjectURL(previewCoverImage)} // แสดง URL หรือไฟล์
+                      alt="Uploaded preview"
+                      style={{ width: '100%', height: 'auto', borderRadius: '10px' }}
+                    />
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      style={{
+                        position: 'absolute',
+                        top: '5px',
+                        right: '5px',
+                        borderRadius: '50%'
+                      }}
+                      onClick={handleRemoveImage}
+                    >
+                      &times;
+                    </Button>
+                  </div>
+                </Col>
+              )}
+            </Row>
           </Col>
-          <Col xl={6} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column" }}>
+
+
+          <Col xl={6} md={6} sm={12} className="mt-2">
             <p style={{ margin: "0" }}>{t('เพิ่มรูปปก (ขนาด 970 x 250 พิกเซล)')}</p>
-            <Form.Group controlId='formprizePicture'>
+            <Form.Group controlId="formBannerPicture">
               <Form.Control
-                accept=".png,.jpg,.jpeg,"
-                type='file'
-                multiple
-                name='image'
-                rows={3}
-                placeholder={t('เลือกรูปปกแบนเนอร์')}
+                accept=".png,.jpg,.jpeg"
+                type="file"
+                name="bannerImage"
                 onChange={handleBannerPictureChange}
               />
             </Form.Group>
+
+            {/* แสดงตัวอย่างรูปภาพ */}
+            <Row className="mt-3">
+              {previewBannerImage && (
+                <Col xs={6} md={4} lg={3} className="mb-3">
+                  <div style={{ position: 'relative', textAlign: 'center' }}>
+                    <img
+                      src={typeof previewBannerImage === "string" ? previewBannerImage : URL.createObjectURL(previewBannerImage)} // แสดง URL หรือไฟล์
+                      alt="Uploaded preview"
+                      style={{ width: '100%', height: 'auto', borderRadius: '10px' }}
+                    />
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      style={{
+                        position: 'absolute',
+                        top: '5px',
+                        right: '5px',
+                        borderRadius: '50%'
+                      }}
+                      onClick={handleRemoveBannerImage}
+                    >
+                      &times;
+                    </Button>
+                  </div>
+                </Col>
+              )}
+            </Row>
           </Col>
         </Row>
 
@@ -431,17 +561,52 @@ function Data_org_2({ formData, setFormData, prizeFile, coverPictureFile, Banner
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column" }}>
             <p style={{ margin: "0" }}>{t('รางวัล')}</p>
-            <Form.Group controlId='formprizePicture'>
+            <Form.Group controlId="formPrizePicture">
               <Form.Control
-                accept=".png,.jpg,.jpeg,"
-                type='file'
+                accept=".png,.jpg,.jpeg"
+                type="file"
                 multiple
-                name='image'
-                rows={3}
-                placeholder='รูปรางวัล'
+                name="prizeImages"
                 onChange={handlePrizeChange}
               />
             </Form.Group>
+
+            {/* แสดงตัวอย่างรูปภาพ */}
+            <Row className="mt-3">
+              {previewPrizeImages &&
+                previewPrizeImages
+                  .filter((image) => typeof image === "string" ? image.trim() !== "" : true) // กรอง string ที่ไม่ใช่ค่าว่าง
+                  .map((image, index) => (
+                    <Col xs={6} md={4} lg={3} className="mb-3" key={index}>
+                      <div style={{ position: "relative", textAlign: "center" }}>
+                        <img
+                          src={typeof image === "string" ?
+                            image :
+                            URL.createObjectURL(image)} // ตรวจสอบชนิดข้อมูลก่อน
+                          alt={`Uploaded preview ${index}`}
+                          style={{ width: "100%", height: "auto", borderRadius: "10px" }}
+                        />
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          style={{
+                            position: "absolute",
+                            top: "5px",
+                            right: "5px",
+                            borderRadius: "50%",
+                          }}
+                          onClick={() => handleRemovePrizeImages(index)}
+                        >
+                          &times;
+                        </Button>
+                      </div>
+                    </Col>
+                  ))}
+            </Row>
+
+
+
+
           </Col>
         </Row>
       </Container>

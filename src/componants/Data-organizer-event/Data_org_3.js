@@ -1,12 +1,37 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row, Container, Form, InputGroup, Button, } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { FaTrash } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 let selectedFile = null;
-function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
+function Data_org_3({ formData, setFormData, isEditMode }) {
     const { t, i18n } = useTranslation()
+
+    const [previewReceiveImages, setPreviewReceiveImages] = useState([]);
+    const [previewRouteImages, setPreviewRouteImages] = useState([]);
+
+    useEffect(() => {
+        // สำหรับภาพสิ่งที่จะได้รับ
+        if (formData.whatToReceive && Array.isArray(formData.whatToReceive)) {
+            setPreviewReceiveImages(
+                formData.whatToReceive.map((file) =>
+                    typeof file === "string" ? file : URL.createObjectURL(file)
+                )
+            );
+        }
+
+        // สำหรับภาพเส้นทางการแข่งขัน
+        if (formData.route && Array.isArray(formData.route)) {
+            setPreviewRouteImages(
+                formData.route.map((file) =>
+                    typeof file === "string" ? file : URL.createObjectURL(file)
+                )
+            );
+        }
+
+    }, [formData]);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -14,41 +39,59 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
     };
 
 
-    const handleReceiveChange = async (e) => {
-        const files = Array.from(e.target.files);
+    const handleReceiveChange = (e) => {
+        const files = Array.from(e.target.files || []);
         if (files.length) {
-            const fileContents = await Promise.all(
-                files.map((file) =>
-                    new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result);
-                        reader.onerror = reject;
-                        reader.readAsDataURL(file);
-                    })
-                )
-            );
-            setFormData({ ...formData, whatToReceive: files });
-            whatToReceiveFile = files;
+            // สร้าง URL สำหรับแสดงภาพตัวอย่าง
+            const previewUrls = files.map((file) => URL.createObjectURL(file));
+
+            // อัปเดตรูปภาพตัวอย่าง (เพิ่มใหม่ต่อจากเดิม)
+            setPreviewReceiveImages((prev) => [...prev, ...previewUrls]);
+
+            // อัปเดตฟิลด์ `whatToReceive` ใน `formData` (เพิ่มใหม่ต่อจากเดิม)
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                whatToReceive: [...(prevFormData.whatToReceive || []), ...files],
+            }));
         }
     };
 
-    const handleRouteChange = async (e) => {
-        const files = Array.from(e.target.files);
+    const handleRouteChange = (e) => {
+        const files = Array.from(e.target.files || []);
         if (files.length) {
-            const fileContents = await Promise.all(
-                files.map((file) =>
-                    new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result);
-                        reader.onerror = reject;
-                        reader.readAsDataURL(file);
-                    })
-                )
-            );
-            setFormData({ ...formData, route: files });
-            routeFile = files;
+            // สร้าง URL สำหรับแสดงภาพตัวอย่าง
+            const previewUrls = files.map((file) => URL.createObjectURL(file));
+
+            // อัปเดตรูปภาพตัวอย่าง (เพิ่มใหม่ต่อจากเดิม)
+            setPreviewRouteImages((prev) => [...prev, ...previewUrls]);
+
+            // อัปเดตฟิลด์ `route` ใน `formData` (เพิ่มใหม่ต่อจากเดิม)
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                route: [...(prevFormData.route || []), ...files],
+            }));
         }
     };
+
+
+
+    const handleRemoveReceiveImage = (index) => {
+        setPreviewReceiveImages((prev) => prev.filter((_, i) => i !== index));
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            whatToReceive: prevFormData.whatToReceive.filter((_, i) => i !== index),
+        }));
+    };
+
+    const handleRemoveRouteImage = (index) => {
+        setPreviewRouteImages((prev) => prev.filter((_, i) => i !== index));
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            route: prevFormData.route.filter((_, i) => i !== index),
+        }));
+    };
+
+
 
 
     const handleAddShirtForm = () => {
@@ -191,7 +234,7 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
             <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
                     <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-                        {t('รายละเอียดงาน')}
+                        {isEditMode ? t('แก้ไขรายละเอียดงาน') : t('รายละเอียดงาน')}
                     </p>
                 </div>
             </div>
@@ -211,30 +254,92 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                         <p style={{ margin: "0" }}>{t('สิ่งที่จะได้รับ')}</p>
                         <Form.Group controlId='formReceivePicture'>
                             <Form.Control
-                                accept=".png,.jpg,.jpeg,"
-                                type='file'
+                                accept=".png,.jpg,.jpeg"
+                                type="file"
                                 multiple
-                                name='image'
-                                rows={3}
-                                placeholder='เลือกรูปภาพสิ่งที่จะได้รับ'
+                                name="receiveImages"
                                 onChange={handleReceiveChange}
                             />
                         </Form.Group>
+
+                        {/* แสดงตัวอย่างรูปภาพ */}
+                        <Row className="mt-3">
+                            {previewReceiveImages &&
+                                previewReceiveImages
+                                    .filter((image) => typeof image === "string" ? image.trim() !== "" : true) // กรอง string ที่ไม่ใช่ค่าว่าง
+                                    .map((image, index) => (
+                                        <Col xs={6} md={4} lg={3} className="mb-3" key={index}>
+                                            <div style={{ position: "relative", textAlign: "center" }}>
+                                                <img
+                                                    src={typeof image === "string" ?
+                                                        image :
+                                                        URL.createObjectURL(image)} // ตรวจสอบชนิดข้อมูลก่อน
+                                                    alt={`Uploaded preview ${index}`}
+                                                    style={{ width: "100%", height: "auto", borderRadius: "10px" }}
+                                                />
+                                                <Button
+                                                    variant="danger"
+                                                    size="sm"
+                                                    style={{
+                                                        position: "absolute",
+                                                        top: "5px",
+                                                        right: "5px",
+                                                        borderRadius: "50%",
+                                                    }}
+                                                    onClick={() => handleRemoveReceiveImage(index)}
+                                                >
+                                                    &times;
+                                                </Button>
+                                            </div>
+                                        </Col>
+                                    ))}
+                        </Row>
                     </Col>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
                         <p style={{ margin: "0" }}>{t('เส้นทางการแข่งขัน')}</p>
                         <Form.Group controlId='formRoutePicture'>
                             <Form.Control
-                                accept=".png,.jpg,.jpeg,"
-                                type='file'
+                                accept=".png,.jpg,.jpeg"
+                                type="file"
                                 multiple
-                                name='image'
-                                rows={3}
-                                placeholder='เลือกรูปภาพเส้นทางการแข่งขัน'
+                                name="routeImages"
                                 onChange={handleRouteChange}
                             />
                         </Form.Group>
+
+                        {/* แสดงตัวอย่างรูปภาพ */}
+                        <Row className="mt-3">
+                            {previewRouteImages &&
+                                previewRouteImages
+                                    .filter((image) => typeof image === "string" ? image.trim() !== "" : true) // กรอง string ที่ไม่ใช่ค่าว่าง
+                                    .map((image, index) => (
+                                        <Col xs={6} md={4} lg={3} className="mb-3" key={index}>
+                                            <div style={{ position: "relative", textAlign: "center" }}>
+                                                <img
+                                                    src={typeof image === "string" ?
+                                                        image :
+                                                        URL.createObjectURL(image)} // ตรวจสอบชนิดข้อมูลก่อน
+                                                    alt={`Uploaded preview ${index}`}
+                                                    style={{ width: "100%", height: "auto", borderRadius: "10px" }}
+                                                />
+                                                <Button
+                                                    variant="danger"
+                                                    size="sm"
+                                                    style={{
+                                                        position: "absolute",
+                                                        top: "5px",
+                                                        right: "5px",
+                                                        borderRadius: "50%",
+                                                    }}
+                                                    onClick={() => handleRemoveRouteImage(index)}
+                                                >
+                                                    &times;
+                                                </Button>
+                                            </div>
+                                        </Col>
+                                    ))}
+                        </Row>
                     </Col>
                 </Row>
                 <Row className='mt-3'>
@@ -310,8 +415,8 @@ function Data_org_3({ formData, setFormData, whatToReceiveFile, routeFile }) {
                             <Col xl={6} md={6} sm={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                 <p>{t('ลองจิจูด')}</p>
                                 <Form.Control type='text'
-                                    name='longtitude'
-                                    value={formData.longtitude}
+                                    name='longitude'
+                                    value={formData.longitude}
                                     onChange={handleChange}
                                     placeholder={t('กรอกลองจิจูด')}
                                     style={{

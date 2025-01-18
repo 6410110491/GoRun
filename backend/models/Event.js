@@ -6,7 +6,55 @@ const EventSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
-        username: String
+        username: String,
+        personalInfor: {
+            profilePicture: {
+                type: String,
+            },
+            username: {
+                type: String
+            },
+            gender: {
+                type: String
+            },
+            birthDate: {
+                type: Date
+            },
+            idCardNumber: {
+                type: String
+            },
+            email: {
+                type: String
+            },
+            phoneNumber: {
+                type: String
+            },
+            nationality: {
+                type: String
+            },
+            bloodType: {
+                type: String,
+            },
+            chronicDiseases: {
+                type: String,
+            },
+
+            address: {
+                type: String
+            },
+            subDistrict: {
+                type: String
+            },
+            district: {
+                type: String
+            },
+            province: {
+                type: String
+            },
+            zipCode: {
+                type: String
+            },
+        }
     }],
 
     participant: {

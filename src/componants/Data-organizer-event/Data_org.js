@@ -49,7 +49,7 @@ function Data_org() {
         closeRegisDate: "",
         maxRegis: "",
         competitionDetails: [
-            { raceType: '', fee: '' }
+            { raceType: '', registrationFee: '' }
         ],
         generalInfo: "",
         purpose: "",
@@ -238,7 +238,7 @@ function Data_org() {
                     competitionDetails:
                         formData.competitionDetails.map(detail => ({
                             raceType: detail.raceType,
-                            registrationFee: detail.fee
+                            registrationFee: detail.registrationFee
                         })),
                     generalInfo: formData.generalInfo,
                     objectives: formData.purpose,
@@ -250,7 +250,7 @@ function Data_org() {
                     bannerPicture: bannerUrls,
                     map: {
                         lat: formData.latitude,
-                        lng: formData.longtitude,
+                        lng: formData.longitude,
                     },
                     accommodation: formData.accommodation,
                     foodStalls: formData.foodStalls,
@@ -270,6 +270,24 @@ function Data_org() {
                     },
                     onsiteStatus: formData.onsiteStatus,
                     shippingStatus: formData.shippingStatus,
+
+                    personalInfor: {
+                        profilePicture: formData?.profilePicture || '',
+                        username: formData?.username || '',
+                        gender: formData?.gender || '',
+                        birthDate: formData?.birthDate || '',
+                        idCardNumber: formData?.idCardNumber || '',
+                        email: formData?.email || '',
+                        phoneNumber: formData?.phoneNumber || '',
+                        nationality: formData?.nationality || '',
+                        bloodType: formData?.bloodType || '',
+                        chronicDiseases: formData?.chronicDiseases || '',
+                        address: formData?.address || '',
+                        subDistrict: formData?.subDistrict || '',
+                        district: formData?.district || '',
+                        province: formData?.province || '',
+                        zipCode: formData?.zipCode || '',
+                    }
                 };
 
                 // Send event data to the server to create a new event
@@ -290,22 +308,25 @@ function Data_org() {
         }
     };
 
+    console.log(formData)
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
     const componants = [
-        <Data_org_1 formData={formData} setFormData={setFormData} />,
+        <Data_org_1 formData={formData} setFormData={setFormData} isEditMode={false} />,
         <Data_org_2 formData={formData} setFormData={setFormData}
             prizeFile={prizeFile}
             coverPictureFile={coverPictureFile}
             BannerFile={BannerFile}
+            isEditMode={false}
         />,
         <Data_org_3 formData={formData} setFormData={setFormData}
             whatToReceiveFile={whatToReceiveFile}
-            routeFile={routeFile} />,
-        <Data_org_4 formData={formData} />
+            routeFile={routeFile}
+            isEditMode={false} />,
+        <Data_org_4 formData={formData} isEditMode={false} />
     ]
 
 
@@ -327,7 +348,7 @@ function Data_org() {
                     })}
                 </Stepper>
                 {activeStep === steps.length ? (
-                    <Data_org_success loading={loading} setLoading={setLoading} />
+                    <Data_org_success loading={loading} setLoading={setLoading} isEditMode={false}/>
                 ) : (
                     <React.Fragment>
                         <Typography sx={{ mt: 2, mb: 1 }}>

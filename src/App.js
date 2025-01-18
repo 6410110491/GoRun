@@ -21,6 +21,7 @@ import News_2 from './componants/News_2';
 import Evevt_history from './componants/Evevt_history';
 import Admin_page from './componants/Admin_page';
 import ApplicantsInfo from './componants/ApplicantsInfo';
+import Edit_org_main from './componants/Data-organizer-event/Edit_org_main';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/eventhistory" element={<Evevt_history />} />
           <Route path="/admin" element={<Admin_page />} />
           <Route path='/event/:id/applicants-info' element={<ApplicantsInfo />} />
+          <Route path='dataorganizer/edit/:id' element={<Edit_org_main />} />
 
         </Routes>
         <Footer />

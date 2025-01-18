@@ -3,7 +3,7 @@ import ScrollToTop from "react-scroll-to-top";
 import { Col, Container, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next';
 
-function Data_org_4({ formData, setFormData, loading, setLoading }) {
+function Data_org_4({ formData, setFormData, loading, setLoading, isEditMode }) {
   const { t, i18n } = useTranslation()
   return (
     <div>
@@ -12,7 +12,7 @@ function Data_org_4({ formData, setFormData, loading, setLoading }) {
         <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
           <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
             <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-              {t('สรุปรายละเอียดงาน')}
+              {isEditMode ? t('สรุปการแก้ไขรายละเอียดงาน') : t('สรุปรายละเอียดงาน')}
             </p>
           </div>
         </div>
@@ -114,7 +114,7 @@ function Data_org_4({ formData, setFormData, loading, setLoading }) {
                     <p className='ms-3'>{t('ประเภทการแข่งขัน')}: {formDataItem.raceType}</p>
                   </Col>
                   <Col xl={6} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
-                    <p className='ms-3'>{t('ค่าสมัคร')}: {formDataItem.fee}</p>
+                    <p className='ms-3'>{t('ค่าสมัคร')}: {formDataItem.registrationFee}</p>
                   </Col>
                 </Row>
                 {/* แสดง Divider ยกเว้นรายการสุดท้าย */}

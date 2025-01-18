@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import * as XLSX from "xlsx";
 
 import { FaFileExcel } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 
 function App_information() {
   const { id } = useParams();
@@ -283,6 +284,10 @@ function App_information() {
     XLSX.writeFile(workbook, `${eventInfo.eventName || "ExportedData"}.xlsx`);
   };
 
+  const onEditForm = () => {
+    changepage(`dataorganizer/edit/${id}`)
+  };
+
   return (
     <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
       {loading ? (
@@ -306,28 +311,55 @@ function App_information() {
             </div>
           </div>
 
-          <div style={{
-            display: "flex", justifyContent: "space-between", margin: '1.25rem'
-          }}>
-            <div>
-              <Tooltip title="ระบบจะส่งออกแค่ชื่อผู้สมัครที่อนุมัติแล้วเท่านั้น" arrow>
-                <Button onClick={exportToExcel}
-                  variant="outline-success">
-                  <FaFileExcel /> {t('ส่งออกเป็นไฟล์ Excel')}
-                </Button>
-              </Tooltip>
-            </div>
+          <div style={{ margin: "1.25rem" }}>
+            <Row style={{ display: 'flex', alignItems: "center", justifyContent: "space-between" }}>
+              {/* ปุ่ม "ส่งออกเป็นไฟล์ Excel" */}
+              <Col xs={12} sm={6} md={4} xl={3} xxl={2} className="mb-2 mb-md-0">
+                <Tooltip title="ระบบจะส่งออกแค่ชื่อผู้สมัครที่อนุมัติแล้วเท่านั้น" arrow>
+                  <Button
+                    onClick={exportToExcel}
+                    variant="outline-success"
+                    style={{ width: "100%" }} // ทำให้ปุ่มยืดเต็มความกว้างในหน้าจอเล็ก
+                  >
+                    <FaFileExcel /> {t("ส่งออกเป็นไฟล์ Excel")}
+                  </Button>
+                </Tooltip>
+              </Col>
 
-            <div style={{ display: "flex", alignItems: 'center' }}>
-              <div style={{ display: "flex", alignItems: 'center' }}>
-                {t('สถานะเปิดรับสมัคร')} :
-              </div>
-              <Button onClick={toggleRegistration}
-                style={{ backgroundColor: isRegistrationOpen ? '#28a745' : '#dc3545', border: 'none', marginLeft: '0.75rem' }}>
-                {isRegistrationOpen ? t('ปิดรับสมัคร') : t('เปิดรับสมัคร')}
-              </Button>
-            </div>
+              {/* ปุ่ม "สถานะเปิดรับสมัคร" และ "แก้ไข" */}
+              <Col xs={12} sm={6} md={6} xl={4} xxl={4}>
+                <Row className="align-items-center">
+                  <Col xs={8} sm={8} md={8} xl={9} xxl={8} className="d-flex align-items-center">
+                    <div>{t("สถานะเปิดรับสมัคร")}:</div>
+                    <Button
+                      onClick={toggleRegistration}
+                      style={{
+                        backgroundColor: isRegistrationOpen ? "#28a745" : "#dc3545",
+                        border: "none",
+                        marginLeft: "0.75rem",
+                      }}
+                    >
+                      {isRegistrationOpen ? t("ปิดรับสมัคร") : t("เปิดรับสมัคร")}
+                    </Button>
+                  </Col>
+                  <Col xs={4} sm={4} md={4} xl={3} xxl={4}>
+                    <Button
+                      onClick={onEditForm}
+                      variant="warning"
+                      style={{
+                        border: "none",
+                        color: "#fff",
+                        width: "100%", // ทำให้ปุ่มยืดเต็มความกว้างในหน้าจอเล็ก
+                      }}
+                    >
+                      <FaEdit /> {t("แก้ไข")}
+                    </Button>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
           </div>
+
 
           {/* ScrollToTop */}
           <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />

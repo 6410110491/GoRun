@@ -19,7 +19,8 @@ router.post('/events', async (req, res) => {
         const newEvent = new Event({
             owner: {
                 owner_id: user._id,
-                username: user.username
+                username: user.username,
+                personalInfor: req.body.personalInfor
             },
             eventName: req.body.eventName,
             sportType: req.body.sportType,
@@ -186,6 +187,35 @@ router.post('/events/filter', async (req, res) => {
         res.status(500).json({ message: 'Error filtering events' });
     }
 });
+
+// เส้นทางสำหรับการแก้ไขข้อมูลงานกีฬา
+router.patch('/events/:eventId', async (req, res) => {
+    try {
+        const eventId = req.params.eventId;
+
+        // ค้นหาเหตุการณ์ที่ต้องการแก้ไข
+        const event = await Event.findById(eventId);
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        // อัปเดตข้อมูลที่ส่งมาใน req.body
+        Object.keys(req.body).forEach(key => {
+            if (req.body[key] !== undefined) {
+                event[key] = req.body[key];
+            }
+        });
+
+        // บันทึกการเปลี่ยนแปลงลงในฐานข้อมูล
+        await event.save();
+
+        res.status(200).json({ message: 'Event updated successfully', event });
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(400).json({ error: error.message });
+    }
+});
+
 
 
 

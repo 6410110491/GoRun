@@ -10,7 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
-function Data_org_1({ formData, setFormData }) {
+function Data_org_1({ formData, setFormData, isEditMode }) {
   const gender = ["ชาย", "หญิง", "อื่นๆ",]
   const blood_group = ["A", "B", "AB", "O"]
   const { t, i18n } = useTranslation()
@@ -89,7 +89,7 @@ function Data_org_1({ formData, setFormData }) {
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
           <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-            {t('ข้อมูลผู้จัดงาน')}
+            {isEditMode ? t('แก้ไขข้อมูลผู้จัดงาน') : t('ข้อมูลผู้จัดงาน')}
           </p>
         </div>
       </div>
