@@ -50,7 +50,7 @@ function Data_org_2({ formData, setFormData, isEditMode }) {
           ? formData.banner
           : URL.createObjectURL(formData.banner)
       );
-    }
+      }
   }, [formData]);
 
 
@@ -196,176 +196,191 @@ function Data_org_2({ formData, setFormData, isEditMode }) {
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p>{t('ชื่องาน')} <span className='requiredstar'>*</span> </p>
-            <Form.Control
-              type="text"
-              placeholder={t("กรอกชื่องาน")}
-              name="eventName"
-              value={formData.eventName}
-              onChange={handleChange}
-              required
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+            <Form.Group as={Row} controlId="formEventName" style={{ paddingInline: "12px" }}>
+              <Form.Control
+                type="text"
+                placeholder={t("กรอกชื่องาน")}
+                name="eventName"
+                value={formData.eventName}
+                onChange={handleChange}
+                required
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", height: "40px"
+                }} />
+            </Form.Group>
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p>{t('ประเภทกีฬา')} <span className='requiredstar'>*</span></p>
-            <Form.Select
-              aria-label="sportType"
-              style={{
-                borderRadius: "10px",
-                marginTop: "-15px",
-                maxWidth: "95%",
-                backgroundColor: "#fff",
-                border: "none",
-                height: "40px",
-                boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                cursor: "pointer",
-              }}
-              placeholder={t("กรอกประเภทกีฬา")}
-              name='sportType'
-              value={formData.sportType}
-              onChange={handleChange}
-              required
-            >
-              <option value="" >{t('เลือกประเภทกีฬา')}</option>
-              {sport_type.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </Form.Select>
+            <Form.Group as={Row} controlId="formSportType" style={{ paddingInline: "12px" }}>
+              <Form.Select
+                aria-label="sportType"
+                style={{
+                  borderRadius: "10px",
+                  marginTop: "-15px",
+                  maxWidth: "95%",
+                  backgroundColor: "#fff",
+                  height: "40px",
+                  cursor: "pointer",
+                }}
+                placeholder={t("กรอกประเภทกีฬา")}
+                name='sportType'
+                value={formData.sportType}
+                onChange={handleChange}
+                required
+              >
+                <option value="" >{t('เลือกประเภทกีฬา')}</option>
+                {sport_type.map((data, index) => (
+                  <option key={index} value={data}>
+                    {data}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p>{t('สถานที่จัดงาน')} <span className='requiredstar'>*</span></p>
-            <Form.Control
-              type="text"
-              placeholder={t("กรอกสถานที่จัดงาน")}
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              required
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+            <Form.Group as={Row} controlId="formLocation" style={{ paddingInline: "12px" }}>
+              <Form.Control
+                type="text"
+                placeholder={t("กรอกสถานที่จัดงาน")}
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                required
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", height: "40px"
+                }} />
+            </Form.Group>
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('วันที่แข่งขัน')}</p>
-            <div style={{ marginTop: "-12px" }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker']} >
-                  <DatePicker
-                    slotProps={{ textField: { size: 'small' } }}
-                    sx={{
-                      width: '95%',
-                      backgroundColor: "#FFF",
-                      borderRadius: "10px",
-                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                      "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                      "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
-                    }}
-                    value={formData.competitionDate ? dayjs(formData.competitionDate) : null}
-                    onChange={(dueDate) => setFormData({ ...formData, competitionDate: dueDate })}
-                    format="DD/MM/YYYY"
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            </div>
+            <p>{t('วันที่แข่งขัน')}  <span className='requiredstar'>*</span></p>
+            <Form.Group as={Row} controlId="formCompetitionDate">
+              <div style={{ marginTop: "-12px" }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['DatePicker']} >
+                    <DatePicker
+                      slotProps={{ textField: { size: 'small' } }}
+                      sx={{
+                        width: '95%',
+                        backgroundColor: "#FFF",
+                        borderRadius: "10px",
+                        boxShadow: "0px 4px 4px rgba(255, 255, 255, 0)",
+                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                      }}
+                      value={formData.competitionDate ? dayjs(formData.competitionDate) : null}
+                      onChange={(dueDate) => setFormData({ ...formData, competitionDate: dueDate })}
+                      format="DD/MM/YYYY"
+                      required
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </div>
+            </Form.Group>
           </Col>
         </Row>
 
         <Row className='mt-3'>
           <Col xl={3} md={6} sm={12} className='mt-2'>
-            <p>{t('เวลาการแข่งขัน')}</p>
-            <div style={{ marginTop: "-12px" }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['TimePicker']}>
-                  <TimePicker
-                    clearable
-                    ampm={false}
-                    timeSteps={{ minutes: 1 }}
-                    slotProps={{ textField: { size: 'small' } }}
-                    sx={{
-                      width: '95%',
-                      backgroundColor: "#FFF",
-                      borderRadius: "10px",
-                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                      "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                      "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
-                    }}
-                    value={formData.competitionTime ? dayjs(formData.competitionTime) : null}
-                    onChange={(dueDate) => setFormData({ ...formData, competitionTime: dueDate })}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            </div>
+            <p>{t('เวลาการแข่งขัน')}  <span className='requiredstar'>*</span></p>
+            <Form.Group as={Row} controlId="formCompetitionTime">
+              <div style={{ marginTop: "-12px" }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['TimePicker']}>
+                    <TimePicker
+                      clearable
+                      ampm={false}
+                      timeSteps={{ minutes: 1 }}
+                      slotProps={{ textField: { size: 'small' } }}
+                      sx={{
+                        width: '95%',
+                        backgroundColor: "#FFF",
+                        borderRadius: "10px",
+                        boxShadow: "0px 4px 4px rgba(255, 255, 255, 0)",
+                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                      }}
+                      value={formData.competitionTime ? dayjs(formData.competitionTime) : null}
+                      onChange={(dueDate) => setFormData({ ...formData, competitionTime: dueDate })}
+                      required
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </div>
+            </Form.Group>
           </Col>
 
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('วันที่เปิดรับสมัคร')}</p>
-            <div style={{ marginTop: "-12px" }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker']} >
-                  <DatePicker
-                    slotProps={{ textField: { size: 'small' } }}
-                    sx={{
-                      width: '95%',
-                      backgroundColor: "#FFF",
-                      borderRadius: "10px",
-                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                      "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                      "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
-                    }}
-                    value={formData.openRegisDate ? dayjs(formData.openRegisDate) : null}
-                    onChange={(dueDate) => setFormData({ ...formData, openRegisDate: dueDate })}
-                    format="DD/MM/YYYY"
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            </div>
+            <p>{t('วันที่เปิดรับสมัคร')}  <span className='requiredstar'>*</span></p>
+            <Form.Group as={Row} controlId="formOpenRegisDate">
+              <div style={{ marginTop: "-12px" }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['DatePicker']} >
+                    <DatePicker
+                      slotProps={{ textField: { size: 'small' } }}
+                      sx={{
+                        width: '95%',
+                        backgroundColor: "#FFF",
+                        borderRadius: "10px",
+                        boxShadow: "0px 4px 4px rgba(255, 255, 255, 0)",
+                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                      }}
+                      value={formData.openRegisDate ? dayjs(formData.openRegisDate) : null}
+                      onChange={(dueDate) => setFormData({ ...formData, openRegisDate: dueDate })}
+                      format="DD/MM/YYYY"
+                      required
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </div>
+            </Form.Group>
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('วันที่ปิดรับสมัคร')}</p>
-            <div style={{ marginTop: "-12px" }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker']} >
-                  <DatePicker
-                    slotProps={{ textField: { size: 'small' } }}
-                    sx={{
-                      width: '95%',
-                      backgroundColor: "#FFF",
-                      borderRadius: "10px",
-                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                      "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                      "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
-                    }}
-                    value={formData.closeRegisDate ? dayjs(formData.closeRegisDate) : null}
-                    onChange={(dueDate) => setFormData({ ...formData, closeRegisDate: dueDate })}
-                    format="DD/MM/YYYY"
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            </div>
+            <p>{t('วันที่ปิดรับสมัคร')}  <span className='requiredstar'>*</span></p>
+            <Form.Group as={Row} controlId="formCloseRegisDate">
+              <div style={{ marginTop: "-12px" }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['DatePicker']} >
+                    <DatePicker
+                      slotProps={{ textField: { size: 'small' } }}
+                      sx={{
+                        width: '95%',
+                        backgroundColor: "#FFF",
+                        borderRadius: "10px",
+                        boxShadow: "0px 4px 4px rgba(255, 255, 255, 0)",
+                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                      }}
+                      value={formData.closeRegisDate ? dayjs(formData.closeRegisDate) : null}
+                      onChange={(dueDate) => setFormData({ ...formData, closeRegisDate: dueDate })}
+                      format="DD/MM/YYYY"
+                      required
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </div>
+            </Form.Group>
           </Col>
           <Col xl={3} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('จำนวนรับสมัคร')}</p>
-            <Form.Control
-              type="number"
-              placeholder={t("กรอกจำนวนรับสมัคร")}
-              name='maxRegis'
-              value={formData.maxRegis}
-              onChange={handleChange}
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
+            <p>{t('จำนวนรับสมัคร')}  <span className='requiredstar'>*</span></p>
+            <Form.Group as={Row} controlId="formMaxRegis" style={{ paddingInline: "12px" }}>
+              <Form.Control
+                type="number"
+                placeholder={t("กรอกจำนวนรับสมัคร")}
+                name='maxRegis'
+                value={formData.maxRegis}
+                onChange={handleChange}
+                required
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", height: "40px"
+                }} />
+            </Form.Group>
           </Col>
         </Row>
 
@@ -375,33 +390,39 @@ function Data_org_2({ formData, setFormData, isEditMode }) {
             {formData.competitionDetails && formData.competitionDetails.map((formDataItem, index) => (
               <Row className='mt-3' key={index}>
                 <Col xl={3} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
-                  <p>{t('ประเภทการแข่งขัน')}</p>
-                  <Form.Control
-                    type="text"
-                    placeholder={t("กรอกประเภทการแข่งขัน")}
-                    name='raceType'
-                    value={formDataItem.raceType}
-                    onChange={(e) => handleAddformChange(index, e)}
-                    style={{
-                      borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                      backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                    }} />
-                  <Form.Text id="raceTypeHelpBlock" muted>
-                    เช่น Fun Run, Half Marathon, VIP
-                  </Form.Text>
+                  <p>{t('ประเภทการแข่งขัน')}  <span className='requiredstar'>*</span></p>
+                  <Form.Group as={Row} controlId="formRaceType" style={{ paddingInline: "12px" }}>
+                    <Form.Control
+                      type="text"
+                      placeholder={t("กรอกประเภทการแข่งขัน")}
+                      name='raceType'
+                      value={formDataItem.raceType}
+                      onChange={(e) => handleAddformChange(index, e)}
+                      required
+                      style={{
+                        borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                        backgroundColor: "#fff", height: "40px"
+                      }} />
+                    <Form.Text id="raceTypeHelpBlock" muted>
+                      เช่น Fun Run, Half Marathon, VIP
+                    </Form.Text>
+                  </Form.Group>
                 </Col>
                 <Col xl={3} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
-                  <p>{t('ค่าสมัคร')}</p>
-                  <Form.Control
-                    type="number"
-                    placeholder={t("กรอกค่าสมัคร")}
-                    name='registrationFee'
-                    value={formDataItem.registrationFee}
-                    onChange={(e) => handleAddformChange(index, e)}
-                    style={{
-                      borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                      backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                    }} />
+                  <p>{t('ค่าสมัคร')}  <span className='requiredstar'>*</span></p>
+                  <Form.Group as={Row} controlId="formRegistrationFee" style={{ paddingInline: "12px" }}>
+                    <Form.Control
+                      type="number"
+                      placeholder={t("กรอกค่าสมัคร")}
+                      name='registrationFee'
+                      value={formDataItem.registrationFee}
+                      onChange={(e) => handleAddformChange(index, e)}
+                      required
+                      style={{
+                        borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                        backgroundColor: "#fff", height: "40px"
+                      }} />
+                  </Form.Group>
                 </Col>
               </Row>
             ))}
@@ -431,12 +452,13 @@ function Data_org_2({ formData, setFormData, isEditMode }) {
         <Row className='mt-5'>
           <Col xl={6} md={6} sm={12} >
             <Col className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
-              <p style={{ margin: "0" }}>{t('เพิ่มรูปหน้าปก')}</p>
-              <Form.Group controlId='formCoverPicture'>
+              <p style={{ margin: "0" }}>{t('เพิ่มรูปหน้าปก')}  <span className='requiredstar'>*</span></p>
+              <Form.Group as={Row} controlId="formCoverPicture" style={{ paddingInline: "12px" }}>
                 <Form.Control
                   accept=".png,.jpg,.jpeg"
                   type='file'
                   onChange={handleCoverPictureChange}
+                  required={formData.coverPicture.length === 0}
                 />
               </Form.Group>
             </Col>
@@ -473,7 +495,7 @@ function Data_org_2({ formData, setFormData, isEditMode }) {
 
           <Col xl={6} md={6} sm={12} className="mt-2">
             <p style={{ margin: "0" }}>{t('เพิ่มรูปปก (ขนาด 970 x 250 พิกเซล)')}</p>
-            <Form.Group controlId="formBannerPicture">
+            <Form.Group as={Row} controlId="formBannerPicture" style={{ paddingInline: "12px" }}>
               <Form.Control
                 accept=".png,.jpg,.jpeg"
                 type="file"
@@ -523,8 +545,8 @@ function Data_org_2({ formData, setFormData, isEditMode }) {
               value={formData.generalInfo}
               onChange={handleChange}
               style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                borderRadius: "10px", marginTop: "-15px",
+                backgroundColor: "#fff", height: "100%"
               }} />
           </Col>
           <Col xl={6} md={6} sm={12} className='mt-2'
@@ -537,8 +559,8 @@ function Data_org_2({ formData, setFormData, isEditMode }) {
               value={formData.purpose}
               onChange={handleChange}
               style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                borderRadius: "10px", marginTop: "-15px",
+                backgroundColor: "#fff", height: "100%"
               }} />
           </Col>
         </Row>
@@ -554,20 +576,21 @@ function Data_org_2({ formData, setFormData, isEditMode }) {
               value={formData.interesting}
               onChange={handleChange}
               style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                borderRadius: "10px", marginTop: "-15px",
+                backgroundColor: "#fff", height: "100%"
               }} />
           </Col>
           <Col xl={6} md={6} sm={12} className='mt-2'
             style={{ display: "flex", flexDirection: "column" }}>
-            <p style={{ margin: "0" }}>{t('รางวัล')}</p>
-            <Form.Group controlId="formPrizePicture">
+            <p style={{ margin: "0" }}>{t('รางวัล')}  <span className='requiredstar'>*</span></p>
+            <Form.Group as={Row} controlId="formPrizePicture" style={{ paddingInline: "12px" }}>
               <Form.Control
                 accept=".png,.jpg,.jpeg"
                 type="file"
                 multiple
                 name="prizeImages"
                 onChange={handlePrizeChange}
+                required={formData.reward.length === 0}
               />
             </Form.Group>
 

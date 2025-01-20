@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Button, Container } from 'react-bootstrap'
+import React, { useRef, useState } from 'react'
+import { Button, Container, Form } from 'react-bootstrap'
 import { Box, Stepper, Step, StepLabel, Typography } from '@mui/material'
 
 import Data_org_1 from './Data_org_1'
@@ -12,6 +12,8 @@ import { useTranslation } from 'react-i18next';
 
 function Data_org() {
     const { t, i18n } = useTranslation()
+    const [validated, setValidated] = useState(false);
+    const formRef = useRef(null);
 
     let prizeFile = [null];
     let whatToReceiveFile = [null];
@@ -54,14 +56,14 @@ function Data_org() {
         generalInfo: "",
         purpose: "",
         interesting: "",
-        reward: [""],
+        reward: [],
         coverPicture: "",
         banner: "",
         // End Page 2
 
         // Start Page 3
-        whatToReceive: [""],
-        route: [""],
+        whatToReceive: [],
+        route: [],
         latitude: "",
         longitude: "",
         accommodation: "",
@@ -131,7 +133,20 @@ function Data_org() {
         },
     }
 
-    const handleNext = async () => {
+    const handleNext = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const form = formRef.current;
+
+        if (form && form.checkValidity() === false) {
+            const firstInvalidField = form.querySelector(':invalid');
+            if (firstInvalidField) {
+                firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstInvalidField.focus();
+            }
+            setValidated(true);
+            return;
+        }
         setSkipped((prevSkipped) => {
             const newSkipped = new Set(prevSkipped.values());
             newSkipped.delete(activeStep);
@@ -142,6 +157,7 @@ function Data_org() {
 
         if (activeStep === 3) {
             setLoading(true);
+
             try {
                 // Fetch user info from the server
                 const userResponse = await fetch('http://localhost:4000/api/userinfo', {
@@ -294,7 +310,7 @@ function Data_org() {
                 const eventResponse = await axios.post('http://localhost:4000/api/events', eventData);
 
 
-                if (eventResponse.status == 201) {
+                if (eventResponse.status === 201) {
                     setLoading(false); // หยุดการโหลดเมื่อเสร็จสิ้น
                     console.log('Event created successfully:', eventResponse.data.event);
                 }
@@ -348,19 +364,21 @@ function Data_org() {
                     })}
                 </Stepper>
                 {activeStep === steps.length ? (
-                    <Data_org_success loading={loading} setLoading={setLoading} isEditMode={false}/>
+                    <Data_org_success loading={loading} setLoading={setLoading} isEditMode={false} />
                 ) : (
                     <React.Fragment>
-                        <Typography sx={{ mt: 2, mb: 1 }}>
-                            {componants.map((data, index) => {
-                                return (
-                                    <div key={index}>
-                                        {activeStep === index && data}
-                                    </div>
-                                )
-                            })
-                            }
-                        </Typography>
+                        <Form noValidate validated={validated} ref={formRef} onSubmit={handleNext}>
+                            <Typography sx={{ mt: 2, mb: 1 }}>
+                                {componants.map((data, index) => {
+                                    return (
+                                        <div key={index}>
+                                            {activeStep === index && data}
+                                        </div>
+                                    )
+                                })
+                                }
+                            </Typography>
+                        </Form>
 
                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                             <Button

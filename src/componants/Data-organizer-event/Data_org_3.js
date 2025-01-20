@@ -10,6 +10,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
 
     const [previewReceiveImages, setPreviewReceiveImages] = useState([]);
     const [previewRouteImages, setPreviewRouteImages] = useState([]);
+    const [previewPromptPayImages, setPreviewPromptPayImages] = useState(null);
 
     useEffect(() => {
         // สำหรับภาพสิ่งที่จะได้รับ
@@ -27,6 +28,15 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                 formData.route.map((file) =>
                     typeof file === "string" ? file : URL.createObjectURL(file)
                 )
+            );
+        }
+
+        //สำหรับภาพ QR Code 
+        if (formData.promptPayImage) {
+            setPreviewPromptPayImages(
+                typeof formData.promptPayImage === "string"
+                    ? formData.promptPayImage
+                    : URL.createObjectURL(formData.promptPayImage)
             );
         }
 
@@ -73,7 +83,20 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
         }
     };
 
-
+    const handlePromptPayChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setPreviewPromptPayImages(reader.result);
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    promptPayImage: file,
+                }));
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleRemoveReceiveImage = (index) => {
         setPreviewReceiveImages((prev) => prev.filter((_, i) => i !== index));
@@ -91,7 +114,13 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
         }));
     };
 
-
+    const handleRemovePromptPayImage = () => {
+        setPreviewPromptPayImages(null);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            promptPayImage: ""
+        }));
+    };
 
 
     const handleAddShirtForm = () => {
@@ -251,7 +280,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                 <Row>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p style={{ margin: "0" }}>{t('สิ่งที่จะได้รับ')}</p>
+                        <p style={{ margin: "0" }}>{t('สิ่งที่จะได้รับ')} <span className='requiredstar'>*</span></p>
                         <Form.Group controlId='formReceivePicture'>
                             <Form.Control
                                 accept=".png,.jpg,.jpeg"
@@ -259,6 +288,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                                 multiple
                                 name="receiveImages"
                                 onChange={handleReceiveChange}
+                                required={formData.whatToReceive.length === 0}
                             />
                         </Form.Group>
 
@@ -297,7 +327,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                     </Col>
                     <Col xl={6} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p style={{ margin: "0" }}>{t('เส้นทางการแข่งขัน')}</p>
+                        <p style={{ margin: "0" }}>{t('เส้นทางการแข่งขัน')} <span className='requiredstar'>*</span></p>
                         <Form.Group controlId='formRoutePicture'>
                             <Form.Control
                                 accept=".png,.jpg,.jpeg"
@@ -305,6 +335,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                                 multiple
                                 name="routeImages"
                                 onChange={handleRouteChange}
+                                required={formData.route.length === 0}
                             />
                         </Form.Group>
 
@@ -356,7 +387,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                             onChange={handleChange}
                             style={{
                                 borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                                backgroundColor: "#fff", height: "100%"
                             }} />
                     </Col>
                     <Col xl={6} md={6} sm={12} className='mt-2'
@@ -371,7 +402,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                             onChange={handleChange}
                             style={{
                                 borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                                backgroundColor: "#fff", height: "100%"
                             }} />
                     </Col>
                 </Row>
@@ -389,7 +420,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                             onChange={handleChange}
                             style={{
                                 borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                                backgroundColor: "#fff", border: "none", height: "100%", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                                backgroundColor: "#fff", height: "100%"
                             }} />
                     </Col>
                 </Row>
@@ -400,28 +431,30 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                         style={{ display: "flex", flexDirection: "column" }}>
                         <p >{t('แผนที่ตำแหน่งการจัดงาน')}</p>
                         <Row>
-                            <Col xl={6} md={6} sm={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                <p>{t('ละติจูด')}</p>
+                            <Col xl={6} md={6} sm={6} >
+                                <p>{t('ละติจูด')} <span className='requiredstar'>*</span></p>
                                 <Form.Control type='text'
                                     name='latitude'
                                     value={formData.latitude}
                                     onChange={handleChange}
                                     placeholder={t('กรอกละติจูด')}
+                                    required
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                                        backgroundColor: "#fff", height: "40px"
                                     }} />
                             </Col>
-                            <Col xl={6} md={6} sm={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                <p>{t('ลองจิจูด')}</p>
+                            <Col xl={6} md={6} sm={6} >
+                                <p>{t('ลองจิจูด')} <span className='requiredstar'>*</span></p>
                                 <Form.Control type='text'
                                     name='longitude'
                                     value={formData.longitude}
                                     onChange={handleChange}
                                     placeholder={t('กรอกลองจิจูด')}
+                                    required
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                                        backgroundColor: "#fff", height: "40px"
                                     }} />
                             </Col>
                         </Row>
@@ -438,6 +471,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                 </div>
 
                 <Row>
+                    <p>{t('ช่องทางการรับสินค้า (เลือกอย่างน้อย 1 ช่องทาง)')} <span className='requiredstar'>*</span></p>
                     <Form.Check
                         type="checkbox"
                         id="onsiteStatus"
@@ -445,6 +479,8 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                         name="onsiteStatus"
                         onChange={handleCheckboxChange}
                         checked={formData.onsiteStatus}
+                        style={{ paddingInline: "36px" }}
+                        required={!formData.shippingStatus}
                     />
                     <Form.Check
                         type="checkbox"
@@ -453,6 +489,8 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                         name="shippingStatus"
                         onChange={handleCheckboxChange}
                         checked={formData.shippingStatus}
+                        style={{ paddingInline: "36px" }}
+                        required={!formData.onsiteStatus}
                     />
                 </Row>
 
@@ -462,18 +500,21 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                         style={{ display: "flex", flexDirection: "column" }}>
                         {formData.product?.shirt && formData.product.shirt.map((product, index) => (
                             <Row key={index} className='mt-2'>
-                                <p>{t('ประเภทเสื้อ')}</p>
-                                <Form.Control
-                                    type='text'
-                                    name='shirt'
-                                    value={product}
-                                    onChange={(e) => handleAddShirtChange(index, e)}
-                                    placeholder={t('กรอกประเภทเสื้อ')}
-                                    style={{
-                                        borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                                    }}
-                                />
+                                <p>{t('ประเภทเสื้อ')} <span className='requiredstar'>*</span></p>
+                                <Form.Group as={Row} controlId="formShirt" style={{ paddingInline: "12px" }}>
+                                    <Form.Control
+                                        type='text'
+                                        name='shirt'
+                                        value={product}
+                                        onChange={(e) => handleAddShirtChange(index, e)}
+                                        placeholder={t('กรอกประเภทเสื้อ')}
+                                        required
+                                        style={{
+                                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                            backgroundColor: "#fff", height: "40px"
+                                        }}
+                                    />
+                                </Form.Group>
                             </Row>
                         ))}
                         <div style={{ display: "flex", justifyContent: "end" }}>
@@ -496,18 +537,21 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                         style={{ display: "flex", flexDirection: "column" }}>
                         {formData.product?.shirtsize && formData.product.shirtsize.map((product, index) => (
                             <Row key={index} className='mt-2'>
-                                <p>{t('ขนาดเสื้อ')}</p>
-                                <Form.Control
-                                    type='text'
-                                    name='shirtsize'
-                                    value={product}
-                                    onChange={(e) => handleAddShirtSizeChange(index, e)}
-                                    placeholder={t('กรอกขนาดเสื้อ')}
-                                    style={{
-                                        borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                                    }}
-                                />
+                                <p>{t('ขนาดเสื้อ')} <span className='requiredstar'>*</span></p>
+                                <Form.Group as={Row} controlId="formShirtSize" style={{ paddingInline: "12px" }}>
+                                    <Form.Control
+                                        type='text'
+                                        name='shirtsize'
+                                        value={product}
+                                        onChange={(e) => handleAddShirtSizeChange(index, e)}
+                                        placeholder={t('กรอกขนาดเสื้อ')}
+                                        required
+                                        style={{
+                                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                            backgroundColor: "#fff", height: "40px"
+                                        }}
+                                    />
+                                </Form.Group>
                             </Row>
                         ))}
                         <div style={{ display: "flex", justifyContent: "end" }}>
@@ -539,7 +583,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                                     placeholder={t('กรอกสินค้าอื่นๆ')}
                                     style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                                        backgroundColor: "#fff", border: "none", height: "40px"
                                     }}
                                 />
                             </Row>
@@ -573,7 +617,7 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                                 onChange={handleChange}
                                 style={{
                                     borderRadius: "10px", marginTop: "-15px", maxWidth: "98%",
-                                    backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                                    backgroundColor: "#fff", height: "40px"
                                 }} />
                             <Form.Text id="raceTypeHelpBlock" muted style={{ textAlign: "right" }}>
                                 กรณีจัดส่ง
@@ -593,60 +637,98 @@ function Data_org_3({ formData, setFormData, isEditMode }) {
                 <Row className='mt-3'>
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p>{t('ชื่อธนาคาร')}</p>
-                        <Form.Control type='text'
-                            name='bankName'
-                            value={formData.bankName} // ใช้ค่า bankName จาก paymentInfo
-                            onChange={handleChange}
-                            placeholder={t('กรอกชื่อธนาคาร')}
-                            style={{
-                                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                            }} />
+                        <p>{t('ชื่อธนาคาร')} <span className='requiredstar'>*</span></p>
+                        <Form.Group as={Row} controlId="formBankName" style={{ paddingInline: "12px" }}>
+                            <Form.Control type='text'
+                                name='bankName'
+                                value={formData.bankName} // ใช้ค่า bankName จาก paymentInfo
+                                onChange={handleChange}
+                                placeholder={t('กรอกชื่อธนาคาร')}
+                                required
+                                style={{
+                                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                    backgroundColor: "#fff", height: "40px"
+                                }} />
+                        </Form.Group>
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p>{t('ชื่อบัญชี')}</p>
-                        <Form.Control type='text'
-                            name='accountName'
-                            value={formData.accountName} // ใช้ค่า accountName จาก paymentInfo
-                            onChange={handleChange}
-                            placeholder={t('กรอกชื่อบัญชี')}
-                            style={{
-                                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                            }} />
+                        <p>{t('ชื่อบัญชี')} <span className='requiredstar'>*</span></p>
+                        <Form.Group as={Row} controlId="formAccountName" style={{ paddingInline: "12px" }}>
+                            <Form.Control type='text'
+                                name='accountName'
+                                value={formData.accountName} // ใช้ค่า accountName จาก paymentInfo
+                                onChange={handleChange}
+                                placeholder={t('กรอกชื่อบัญชี')}
+                                required
+                                style={{
+                                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                    backgroundColor: "#fff", height: "40px"
+                                }} />
+                        </Form.Group>
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p>{t('เลขที่บัญชี')}</p>
-                        <Form.Control type='text'
-                            name='accountNumber'
-                            value={formData.accountNumber} // ใช้ค่า accountNumber จาก paymentInfo
-                            onChange={handleChange}
-                            placeholder={t('กรอกเลขที่บัญชี')}
-                            style={{
-                                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                            }} />
+                        <p>{t('เลขที่บัญชี')} <span className='requiredstar'>*</span></p>
+                        <Form.Group as={Row} controlId="formAccountNumber" style={{ paddingInline: "12px" }}>
+                            <Form.Control type='text'
+                                name='accountNumber'
+                                value={formData.accountNumber} // ใช้ค่า accountNumber จาก paymentInfo
+                                onChange={handleChange}
+                                placeholder={t('กรอกเลขที่บัญชี')}
+                                required
+                                style={{
+                                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                    backgroundColor: "#fff", height: "40px"
+                                }} />
+                        </Form.Group>
                     </Col>
                     <Col xl={3} md={6} sm={12} className='mt-2'
                         style={{ display: "flex", flexDirection: "column" }}>
-                        <p>{t('รูปภาพ QR Code พร้อมเพย์')}</p>
-                        <Form.Group controlId='promptPayImage'>
+                        <p>{t('รูปภาพ QR Code พร้อมเพย์')} <span className='requiredstar'>*</span></p>
+                        <Form.Group as={Row} controlId="promptPayImage" style={{ paddingInline: "12px" }}>
                             <Form.Control
                                 style={{
                                     borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                    backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                                    backgroundColor: "#fff", height: "40px"
                                 }}
                                 accept=".png,.jpg,.jpeg"
                                 type='file'
                                 name='promptPayImage'
                                 rows={3}
                                 placeholder={t('รูปภาพพร้อมเพย์')}
-                                onChange={handleFileChange}
+                                onChange={handlePromptPayChange}
+                                required={formData.promptPayImage === ""}
                             />
                         </Form.Group>
+
+                        {/* แสดงตัวอย่างรูปภาพ */}
+                        <Row className="mt-3">
+                            {previewPromptPayImages && (
+                                <Col xs={6} md={4} lg={3} className="mb-3">
+                                    <div style={{ position: 'relative', textAlign: 'center' }}>
+                                        <img
+                                            src={typeof previewPromptPayImages === "string" ? previewPromptPayImages : URL.createObjectURL(previewPromptPayImages)} // แสดง URL หรือไฟล์
+                                            alt="Uploaded preview"
+                                            style={{ width: '100%', height: 'auto', borderRadius: '10px' }}
+                                        />
+                                        <Button
+                                            variant="danger"
+                                            size="sm"
+                                            style={{
+                                                position: 'absolute',
+                                                top: '5px',
+                                                right: '5px',
+                                                borderRadius: '50%'
+                                            }}
+                                            onClick={handleRemovePromptPayImage}
+                                        >
+                                            &times;
+                                        </Button>
+                                    </div>
+                                </Col>
+                            )}
+                        </Row>
                     </Col>
                 </Row>
 

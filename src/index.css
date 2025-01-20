@@ -21,7 +21,8 @@ code {
     monospace;
 }
 
-p {
+p,
+.col-form-label {
   font-size: 18px;
   font-weight: 400;
   font-style: normal;
@@ -92,4 +93,24 @@ custom-dropdown-menu {
 
 .requiredstar {
   color: red;
+}
+
+.form-control.is-valid,
+.was-validated .form-control:valid {
+  background-image: none !important;
+  border: none;
+}
+
+.form-control:valid~.valid-feedback,
+.form-control:valid~.valid-tooltip {
+  display: none !important;
+}
+
+.form-select.is-valid:not([multiple]):not([size]),
+.form-select.is-valid:not([multiple])[size="1"],
+.was-validated .form-select:valid:not([multiple]):not([size]),
+.was-validated .form-select:valid:not([multiple])[size="1"] {
+  --bs-form-select-bg-icon: none;
+  border: none;
+  /* ปิดการแสดงไอคอน */
 }
