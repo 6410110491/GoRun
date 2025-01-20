@@ -145,15 +145,12 @@ function Data_org() {
                 firstInvalidField.focus();
             }
             setValidated(true);
-            return;
+            return; // หยุดการทำงานหากฟอร์มไม่ถูกต้อง
         }
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.delete(activeStep);
-            return newSkipped;
-        });
 
+        // ไปยังขั้นตอนถัดไป
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setValidated(false); // รีเซ็ตสถานะ validated
 
         if (activeStep === 3) {
             setLoading(true);
@@ -331,17 +328,27 @@ function Data_org() {
     };
 
     const componants = [
-        <Data_org_1 formData={formData} setFormData={setFormData} isEditMode={false} />,
+        <Data_org_1 formData={formData} setFormData={setFormData} isEditMode={false}
+            formRef={formRef}
+            validated={validated}
+            setValidated={setValidated} />,
         <Data_org_2 formData={formData} setFormData={setFormData}
             prizeFile={prizeFile}
             coverPictureFile={coverPictureFile}
             BannerFile={BannerFile}
             isEditMode={false}
+            formRef={formRef}
+            validated={validated}
+            setValidated={setValidated}
         />,
         <Data_org_3 formData={formData} setFormData={setFormData}
             whatToReceiveFile={whatToReceiveFile}
             routeFile={routeFile}
-            isEditMode={false} />,
+            isEditMode={false}
+            formRef={formRef}
+            validated={validated}
+            setValidated={setValidated}
+        />,
         <Data_org_4 formData={formData} isEditMode={false} />
     ]
 
@@ -367,7 +374,7 @@ function Data_org() {
                     <Data_org_success loading={loading} setLoading={setLoading} isEditMode={false} />
                 ) : (
                     <React.Fragment>
-                        <Form noValidate validated={validated} ref={formRef} onSubmit={handleNext}>
+                        <Form onSubmit={handleNext}>
                             <Typography sx={{ mt: 2, mb: 1 }}>
                                 {componants.map((data, index) => {
                                     return (
