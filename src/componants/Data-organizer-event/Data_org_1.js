@@ -10,7 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
-function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, setValidated }) {
+function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, setValidated, birthDatePickerRef,datePickerValidateStyles }) {
   const gender = ["ชาย", "หญิง", "อื่นๆ",]
   const blood_group = ["A", "B", "AB", "O"]
   const { t, i18n } = useTranslation()
@@ -57,22 +57,22 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
     if (userInfo) {
       setFormData((prevData) => ({
         ...prevData,
-        profilePicture: userInfo.personalInfo?.profilePicture || '',
-        username: userInfo.username || '',
-        gender: userInfo.personalInfo?.gender || '',
-        birthDate: userInfo.personalInfo?.birthDate || '',
-        idCardNumber: userInfo.personalInfo?.idCardNumber || '',
-        email: userInfo.email || '',
-        phoneNumber: userInfo.personalInfo?.phoneNumber || '',
-        nationality: userInfo.personalInfo?.nationality || '',
-        bloodType: userInfo.personalInfo?.bloodType || '',
-        chronicDiseases: userInfo.personalInfo?.chronicDiseases?.join(', ') || '',
+        profilePicture: userInfo.personalInfo?.profilePicture || formData.profilePicture,
+        username: userInfo.username || formData.username,
+        gender: userInfo.personalInfo?.gender || formData.gender,
+        birthDate: userInfo.personalInfo?.birthDate || formData.birthDate,
+        idCardNumber: userInfo.personalInfo?.idCardNumber || formData.idCardNumber,
+        email: userInfo.email || formData.email,
+        phoneNumber: userInfo.personalInfo?.phoneNumber || formData.phoneNumber,
+        nationality: userInfo.personalInfo?.nationality || formData.nationality,
+        bloodType: userInfo.personalInfo?.bloodType || formData.bloodType,
+        chronicDiseases: userInfo.personalInfo?.chronicDiseases?.join(', ') || formData.chronicDiseases,
 
-        address: userInfo.address?.address || '',
-        subDistrict: userInfo.address?.subDistrict || '',
-        district: userInfo.address?.district || '',
-        province: userInfo.address?.province || '',
-        zipCode: userInfo.address?.postalCode || '',
+        address: userInfo.address?.address || formData.address,
+        subDistrict: userInfo.address?.subDistrict || formData.subDistrict,
+        district: userInfo.address?.district || formData.district,
+        province: userInfo.address?.province || formData.province,
+        zipCode: userInfo.address?.postalCode || formData.zipCode,
       }));
     }
   }, [userInfo]);
@@ -197,15 +197,10 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DemoContainer components={['DatePicker']} >
                         <DatePicker
-                          slotProps={{ textField: { size: 'small' } }}
-                          required
-                          sx={{
-                            width: '95%',
-                            backgroundColor: "#FFF",
-                            borderRadius: "10px",
-                            boxShadow: "0px 4px 4px rgba(255, 255, 255, 0)",
-                            "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                          }}
+                          slotProps={{ textField: { size: "small" } }}
+                          required={true}
+                          ref={birthDatePickerRef}
+                          sx={datePickerValidateStyles}
                           value={formData.birthDate ? dayjs(formData.birthDate) : null}
                           onChange={(dueDate) => setFormData({ ...formData, birthDate: dueDate })}
                           format="DD/MM/YYYY"

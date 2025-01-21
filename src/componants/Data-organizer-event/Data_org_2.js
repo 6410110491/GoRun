@@ -13,7 +13,9 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
 
-function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, setValidated }) {
+function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, setValidated, datePickerValidateStyles,
+  competitionDatePickerRef, competitionTimePickerRef, openRegisDatePickerRef, closeRegisDatePickerRef
+}) {
 
   const { t, i18n } = useTranslation()
   const sport_type = ['วิ่ง', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
@@ -172,7 +174,6 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
   };
 
 
-
   return (
     <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
       {/* Head */}
@@ -267,17 +268,12 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                     <DemoContainer components={['DatePicker']} >
                       <DatePicker
                         slotProps={{ textField: { size: 'small' } }}
-                        sx={{
-                          width: '95%',
-                          backgroundColor: "#FFF",
-                          borderRadius: "10px",
-                          boxShadow: "0px 4px 4px rgba(255, 255, 255, 0)",
-                          "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                        }}
+                        required={true}
+                        ref={competitionDatePickerRef}
+                        sx={datePickerValidateStyles}
                         value={formData.competitionDate ? dayjs(formData.competitionDate) : null}
                         onChange={(dueDate) => setFormData({ ...formData, competitionDate: dueDate })}
                         format="DD/MM/YYYY"
-                        required
                       />
                     </DemoContainer>
                   </LocalizationProvider>
@@ -298,16 +294,11 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                         ampm={false}
                         timeSteps={{ minutes: 1 }}
                         slotProps={{ textField: { size: 'small' } }}
-                        sx={{
-                          width: '95%',
-                          backgroundColor: "#FFF",
-                          borderRadius: "10px",
-                          boxShadow: "0px 4px 4px rgba(255, 255, 255, 0)",
-                          "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                        }}
+                        sx={datePickerValidateStyles}
                         value={formData.competitionTime ? dayjs(formData.competitionTime) : null}
                         onChange={(dueDate) => setFormData({ ...formData, competitionTime: dueDate })}
-                        required
+                        required={true}
+                        ref={competitionTimePickerRef}
                       />
                     </DemoContainer>
                   </LocalizationProvider>
@@ -324,17 +315,12 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                     <DemoContainer components={['DatePicker']} >
                       <DatePicker
                         slotProps={{ textField: { size: 'small' } }}
-                        sx={{
-                          width: '95%',
-                          backgroundColor: "#FFF",
-                          borderRadius: "10px",
-                          boxShadow: "0px 4px 4px rgba(255, 255, 255, 0)",
-                          "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                        }}
+                        sx={datePickerValidateStyles}
                         value={formData.openRegisDate ? dayjs(formData.openRegisDate) : null}
                         onChange={(dueDate) => setFormData({ ...formData, openRegisDate: dueDate })}
                         format="DD/MM/YYYY"
-                        required
+                        required={true}
+                        ref={openRegisDatePickerRef}
                       />
                     </DemoContainer>
                   </LocalizationProvider>
@@ -350,17 +336,12 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                     <DemoContainer components={['DatePicker']} >
                       <DatePicker
                         slotProps={{ textField: { size: 'small' } }}
-                        sx={{
-                          width: '95%',
-                          backgroundColor: "#FFF",
-                          borderRadius: "10px",
-                          boxShadow: "0px 4px 4px rgba(255, 255, 255, 0)",
-                          "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                        }}
+                        sx={datePickerValidateStyles}
                         value={formData.closeRegisDate ? dayjs(formData.closeRegisDate) : null}
                         onChange={(dueDate) => setFormData({ ...formData, closeRegisDate: dueDate })}
                         format="DD/MM/YYYY"
-                        required
+                        required={true}
+                        ref={closeRegisDatePickerRef}
                       />
                     </DemoContainer>
                   </LocalizationProvider>

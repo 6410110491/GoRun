@@ -124,7 +124,8 @@ function Topbar() {
                                     <Dropdown style={{ margin: "8px 8px 8px 16px" }}>
                                         <Dropdown.Toggle id="dropdown-basic" style={{
                                             backgroundColor: "#F3C710",
-                                            borderRadius: '10px'
+                                            borderRadius: '10px',
+                                            border: "none"
                                         }}>
                                             {username || 'User'}
                                         </Dropdown.Toggle>

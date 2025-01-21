@@ -97,6 +97,11 @@ function Calendar() {
             views={['month']} // เลือกแค่เดือน
             onChange={(newMonth) => setSelectedMonth(newMonth)}  // Update selected month when user selects a month
             style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
+            sx={{
+              "& .MuiPickersMonth-monthButton.Mui-selected": {
+                backgroundColor: "#F3C710"
+              }
+            }}
           />
         </LocalizationProvider>
       </div>

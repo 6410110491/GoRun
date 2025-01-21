@@ -15,6 +15,12 @@ function Data_org() {
     const [validated, setValidated] = useState(false);
     const formRef = useRef(null);
 
+    const birthDatePickerRef = useRef(null);
+    const competitionDatePickerRef = useRef(null);
+    const competitionTimePickerRef = useRef(null);
+    const openRegisDatePickerRef = useRef(null);
+    const closeRegisDatePickerRef = useRef(null);
+
     let prizeFile = [null];
     let whatToReceiveFile = [null];
     let routeFile = [null];
@@ -90,6 +96,40 @@ function Data_org() {
         // End Page 3
     });
 
+    const datePickerValidateStyles = {
+        width: "95%",
+        backgroundColor: "#FFF",
+        borderRadius: "10px",
+        "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: validated ? "#dc3545" : "none", // กำหนดสีกรอบตาม validated
+            "&:hover": {
+                borderColor: validated ? "#dc3545" : "none", // สีกรอบเมื่อ hover
+            },
+            "&:focus": {
+                borderColor: validated ? "#dc3545" : "none", // สีกรอบเมื่อ focus
+                boxShadow: validated ? "0 0 0 .25rem rgba(220, 53, 69, .25)" : "0 0 0 .25rem rgba(13, 110, 253, .25)",
+            },
+            borderRadius: "10px",
+            backgroundImage: validated
+                ? `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e")`
+                : "none",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "right 2.25rem center, center right 2.25rem", // Added this line
+            backgroundSize: "18px 18px", // Added this line
+        },
+        "& .MuiOutlinedInput-root": {
+            borderColor: validated ? "#dc3545" : "none", // กำหนดสีกรอบตาม validated
+            borderRadius: "10px",
+        },
+        "& .Mui-focused fieldset.MuiOutlinedInput-notchedOutline": {
+            borderColor: validated ? "#dc3545" : "none", // กำหนดสีกรอบตาม validated
+            borderRadius: "10px",
+        },
+        "& .MuiPickersDay-root.Mui-selected": {
+            borderColor: validated ? "#dc3545" : "none", // กำหนดสีกรอบตาม validated
+        }
+    };
+
 
     const [userInfo, setUserInfo] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -138,19 +178,61 @@ function Data_org() {
         event.stopPropagation();
         const form = formRef.current;
 
+        if (!formData.birthDate || formData.birthDate === "") {
+            const birthDateInput = birthDatePickerRef.current?.querySelector('input');
+            if (birthDateInput) {
+                birthDateInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                birthDateInput.focus();
+                setValidated(true);
+            }
+            return;
+        }
+
         if (form && form.checkValidity() === false) {
             const firstInvalidField = form.querySelector(':invalid');
             if (firstInvalidField) {
                 firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 firstInvalidField.focus();
+                setValidated(true);
+                return;
             }
-            setValidated(true);
-            return; // หยุดการทำงานหากฟอร์มไม่ถูกต้อง
         }
+
+
+        if (!formData.competitionDate || formData.competitionDate === "" ||
+            !formData.competitionTime || formData.competitionTime === "" ||
+            !formData.openRegisDate || formData.openRegisDate === "" ||
+            !formData.closeRegisDate || formData.closeRegisDate === "") {
+
+            const competitionDatePicker = competitionDatePickerRef.current?.querySelector('input');
+            const competitionTimePicker = competitionTimePickerRef.current?.querySelector('input');
+            const openRegisDatePicker = openRegisDatePickerRef.current?.querySelector('input');
+            const closeRegisDatePicker = closeRegisDatePickerRef.current?.querySelector('input');
+
+            if (competitionDatePicker) {
+                competitionDatePicker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                competitionDatePicker.focus();
+                setValidated(true);
+            } else if (competitionTimePicker) {
+                competitionTimePicker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                competitionTimePicker.focus();
+                setValidated(true);
+            } else if (openRegisDatePicker) {
+                openRegisDatePicker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                openRegisDatePicker.focus();
+                setValidated(true);
+            } else if (closeRegisDatePicker) {
+                closeRegisDatePicker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                closeRegisDatePicker.focus();
+                setValidated(true);
+            }
+            return;
+        }
+
 
         // ไปยังขั้นตอนถัดไป
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setValidated(false); // รีเซ็ตสถานะ validated
+        setValidated(false); // รีเซ็ตสถานะ validated      
 
         if (activeStep === 3) {
             setLoading(true);
@@ -331,7 +413,9 @@ function Data_org() {
         <Data_org_1 formData={formData} setFormData={setFormData} isEditMode={false}
             formRef={formRef}
             validated={validated}
-            setValidated={setValidated} />,
+            setValidated={setValidated}
+            birthDatePickerRef={birthDatePickerRef}
+            datePickerValidateStyles={datePickerValidateStyles} />,
         <Data_org_2 formData={formData} setFormData={setFormData}
             prizeFile={prizeFile}
             coverPictureFile={coverPictureFile}
@@ -340,6 +424,11 @@ function Data_org() {
             formRef={formRef}
             validated={validated}
             setValidated={setValidated}
+            competitionDatePickerRef={competitionDatePickerRef}
+            competitionTimePickerRef={competitionTimePickerRef}
+            openRegisDatePickerRef={openRegisDatePickerRef}
+            closeRegisDatePickerRef={closeRegisDatePickerRef}
+            datePickerValidateStyles={datePickerValidateStyles}
         />,
         <Data_org_3 formData={formData} setFormData={setFormData}
             whatToReceiveFile={whatToReceiveFile}
