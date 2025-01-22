@@ -169,9 +169,10 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
           </Container>
 
           <p className='ms-3' style={{ wordBreak: "break-word", lineHeight: "1.6", marginBottom: "15px" }}>
-            <strong>{t('ที่อยู่การจัดส่ง')}:</strong><br />
-            {formData.nameShip} {formData.lastNameShip}<br />
-            {formData.addressShip}<br />
+            <Row>
+              <Col xl={4} sm={12}><p className='ms-3'>{t('ชื่อ-สกุล')}: {formData.nameShip} {formData.lastNameShip}</p></Col>
+              <Col xl={4} sm={12}><p className='ms-3'>{t('ที่อยู่')}: {formData.addressShip}</p></Col>
+            </Row>
             <Row>
               <Col xl={4} sm={12}><p className='ms-3'>{t('ตำบล/แขวง')}: {formData.subDistrictShip}</p></Col>
               <Col xl={4} sm={12}><p className='ms-3'>{t('อำเภอ/เขต')}: {formData.districtShip}</p></Col>

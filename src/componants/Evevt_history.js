@@ -129,7 +129,7 @@ function Evevt_history() {
 
             <div style={{ display: "flex", marginTop: "2rem", alignItems: "center" }}>
                 <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
-                <p style={{ fontSize: "1.5rem", marginLeft: '0.5rem', marginRight: '0.5rem' }}>{t('เสร็จสิ้น')}</p>
+                <p style={{ fontSize: "1.5rem", marginLeft: '0.5rem', marginRight: '0.5rem' }}>{t('ดำเนินการเสร็จสิ้น')}</p>
                 <div style={{ height: "5px", width: "20px", backgroundColor: "#47474A", marginBottom: "10px" }}></div>
             </div>
 

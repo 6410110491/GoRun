@@ -96,7 +96,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
                     <Form.Check
                       type="radio"
                       id="shipping"
-                      label="จัดส่งสินค้า"
+                      label={t("จัดส่งสินค้า")}
                       name="shippingChoice" // ชื่อเดียวกันสำหรับ radio group
                       value="shipping"
                       onChange={handleChange}
@@ -116,7 +116,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData }) {
                     <Form.Check
                       type="radio"
                       id="onsite"
-                      label="รับสินค้าหน้างาน"
+                      label={t("รับสินค้าหน้างาน")}
                       name="shippingChoice" // ชื่อเดียวกันสำหรับ radio group
                       value="onsite"
                       onChange={handleChange}

@@ -238,7 +238,7 @@ function Personal_information() {
                                         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginBottom: "1rem"
                                     }}
                                 />
-                                <p><strong>{t('ชื่อ')}:</strong> {userInfo.username}</p>
+                                <p><strong>{t('ชื่อ-สกุล')}:</strong> {userInfo.username}</p>
                             </Col>
                         </Row>
 
@@ -315,13 +315,13 @@ function Personal_information() {
                                 <Row className='mb-3'>
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formUsername'>
-                                            <Form.Label>{t('ชื่อ')}</Form.Label>
+                                            <Form.Label>{t('ชื่อ-สกุล')}</Form.Label>
                                             <Form.Control
                                                 type='text'
                                                 name='username'
                                                 value={formData.username}
                                                 onChange={handleChange}
-                                                placeholder={t('กรอกชื่อ')}
+                                                placeholder={t('กรอกชื่อ-สกุล')}
                                             />
                                         </Form.Group>
                                     </Col>

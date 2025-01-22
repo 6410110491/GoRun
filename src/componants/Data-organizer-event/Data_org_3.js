@@ -378,12 +378,12 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                     <Row className='mt-3'>
                         <Col xl={6} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <p>{t('ที่พัก/โรงแรม')}</p>
+                            <p>{t('ที่พัก')}</p>
                             <Form.Control
                                 as="textarea"
                                 rows={3}
                                 type="text"
-                                placeholder={t("กรอกที่พัก/โรงแรม")}
+                                placeholder={t("กรอกที่พัก")}
                                 name="accommodation"
                                 value={formData.accommodation}
                                 onChange={handleChange}
@@ -477,7 +477,7 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                         <Form.Check
                             type="checkbox"
                             id="onsiteStatus"
-                            label="รับสินค้าหน้างาน"
+                            label={t("รับสินค้าหน้างาน")}
                             name="onsiteStatus"
                             onChange={handleCheckboxChange}
                             checked={formData.onsiteStatus}
@@ -487,7 +487,7 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                         <Form.Check
                             type="checkbox"
                             id="shippingStatus"
-                            label="จัดส่งสินค้า"
+                            label={t("จัดส่งสินค้า")}
                             name="shippingStatus"
                             onChange={handleCheckboxChange}
                             checked={formData.shippingStatus}
