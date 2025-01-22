@@ -10,7 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
-function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, setValidated, birthDatePickerRef,datePickerValidateStyles }) {
+function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, setValidated, birthDatePickerRef, datePickerValidateStyles }) {
   const gender = ["ชาย", "หญิง", "อื่นๆ",]
   const blood_group = ["A", "B", "AB", "O"]
   const { t, i18n } = useTranslation()
@@ -200,7 +200,7 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
                           slotProps={{ textField: { size: "small" } }}
                           required={true}
                           ref={birthDatePickerRef}
-                          sx={datePickerValidateStyles}
+                          sx={datePickerValidateStyles("birthDate")}
                           value={formData.birthDate ? dayjs(formData.birthDate) : null}
                           onChange={(dueDate) => setFormData({ ...formData, birthDate: dueDate })}
                           format="DD/MM/YYYY"

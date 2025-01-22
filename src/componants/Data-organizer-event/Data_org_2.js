@@ -270,7 +270,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                         slotProps={{ textField: { size: 'small' } }}
                         required={true}
                         ref={competitionDatePickerRef}
-                        sx={datePickerValidateStyles}
+                        sx={datePickerValidateStyles("competitionDate")}
                         value={formData.competitionDate ? dayjs(formData.competitionDate) : null}
                         onChange={(dueDate) => setFormData({ ...formData, competitionDate: dueDate })}
                         format="DD/MM/YYYY"
@@ -294,7 +294,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                         ampm={false}
                         timeSteps={{ minutes: 1 }}
                         slotProps={{ textField: { size: 'small' } }}
-                        sx={datePickerValidateStyles}
+                        sx={datePickerValidateStyles("competitionTime")}
                         value={formData.competitionTime ? dayjs(formData.competitionTime) : null}
                         onChange={(dueDate) => setFormData({ ...formData, competitionTime: dueDate })}
                         required={true}
@@ -315,7 +315,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                     <DemoContainer components={['DatePicker']} >
                       <DatePicker
                         slotProps={{ textField: { size: 'small' } }}
-                        sx={datePickerValidateStyles}
+                        sx={datePickerValidateStyles("openRegisDate")}
                         value={formData.openRegisDate ? dayjs(formData.openRegisDate) : null}
                         onChange={(dueDate) => setFormData({ ...formData, openRegisDate: dueDate })}
                         format="DD/MM/YYYY"
@@ -336,7 +336,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                     <DemoContainer components={['DatePicker']} >
                       <DatePicker
                         slotProps={{ textField: { size: 'small' } }}
-                        sx={datePickerValidateStyles}
+                        sx={datePickerValidateStyles("closeRegisDate")}
                         value={formData.closeRegisDate ? dayjs(formData.closeRegisDate) : null}
                         onChange={(dueDate) => setFormData({ ...formData, closeRegisDate: dueDate })}
                         format="DD/MM/YYYY"
