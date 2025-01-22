@@ -492,7 +492,7 @@ function Card_event_detail() {
                                     }}>
                                         {t('ผู้จัดงาน')}
                                     </Container>
-                                    <p className='ms-3'>{t('ชื่อผู้จัดงาน')}: {eventDetail.organization ? eventDetail.organization : eventDetail.owner[0].username}</p>
+                                    <p className='ms-3'>{t('ผู้จัดงาน')}: {eventDetail.organization ? eventDetail.organization : eventDetail.owner[0].username}</p>
                                     <p className='ms-3'>{t('เบอร์โทรศัพท์')}: {userInfo ? userInfo.personalInfo.phoneNumber : ""}</p>
                                     <p className='ms-3'>{t('อีเมล')}: {userInfo ? userInfo.email : ""}</p>
 
