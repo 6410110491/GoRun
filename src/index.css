@@ -92,15 +92,13 @@ custom-dropdown-menu {
 }
 
 
-.MuiFormControl-root.MuiTextField-root.css-11gc0et-MuiFormControl-root-MuiTextField-root {
+.MuiFormControl-root.MuiTextField-root.css-11gc0et-MuiFormControl-root-MuiTextField-root,
+.MuiFormControl-root.MuiTextField-root.css-xtpn3w-MuiFormControl-root-MuiTextField-root,
+.MuiFormControl-root.MuiTextField-root.css-6ayt19-MuiFormControl-root-MuiTextField-root {
   min-width: 0;
   width: 100%;
 }
 
-.MuiFormControl-root.MuiTextField-root.css-xtpn3w-MuiFormControl-root-MuiTextField-root {
-  min-width: 0;
-  width: 100%;
-}
 
 .requiredstar {
   color: red;

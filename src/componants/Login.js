@@ -108,7 +108,7 @@ function Login() {
                                 <TypeAnimation
                                     className="fw-bold mb-2 text-uppercase"
                                     sequence={[
-                                        'ยินดีต้อนรับเข้าสู่ Gorun!',
+                                        t('ยินดีต้อนรับเข้าสู่ Gorun!'),
                                         2500,  // รอ 2 วินาทีก่อนวนลูปใหม่
                                         '',
                                         500,  // รอ 2 วินาทีก่อนวนลูปใหม่

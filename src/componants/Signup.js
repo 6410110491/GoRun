@@ -96,7 +96,7 @@ function Signup() {
                                     <TypeAnimation
                                         className="fw-bold mb-2 text-uppercase"
                                         sequence={[
-                                            'สมัครสมาชิกกับ Gorun!',
+                                            t('สมัครสมาชิกกับ Gorun!'),
                                             2500,  // รอ 2 วินาทีก่อนวนลูปใหม่
                                             '',
                                             500,  // รอ 2 วินาทีก่อนวนลูปใหม่

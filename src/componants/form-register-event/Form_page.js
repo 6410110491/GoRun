@@ -13,12 +13,13 @@ import { useTranslation } from 'react-i18next';
 
 function Form_page() {
   let slipFile = null;
+  const { t, i18n } = useTranslation()
 
   const steps = [
-    'ข้อมูลผู้สมัคร',
-    'ประเภทแข่งขัน/สินค้า',
-    'ที่อยู่การจัดส่ง',
-    'การชำระเงิน',
+    t('ข้อมูลผู้สมัคร'),
+    t('ประเภทแข่งขัน/สินค้า'),
+    t('ที่อยู่การจัดส่ง'),
+    t('ชำระเงิน'),
   ];
   const stepStyle = {
     padding: 2,
@@ -50,7 +51,6 @@ function Form_page() {
   const [userInfo, setUserInfo] = useState(null);
   const [formInfo, setFormInfo] = useState(null);
 
-  const { t, i18n } = useTranslation()
 
 
   const [eventData, setEventData] = useState();
