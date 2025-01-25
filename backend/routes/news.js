@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require('../models/User');
 const News = require('../models/News')
 const verifyToken = require('../middleware/auth');
+const isOwnerEvent = require('../middleware/isOwnerEvent');
+const isAdmin = require('../middleware/isAdmin');
 
 // เส้นทางสำหรับการสร้างงานใหม่
 router.post('/news', async (req, res) => {
@@ -64,7 +66,7 @@ router.get('/news/:id', async (req, res) => {
     }
 });
 
-router.put('/news/:id', verifyToken, async (req, res) => {
+router.put('/news/:id', verifyToken, isOwnerEvent, async (req, res) => {
     try {
         const news = await News.findById(req.params.id);
         if (!news) {
@@ -82,19 +84,16 @@ router.put('/news/:id', verifyToken, async (req, res) => {
 });
 
 
-router.delete('/news/:id', verifyToken, async (req, res) => {
+router.delete('/news/:id', verifyToken, isOwnerEvent, async (req, res) => {
     try {
         const news = await News.findById(req.params.id);
         if (!news) {
             return res.status(404).json({ error: 'news not found' });
         }
-        // Verify if the authenticated user is the owner of the news
-        if (!news.owner.some(owner => owner.owner_id.equals(req.user._id))) {
-            return res.status(403).json({ error: 'Unauthorized access to news' });
-        }
         await News.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'News deleted successfully' });
     } catch (error) {
+        console.error("Error deleting news:", error);
         res.status(500).json({ error: error.message });
     }
 });
