@@ -81,6 +81,16 @@ function Login() {
         window.location.href = "/" + path;
     };
 
+    const [showPolicyPopup, setShowPolicyPopup] = useState(true);
+
+    const handleClosePolicyPopup = () => {
+        changepage("")
+    };
+
+    const handleAcceptPolicy = () => {
+        setShowPolicyPopup(false);
+    };
+
     return (
         <div style={{ display: "flex", width: "100%", flexDirection: "row" }}>
             <Container fluid className="d-flex align-items-center justify-content-center p-0" style={{ minHeight: "100vh" }}>
@@ -94,6 +104,28 @@ function Login() {
                             />
                         </div>
                     </Col>
+
+                    {/* Warning Popup */}
+                    <Modal show={showPolicyPopup} onHide={handleClosePolicyPopup} centered>
+                        <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+                            <Modal.Title>{t('ข้อตกลงการใช้งานระบบ')}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p style={{ whiteSpace: 'pre-line' }}>
+                                {t('เว็บไซต์นี้มีการจัดเก็บใช้และเปิดเผยข้อมูลส่วนบุคคลของคุณตามที่กำหนดในกฎหมายคุ้มครองข้อมูลส่วนบุคคล (PDPA) เพื่อให้เป็นไปตามวัตถุประสงค์ของการให้บริการดังนี้\n\n1. การจัดเก็บข้อมูลส่วนบุคคล\nข้อมูลที่จัดเก็บประกอบด้วย ชื่อ-นามสกุล หมายเลขบัตรประชาชน ที่อยู่ อีเมล หมายเลขโทรศัพท์ และเอกสารยืนยันตัวตนที่เกี่ยวข้อง\n\n2. การใช้งานข้อมูลส่วนบุคคล\n- ใช้สำหรับการยืนยันตัวตนของผู้จัดงาน\n- ใช้สำหรับการตรวจสอบเอกสารหรือข้อมูลเพื่อปฏิบัติตามกฎหมายที่เกี่ยวข้อง\n- ใช้เพื่อการติดต่อหรือแจ้งเตือนที่เกี่ยวข้องกับการให้บริการ\n\n3. การเปิดเผยข้อมูลส่วนบุคคล\nข้อมูลส่วนบุคคลของคุณจะไม่ถูกเปิดเผยให้บุคคลภายนอก ยกเว้นในกรณีที่กฎหมายกำหนดหรือได้รับความยินยอมจากคุณโดยตรง\n\n4. สิทธิของผู้ใช้\nคุณมีสิทธิในการเข้าถึงข้อมูลส่วนบุคคลของคุณ และสามารถร้องขอให้แก้ไขหรือลบข้อมูลดังกล่าวได้ โดยการติดต่อผู้ดูแลระบบผ่านช่องทางที่ระบุในเว็บไซต์')}
+                            </p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClosePolicyPopup}
+                                style={{ border: 'none', borderRadius: '10px' }}>
+                                {t('ยกเลิก')}
+                            </Button>
+                            <Button variant="success" onClick={handleAcceptPolicy}
+                                style={{ border: 'none', borderRadius: '10px' }}>
+                                {t('ยอมรับ')}
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
 
                     <Col md={6} className="d-flex justify-content-center align-items-center p-4">
                         <Container className="p-4" style={{

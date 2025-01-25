@@ -326,11 +326,11 @@ function App_information() {
                 </Tooltip>
               </Col>
 
-              {/* ปุ่ม "สถานะเปิดรับสมัคร" และ "แก้ไข" */}
+              {/* ปุ่ม "สถานะการรับสมัคร" และ "แก้ไข" */}
               <Col xs={12} sm={6} md={6} xl={4} xxl={4}>
                 <Row className="align-items-center">
                   <Col xs={8} sm={8} md={8} xl={9} xxl={8} className="d-flex align-items-center">
-                    <div>{t("สถานะเปิดรับสมัคร")}:</div>
+                    <div>{t("สถานะการรับสมัคร")}:</div>
                     <Button
                       onClick={toggleRegistration}
                       style={{
@@ -507,7 +507,7 @@ function App_information() {
                           getFilteredRegistrations('rejected').length === 0 ? (
                             <TableRow>
                               <TableCell colSpan={10} align="center" style={{ padding: "3rem" }}>
-                                <p>No data</p>
+                                <p>{t('ไม่พบข้อมูล')}</p>
                               </TableCell>
                             </TableRow>
                           ) :
