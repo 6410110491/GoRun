@@ -295,7 +295,7 @@ function Admin_page() {
                                             {getFilteredRegistrations('pending').length === 0 ? (
                                                 <TableRow>
                                                     <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
-                                                        <p>{t('No data')}</p>
+                                                        <p>{t('ไม่พบข้อมูล')}</p>
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (
@@ -344,7 +344,7 @@ function Admin_page() {
                                             {getFilteredRegistrations('approved').length === 0 ? (
                                                 <TableRow>
                                                     <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
-                                                        <p>{t('No data')}</p>
+                                                        <p>{t('ไม่พบข้อมูล')}</p>
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (
@@ -392,7 +392,7 @@ function Admin_page() {
                                             {getFilteredRegistrations('rejected').length === 0 ? (
                                                 <TableRow>
                                                     <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
-                                                        <p>{t('No data')}</p>
+                                                        <p>{t('ไม่พบข้อมุล')}</p>
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (

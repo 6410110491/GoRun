@@ -191,7 +191,7 @@ function Organizer() {
                 </div>
             </Row>
 
-            {/* Warning Popup */}
+            {/* Warning Popup
             <Modal show={showWarningPopup} onHide={handleCloseWarningPopup} centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
                     <Modal.Title>{t('ข้อตกลงและเงื่อนไข')}</Modal.Title>
@@ -211,7 +211,7 @@ function Organizer() {
                         {t('ยอมรับ')}
                     </Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
 
             <Modal show={showPopup} onHide={handleClose} centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
