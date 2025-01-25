@@ -228,14 +228,13 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
               </Col>
               <Col xl={3} md={6} sm={12} className='mt-2'
                 style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                <p>{t('อีเมล')} <span className='requiredstar'>*</span></p>
+                <p>{t('อีเมล')}</p>
                 <Form.Group as={Row} controlId="formEmail" style={{ paddingInline: "12px" }}>
                   <Form.Control type='email'
                     name='email'
                     value={formData.email}
                     readOnly
                     disabled
-                    required
                     style={{
                       borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
                       backgroundColor: "#fff", height: "40px"

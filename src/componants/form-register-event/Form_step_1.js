@@ -9,7 +9,9 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-function Form_step_1({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData, userInfo }) {
+function Form_step_1({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData, userInfo, formRef, validated,
+    datePickerValidateStyles
+}) {
     const { id } = useParams();
     const gender = ["ชาย", "หญิง", "อื่นๆ"];
     const blood_group = ["A", "B", "AB", "O"];
@@ -109,199 +111,200 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                     backgroundColor: "#E3E3E3", minHeight: "260px", padding: "1rem 2rem 1rem 2rem",
                     borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                 }}>
-                    <Row>
-                        <Col xl={3} md={6} sm={12} className='mt-2'
-                            style={{ display: "flex", alignItems: "center" }}>
-                            <img
-                                src={userInfo.personalInfo?.profilePicture || require('../../image/blank_profile_image.png')}
-                                alt='logo.jpg'
-                                style={{ width: "100px", height: "100px", borderRadius: "100%" }}
-                            />
+                    <Form ref={formRef} noValidate validated={validated}>
+                        <Row>
+                            <Col xl={3} md={6} sm={12} className='mt-2'
+                                style={{ display: "flex", alignItems: "center" }}>
+                                <img
+                                    src={userInfo.personalInfo?.profilePicture || require('../../image/blank_profile_image.png')}
+                                    alt='logo.jpg'
+                                    style={{ width: "100px", height: "100px", borderRadius: "100%" }}
+                                />
 
-                            <div className='ms-3'>
-                                <p>{t('รูปภาพประจำตัว')}</p>
-                            </div>
-                        </Col>
-                        <Col xl={3} md={6} sm={12} className='mt-2'
-                            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Form.Group>
-                                <p>{t('ชื่อ-สกุล')}</p>
-                                <Form.Control type='text'
-                                    name='username'
-                                    value={formData.username}
-                                    onChange={handleChange}
-                                    onBlur={saveDraft}
-                                    placeholder={t('กรอกชื่อ')}
-                                    style={{
+                                <div className='ms-3'>
+                                    <p>{t('รูปภาพประจำตัว')}</p>
+                                </div>
+                            </Col>
+                            <Col xl={3} md={6} sm={12} className='mt-2'
+                                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <p>{t('ชื่อ-สกุล')} <span className='requiredstar'>*</span></p>
+                                <Form.Group as={Row} controlId="formUsername" style={{ paddingInline: "12px" }}>
+                                    <Form.Control type='text'
+                                        name='username'
+                                        value={formData.username}
+                                        onChange={handleChange}
+                                        onBlur={saveDraft}
+                                        placeholder={t('กรอกชื่อ')}
+                                        required
+                                        style={{
+                                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                            backgroundColor: "#fff", height: "40px"
+                                        }} />
+                                </Form.Group>
+                            </Col>
+                            <Col xl={3} md={6} sm={12} className='mt-2'
+                                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <p>{t('เพศ')} <span className='requiredstar'>*</span></p>
+                                <Form.Group as={Row} controlId="formGender" style={{ paddingInline: "12px" }}>
+                                    <Form.Select aria-label="Default select example"
+                                        type='text'
+                                        name='gender'
+                                        value={formData.gender}
+                                        onChange={handleChange}
+                                        onBlur={saveDraft}
+                                        placeholder={t('กรอกเพศ')}
+                                        required
+                                        style={{
+                                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                            backgroundColor: "#fff", height: "40px",
+                                            cursor: "pointer"
+                                        }}
+                                    // defaultValue={formData.gender} // ตั้งค่า default value
+                                    >
+                                        <option value="">{t('ไม่ระบุ')}</option>
+                                        {gender.map((data, index) => (
+                                            <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า gender จริงๆ
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row className='mt-3'>
+                            <Col xl={4} md={6} sm={12} className='mt-2'
+                                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <p>{t('วันเดือนปีเกิด')} <span className='requiredstar'>*</span></p>
+                                <Form.Group as={Row} controlId="formBirthDate" style={{ paddingInline: "12px" }}>
+                                    <div style={{ marginTop: "-12px" }}>
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                            <DemoContainer components={['DatePicker']} >
+                                                <DatePicker
+                                                    slotProps={{ textField: { size: 'small' } }}
+                                                    required={true}
+                                                    sx={datePickerValidateStyles("birthDate")}
+                                                    value={formData.birthDate ? dayjs(formData.birthDate) : null}
+                                                    onChange={(dueDate) => setFormData({ ...formData, birthDate: dueDate })}
+                                                    format="DD/MM/YYYY"
+                                                />
+                                            </DemoContainer>
+                                        </LocalizationProvider>
+                                    </div>
+                                </Form.Group>
+                            </Col>
+                            <Col xl={4} md={6} sm={12} className='mt-2'
+                                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <p>{t('เลขบัตรประชาชน')} <span className='requiredstar'>*</span></p>
+                                <Form.Group as={Row} controlId="formIdCardNumber" style={{ paddingInline: "12px" }}>
+                                    <Form.Control type='text'
+                                        name='idCardNumber'
+                                        value={formData.idCardNumber}
+                                        onChange={handleChange}
+                                        onBlur={saveDraft}
+                                        placeholder={t('กรอกเลขบัตรประชาชน')}
+                                        required
+                                        style={{
+                                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                            backgroundColor: "#fff", height: "40px"
+                                        }} />
+                                </Form.Group>
+                            </Col>
+                            <Col xl={4} md={6} sm={12} className='mt-2'
+                                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <p>{t('อีเมล')} <span className='requiredstar'>*</span></p>
+                                <Form.Group as={Row} controlId="formEmail" style={{ paddingInline: "12px" }}>
+                                    <Form.Control type='email'
+                                        name='email'
+                                        value={formData.email}
+                                        readOnly
+                                        disabled
+                                        required
+                                        style={{
+                                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                            backgroundColor: "#fff", height: "40px"
+                                        }} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row className='mt-3 mb-5'>
+                            <Col xl={3} md={6} sm={12} className='mt-2'
+                                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <p>{t('เบอร์โทรศัพท์')} <span className='requiredstar'>*</span></p>
+                                <Form.Group as={Row} controlId="formPhoneNumber" style={{ paddingInline: "12px" }}>
+                                    <Form.Control type='text'
+                                        name='phoneNumber'
+                                        value={formData.phoneNumber}
+                                        onChange={handleChange}
+                                        onBlur={saveDraft}
+                                        placeholder={t('กรอกเบอร์โทรศัพท์')}
+                                        required
+                                        style={{
+                                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                            backgroundColor: "#fff", height: "40px"
+                                        }} />
+                                </Form.Group>
+                            </Col>
+                            <Col xl={3} md={6} sm={12} className='mt-2'
+                                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <Form.Group>
+                                    <p>{t('สัญชาติ')}</p>
+                                    <Form.Control
+                                        type='text'
+                                        name='nationality'
+                                        value={formData.nationality}
+                                        onChange={handleChange}
+                                        onBlur={saveDraft}
+                                        placeholder={t('กรอกสัญชาติ')}
+                                        style={{
+                                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                            backgroundColor: "#fff", height: "40px"
+                                        }} />
+                                </Form.Group>
+                            </Col>
+                            <Col xl={3} md={6} sm={12} className='mt-2'
+                                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <Form.Group>
+                                    <p>{t('หมู่โลหิต')}</p>
+                                    <Form.Select aria-label="Default select example" style={{
                                         borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                                    }} />
-                            </Form.Group>
-                        </Col>
-                        <Col xl={3} md={6} sm={12} className='mt-2'
-                            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Form.Group>
-                                <p>{t('เพศ')}</p>
-                                <Form.Select aria-label="Default select example"
-                                    type='text'
-                                    name='gender'
-                                    value={formData.gender}
-                                    onChange={handleChange}
-                                    onBlur={saveDraft}
-                                    placeholder={t('กรอกเพศ')}
-                                    style={{
-                                        borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                                        backgroundColor: "#fff", height: "40px",
                                         cursor: "pointer"
                                     }}
-                                // defaultValue={formData.gender} // ตั้งค่า default value
-                                >
-                                    <option value="">{t('ไม่ระบุ')}</option>
-                                    {gender.map((data, index) => (
-                                        <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า gender จริงๆ
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-
-                    <Row className='mt-3'>
-                        <Col xl={4} md={6} sm={12} className='mt-2'
-                            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Form.Group>
-                                <p>{t('วันเดือนปีเกิด')}</p>
-                                <div style={{ marginTop: "-12px" }}>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DemoContainer components={['DatePicker']} >
-                                            <DatePicker
-                                                slotProps={{ textField: { size: 'small' } }}
-                                                sx={{
-                                                    width: '95%',
-                                                    backgroundColor: "#FFF",
-                                                    borderRadius: "10px",
-                                                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
-                                                }}
-                                                value={formData.birthDate ? dayjs(formData.birthDate) : null}
-                                                onChange={(dueDate) => setFormData({ ...formData, birthDate: dueDate })}
-                                                format="DD/MM/YYYY"
-                                            />
-                                        </DemoContainer>
-                                    </LocalizationProvider>
-                                </div>
-                            </Form.Group>
-                        </Col>
-                        <Col xl={4} md={6} sm={12} className='mt-2'
-                            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Form.Group>
-                                <p>{t('เลขบัตรประชาชน')}</p>
-                                <Form.Control type='text'
-                                    name='idCardNumber'
-                                    value={formData.idCardNumber}
-                                    onChange={handleChange}
-                                    onBlur={saveDraft}
-                                    placeholder={t('กรอกเลขบัตรประชาชน')}
-                                    style={{
-                                        borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                                    }} />
-                            </Form.Group>
-                        </Col>
-                        <Col xl={4} md={6} sm={12} className='mt-2'
-                            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Form.Group>
-                                <p>{t('อีเมล')}</p>
-                                <Form.Control type='email'
-                                    name='email'
-                                    value={formData.email}
-                                    readOnly
-                                    disabled
-                                    style={{
-                                        borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                                    }} />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-
-                    <Row className='mt-3 mb-5'>
-                        <Col xl={3} md={6} sm={12} className='mt-2'
-                            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Form.Group>
-                                <p>{t('เบอร์โทรศัพท์')}</p>
-                                <Form.Control type='text'
-                                    name='phoneNumber'
-                                    value={formData.phoneNumber}
-                                    onChange={handleChange}
-                                    onBlur={saveDraft}
-                                    placeholder={t('กรอกเบอร์โทรศัพท์')}
-                                    style={{
-                                        borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                                    }} />
-                            </Form.Group>
-                        </Col>
-                        <Col xl={3} md={6} sm={12} className='mt-2'
-                            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Form.Group>
-                                <p>{t('สัญชาติ')}</p>
-                                <Form.Control
-                                    type='text'
-                                    name='nationality'
-                                    value={formData.nationality}
-                                    onChange={handleChange}
-                                    onBlur={saveDraft}
-                                    placeholder={t('กรอกสัญชาติ')}
-                                    style={{
-                                        borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                                    }} />
-                            </Form.Group>
-                        </Col>
-                        <Col xl={3} md={6} sm={12} className='mt-2'
-                            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Form.Group>
-                                <p>{t('หมู่โลหิต')}</p>
-                                <Form.Select aria-label="Default select example" style={{
-                                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                    backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                                    cursor: "pointer"
-                                }}
-                                    name='bloodType'
-                                    // defaultValue={formData.bloodType} // ตั้งค่า default value
-                                    onChange={handleChange}
-                                    onBlur={saveDraft}
-                                    value={formData.bloodType}
-                                >
-                                    <option value="">{t('ไม่ระบุ')}</option>
-                                    {blood_group.map((data, index) => (
-                                        <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า bloodType จริงๆ
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                        <Col xl={3} md={6} sm={12} className='mt-2'
-                            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Form.Group>
-                                <p>{t('โรคประจำตัว')}</p>
-                                <Form.Control
-                                    type='text'
-                                    name='chronicDiseases'
-                                    value={formData.chronicDiseases}
-                                    onChange={handleChange}
-                                    onBlur={saveDraft}
-                                    placeholder={t('กรอกโรคประจำตัว')}
-                                    style={{
-                                        borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                                        backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                                    }} />
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                                        name='bloodType'
+                                        // defaultValue={formData.bloodType} // ตั้งค่า default value
+                                        onChange={handleChange}
+                                        onBlur={saveDraft}
+                                        value={formData.bloodType}
+                                    >
+                                        <option value="">{t('ไม่ระบุ')}</option>
+                                        {blood_group.map((data, index) => (
+                                            <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า bloodType จริงๆ
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                            <Col xl={3} md={6} sm={12} className='mt-2'
+                                style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <Form.Group>
+                                    <p>{t('โรคประจำตัว')}</p>
+                                    <Form.Control
+                                        type='text'
+                                        name='chronicDiseases'
+                                        value={formData.chronicDiseases}
+                                        onChange={handleChange}
+                                        onBlur={saveDraft}
+                                        placeholder={t('กรอกโรคประจำตัว')}
+                                        style={{
+                                            borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                                            backgroundColor: "#fff", height: "40px"
+                                        }} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </Form>
                 </Container>
             ) : (
-                <p>No user information available.</p>
+                <p>No user information available</p>
             )}
         </div>
     )

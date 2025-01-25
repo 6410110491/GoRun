@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-function Form_step_4({ formData, setFormData, eventData, slipFile }) {
+function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerValidateStyles, formRef, validated, }) {
   const { id } = useParams();
   const formatDate = (date) => {
     if (!date) return '';
@@ -136,204 +136,195 @@ function Form_step_4({ formData, setFormData, eventData, slipFile }) {
         backgroundColor: "#E3E3E3", minHeightheight: "260px", padding: "1rem 2rem 1rem 2rem",
         borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
       }}>
+        <Form ref={formRef} noValidate validated={validated}>
 
-        {/* สรุปรายการสมัคร */}
-        <Container fluid style={{
-          backgroundColor: "#FFF", height: "auto", padding: "0 0 0.5rem 0",
-          borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginTop: "1.5rem"
-        }}>
-          <Container className='mb-2' fluid style={{
-            backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
-            display: "flex", justifyContent: "center", alignItems: "center"
+          {/* สรุปรายการสมัคร */}
+          <Container fluid style={{
+            backgroundColor: "#FFF", height: "auto", padding: "0 0 0.5rem 0",
+            borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginTop: "1.5rem"
           }}>
-            {t('สรุปรายการสมัคร')}
+            <Container className='mb-2' fluid style={{
+              backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
+              display: "flex", justifyContent: "center", alignItems: "center"
+            }}>
+              {t('สรุปรายการสมัคร')}
+            </Container>
+
+            <p className='ms-3'>{t('ประเภทกีฬา')} : {formData.sportType}</p>
+            <p className='ms-3'>{t('ค่าสมัคร')} :  THB {formData.registrationFee}</p>
+            <p className='ms-3'>{t('ค่าจัดส่ง')} : THB {eventData.shippingFee}</p>
+            <p className='ms-3'>{t('ยอดชำระทั้งหมด')} : THB {totalPayment}</p>
+
           </Container>
 
-          <p className='ms-3'>{t('ประเภทกีฬา')} : {formData.sportType}</p>
-          <p className='ms-3'>{t('ค่าสมัคร')} :  THB {formData.registrationFee}</p>
-          <p className='ms-3'>{t('ค่าจัดส่ง')} : THB {eventData.shippingFee}</p>
-          <p className='ms-3'>{t('ยอดชำระทั้งหมด')} : THB {totalPayment}</p>
-
-        </Container>
-
-        {/* ข้อมูลการจัดส่ง */}
-        <Container fluid style={{
-          backgroundColor: "#FFF", height: "auto", padding: "0 0 0.5rem 0",
-          borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginTop: "3rem"
-        }}>
-          <Container className='mb-2' fluid style={{
-            backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
-            display: "flex", justifyContent: "center", alignItems: "center"
+          {/* ข้อมูลการจัดส่ง */}
+          <Container fluid style={{
+            backgroundColor: "#FFF", height: "auto", padding: "0 0 0.5rem 0",
+            borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginTop: "3rem"
           }}>
-            {t('ข้อมูลการจัดส่ง')}
+            <Container className='mb-2' fluid style={{
+              backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
+              display: "flex", justifyContent: "center", alignItems: "center"
+            }}>
+              {t('ข้อมูลการจัดส่ง')}
+            </Container>
+
+
+            <p className='ms-3' style={{ wordBreak: "break-word", lineHeight: "1.6", marginBottom: "15px" }}>
+              <Row>
+                <Col xl={4} sm={12}><p className='ms-3'>{t('ชื่อ-สกุล')}: {formData.nameShip} {formData.lastNameShip}</p></Col>
+                <Col xl={4} sm={12}><p className='ms-3'>{t('ที่อยู่')}: {formData.addressShip}</p></Col>
+              </Row>
+              <Row>
+                <Col xl={4} sm={12}><p className='ms-3'>{t('ตำบล/แขวง')}: {formData.subDistrictShip}</p></Col>
+                <Col xl={4} sm={12}><p className='ms-3'>{t('อำเภอ/เขต')}: {formData.districtShip}</p></Col>
+                <Col xl={4} sm={12}><p className='ms-3'>{t('จังหวัด')}: {formData.provinceShip}</p></Col>
+              </Row>
+              <Row>
+                <Col xl={4} sm={12}><p className='ms-3'>{t('รหัสไปรษณีย์')}: {formData.zipCodeShip}</p></Col>
+                <Col xl={4} sm={12}><p className='ms-3'>{t('เบอร์โทรศัพท์')}: {formData.phoneNumberShip}</p></Col>
+              </Row>
+            </p>
+
           </Container>
 
-          <p className='ms-3' style={{ wordBreak: "break-word", lineHeight: "1.6", marginBottom: "15px" }}>
+
+          {/* ข้อมูลผู้สมัคร */}
+          <Container fluid style={{
+            backgroundColor: "#FFF", height: "auto", padding: "0 0 0.5rem 0",
+            borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginTop: "3rem"
+          }}>
+            <Container className='mb-2' fluid style={{
+              backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
+              display: "flex", justifyContent: "center", alignItems: "center"
+            }}>
+              {t('ข้อมูลผู้สมัคร')}
+            </Container>
             <Row>
-              <Col xl={4} sm={12}><p className='ms-3'>{t('ชื่อ-สกุล')}: {formData.nameShip} {formData.lastNameShip}</p></Col>
-              <Col xl={4} sm={12}><p className='ms-3'>{t('ที่อยู่')}: {formData.addressShip}</p></Col>
+              <Col xl={6} sm={12}><p className='ms-3'>{t('ชื่อผู้สมัคร')} : {formData.username}</p></Col>
+              <Col xl={6} sm={12}><p className='ms-3'>{t('ประเภทการแข่งขัน')} : {formData.raceType}</p></Col>
             </Row>
             <Row>
-              <Col xl={4} sm={12}><p className='ms-3'>{t('ตำบล/แขวง')}: {formData.subDistrictShip}</p></Col>
-              <Col xl={4} sm={12}><p className='ms-3'>{t('อำเภอ/เขต')}: {formData.districtShip}</p></Col>
-              <Col xl={4} sm={12}><p className='ms-3'>{t('จังหวัด')}: {formData.provinceShip}</p></Col>
+              <Col xl={6} sm={12}><p className='ms-3'>{t('วันเดือนปีเกิด')} : {formatDate(formData.birthDate)}</p></Col>
+              <Col xl={6} sm={12}><p className='ms-3'>{t('เลขบัตรประชาชน')} : {formData.idCardNumber}</p></Col>
             </Row>
             <Row>
-              <Col xl={4} sm={12}><p className='ms-3'>{t('รหัสไปรษณีย์')}: {formData.zipCodeShip}</p></Col>
-              <Col xl={4} sm={12}><p className='ms-3'>{t('เบอร์โทรศัพท์')}: {formData.phoneNumberShip}</p></Col>
+              <Col xl={6} sm={12}><p className='ms-3'>{t('เบอร์โทรศัพท์')} : {formData.phoneNumber}</p></Col>
+              <Col xl={6} sm={12}><p className='ms-3'>{t('โรคประจำตัว')} : {formData.chronicDiseases}</p></Col>
             </Row>
-          </p>
-
-        </Container>
-
-
-        {/* ข้อมูลผู้สมัคร */}
-        <Container fluid style={{
-          backgroundColor: "#FFF", height: "auto", padding: "0 0 0.5rem 0",
-          borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginTop: "3rem"
-        }}>
-          <Container className='mb-2' fluid style={{
-            backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
-            display: "flex", justifyContent: "center", alignItems: "center"
-          }}>
-            {t('ข้อมูลผู้สมัคร')}
-          </Container>
-          <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>{t('ชื่อผู้สมัคร')} : {formData.username}</p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>{t('ประเภทการแข่งขัน')} : {formData.raceType}</p></Col>
-          </Row>
-          <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>{t('วันเดือนปีเกิด')} : {formatDate(formData.birthDate)}</p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>{t('เลขบัตรประชาชน')} : {formData.idCardNumber}</p></Col>
-          </Row>
-          <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>{t('เบอร์โทรศัพท์')} : {formData.phoneNumber}</p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>{t('โรคประจำตัว')} : {formData.chronicDiseases}</p></Col>
-          </Row>
-          <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>{t('สัญชาติ')} : {formData.nationality}</p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>{t('หมู่โลหิต')} : {formData.bloodType}</p></Col>
-          </Row>
-          <Row>
-            <Col xl={6} sm={12}><p className='ms-3'>{t('ประเภทเสื้อ')} : {formData.shirt}</p></Col>
-            <Col xl={6} sm={12}><p className='ms-3'>{t('ขนาดเสื้อ')} : {formData.shirtSize}</p></Col>
-          </Row>
-        </Container>
-
-        {/* ช่องทางชำระเงิน */}
-        <Container fluid style={{
-          backgroundColor: "#FFF", height: "auto", padding: "0 0 0.5rem 0",
-          borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginTop: "3rem"
-        }}>
-          <Container className='mb-2' fluid style={{
-            backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
-            display: "flex", justifyContent: "center", alignItems: "center"
-          }}>
-            {t('ช่องทางชำระเงิน')}
+            <Row>
+              <Col xl={6} sm={12}><p className='ms-3'>{t('สัญชาติ')} : {formData.nationality}</p></Col>
+              <Col xl={6} sm={12}><p className='ms-3'>{t('หมู่โลหิต')} : {formData.bloodType}</p></Col>
+            </Row>
+            <Row>
+              <Col xl={6} sm={12}><p className='ms-3'>{t('ประเภทเสื้อ')} : {formData.shirt}</p></Col>
+              <Col xl={6} sm={12}><p className='ms-3'>{t('ขนาดเสื้อ')} : {formData.shirtSize}</p></Col>
+            </Row>
           </Container>
 
-          <Row>
-            <Col xl={5} md={12} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <img src={eventData?.paymentInfo?.promptPayImage} alt='logo.jpg'
-                style={{ width: "300px", height: "400px" }} />
-            </Col>
-            <Col xl={7} md={12}>
-              <p className='ms-3'>{t('ชื่อธนาคาร')} : {eventData.paymentInfo.bankName}</p>
-              <p className='ms-3'>{t('ชื่อบัญชี')} : {eventData.paymentInfo.accountName}</p>
-              <p className='ms-3'>{t('เลขที่บัญชี')} : {eventData.paymentInfo.accountNumber}</p>
-              <p className='ms-3' style={{ fontWeight: "700" }}>{t('จำนวนเงินที่ต้องชำระ')} : THB {totalPayment}</p>
+          {/* ช่องทางชำระเงิน */}
+          <Container fluid style={{
+            backgroundColor: "#FFF", height: "auto", padding: "0 0 0.5rem 0",
+            borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginTop: "3rem"
+          }}>
+            <Container className='mb-2' fluid style={{
+              backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
+              display: "flex", justifyContent: "center", alignItems: "center"
+            }}>
+              {t('ช่องทางชำระเงิน')}
+            </Container>
 
-            </Col>
-            <Col xl={12} style={{ marginTop: "2rem" }}>
-              <Container fluid style={{
-                backgroundColor: "#E3E3E3", height: "180px", padding: "1rem", width: "50%",
-                borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-              }}>
-                <Row style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "2rem 0" }}>
-                  <Form.Group controlId='formReceivePicture'>
-                    <Form.Control
-                      accept=".png,.jpg,.jpeg,"
-                      type='file'
-                      multiple
-                      name='image'
-                      rows={3}
-                      placeholder='รูปภาพสิ่งที่จะได้รับ'
-                      onChange={handleSlipsPictureChange}
-                    />
-                  </Form.Group>
-                  <p style={{ textAlign: 'center', margin: "2rem 0" }}>
-                    {t('อัพโหลดหลักฐานการโอนเงิน')}
-                  </p>
-                </Row>
-              </Container>
-            </Col>
+            <Row>
+              <Col xl={5} md={12} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <img src={eventData?.paymentInfo?.promptPayImage} alt='logo.jpg'
+                  style={{ width: "300px", height: "400px" }} />
+              </Col>
+              <Col xl={7} md={12}>
+                <p className='ms-3'>{t('ชื่อธนาคาร')} : {eventData.paymentInfo.bankName}</p>
+                <p className='ms-3'>{t('ชื่อบัญชี')} : {eventData.paymentInfo.accountName}</p>
+                <p className='ms-3'>{t('เลขที่บัญชี')} : {eventData.paymentInfo.accountNumber}</p>
+                <p className='ms-3' style={{ fontWeight: "700" }}>{t('จำนวนเงินที่ต้องชำระ')} : THB {totalPayment}</p>
 
-            <Col xl={12} style={{ marginTop: "2rem", marginBottom: "3rem" }}>
-              <Container fluid style={{
-                backgroundColor: "#E3E3E3", height: "auto", padding: "1.5rem 1rem 1.5rem 1rem", width: "50%",
-                borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }}>
-                <Row>
-                  <Col xl={6} md={6} sm={12}>
-                    <p>{t('วันที่โอน')}</p>
-                    <div style={{ marginTop: "-10px" }}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['DatePicker']} >
-                          <DatePicker
-                            slotProps={{ textField: { size: 'small' } }}
-                            sx={{
-                              width: '95%',
-                              backgroundColor: "#FFF",
-                              borderRadius: "10px",
-                              boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                              "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                              "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
-                            }}
-                            onChange={(dueDate) => setFormData({ ...formData, datePay: dueDate })}
-                            // value={dueDate}
-                            format="DD/MM/YYYY"
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                    </div>
-                  </Col>
+              </Col>
+              <Col xl={12} style={{ marginTop: "2rem" }}>
+                <Container fluid style={{
+                  backgroundColor: "#E3E3E3", height: "180px", padding: "1rem", width: "50%",
+                  borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                }}>
+                  <Row style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "2rem 0" }}>
+                    <Form.Group controlId='formReceivePicture'>
+                      <Form.Control
+                        accept=".png,.jpg,.jpeg,"
+                        type='file'
+                        multiple
+                        name='image'
+                        rows={3}
+                        placeholder='รูปภาพสิ่งที่จะได้รับ'
+                        onChange={handleSlipsPictureChange}
+                        required={formData.slipImage === ""}
+                      />
+                    </Form.Group>
+                    <p style={{ textAlign: 'center', margin: "2rem 0" }}>
+                      {t('อัพโหลดหลักฐานการโอนเงิน')} <span className='requiredstar'>*</span>
+                    </p>
+                  </Row>
+                </Container>
+              </Col>
 
-                  <Col xl={6} md={6} sm={12}>
-                    <p>{t('เวลาที่โอน')}</p>
-                    <div style={{ marginTop: "-10px" }}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['DesktopTimePicker']}>
-                          <DesktopTimePicker
-                            clearable
-                            ampm={false}
-                            // value={dueTime}
-                            timeSteps={{ minutes: 1 }}
-                            onChange={(dueDate) => setFormData({ ...formData, timePay: dueDate })}
-                            slotProps={{ textField: { size: 'small' } }}
-                            sx={{
-                              width: '95%',
-                              backgroundColor: "#FFF",
-                              borderRadius: "10px",
-                              boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                              "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                              "& MuiInputBase-root": { border: "none", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }
-                            }}
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                    </div>
-                  </Col>
-                </Row>
-              </Container>
+              <Col xl={12} style={{ marginTop: "2rem", marginBottom: "3rem" }}>
+                <Container fluid style={{
+                  backgroundColor: "#E3E3E3", height: "auto", padding: "1.5rem 1rem 1.5rem 1rem", width: "50%",
+                  borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                }}>
+                  <Row>
+                    <Col xl={6} md={6} sm={12}>
+                      <p>{t('วันที่โอน')} <span className='requiredstar'>*</span></p>
+                      <Form.Group as={Row} controlId="formDatePay" >
+                        <div style={{ marginTop: "-10px" }}>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DatePicker']} >
+                              <DatePicker
+                                slotProps={{ textField: { size: 'small' } }}
+                                sx={datePickerValidateStyles("datePay")}
+                                onChange={(dueDate) => setFormData({ ...formData, datePay: dueDate })}
+                                // value={dueDate}
+                                format="DD/MM/YYYY"
+                                required={true}
+                              />
+                            </DemoContainer>
+                          </LocalizationProvider>
+                        </div>
+                      </Form.Group>
+                    </Col>
 
-            </Col>
+                    <Col xl={6} md={6} sm={12}>
+                      <p>{t('เวลาที่โอน')} <span className='requiredstar'>*</span></p>
+                      <Form.Group as={Row} controlId="formTimePay" >
+                        <div style={{ marginTop: "-10px" }}>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DesktopTimePicker']}>
+                              <DesktopTimePicker
+                                clearable
+                                ampm={false}
+                                // value={dueTime}
+                                timeSteps={{ minutes: 1 }}
+                                onChange={(dueDate) => setFormData({ ...formData, timePay: dueDate })}
+                                slotProps={{ textField: { size: 'small' } }}
+                                sx={datePickerValidateStyles("timePay")}
+                                required={true}
+                              />
+                            </DemoContainer>
+                          </LocalizationProvider>
+                        </div>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                </Container>
 
-
-
-          </Row>
-        </Container>
-
-
+              </Col>
+            </Row>
+          </Container>
+        </Form>
       </Container>
     </div>
   )

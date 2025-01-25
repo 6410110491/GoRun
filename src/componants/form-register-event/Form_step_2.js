@@ -4,10 +4,10 @@ import { Col, Container, Row, Form } from 'react-bootstrap'
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-function Form_step_2({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData }) {
+function Form_step_2({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData, formRef, validated }) {
   const { id } = useParams();
   const [selectedRaceIndex, setSelectedRaceIndex] = useState(''); // กำหนดค่าเริ่มต้นเป็น ''
-  
+
   const { t, i18n } = useTranslation()
 
   // ตั้งค่า selectedRaceIndex ตามค่าใน formData เมื่อ formData เปลี่ยนแปลง
@@ -120,161 +120,172 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
         backgroundColor: "#E3E3E3", minHeight: "260px", padding: "1rem 2rem 1rem 2rem",
         borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
       }}>
-        <Row>
-          <Col className='ms-5' style={{ display: "flex", flexDirection: "column", justifyContent: "center", marginTop: "1rem" }}>
-            <p style={{ fontSize: "1.2rem", borderBottom: "5px solid #47474A", width: "fit-content" }}>{t('ประเภทการสมัคร')}</p>
-          </Col>
-        </Row>
+        <Form ref={formRef} noValidate validated={validated}>
+          <Row>
+            <Col className='ms-5' style={{ display: "flex", flexDirection: "column", justifyContent: "center", marginTop: "1rem" }}>
+              <p style={{ fontSize: "1.2rem", borderBottom: "5px solid #47474A", width: "fit-content" }}>{t('ประเภทการสมัคร')}</p>
+            </Col>
+          </Row>
 
-        <Row>
-          <Col xl={4} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('ประเภทกีฬา')}</p>
-            <Form.Control type='text'
-              name='sportType'
-              value={formData.sportType || ''}
-              onChange={handleChange}
-              onBlur={saveDraft}
-              disabled
-              placeholder={t('กรอกประเภทกีฬา')}
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-              }} />
-          </Col>
+          <Row>
+            <Col xl={4} md={6} sm={12} className='mt-2'
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <p>{t('ประเภทกีฬา')} </p>
+              <Form.Control type='text'
+                name='sportType'
+                value={formData.sportType || ''}
+                onChange={handleChange}
+                onBlur={saveDraft}
+                disabled
+                placeholder={t('กรอกประเภทกีฬา')}
+                required
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", height: "40px"
+                }} />
+            </Col>
 
-          <Col xl={4} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('ประเภทการแข่งขัน')}</p>
-            <Form.Select
-              value={selectedRaceIndex}
-              onChange={handleRaceTypeChange}
-              onBlur={saveDraft}
-              name='raceType'
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                cursor: "pointer"
-              }}>
-              <option value="">{t('เลือกประเภทการแข่งขัน')}</option>
-              {eventData.competitionDetails && eventData.competitionDetails.length > 0 ? (
-                eventData.competitionDetails.map((data, index) => (
-                  <option key={index} value={index}>
-                    {data.raceType}
-                  </option>
-                ))
-              ) : (
-                <option value="">{t('ไม่มีข้อมูล')}</option>
-              )}
-            </Form.Select>
-          </Col>
+            <Col xl={4} md={6} sm={12} className='mt-2'
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <p>{t('ประเภทการแข่งขัน')} <span className='requiredstar'>*</span></p>
+              <Form.Group as={Row} controlId="formRaceType" style={{ paddingInline: "12px" }}>
+                <Form.Select
+                  value={selectedRaceIndex}
+                  onChange={handleRaceTypeChange}
+                  onBlur={saveDraft}
+                  required
+                  name='raceType'
+                  style={{
+                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                    backgroundColor: "#fff", height: "40px",
+                    cursor: "pointer"
+                  }}>
+                  <option value="">{t('เลือกประเภทการแข่งขัน')}</option>
+                  {eventData.competitionDetails && eventData.competitionDetails.length > 0 ? (
+                    eventData.competitionDetails.map((data, index) => (
+                      <option key={index} value={index}>
+                        {data.raceType}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">{t('ไม่มีข้อมูล')}</option>
+                  )}
+                </Form.Select>
+              </Form.Group>
+            </Col>
 
-          <Col xl={4} md={6} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('ค่าสมัคร')}(THB)</p>
-            <Form.Control
-              type='text'
-              value={
-                formData.registrationFee !== undefined
-                  ? formData.registrationFee
-                  : (selectedRaceIndex !== '' && eventData.competitionDetails[selectedRaceIndex]?.registrationFee) || ''
-              }
-              disabled
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                cursor: "pointer"
-              }}
-            />
-          </Col>
-        </Row>
+            <Col xl={4} md={6} sm={12} className='mt-2'
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <p>{t('ค่าสมัคร')}(THB)</p>
+              <Form.Control
+                type='text'
+                value={
+                  formData.registrationFee !== undefined
+                    ? formData.registrationFee
+                    : (selectedRaceIndex !== '' && eventData.competitionDetails[selectedRaceIndex]?.registrationFee) || ''
+                }
+                disabled
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", height: "40px",
+                }}
+              />
+            </Col>
+          </Row>
 
-        {/* สินค้า */}
-        <Row>
-          <Col className='ms-5' style={{ display: "flex", flexDirection: "column", justifyContent: "center", marginTop: "1rem" }}>
-            <p style={{ fontSize: "1.2rem", borderBottom: "5px solid #47474A", width: "fit-content" }}>{t('สินค้า')}</p>
-          </Col>
-        </Row>
+          {/* สินค้า */}
+          <Row>
+            <Col className='ms-5' style={{ display: "flex", flexDirection: "column", justifyContent: "center", marginTop: "1rem" }}>
+              <p style={{ fontSize: "1.2rem", borderBottom: "5px solid #47474A", width: "fit-content" }}>{t('สินค้า')}</p>
+            </Col>
+          </Row>
 
-        <Row className='mt-3 mb-5'>
-          <Col xl={4} md={4} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('ประเภทเสื้อ')}</p>
-            <Form.Select
-              aria-label="Default select example"
-              value={formData.shirt || ''}
-              name='shirt'
-              onChange={handleChange}
-              onBlur={saveDraft}
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                cursor: "pointer"
-              }}>
-              <option value="">{t('เลือกประเภทเสื้อ')}</option>
-              {eventData.product && eventData.product.shirt && eventData.product.shirt.length > 0 ? (
-                eventData.product.shirt.map((data, index) => (
-                  <option key={index} value={data}>{data}</option>
-                ))
-              ) : (
-                <option value="">{t('ไม่มีข้อมูล')}</option>
-              )}
-            </Form.Select>
-          </Col>
+          <Row className='mt-3 mb-5'>
+            <Col xl={4} md={4} sm={12} className='mt-2'
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <p>{t('ประเภทเสื้อ')} <span className='requiredstar'>*</span></p>
+              <Form.Group as={Row} controlId="formShirt" style={{ paddingInline: "12px" }}>
+                <Form.Select
+                  aria-label="Default select example"
+                  value={formData.shirt || ''}
+                  name='shirt'
+                  onChange={handleChange}
+                  onBlur={saveDraft}
+                  required
+                  style={{
+                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                    backgroundColor: "#fff", height: "40px",
+                    cursor: "pointer"
+                  }}>
 
-          <Col xl={4} md={4} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('ขนาดเสื้อ')}</p>
-            <Form.Select
-              aria-label="Default select example"
-              value={formData.shirtSize || ''}
-              name='shirtSize'
-              onChange={handleChange}
-              onBlur={saveDraft}
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                cursor: "pointer"
-              }}>
-              <option value="">{t('เลือกขนาดเสื้อ')}</option>
-              {eventData.product && eventData.product.shirtsize && eventData.product.shirtsize.length > 0 ? (
-                eventData.product.shirtsize.map((data, index) => (
-                  <option key={index} value={data}>{data}</option>
-                ))
-              ) : (
-                <option value="">{t('ไม่มีข้อมูล')}</option>
-              )}
-            </Form.Select>
-          </Col>
+                  <option value="">{t('เลือกประเภทเสื้อ')}</option>
+                  {eventData.product && eventData.product.shirt && eventData.product.shirt.length > 0 ? (
+                    eventData.product.shirt.map((data, index) => (
+                      <option key={index} value={data}>{data}</option>
+                    ))
+                  ) : (
+                    <option value="">{t('ไม่มีข้อมูล')}</option>
+                  )}
+                </Form.Select>
+              </Form.Group>
+            </Col>
 
-          <Col xl={4} md={4} sm={12} className='mt-2'
-            style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <p>{t('อื่นๆ')}</p>
-            <Form.Select
-              aria-label="Default select example"
-              value={formData.etc || ''}
-              name='etc'
-              onChange={handleChange}
-              onBlur={saveDraft}
-              style={{
-                borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                backgroundColor: "#fff", border: "none", height: "40px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                cursor: "pointer"
-              }}>
-              <option value="">{t('เลือกอื่นๆ')}</option>
-              {eventData.product && eventData.product.etc && eventData.product.etc.length > 0 ? (
-                eventData.product.etc.map((data, index) => (
-                  <option key={index} value={data}>{data}</option>
-                ))
-              ) : (
-                <option value="">{t('ไม่มีข้อมูล')}</option>
-              )}
-            </Form.Select>
-          </Col>
-        </Row>
+            <Col xl={4} md={4} sm={12} className='mt-2'
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <p>{t('ขนาดเสื้อ')} <span className='requiredstar'>*</span></p>
+              <Form.Group as={Row} controlId="formShirtSize" style={{ paddingInline: "12px" }}>
+                <Form.Select
+                  aria-label="Default select example"
+                  value={formData.shirtSize || ''}
+                  name='shirtSize'
+                  onChange={handleChange}
+                  onBlur={saveDraft}
+                  required
+                  style={{
+                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                    backgroundColor: "#fff", height: "40px",
+                    cursor: "pointer"
+                  }}>
+                  <option value="">{t('เลือกขนาดเสื้อ')}</option>
+                  {eventData.product && eventData.product.shirtsize && eventData.product.shirtsize.length > 0 ? (
+                    eventData.product.shirtsize.map((data, index) => (
+                      <option key={index} value={data}>{data}</option>
+                    ))
+                  ) : (
+                    <option value="">{t('ไม่มีข้อมูล')}</option>
+                  )}
+                </Form.Select>
+              </Form.Group>
+            </Col>
 
+            <Col xl={4} md={4} sm={12} className='mt-2'
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <p>{t('อื่นๆ')}</p>
+              <Form.Select
+                aria-label="Default select example"
+                value={formData.etc || ''}
+                name='etc'
+                onChange={handleChange}
+                onBlur={saveDraft}
+                style={{
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
+                  backgroundColor: "#fff", height: "40px",
+                  cursor: "pointer"
+                }}>
+                <option value="">{t('เลือกอื่นๆ')}</option>
+                {eventData.product && eventData.product.etc && eventData.product.etc.length > 0 ? (
+                  eventData.product.etc.map((data, index) => (
+                    <option key={index} value={data}>{data}</option>
+                  ))
+                ) : (
+                  <option value="">{t('ไม่มีข้อมูล')}</option>
+                )}
+              </Form.Select>
+            </Col>
+          </Row>
+        </Form>
       </Container>
-    </div>
+    </div >
   )
 }
 

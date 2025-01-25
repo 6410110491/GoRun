@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
+import React, { useEffect, useRef, useState } from 'react'
+import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap'
 import { Box, Stepper, Step, StepLabel, Typography } from '@mui/material'
 import ScrollToTop from 'react-scroll-to-top'
 import Form_step_1 from './Form_step_1'
@@ -14,6 +14,13 @@ import { useTranslation } from 'react-i18next';
 function Form_page() {
   let slipFile = null;
   const { t, i18n } = useTranslation()
+  const [validated, setValidated] = useState(false);
+  const formRef = useRef(null);
+
+  const birthDatePickerRef = useRef(null);
+  const payDatePickerRef = useRef(null);
+  const payTimePickerRef = useRef(null);
+
 
   const steps = [
     t('ข้อมูลผู้สมัคร'),
@@ -104,7 +111,45 @@ function Form_page() {
     // End Page 4
   });
 
-  console.log(formData.shippingChoice)
+  const datePickerValidateStyles = (fieldKey) => ({
+    width: "95%",
+    backgroundColor: "#FFF",
+    borderRadius: "10px",
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: validated && formData[fieldKey] === "" ? "#dc3545" : "none",
+      "&:hover": {
+        borderColor: validated && formData[fieldKey] === "" ? "#dc3545" : "none",
+      },
+      "&:focus": {
+        borderColor: validated && formData[fieldKey] === "" ? "#dc3545" : "none",
+        boxShadow:
+          validated && formData[fieldKey] === ""
+            ? "0 0 0 .25rem rgba(220, 53, 69, .25)"
+            : "0 0 0 .25rem rgba(13, 110, 253, .25)",
+      },
+      borderRadius: "10px",
+      backgroundImage:
+        validated && formData[fieldKey] === ""
+          ? `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e")`
+          : "none",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "right 2.25rem center, center right 2.25rem",
+      backgroundSize: "18px 18px",
+    },
+    "& .MuiOutlinedInput-root": {
+      borderColor: validated && formData[fieldKey] === "" ? "#dc3545" : "none",
+      borderRadius: "10px",
+    },
+    "& .Mui-focused fieldset.MuiOutlinedInput-notchedOutline": {
+      borderColor: validated && formData[fieldKey] === "" ? "#dc3545" : "none",
+      borderRadius: "10px",
+    },
+    "& .MuiPickersDay-root.Mui-selected": {
+      borderColor: validated && formData[fieldKey] === "" ? "#dc3545" : "none",
+    },
+  });
+
+  console.log(formData)
 
   const componants = [
     <Form_step_1 formData={formData} setFormData={setFormData}
@@ -112,22 +157,39 @@ function Form_page() {
       error={error} setError={setError}
       eventData={eventData} setEventData={setEventData}
       userInfo={userInfo}
+      formRef={formRef}
+      validated={validated}
+      setValidated={setValidated}
+      birthDatePickerRef={birthDatePickerRef}
+      datePickerValidateStyles={datePickerValidateStyles}
     />,
     <Form_step_2 formData={formData} setFormData={setFormData}
       loading={loading} setLoading={setLoading}
       error={error} setError={setError}
       eventData={eventData} setEventData={setEventData}
+      formRef={formRef}
+      validated={validated}
+      setValidated={setValidated}
     />,
     <Form_step_3 formData={formData} setFormData={setFormData}
       loading={loading} setLoading={setLoading}
       error={error} setError={setError}
       eventData={eventData} setEventData={setEventData}
+      formRef={formRef}
+      validated={validated}
+      setValidated={setValidated}
     />,
     <Form_step_4 formData={formData} setFormData={setFormData}
       loading={loading} setLoading={setLoading}
       error={error} setError={setError}
       eventData={eventData} setEventData={setEventData}
       slipFile={slipFile}
+      datePickerValidateStyles={datePickerValidateStyles}
+      formRef={formRef}
+      validated={validated}
+      setValidated={setValidated}
+      payDatePickerRef={payDatePickerRef}
+      payTimePickerRef={payTimePickerRef}
     />
   ]
 
@@ -149,14 +211,54 @@ function Form_page() {
     return skipped.has(step);
   };
 
-  const handleNext = async () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
+  const handleNext = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const form = formRef.current;
+
+    if (!formData.birthDate || formData.birthDate === "") {
+      const birthDateInput = birthDatePickerRef.current?.querySelector('input');
+      if (birthDateInput) {
+        birthDateInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        birthDateInput.focus();
+        setValidated(true);
+      }
+      return;
     }
 
+    if (form && form.checkValidity() === false) {
+      const firstInvalidField = form.querySelector(':invalid');
+      if (firstInvalidField) {
+        firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstInvalidField.focus();
+        setValidated(true);
+        return;
+      }
+    }
+
+    if (activeStep === 3) {
+      if (!formData.datePay || formData.datePay === "" || !formData.timePay || formData.timePay === "" ) {
+
+        const payDatePicker = payDatePickerRef.current?.querySelector('input');
+        const payTimePicker = payTimePickerRef.current?.querySelector('input');
+
+        if (payDatePicker) {
+          payDatePicker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          payDatePicker.focus();
+          setValidated(true);
+        } else if (payTimePicker) {
+          payTimePicker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          payTimePicker.focus();
+          setValidated(true);
+        } 
+        return;
+      }
+    }
+
+    // ไปยังขั้นตอนถัดไป
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setValidated(false); // รีเซ็ตสถานะ validated  
+
     if (activeStep === 3) {
       setLoading(true);
       try {
@@ -461,16 +563,18 @@ function Form_page() {
               <Form_page_success loading={loading} setLoading={setLoading} />
             ) : (
               <React.Fragment>
-                <Typography sx={{ mt: 2, mb: 1 }}>
-                  {componants.map((data, index) => {
-                    return (
-                      <div key={index}>
-                        {activeStep === index && data}
-                      </div>
-                    )
-                  })
-                  }
-                </Typography>
+                <Form onSubmit={handleNext}>
+                  <Typography sx={{ mt: 2, mb: 1 }}>
+                    {componants.map((data, index) => {
+                      return (
+                        <div key={index}>
+                          {activeStep === index && data}
+                        </div>
+                      )
+                    })
+                    }
+                  </Typography>
+                </Form>
 
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Button
