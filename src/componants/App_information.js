@@ -546,8 +546,17 @@ function App_information() {
           </Container>
 
           {/* Popup Modal */}
-          <Modal show={showPopup} onHide={handleClose} size="xl">
-            <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+          <Modal show={showPopup} onHide={handleClose} size="xl" centered style={{
+            maxHeight: "80vh", // กำหนดความสูงสูงสุดของ Modal
+            marginTop: "4.75rem"
+          }}>
+            <Modal.Header closeButton style={{
+              backgroundColor: "#F3C710", // สีพื้นหลัง
+              color: "#FFF",
+              position: "sticky", // กำหนด Sticky
+              top: 0, // ติดด้านบน
+              zIndex: 1020, // เลเยอร์สูงกว่าเนื้อหาใน Modal.Body
+            }}>
               <Modal.Title>{t('ตรวจสอบข้อมูลการสมัคร')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -646,8 +655,17 @@ function App_information() {
           </Modal>
 
           {/* Modal showDetail */}
-          <Modal show={showDetail} onHide={handleCloseDetail} size="xl">
-            <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+          <Modal show={showDetail} onHide={handleCloseDetail} size="xl" centered style={{
+            maxHeight: "80vh", // กำหนดความสูงสูงสุดของ Modal
+            marginTop: "4.75rem"
+          }}>
+            <Modal.Header closeButton style={{
+              backgroundColor: "#F3C710", // สีพื้นหลัง
+              color: "#FFF",
+              position: "sticky", // กำหนด Sticky
+              top: 0, // ติดด้านบน
+              zIndex: 1020, // เลเยอร์สูงกว่าเนื้อหาใน Modal.Body
+            }}>
               <Modal.Title>{t('รายละเอียดข้อมูลการสมัคร')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>

@@ -116,7 +116,8 @@ function Card_News(props) {
                         top: "10px",
                         right: "10px",
                         backgroundColor: "red",
-                        display: "flex", alignItems: "center", justifyContent: "center"
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        border: "none"
                     }}>
                     <FaTrash />
                 </Button>

@@ -317,6 +317,7 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                                                             top: "5px",
                                                             right: "5px",
                                                             borderRadius: "50%",
+                                                            border: "none"
                                                         }}
                                                         onClick={() => handleRemoveReceiveImage(index)}
                                                     >
@@ -364,6 +365,7 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                                                             top: "5px",
                                                             right: "5px",
                                                             borderRadius: "50%",
+                                                            border: "none"
                                                         }}
                                                         onClick={() => handleRemoveRouteImage(index)}
                                                     >
@@ -529,7 +531,10 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                                 </Button>
                                 {formData.product?.shirt?.length > 0 && (
                                     <Button className="mt-3" onClick={handleRemoveShirtForm}
-                                        style={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "red", marginLeft: "1rem" }}>
+                                        style={{
+                                            display: "flex", alignItems: "center", justifyContent: "center",
+                                            backgroundColor: "red", marginLeft: "1rem", border: "none"
+                                        }}>
                                         <FaTrash />
                                     </Button>
                                 )}
@@ -566,7 +571,10 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                                 </Button>
                                 {formData.product?.shirtsize?.length > 0 && (
                                     <Button className="mt-3" onClick={handleRemoveShirtSizeForm}
-                                        style={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "red", marginLeft: "1rem" }}>
+                                        style={{
+                                            display: "flex", alignItems: "center", justifyContent: "center",
+                                            backgroundColor: "red", marginLeft: "1rem", border: "none"
+                                        }}>
                                         <FaTrash />
                                     </Button>
                                 )}
@@ -600,7 +608,10 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                                 </Button>
                                 {formData.product?.etc?.length > 0 && (
                                     <Button className="mt-3" onClick={handleRemoveEtcForm}
-                                        style={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "red", marginLeft: "1rem" }}>
+                                        style={{
+                                            display: "flex", alignItems: "center", justifyContent: "center",
+                                            backgroundColor: "red", marginLeft: "1rem", border: "none"
+                                        }}>
                                         <FaTrash />
                                     </Button>
                                 )}
@@ -721,7 +732,8 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                                                     position: 'absolute',
                                                     top: '5px',
                                                     right: '5px',
-                                                    borderRadius: '50%'
+                                                    borderRadius: '50%',
+                                                    border: "none"
                                                 }}
                                                 onClick={handleRemovePromptPayImage}
                                             >

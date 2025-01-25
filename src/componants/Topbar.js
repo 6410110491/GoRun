@@ -18,6 +18,9 @@ function Topbar() {
     const [username, setUsername] = useState('');
     const [role, setRole] = useState('');
 
+    const [isVisible, setIsVisible] = useState(true); // ควบคุมการแสดงผลของ Topbar
+    const [lastScrollY, setLastScrollY] = useState(0); // เก็บตำแหน่งการเลื่อนหน้าจอก่อนหน้า
+
     const [lang, setLang] = useState(window.localStorage.getItem('lang') || 'th');
 
     const { t, i18n } = useTranslation()
@@ -70,6 +73,27 @@ function Topbar() {
         }
     }, [lang]); // เมื่อค่า 'lang' เปลี่ยนแปลง, จะเปลี่ยนภาษา
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // ซ่อน Topbar เมื่อเลื่อนลง และแสดงเมื่อเลื่อนขึ้น
+            if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                setIsVisible(false);
+            } else {
+                setIsVisible(true);
+            }
+
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [lastScrollY]);
+
 
     const changeLanguage = (lang) => {
         window.localStorage.setItem('lang', lang)
@@ -81,13 +105,22 @@ function Topbar() {
         window.location.href = '/' + path;
     };
 
-    const checkRoleOrganize = () => {
-        if (role === "organize") {
-            changepage("dataorganizer");
-        } else {
-            changepage("organizer");
+    const checkRoleOrganize = async () => {
+        try {
+            await checkToken();
+
+            if (role === "organize") {
+                changepage("dataorganizer"); // เปลี่ยนไปที่หน้า dataorganizer
+            } else if (role) {
+                changepage("organizer"); // ถ้ามีบทบาทอื่นๆ ที่ไม่ใช่ organize ให้ไปที่หน้า organizer
+            } else {
+                console.error("Role not found or user is not authenticated.");
+            }
+        } catch (error) {
+            console.error("Error checking token or role:", error);
         }
     };
+
 
     const handleLogout = async () => {
         try {
@@ -101,8 +134,21 @@ function Topbar() {
         }
     };
 
+    const checkToken = () => {
+        // ดึงค่า cookies ทั้งหมด
+        const cookies = document.cookie;
+
+        // ตรวจสอบว่ามี token หรือไม่
+        const tokenExists = cookies.split('; ').some(cookie => cookie.startsWith('token='));
+
+        // ถ้าไม่มี token ให้เปลี่ยนหน้าไปที่ login
+        if (!tokenExists) {
+            changepage("login");
+        }
+    };
+
     return (
-        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark"
+        <Navbar collapseOnSelect expand="lg" className={`topbar ${isVisible ? "show" : "hide"}`} bg="dark" data-bs-theme="dark"
             style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", position: "sticky", top: "0", "zIndex": "9999" }}>
             <Container>
                 <Navbar.Brand href="/">

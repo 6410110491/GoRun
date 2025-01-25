@@ -13,13 +13,14 @@ function App_history() {
     ];
 
     const [loading, setLoading] = useState(true);
-    const [EventHistory, SetEventHistory] = useState();
+    const [EventHistory, setEventHistory] = useState();
     const [eventDetail, setEventDetail] = useState(null);
     const [selectedItem, setSelectedItem] = useState([]);
     const [selectedItemId, setSelectedItemId] = useState();
 
 
-    console.log(selectedItem);
+    // console.log("selectedItem :", selectedItem);
+    console.log(EventHistory)
     const { t, i18n } = useTranslation()
 
 
@@ -48,7 +49,7 @@ function App_history() {
 
                 if (response.ok) {
                     const data = await response.json();
-                    SetEventHistory(data);
+                    setEventHistory(data);
                 } else {
                     throw new Error('Failed to fetch event data');
                 }
@@ -198,8 +199,17 @@ function App_history() {
             }
 
             {/* Popup Modal */}
-            <Modal show={showPopup} onHide={handleClose} size="xl">
-                <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+            <Modal show={showPopup} onHide={handleClose} size="xl" centered style={{
+                maxHeight: "80vh", // กำหนดความสูงสูงสุดของ Modal
+                marginTop: "4.75rem"
+            }}>
+                <Modal.Header closeButton style={{
+                    backgroundColor: "#F3C710", // สีพื้นหลัง
+                    color: "#FFF",
+                    position: "sticky", // กำหนด Sticky
+                    top: 0, // ติดด้านบน
+                    zIndex: 1020, // เลเยอร์สูงกว่าเนื้อหาใน Modal.Body
+                }}>
                     <Modal.Title>{t('ข้อมูลการสมัคร')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -236,12 +246,34 @@ function App_history() {
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
+
+                    {selectedItem.slipImage && (
+                        <div style={{ margin: "1rem 0rem" }}>
+                            <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('หลักฐานการโอนเงิน')}</p>
+                            <img
+                                src={selectedItem.slipImage}
+                                alt="image"
+                                style={{
+                                    maxWidth: "300px",
+                                    width: "60%",
+                                    height: 'auto',
+                                    marginLeft: "3rem"
+                                }}
+                            />
+                        </div>
+                    )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="warning" color="secondary" onClick={onEditForm}
-                        style={{ border: 'none', borderRadius: '10px', color: "white" }}>
-                        {t('แก้ไข')}
-                    </Button>
+                    {!selectedItem.slipImage && (
+                        <Button
+                            variant="warning"
+                            color="secondary"
+                            onClick={onEditForm}
+                            style={{ border: 'none', borderRadius: '10px', color: "white" }}>
+                            {t('แก้ไข')}
+                        </Button>
+                    )}
+
                     <Button variant="secondary" onClick={handleClose}
                         style={{ border: 'none', borderRadius: '10px' }}>
                         {t('ปิด')}

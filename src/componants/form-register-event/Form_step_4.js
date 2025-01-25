@@ -1,5 +1,5 @@
-import React from 'react'
-import { Col, Container, Row, Form } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Col, Container, Row, Form, Button } from 'react-bootstrap'
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -9,9 +9,26 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
 
-function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerValidateStyles, formRef, validated, }) {
+function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerValidateStyles, formRef, validated,
+  payDatePickerRef, payTimePickerRef
+}) {
   const { id } = useParams();
+
+  const [previewSlipsImage, setPreviewSlipsImage] = useState(null);
+
+  useEffect(() => {
+    // สำหรับภาพการโอนเงิน
+    if (formData.slipImage) {
+      setPreviewSlipsImage(
+        typeof formData.slipImage === "string"
+          ? formData.slipImage
+          : URL.createObjectURL(formData.slipImage)
+      );
+    }
+  }, [formData]);
+
   const formatDate = (date) => {
     if (!date) return '';
 
@@ -30,10 +47,24 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewSlipsImage(reader.result);
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          slipImage: file,
+        }));
+      };
       reader.readAsDataURL(file);
-      setFormData({ ...formData, slipImage: file });
-      slipFile = file;
     }
+  };
+
+  // ฟังก์ชันลบรูปภาพตัวอย่าง
+  const handleRemoveSlipsImage = () => {
+    setPreviewSlipsImage(null);
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      slipImage: ""
+    }));
   };
 
 
@@ -248,7 +279,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
               </Col>
               <Col xl={12} style={{ marginTop: "2rem" }}>
                 <Container fluid style={{
-                  backgroundColor: "#E3E3E3", height: "180px", padding: "1rem", width: "50%",
+                  backgroundColor: "#E3E3E3", height: "fit-content", padding: "1rem", width: "50%",
                   borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 }}>
                   <Row style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "2rem 0" }}>
@@ -256,14 +287,43 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
                       <Form.Control
                         accept=".png,.jpg,.jpeg,"
                         type='file'
-                        multiple
-                        name='image'
+                        name='slipImage'
                         rows={3}
-                        placeholder='รูปภาพสิ่งที่จะได้รับ'
                         onChange={handleSlipsPictureChange}
                         required={formData.slipImage === ""}
                       />
                     </Form.Group>
+
+                    {/* แสดงตัวอย่างรูปภาพ */}
+                    {previewSlipsImage !== null && (
+                      <Row className="mt-3">
+                        {previewSlipsImage && (
+                          <Col xs={6} md={4} lg={3} className="mb-3">
+                            <div style={{ position: 'relative', textAlign: 'center' }}>
+                              <img
+                                src={typeof previewSlipsImage === "string" ? previewSlipsImage : URL.createObjectURL(previewSlipsImage)} // แสดง URL หรือไฟล์
+                                alt="Uploaded preview"
+                                style={{ width: '100%', height: 'auto', borderRadius: '10px' }}
+                              />
+                              <Button
+                                variant="danger"
+                                size="sm"
+                                style={{
+                                  position: 'absolute',
+                                  top: '5px',
+                                  right: '5px',
+                                  borderRadius: '50%'
+                                }}
+                                onClick={handleRemoveSlipsImage}
+                              >
+                                &times;
+                              </Button>
+                            </div>
+                          </Col>
+                        )}
+                      </Row>
+                    )}
+
                     <p style={{ textAlign: 'center', margin: "2rem 0" }}>
                       {t('อัพโหลดหลักฐานการโอนเงิน')} <span className='requiredstar'>*</span>
                     </p>
@@ -287,9 +347,10 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
                                 slotProps={{ textField: { size: 'small' } }}
                                 sx={datePickerValidateStyles("datePay")}
                                 onChange={(dueDate) => setFormData({ ...formData, datePay: dueDate })}
-                                // value={dueDate}
+                                value={formData.datePay ? dayjs(formData.datePay) : null}
                                 format="DD/MM/YYYY"
                                 required={true}
+                                ref={payDatePickerRef}
                               />
                             </DemoContainer>
                           </LocalizationProvider>
@@ -306,12 +367,13 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
                               <DesktopTimePicker
                                 clearable
                                 ampm={false}
-                                // value={dueTime}
+                                value={formData.timePay ? dayjs(formData.timePay) : null}
                                 timeSteps={{ minutes: 1 }}
                                 onChange={(dueDate) => setFormData({ ...formData, timePay: dueDate })}
                                 slotProps={{ textField: { size: 'small' } }}
                                 sx={datePickerValidateStyles("timePay")}
                                 required={true}
+                                ref={payTimePickerRef}
                               />
                             </DemoContainer>
                           </LocalizationProvider>
@@ -325,8 +387,8 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
             </Row>
           </Container>
         </Form>
-      </Container>
-    </div>
+      </Container >
+    </div >
   )
 }
 

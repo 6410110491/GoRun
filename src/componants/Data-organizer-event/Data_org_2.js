@@ -421,7 +421,10 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                     </Button>
                     {formData.competitionDetails?.length > 0 && (
                       <Button className="mt-3" onClick={handleRemoveForm}
-                        style={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "red", marginLeft: "1rem" }}>
+                        style={{
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          backgroundColor: "red", marginLeft: "1rem", border: "none"
+                        }}>
                         <FaTrash />
                       </Button>
                     )}
@@ -463,7 +466,8 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                           position: 'absolute',
                           top: '5px',
                           right: '5px',
-                          borderRadius: '50%'
+                          borderRadius: '50%',
+                          border: "none"
                         }}
                         onClick={handleRemoveImage}
                       >
@@ -504,7 +508,8 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                           position: 'absolute',
                           top: '5px',
                           right: '5px',
-                          borderRadius: '50%'
+                          borderRadius: '50%',
+                          border: "none"
                         }}
                         onClick={handleRemoveBannerImage}
                       >
@@ -600,6 +605,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                               top: "5px",
                               right: "5px",
                               borderRadius: "50%",
+                              border: "none"
                             }}
                             onClick={() => handleRemovePrizeImages(index)}
                           >

@@ -71,6 +71,22 @@ p,
   width: 100%;
 }
 
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  transition: transform 0.3s ease-in-out;
+}
+
+.topbar.hide {
+  transform: translateY(-100%);
+}
+
+.topbar.show {
+  transform: translateY(0);
+}
+
+
 .dropdown-menu.show,
 custom-dropdown-menu {
   top: 100%;

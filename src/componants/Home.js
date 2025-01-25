@@ -99,12 +99,11 @@ function Home() {
         setIsSearched(true);
     };
 
-    // จัดเรียง activeEvents 20 อันดับแรก
-    const latestActiveEvents = [...activeEvents] // สร้างสำเนาของ activeEvents
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // เรียงลำดับจากวันที่ใหม่ไปเก่า
-        .slice(0, 20); // เลือกเฉพาะ 20 งานแรก
+    // จัดเรียง activeEvents 12 อันดับแรก
+    const latestActiveEvents = [...activeEvents]
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 12);
 
-    console.log(latestActiveEvents)
 
     const handleSearch = (e) => {
         e.preventDefault();
