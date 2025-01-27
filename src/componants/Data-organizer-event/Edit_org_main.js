@@ -503,7 +503,7 @@ function Edit_org_main() {
             bankName: formEventData?.paymentInfo?.bankName || '',
             accountNumber: formEventData?.paymentInfo?.accountNumber || '',
             accountName: formEventData?.paymentInfo?.accountName || '',
-            promptPayImage: formEventData?.promptPayImage || '',
+            promptPayImage: formEventData?.paymentInfo?.promptPayImage || '',
           }));
 
 

@@ -98,6 +98,10 @@ custom-dropdown-menu {
   left: unset;
 }
 
+a.dropdown-item:active {
+  background-color: #bbbbbb;
+}
+
 .MuiStack-root.css-4jnixx-MuiStack-root {
   overflow: unset;
   padding: 0;

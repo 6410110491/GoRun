@@ -17,10 +17,10 @@ function Login() {
         // ดึงค่าภาษาเริ่มต้นจาก localStorage หรือใช้ค่าภาษาเริ่มต้นจาก i18n
         const savedLanguage = localStorage.getItem('i18nextLng') || i18n.language || 'en';
         i18n.changeLanguage(savedLanguage); // กำหนดภาษาเริ่มต้น
-      }, [i18n]);
-    
+    }, [i18n]);
 
-    
+
+
 
     const handleClosePopup = () => {
         setShowPopup(false);
@@ -114,8 +114,17 @@ function Login() {
                     </Col>
 
                     {/* Warning Popup */}
-                    <Modal show={showPolicyPopup} onHide={handleClosePolicyPopup} centered>
-                        <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+                    <Modal show={showPolicyPopup} onHide={handleClosePolicyPopup} centered style={{
+                        maxHeight: "80vh", // กำหนดความสูงสูงสุดของ Modal
+                        marginTop: "4.75rem"
+                    }}>
+                        <Modal.Header closeButton style={{
+                            backgroundColor: "#F3C710", // สีพื้นหลัง
+                            color: "#FFF",
+                            position: "sticky", // กำหนด Sticky
+                            top: 0, // ติดด้านบน
+                            zIndex: 1020, // เลเยอร์สูงกว่าเนื้อหาใน Modal.Body
+                        }}>
                             <Modal.Title>{t('ข้อตกลงและเงื่อนไข')}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>

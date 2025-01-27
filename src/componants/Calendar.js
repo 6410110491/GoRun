@@ -74,6 +74,9 @@ function Calendar() {
   };
   const filteredEvents = filterEventsByMonth(event, selectedMonth);  // Filter events based on selected month
 
+  const latestActiveEvents = [...filteredEvents]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+
 
   return (
     <Container className='mt-5' style={{ minHeight: "100vh" }}>
@@ -127,10 +130,10 @@ function Calendar() {
           display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
           justifyContent: "center", alignItems: "center"
         }}>
-          {filteredEvents.length === 0 ? (
+          {latestActiveEvents.length === 0 ? (
             <h5 style={{ textAlign: "center" }}>{t('ไม่พบข้อมูล')}</h5>
           ) : (
-            filteredEvents.map((data, index) => (
+            latestActiveEvents.map((data, index) => (
               <div
                 key={index}
                 data-aos="fade-up"

@@ -198,55 +198,67 @@ function Card_event_detail() {
                                     </Container>
 
                                     {/* ข้อมูลทั่วไป */}
-                                    <Container className='mt-4 ms-5' fluid style={{
-                                        backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
-                                        marginBottom: "-20px", position: "relative"
-                                    }}>
-                                        {t('ข้อมูลทั่วไป')}
-                                    </Container>
-                                    <Container className='ms-3' fluid style={{
-                                        backgroundColor: "#fff", minHeight: "100px", padding: "0",
-                                        borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
-                                    }}>
-                                        <p className='ms-3' style={{ whiteSpace: 'pre-line' }}>{eventDetail ? eventDetail.generalInfo : ""}</p>
+                                    {eventDetail && eventDetail.generalInfo ? (
+                                        <>
+                                            <Container className='mt-4 ms-5' fluid style={{
+                                                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
+                                                marginBottom: "-20px", position: "relative"
+                                            }}>
+                                                {t('ข้อมูลทั่วไป')}
+                                            </Container>
+                                            <Container className='ms-3' fluid style={{
+                                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
+                                                borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
+                                            }}>
+                                                <p className='ms-3' style={{ whiteSpace: 'pre-line' }}>{eventDetail ? eventDetail.generalInfo : ""}</p>
 
-                                    </Container>
+                                            </Container>
+                                        </>) : <></>
+                                    }
 
 
 
                                     {/* วัตถุประสงค์ */}
-                                    <Container className='mt-4 ms-5' fluid style={{
-                                        backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
-                                        marginBottom: "-20px", position: "relative"
-                                    }}>
-                                        {t('วัตถุประสงค์')}
-                                    </Container>
-                                    <Container className='ms-3' fluid style={{
-                                        backgroundColor: "#fff", minHeight: "100px", padding: "0",
-                                        borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
-                                    }}>
-                                        <p className='ms-3' style={{ whiteSpace: 'pre-line' }}>
-                                            {eventDetail ? eventDetail.objectives : ""}
-                                        </p>
+                                    {eventDetail && eventDetail.objectives ? (
+                                        <>
+                                            <Container className='mt-4 ms-5' fluid style={{
+                                                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
+                                                marginBottom: "-20px", position: "relative"
+                                            }}>
+                                                {t('วัตถุประสงค์')}
+                                            </Container>
+                                            <Container className='ms-3' fluid style={{
+                                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
+                                                borderRadius: "10px", width: "95%", paddingTop: "1.5rem"
+                                            }}>
+                                                <p className='ms-3' style={{ whiteSpace: 'pre-line' }}>
+                                                    {eventDetail ? eventDetail.objectives : ""}
+                                                </p>
 
-                                    </Container>
+                                            </Container>
+                                        </>) : <></>
+                                    }
 
 
 
                                     {/* ความน่าสนใจของงาน */}
-                                    <Container className='mt-4 ms-5' fluid style={{
-                                        backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
-                                        marginBottom: "-20px", position: "relative"
-                                    }}>
-                                        {t('ความน่าสนใจของงาน')}
-                                    </Container>
-                                    <Container className='ms-3' fluid style={{
-                                        backgroundColor: "#fff", minHeight: "100px", padding: "0",
-                                        borderRadius: "10px", width: "95%", paddingTop: "1.5rem", whiteSpace: 'pre-line'
-                                    }}>
-                                        <p className='ms-3'>{eventDetail ? eventDetail.eventHighlights : ""}</p>
+                                    {eventDetail && eventDetail.eventHighlights ? (
+                                        <>
+                                            <Container className='mt-4 ms-5' fluid style={{
+                                                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
+                                                marginBottom: "-20px", position: "relative"
+                                            }}>
+                                                {t('ความน่าสนใจของงาน')}
+                                            </Container>
+                                            <Container className='ms-3' fluid style={{
+                                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
+                                                borderRadius: "10px", width: "95%", paddingTop: "1.5rem", whiteSpace: 'pre-line'
+                                            }}>
+                                                <p className='ms-3'>{eventDetail ? eventDetail.eventHighlights : ""}</p>
 
-                                    </Container>
+                                            </Container>
+                                        </>) : <></>
+                                    }
 
 
 
@@ -382,19 +394,24 @@ function Card_event_detail() {
 
 
                                     {/* ข้อมูลเพิ่มเติม */}
-                                    <Container className='mt-4 ms-5' fluid style={{
-                                        backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
-                                        marginBottom: "-20px", position: "relative"
-                                    }}>
-                                        {t('ข้อมูลเพิ่มเติม')}
-                                    </Container>
-                                    <Container className='ms-3' fluid style={{
-                                        backgroundColor: "#fff", minHeight: "100px", padding: "0",
-                                        borderRadius: "10px", width: "95%", paddingTop: "1.5rem", whiteSpace: 'pre-line'
-                                    }}>
-                                        <p className='ms-3'> {eventDetail ? eventDetail.etcInfo : ""}</p>
+                                    {eventDetail && eventDetail.eventHighlights ? (
+                                        <>
+                                            <Container className='mt-4 ms-5' fluid style={{
+                                                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
+                                                marginBottom: "-20px", position: "relative"
+                                            }}>
+                                                {t('ข้อมูลเพิ่มเติม')}
+                                            </Container>
+                                            <Container className='ms-3' fluid style={{
+                                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
+                                                borderRadius: "10px", width: "95%", paddingTop: "1.5rem", whiteSpace: 'pre-line'
+                                            }}>
+                                                <p className='ms-3'> {eventDetail ? eventDetail.etcInfo : ""}</p>
 
-                                    </Container>
+                                            </Container>
+                                        </>) : <></>
+                                    }
+
                                 </Container>
 
 
@@ -457,25 +474,28 @@ function Card_event_detail() {
 
 
                                 {/* ที่พัก/ร้านอาหาร */}
-                                <Container className='mt-4' fluid style={{
-                                    backgroundColor: "#E3E3E3", padding: "0", height: "200px",
-                                    borderRadius: "10px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
-                                }}>
-                                    <Container className='mb-2' fluid style={{
-                                        backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
-                                        display: "flex", justifyContent: "center", alignItems: "center"
-                                    }}>
-                                        {t('ที่พัก/ร้านอาหาร')}
-                                    </Container>
+                                {eventDetail && eventDetail.accommodation[0] !== "" && eventDetail.foodStalls[0] !== "" ? (
+                                    <>
+                                        <Container className='mt-4' fluid style={{
+                                            backgroundColor: "#E3E3E3", padding: "0", height: "200px",
+                                            borderRadius: "10px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+                                        }}>
+                                            <Container className='mb-2' fluid style={{
+                                                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
+                                                display: "flex", justifyContent: "center", alignItems: "center"
+                                            }}>
+                                                {t('ที่พัก/ร้านอาหาร')}
+                                            </Container>
 
-                                    <p className='ms-3'>{t('ที่พัก')}:
-                                        {eventDetail ? eventDetail.accommodation : ""}
-                                    </p>
-                                    <p className='ms-3'>{t('ร้านอาหาร')}:
-                                        {eventDetail ? eventDetail.foodStalls : ""}
-                                    </p>
-                                </Container>
-
+                                            <p className='ms-3'>{t('ที่พัก')}:
+                                                {eventDetail ? eventDetail.accommodation : ""}
+                                            </p>
+                                            <p className='ms-3'>{t('ร้านอาหาร')}:
+                                                {eventDetail ? eventDetail.foodStalls : ""}
+                                            </p>
+                                        </Container>
+                                    </>) : <></>
+                                }
 
                             </Col>
 

@@ -76,9 +76,13 @@ function Evevt_history() {
 
         // อัปเดตตัวแปร state สำหรับ active และ inactive events
         setActiveEvents(filteredActiveEvents);
-        setInactiveEvents(filteredInactiveEvents);
+        setInactiveEvents(filteredInactiveEvents.slice(0, 12)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
 
     }, [eventMe]);
+
+    const latestActiveEvents = [...activeEvents]
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
     return (
         <Container style={{ marginTop: '2rem', marginBottom: "2rem", minHeight: "80vh" }}>
@@ -109,17 +113,17 @@ function Evevt_history() {
                     display: "flex", flexWrap: "wrap", width: "85%", marginTop: "3rem",
                     justifyContent: "center", alignItems: "center"
                 }}>
-                    {activeEvents && activeEvents.length === 0 ? (
+                    {latestActiveEvents && latestActiveEvents.length === 0 ? (
                         <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
                     ) : (
-                        activeEvents.map((data, index) => (
+                        latestActiveEvents.map((data, index) => (
                             <div
                                 key={index}
                                 data-aos="fade-up"
                                 data-aos-delay={`${index * 50}`}
                                 style={{ width: "fit-content" }}
                             >
-                                <Card_Organize  data={data} />
+                                <Card_Organize data={data} />
                             </div>
                         ))
                     )}
