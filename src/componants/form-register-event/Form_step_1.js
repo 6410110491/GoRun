@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
 function Form_step_1({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData, userInfo, formRef, validated,
-    datePickerValidateStyles
+    datePickerValidateStyles, birthDatePickerRef
 }) {
     const { id } = useParams();
     const gender = ["ชาย", "หญิง", "อื่นๆ"];
@@ -27,29 +27,28 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
 
 
     useEffect(() => {
-        if (userInfo && !isUserInfoLoaded) {
+        if (userInfo) {
             setFormData((prevData) => ({
                 ...prevData,
-                profilePicture: formData.profilePicture || userInfo?.personalInfo?.profilePicture,
-                username: formData.username || userInfo?.username,
-                gender: formData.gender || userInfo?.personalInfo?.gender,
-                birthDate: formData.birthDate || userInfo?.personalInfo?.birthDate,
-                idCardNumber: formData.idCardNumber || userInfo?.personalInfo?.idCardNumber,
-                email: formData.email || userInfo?.email,
-                phoneNumber: formData.phoneNumber || userInfo?.personalInfo?.phoneNumber,
-                nationality: formData.nationality || userInfo?.personalInfo?.nationality,
-                bloodType: formData.bloodType || userInfo?.personalInfo?.bloodType,
-                chronicDiseases: formData.chronicDiseases || userInfo?.personalInfo?.chronicDiseases?.join(', '),
+                profilePicture: userInfo.personalInfo?.profilePicture || formData.profilePicture,
+                username: userInfo.username || formData.username,
+                gender: userInfo.personalInfo?.gender || formData.gender,
+                birthDate: userInfo.personalInfo?.birthDate || formData.birthDate,
+                idCardNumber: userInfo.personalInfo?.idCardNumber || formData.idCardNumber,
+                email: userInfo.email || formData.email,
+                phoneNumber: userInfo.personalInfo?.phoneNumber || formData.phoneNumber,
+                nationality: userInfo.personalInfo?.nationality || formData.nationality,
+                bloodType: userInfo.personalInfo?.bloodType || formData.bloodType,
+                chronicDiseases: userInfo.personalInfo?.chronicDiseases?.join(', ') || formData.chronicDiseases,
 
-                address: formData.address || userInfo?.address?.address,
-                subDistrict: formData.subDistrict || userInfo?.address?.subDistrict,
-                district: formData.district || userInfo?.address?.district,
-                province: formData.province || userInfo?.address?.province,
-                zipCode: formData.zipCode || userInfo?.address?.postalCode,
+                address: userInfo.address?.address || formData.address,
+                subDistrict: userInfo.address?.subDistrict || formData.subDistrict,
+                district: userInfo.address?.district || formData.district,
+                province: userInfo.address?.province || formData.province,
+                zipCode: userInfo.address?.postalCode || formData.zipCode,
             }));
-            setIsUserInfoLoaded(true); // ตั้งค่า state ว่าข้อมูลโหลดแล้ว
         }
-    }, [userInfo, isUserInfoLoaded]);
+    }, [userInfo]);
 
 
     const saveDraft = async () => {
@@ -174,7 +173,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                             <Col xl={4} md={6} sm={12} className='mt-2'
                                 style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                                 <p>{t('วันเดือนปีเกิด')} <span className='requiredstar'>*</span></p>
-                                <Form.Group as={Row} controlId="formBirthDate" style={{ paddingInline: "12px" }}>
+                                <Form.Group as={Row} controlId="formBirthDate">
                                     <div style={{ marginTop: "-12px" }}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DemoContainer components={['DatePicker']} >
@@ -185,6 +184,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                                     value={formData.birthDate ? dayjs(formData.birthDate) : null}
                                                     onChange={(dueDate) => setFormData({ ...formData, birthDate: dueDate })}
                                                     format="DD/MM/YYYY"
+                                                    ref={birthDatePickerRef}
                                                 />
                                             </DemoContainer>
                                         </LocalizationProvider>
