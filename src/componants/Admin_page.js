@@ -184,7 +184,7 @@ function Admin_page() {
     };
 
     const getFilteredRegistrations = (status) => {
-        return verifyData.filter(item => item.status === status);
+        return verifyData?.filter(item => item.status === status);
     };
 
 
@@ -381,7 +381,7 @@ function Admin_page() {
                                     <Table>
                                         <TableHead>
                                             <TableRow>
-                                            <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ลำดับ')}</TableCell>
+                                                <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ลำดับ')}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('ชื่อ-สกุล')}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('วันที่สมัคร')}</TableCell>
                                                 <TableCell align="center" style={{ fontSize: "1.25rem", fontFamily: 'Anuphan' }}>{t('สถานะ')}</TableCell>
@@ -432,8 +432,17 @@ function Admin_page() {
 
 
 
-            <Modal show={showPopup} onHide={handleClose} size="xl">
-                <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+            <Modal show={showPopup} onHide={handleClose} size="xl" centered style={{
+                maxHeight: "90vh", // กำหนดความสูงสูงสุดของ Modal
+                marginTop: "4.75rem"
+            }}>
+                <Modal.Header closeButton style={{
+                    backgroundColor: "#F3C710", // สีพื้นหลัง
+                    color: "#FFF",
+                    position: "sticky", // กำหนด Sticky
+                    top: 0, // ติดด้านบน
+                    zIndex: 1020, // เลเยอร์สูงกว่าเนื้อหาใน Modal.Body
+                }}>
                     <Modal.Title>{t('ตรวจสอบข้อมูลผู้จัดงาน')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

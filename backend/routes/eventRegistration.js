@@ -127,40 +127,67 @@ router.get('/register/:eventId', async (req, res) => {
 });
 
 // เส้นทางสำหรับการดึงข้อมูลงานทั้งหมดของผู้ใช้
-router.get('/register', verifyToken, async (req, res) => {
-    try {
-        res.status(200).json(req.user.eventRegistered);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
 router.get('/register/detail/me', verifyToken, async (req, res) => {
     try {
+        // ตรวจสอบว่า user ผ่านการยืนยันตัวตนหรือไม่
         if (!req.user || !req.user.id) {
             return res.status(401).json({ error: 'User not authenticated' });
         }
 
+        // ดึงข้อมูลผู้ใช้จากฐานข้อมูล
         const user = await User.findById(req.user.id);
-
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
+        // ข้อมูลที่ดึงมาจาก req.user.eventRegistered
+        const eventRegistered = req.user.eventRegistered || [];
+
+        // ดึงข้อมูลการลงทะเบียนเพิ่มเติมจาก EventRegistration
         const eventRegistrations = await EventRegistration.find({
             'registrations.user_id': user._id
         });
 
-        const userDetails = [];
+        // สร้าง array สำหรับเก็บข้อมูลที่รวมกัน
+        const combinedEventData = [];
 
-        eventRegistrations.forEach(registration => {
-            const registrationDetails = registration.registrations.find(r => r.user_id.toString() === user._id.toString());
-            if (registrationDetails) {
-                userDetails.push(registrationDetails);
+        // ตรวจสอบ event_id ที่อยู่ใน eventRegistered
+        eventRegistered.forEach(event => {
+            // ค้นหาข้อมูลการลงทะเบียนของ event_id นี้ใน eventRegistrations
+            const eventRegistration = eventRegistrations.find(registration => registration.event_id.toString() === event.event_id.toString());
+
+            if (eventRegistration) {
+                // ค้นหาผู้สมัครของผู้ใช้ใน registrations
+                const userDetails = eventRegistration.registrations.filter(r => r.user_id.toString() === user._id.toString());
+
+                // ถ้ามีข้อมูลผู้สมัครที่ตรงกับ user_id นี้
+                if (userDetails.length > 0) {
+                    // เพิ่มข้อมูล event และ userDetails ลงไปใน combinedEventData
+                    combinedEventData.push({
+                        event_id: event.event_id,
+                        eventName: event.eventName,
+                        _id: event._id,
+                        userDetails: userDetails // ข้อมูลของผู้สมัครใน event นี้
+                    });
+                }
             }
         });
 
-        res.status(200).json(userDetails);
+        // เรียงข้อมูลตามวันที่ registrationDate โดยให้วันที่ล่าสุดอยู่ด้านบนสุด
+        const sortedEventData = combinedEventData.sort((a, b) => {
+            const dateA = a.userDetails[0].registrationDate ? new Date(a.userDetails[0].registrationDate) : null;
+            const dateB = b.userDetails[0].registrationDate ? new Date(b.userDetails[0].registrationDate) : null;
+
+            // ถ้าข้อมูล registrationDate ไม่พบ ให้ให้ event นั้นอยู่ด้านบนสุด
+            if (!dateA && !dateB) return 0;
+            if (!dateA) return -1;  // ถ้า dateA เป็น null ให้ event นี้อยู่บนสุด
+            if (!dateB) return 1;   // ถ้า dateB เป็น null ให้ event นี้อยู่บนสุด
+
+            return dateB - dateA;  // เปรียบเทียบวันที่ของแต่ละ event
+        });
+
+        // ส่งข้อมูลที่รวมกันกลับไปใน response
+        res.status(200).json(sortedEventData);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

@@ -119,7 +119,6 @@ const eventRegistrationSchema = new mongoose.Schema({
         },
         registrationDate: {
             type: Date,
-            default: Date.now
         },
         paymentSlipDate: {
             type: Date

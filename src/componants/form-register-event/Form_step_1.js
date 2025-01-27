@@ -86,7 +86,7 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
             datePay: formData.datePay,
             timePay: formData.timePay,
 
-            registrationDate: new Date(),
+            // registrationDate: new Date(),
             paymentSlipDate: formData.datePay,
             paymentSlipTime: formData.timePay,
 

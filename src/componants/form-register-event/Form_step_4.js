@@ -146,7 +146,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
       datePay: formData.datePay,
       timePay: formData.timePay,
 
-      registrationDate: new Date(),
+      // registrationDate: new Date(),
       paymentSlipDate: formData.datePay,
       paymentSlipTime: formData.timePay,
 

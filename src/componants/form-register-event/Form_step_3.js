@@ -57,7 +57,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData, formRef, 
       datePay: formData.datePay,
       timePay: formData.timePay,
 
-      registrationDate: new Date(),
+      // registrationDate: new Date(),
       paymentSlipDate: formData.datePay,
       paymentSlipTime: formData.timePay,
 

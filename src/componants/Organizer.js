@@ -13,7 +13,6 @@ function Organizer() {
         idCardImage: '',
     });
     const [error, setError] = useState('');
-    const [showWarningPopup, setShowWarningPopup] = useState(false); // เพิ่มสถานะข้อความเตือน
     const [showPopup, setShowPopup] = useState(false);
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
@@ -23,39 +22,15 @@ function Organizer() {
         window.location.href = "/" + path
     }
 
-    const checkToken = () => {
-        // ดึงค่า cookies ทั้งหมด
-        const cookies = document.cookie;
-
-        // ตรวจสอบว่ามี token หรือไม่
-        const tokenExists = cookies.split('; ').some(cookie => cookie.startsWith('token='));
-
-        // ถ้าไม่มี token ให้เปลี่ยนหน้าไปที่ login
-        if (!tokenExists) {
-            changepage("login");
-        }
-    };
-
-    const handleOpen = () => {
-        setShowPopup(true);
-    };
 
     const handleClose = () => {
         setShowPopup(false);
     };
 
     const handleOpenWarningPopup = () => {
-        setShowWarningPopup(true);
+        setShowPopup(true);
     };
 
-    const handleCloseWarningPopup = () => {
-        setShowWarningPopup(false);
-    };
-
-    const handleAcceptWarning = () => {
-        setShowWarningPopup(false);
-        setShowPopup(true); // เปิดหน้าแนบหลักฐานเมื่อยอมรับข้อความเตือน
-    };
 
     const handleOpenConFirmPopup = () => {
         setShowPopup(false);
@@ -133,12 +108,14 @@ function Organizer() {
     };
 
     useEffect(() => async () => {
-        checkToken();
         const getinfoResponse = await fetch('http://localhost:4000/api/userinfo', {
             method: 'GET',
             credentials: 'include',
         });
 
+        if (getinfoResponse.status === 401) {
+            changepage("login");
+        }
 
         if (getinfoResponse.ok) {
             const data = await getinfoResponse.json();
@@ -190,28 +167,6 @@ function Organizer() {
                     </div>
                 </div>
             </Row>
-
-            {/* Warning Popup
-            <Modal show={showWarningPopup} onHide={handleCloseWarningPopup} centered>
-                <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>{t('ข้อตกลงและเงื่อนไข')}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p style={{ whiteSpace: 'pre-line' }}>
-                        {t('เว็บไซต์นี้มีการจัดเก็บใช้และเปิดเผยข้อมูลส่วนบุคคลของคุณตามที่กำหนดในกฎหมายคุ้มครองข้อมูลส่วนบุคคล (PDPA) เพื่อให้เป็นไปตามวัตถุประสงค์ของการให้บริการดังนี้\n\n1. การจัดเก็บข้อมูลส่วนบุคคล\nข้อมูลที่จัดเก็บประกอบด้วย ชื่อ-นามสกุล หมายเลขบัตรประชาชน ที่อยู่ อีเมล หมายเลขโทรศัพท์ และเอกสารยืนยันตัวตนที่เกี่ยวข้อง\n\n2. การใช้งานข้อมูลส่วนบุคคล\n- ใช้สำหรับการยืนยันตัวตนของผู้จัดงาน\n- ใช้สำหรับการตรวจสอบเอกสารหรือข้อมูลเพื่อปฏิบัติตามกฎหมายที่เกี่ยวข้อง\n- ใช้เพื่อการติดต่อหรือแจ้งเตือนที่เกี่ยวข้องกับการให้บริการ\n\n3. การเปิดเผยข้อมูลส่วนบุคคล\nข้อมูลส่วนบุคคลของคุณจะไม่ถูกเปิดเผยให้บุคคลภายนอก ยกเว้นในกรณีที่กฎหมายกำหนดหรือได้รับความยินยอมจากคุณโดยตรง\n\n4. สิทธิของผู้ใช้\nคุณมีสิทธิในการเข้าถึงข้อมูลส่วนบุคคลของคุณ และสามารถร้องขอให้แก้ไขหรือลบข้อมูลดังกล่าวได้ โดยการติดต่อผู้ดูแลระบบผ่านช่องทางที่ระบุในเว็บไซต์')}
-                    </p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseWarningPopup}
-                        style={{ border: 'none', borderRadius: '10px' }}>
-                        {t('ยกเลิก')}
-                    </Button>
-                    <Button variant="success" onClick={handleAcceptWarning}
-                        style={{ border: 'none', borderRadius: '10px' }}>
-                        {t('ยอมรับ')}
-                    </Button>
-                </Modal.Footer>
-            </Modal> */}
 
             <Modal show={showPopup} onHide={handleClose} centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>

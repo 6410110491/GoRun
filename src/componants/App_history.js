@@ -37,7 +37,7 @@ function App_history() {
         const fetchEventHistory = async () => {
             setLoading(true)
             try {
-                const response = await fetch('http://localhost:4000/api/register', {
+                const response = await fetch('http://localhost:4000/api/register/detail/me', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -64,37 +64,6 @@ function App_history() {
         fetchEventHistory();
     }, []);
 
-    useEffect(() => {
-        const fetchEventHistoryDetail = async () => {
-            setLoading(true)
-            try {
-                const response = await fetch('http://localhost:4000/api/register/detail/me', {
-                    method: 'GET',
-                    credentials: 'include',
-                });
-
-                if (response.status === 401) {
-                    changepage('login');
-                    return;
-                }
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setEventDetail(data);
-                } else {
-                    throw new Error('Failed to fetch event data');
-                }
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-
-        fetchEventHistoryDetail();
-    }, []);
-
     const onEditForm = () => {
         changepage(`event/form/${selectedItemId}`)
     };
@@ -112,6 +81,8 @@ function App_history() {
         const day = String(d.getDate()).padStart(2, '0');
         return `${day}/${month}/${year}`;
     };
+
+    console.log(EventHistory)
 
     return (
         <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
@@ -154,7 +125,7 @@ function App_history() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {EventHistory === null || EventHistory.length === 0 || eventDetail === null || eventDetail.length === 0 ? (
+                                    {EventHistory === null || EventHistory.length === 0 ? (
                                         <TableRow>
                                             <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
                                                 <p>{t('ไม่พบข้อมูล')}</p>
@@ -166,12 +137,12 @@ function App_history() {
                                             <TableRow key={index}>
                                                 <TableCell align="center">{index + 1}</TableCell>
                                                 <TableCell align="center">{item.eventName}</TableCell>
-                                                <TableCell align="center">{formatDate(eventDetail[index].registrationDate)}</TableCell>
+                                                <TableCell align="center">{formatDate(item.userDetails?.[0]?.registrationDate)}</TableCell>
                                                 <TableCell align="center">
-                                                    {eventDetail[index].status === 'pending payment' && t('รอการชำระเงิน')}
-                                                    {eventDetail[index].status === 'approved' && t('อนุมัติแล้ว')}
-                                                    {eventDetail[index].status === 'rejected' && t('ไม่อนุมัติ')}
-                                                    {eventDetail[index].status === 'pending' && t('รอการตรวจสอบ')}
+                                                    {item.userDetails?.[0]?.status === 'pending payment' && t('รอการชำระเงิน')}
+                                                    {item.userDetails?.[0]?.status === 'approved' && t('อนุมัติแล้ว')}
+                                                    {item.userDetails?.[0]?.status === 'rejected' && t('ไม่อนุมัติ')}
+                                                    {item.userDetails?.[0]?.status === 'pending' && t('รอการตรวจสอบ')}
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     <Button
@@ -180,8 +151,8 @@ function App_history() {
                                                         style={{ marginRight: '8px', color: "white" }}
                                                         onClick={() => {
                                                             handleOpen();
-                                                            setSelectedItem(eventDetail[index]);
-                                                            setSelectedItemId(item.event_id)
+                                                            setSelectedItem(item.userDetails?.[0] || {});
+                                                            setSelectedItemId(item.event_id);
                                                         }}
                                                     >
                                                         {t('ดูรายละเอียด')}
