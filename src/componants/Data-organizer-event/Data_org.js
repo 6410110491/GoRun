@@ -52,7 +52,7 @@ function Data_org() {
         closeRegisDate: "",
         maxRegis: "",
         competitionDetails: [
-            { raceType: '', registrationFee: '' }
+            { raceType: '', registrationFee: '', productShippingStatus: false }
         ],
         generalInfo: "",
         purpose: "",
@@ -334,7 +334,8 @@ function Data_org() {
                     competitionDetails:
                         formData.competitionDetails.map(detail => ({
                             raceType: detail.raceType,
-                            registrationFee: detail.registrationFee
+                            registrationFee: detail.registrationFee,
+                            productShippingStatus: detail.productShippingStatus
                         })),
                     generalInfo: formData.generalInfo,
                     objectives: formData.purpose,

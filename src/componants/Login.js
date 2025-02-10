@@ -196,7 +196,7 @@ function Login() {
                                             id='default-Checkbox'
                                             label={t('จดจำรหัสผ่าน')}
                                         />
-                                        <Link to="#!" style={{ color: "#F3C710", textDecoration: "none" }}>
+                                        <Link to="/password/reset" style={{ color: "#F3C710", textDecoration: "none" }}>
                                             {t('ลืมรหัสผ่าน')}
                                         </Link>
                                     </div>

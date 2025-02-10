@@ -46,54 +46,65 @@ function Data_org_4({ formData, setFormData, loading, setLoading, isEditMode }) 
 
 
           {/* ข้อมูลทั่วไป */}
-          <Container className='mt-4 ms-5' fluid style={{
-            backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
-            marginBottom: "-20px", position: "relative"
-          }}>
-            {t('ข้อมูลทั่วไป')}
-          </Container>
-          <Container className='ms-3' fluid style={{
-            backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
-            borderRadius: "10px", width: "95%", whiteSpace: 'pre-line'
-          }}>
-            <p className='ms-3'>{formData.generalInfo}</p>
+          {formData && formData.generalInfo ? (
+            <>
+              <Container className='mt-4 ms-5' fluid style={{
+                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
+                marginBottom: "-20px", position: "relative"
+              }}>
+                {t('ข้อมูลทั่วไป')}
+              </Container>
+              <Container className='ms-3' fluid style={{
+                backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
+                borderRadius: "10px", width: "95%", whiteSpace: 'pre-line'
+              }}>
+                <p className='ms-3'>{formData.generalInfo}</p>
 
-          </Container>
+              </Container>
+            </>) : <></>
+          }
 
 
 
           {/* วัตถุประสงค์ */}
-          <Container className='mt-4 ms-5' fluid style={{
-            backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
-            marginBottom: "-20px", position: "relative"
-          }}>
-            {t('วัตถุประสงค์')}
-          </Container>
-          <Container className='ms-3' fluid style={{
-            backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
-            borderRadius: "10px", width: "95%", whiteSpace: 'pre-line'
-          }}>
-            <p className='ms-3'>{formData.purpose}</p>
+          {formData && formData.purpose ? (
+            <>
+              <Container className='mt-4 ms-5' fluid style={{
+                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
+                marginBottom: "-20px", position: "relative"
+              }}>
+                {t('วัตถุประสงค์')}
+              </Container>
+              <Container className='ms-3' fluid style={{
+                backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
+                borderRadius: "10px", width: "95%", whiteSpace: 'pre-line'
+              }}>
+                <p className='ms-3'>{formData.purpose}</p>
 
-          </Container>
+              </Container>
+            </>) : <></>
+          }
 
 
 
           {/* ความน่าสนใจของงาน */}
-          <Container className='mt-4 ms-5' fluid style={{
-            backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
-            marginBottom: "-20px", position: "relative"
-          }}>
-            {t('ความน่าสนใจของงาน')}
-          </Container>
-          <Container className='ms-3' fluid style={{
-            backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
-            borderRadius: "10px", width: "95%", whiteSpace: 'pre-line'
-          }}>
-            <p className='ms-3'>{formData.interesting}</p>
+          {formData && formData.interesting ? (
+            <>
+              <Container className='mt-4 ms-5' fluid style={{
+                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
+                marginBottom: "-20px", position: "relative"
+              }}>
+                {t('ความน่าสนใจของงาน')}
+              </Container>
+              <Container className='ms-3' fluid style={{
+                backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
+                borderRadius: "10px", width: "95%", whiteSpace: 'pre-line'
+              }}>
+                <p className='ms-3'>{formData.interesting}</p>
 
-          </Container>
-
+              </Container>
+            </>) : <></>
+          }
 
 
           {/* ระยะวิ่ง/ค่าสมัคร */}
@@ -110,12 +121,17 @@ function Data_org_4({ formData, setFormData, loading, setLoading, isEditMode }) 
             {formData.competitionDetails && formData.competitionDetails.map((formDataItem, index) => (
               <div key={index}>
                 <Row className='mt-1'>
-                  <Col xl={6} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
+                  <Col xl={5} md={5} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
                     <p className='ms-3'>{t('ประเภทการแข่งขัน')}: {formDataItem.raceType}</p>
                   </Col>
-                  <Col xl={6} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
+                  <Col xl={3} md={3} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
                     <p className='ms-3'>{t('ค่าสมัคร')}: {formDataItem.registrationFee}</p>
                   </Col>
+                  {formDataItem.productShippingStatus === true ? (
+                    <Col xl={4} md={4} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column" }}>
+                      <p className='ms-3'>{t('ปิดการเลือกสินค้า')}</p>
+                    </Col>
+                  ) : <></>}
                 </Row>
                 {/* แสดง Divider ยกเว้นรายการสุดท้าย */}
                 {index < formData.competitionDetails.length - 1 && (
@@ -197,19 +213,23 @@ function Data_org_4({ formData, setFormData, loading, setLoading, isEditMode }) 
 
 
           {/* ข้อมูลเพิ่มเติม */}
-          <Container className='mt-4 ms-5' fluid style={{
-            backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
-            marginBottom: "-20px", position: "relative"
-          }}>
-            {t('ข้อมูลเพิ่มเติม')}
-          </Container>
-          <Container className='ms-3' fluid style={{
-            backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
-            borderRadius: "10px", width: "95%"
-          }}>
-            <p className='ms-3'>{formData.etcInfo}</p>
+          {formData && formData.etcInfo ? (
+            <>
+              <Container className='mt-4 ms-5' fluid style={{
+                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
+                marginBottom: "-20px", position: "relative"
+              }}>
+                {t('ข้อมูลเพิ่มเติม')}
+              </Container>
+              <Container className='ms-3' fluid style={{
+                backgroundColor: "#fff", minHeight: "100px", padding: "1.5rem 0 16px 0", marginBottom: "1.25rem",
+                borderRadius: "10px", width: "95%"
+              }}>
+                <p className='ms-3'>{formData.etcInfo}</p>
 
-          </Container>
+              </Container>
+            </>) : <></>
+          }
         </Container>
 
       </Container >

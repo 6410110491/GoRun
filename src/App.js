@@ -22,6 +22,8 @@ import Evevt_history from './componants/Evevt_history';
 import Admin_page from './componants/Admin_page';
 import ApplicantsInfo from './componants/ApplicantsInfo';
 import Edit_org_main from './componants/Data-organizer-event/Edit_org_main';
+import ResetPasswordPage from './componants/ResetPasswordPage';
+import SetNewPasswordPage from './componants/SetNewPasswordPage';
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
           <Route path="/admin" element={<Admin_page />} />
           <Route path='/event/:id/applicants-info' element={<ApplicantsInfo />} />
           <Route path='dataorganizer/edit/:id' element={<Edit_org_main />} />
+          <Route path='/password/reset' element={<ResetPasswordPage />} />
+          <Route path="/reset-password/:token" element={<SetNewPasswordPage />} />
 
         </Routes>
         <Footer />

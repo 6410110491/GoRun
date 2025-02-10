@@ -149,7 +149,7 @@ function Form_page() {
     },
   });
 
-  console.log(formData)
+  console.log(eventData)
 
   const componants = [
     <Form_step_1 formData={formData} setFormData={setFormData}
@@ -237,7 +237,7 @@ function Form_page() {
     }
 
     if (activeStep === 3) {
-      if (!formData.datePay || formData.datePay === "" || !formData.timePay || formData.timePay === "" ) {
+      if (!formData.datePay || formData.datePay === "" || !formData.timePay || formData.timePay === "") {
 
         const payDatePicker = payDatePickerRef.current?.querySelector('input');
         const payTimePicker = payTimePickerRef.current?.querySelector('input');
@@ -250,7 +250,7 @@ function Form_page() {
           payTimePicker.scrollIntoView({ behavior: 'smooth', block: 'center' });
           payTimePicker.focus();
           setValidated(true);
-        } 
+        }
         return;
       }
     }

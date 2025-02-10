@@ -14,10 +14,15 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
+        if (!user.password) {
+            return res.status(401).json({ error: 'Please log in using Google' });
+        }
+
         const passwordMatch = await bcrypt.compare(req.body.password, user.password);
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
+
 
         const payload = {
             id: user._id,

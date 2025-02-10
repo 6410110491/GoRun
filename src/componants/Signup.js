@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Button, Row, Container, Form, Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Lottie from 'lottie-react';
 import signupAnimation from '../animations/signupanimation.json';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { TypeAnimation } from 'react-type-animation';
 import { useTranslation } from 'react-i18next';
 
@@ -20,6 +21,11 @@ function Signup() {
     const handleClosePopup = () => {
         setShowPopup(false);
         changepage("signup");
+    };
+
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const handleCloseSuccessPopup = () => {
+        setShowSuccessPopup(false);
     };
 
 
@@ -50,7 +56,9 @@ function Signup() {
                 registerMethod: 'website'
 
             });
-            console.log(response.data);
+            if (response.status === 201) {
+                setShowSuccessPopup(true);
+            }
             setUsername('');
             setEmail('');
             setPassword('');
@@ -67,6 +75,12 @@ function Signup() {
             }
         }
     };
+
+    useEffect(() => {
+        // ดึงค่าภาษาเริ่มต้นจาก localStorage หรือใช้ค่าภาษาเริ่มต้นจาก i18n
+        const savedLanguage = localStorage.getItem('i18nextLng') || i18n.language || 'en';
+        i18n.changeLanguage(savedLanguage); // กำหนดภาษาเริ่มต้น
+    }, [i18n]);
 
     return (
         <div style={{ display: "flex", width: "100%", flexDirection: "row" }}>
@@ -195,6 +209,24 @@ function Signup() {
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClosePopup}>
                                 {t('ปิด')}
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
+
+                    <Modal show={showSuccessPopup} onHide={handleCloseSuccessPopup} centered>
+                        <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+                            <Modal.Title>{t('สมัครสมาชิก')}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", }}>
+                                <CheckCircleOutlineIcon style={{ fontSize: "10rem", color: "#4CAF50" }} />
+                                <p style={{ fontSize: "1.75rem", marginTop: '.25rem' }}>{t('สมัครสมาชิกสำเร็จแล้ว')}</p>
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleCloseSuccessPopup}>
+                                {t('ตกลง')}
                             </Button>
                         </Modal.Footer>
                     </Modal>

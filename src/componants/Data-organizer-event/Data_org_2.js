@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Row, Container, Form, Button } from 'react-bootstrap'
+import { Col, Row, Container, Form, Button, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { FaTrash } from 'react-icons/fa';
 
@@ -18,7 +18,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
 }) {
 
   const { t, i18n } = useTranslation()
-  const sport_type = ['วิ่ง', 'ว่ายน้ำ', 'ปั่นจักรยาน', 'อื่นๆ']
+  const sport_type = ['วิ่ง', 'ว่ายน้ำ', 'ปั่นจักรยาน']
 
   // เก็บไฟล์และลิงก์รูปภาพที่จะแสดงตัวอย่าง
   const [previewCoverImage, setPreviewCoverImage] = useState(null); // เก็บลิงก์หรือ URL สำหรับแสดงภาพตัวอย่างภาพปก
@@ -67,7 +67,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
       ...prevFormData,
       competitionDetails: [
         ...(prevFormData.competitionDetails || []),
-        { raceType: '', registrationFee: '' }
+        { raceType: '', registrationFee: '', productShippingStatus: false }
       ]
     }));
   };
@@ -92,6 +92,24 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
       };
     });
   };
+
+  const handleFormCheckChange = (index, e) => {
+    const { name, checked } = e.target; // ใช้ checked แทน value เพราะเป็น checkbox
+
+    setFormData((prevState) => {
+      const updatedCompetitionDetails = [...prevState.competitionDetails];
+      updatedCompetitionDetails[index] = {
+        ...updatedCompetitionDetails[index],
+        [name]: checked, // ใช้ checked เพื่ออัปเดตค่า true/false
+      };
+
+      return {
+        ...prevState,
+        competitionDetails: updatedCompetitionDetails,
+      };
+    });
+  };
+
 
 
   const handleCoverPictureChange = (e) => {
@@ -407,6 +425,22 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
                         }} />
                     </Form.Group>
                   </Col>
+                  <Col xl={3} md={6} sm={12} className='mt-2' style={{ display: "flex", flexDirection: "column", justifyContent: 'center' }}>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip id="tooltip-productShippingStatus">กรณีไม่ต้องการให้ผู้สมัครเลือกรับสินค้าประเภทแข่งขันดังกล่าวทำเครื่องหมายในช่อง 'ปิดการเลือกสินค้า'</Tooltip>}
+                    >
+                      <Form.Check
+                        type="checkbox"
+                        id="productShippingStatus"
+                        label={t("ปิดการเลือกสินค้า")}
+                        name="productShippingStatus"
+                        checked={formData.competitionDetails[index].productShippingStatus || false}
+                        onChange={(e) => handleFormCheckChange(index, e)}
+                        style={{ paddingInline: "36px" }}
+                      />
+                    </OverlayTrigger>
+                  </Col>
                 </Row>
               ))}
               <Row className='mt-1'>
@@ -570,7 +604,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
             </Col>
             <Col xl={6} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column" }}>
-              <p style={{ margin: "0" }}>{t('รางวัล')}  <span className='requiredstar'>*</span></p>
+              <p style={{ margin: "0" }}>{t('เพิ่มรูปรางวัล (เพิ่มได้มากกว่า 1)')}  <span className='requiredstar'>*</span></p>
               <Form.Group as={Row} controlId="formPrizePicture" style={{ paddingInline: "12px" }}>
                 <Form.Control
                   accept=".png,.jpg,.jpeg"

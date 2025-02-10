@@ -115,6 +115,10 @@ const EventSchema = new mongoose.Schema({
                 registrationFee: { // ค่าสมัคร
                     type: Number,
                 },
+                productShippingStatus: { // สถานะการเลือกรับสินค้า
+                    type: Boolean,
+                    default: false
+                },
             }
         ]
     ,

@@ -33,7 +33,8 @@ router.post('/events', async (req, res) => {
             competitionDetails:
                 req.body.competitionDetails.map(detail => ({
                     raceType: detail.raceType,
-                    registrationFee: detail.registrationFee
+                    registrationFee: detail.registrationFee,
+                    productShippingStatus: detail.productShippingStatus
                 })),
             generalInfo: req.body.generalInfo,
             objectives: req.body.objectives,
