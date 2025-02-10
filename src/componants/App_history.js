@@ -198,14 +198,12 @@ function App_history() {
                                 ? t('จัดส่งสินค้า')
                                 : ''}
                     </p>
-
-
                     <p style={{
                         fontSize: "14px",
                         color: selectedItem.comment && selectedItem.comment.length > 0 ? "red" : "black"
                     }}>{t('หมายเหตุ')} : {selectedItem.comment || ""} </p>
-                    <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('รายชื่อผู้สมัคร')}</p>
 
+                    <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('รายชื่อผู้สมัคร')}</p>
                     <Accordion >
                         <Accordion.Item eventKey="0">
                             <Accordion.Header>{selectedItem.username}</Accordion.Header>

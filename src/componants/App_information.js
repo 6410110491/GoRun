@@ -436,7 +436,7 @@ function App_information() {
                   </TableContainer>
                 </Tab>
 
-                <Tab eventKey="approved" title={t("อนุมัติแล้ว")}>
+                <Tab eventKey="approved" title={t("อนุมัติ")}>
                   <TableContainer component={Paper} sx={{ margin: 'auto', marginTop: 4 }}>
                     <Table>
                       <TableHead>
@@ -468,7 +468,7 @@ function App_information() {
                                 </p></TableCell>
                                 <TableCell align="center"><p>{formatDate(item.registrationDate)}</p></TableCell>
                                 <TableCell align="center">
-                                  <p>{t('อนุมัติแล้ว')}</p>
+                                  <p>{t('อนุมัติ')}</p>
                                 </TableCell>
                                 <TableCell align="center">
                                   <Button
@@ -561,7 +561,7 @@ function App_information() {
             </Modal.Header>
             <Modal.Body>
               <p style={{ fontSize: "14px" }}>{t('ยอดชำระทั้งหมด')} : {selectedItem.registrationFee}</p>
-              {selectedItem.status === 'approved' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('อนุมัติแล้ว')}</p>}
+              {selectedItem.status === 'approved' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('อนุมัติ')}</p>}
               {selectedItem.status === 'rejected' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('ไม่อนุมัติ')}</p>}
               {selectedItem.status === 'pending' && <p style={{ fontSize: "14px" }}> {t('สถานะการสมัคร')} : {t('รอการตรวจสอบ')}</p>}
               <p style={{ fontSize: "14px" }}>{t('วันที่สมัคร')} : {formatDate(selectedItem.registrationDate)}</p>
