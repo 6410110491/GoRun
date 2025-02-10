@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 function Form_step_2({ formData, setFormData, loading, setLoading, error, setError, eventData, setEventData, formRef, validated }) {
   const { id } = useParams();
   const [selectedRaceIndex, setSelectedRaceIndex] = useState(''); // กำหนดค่าเริ่มต้นเป็น ''
+  const [raceTypeDisableFormProduct, setRaceTypeDisableFormProduct] = useState();
 
   console.log('selectedRaceIndex:', selectedRaceIndex)
   const { t, i18n } = useTranslation()
@@ -31,6 +32,14 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
     }
   }, [eventData, setFormData]);
 
+  useEffect(() => {
+    if (selectedRaceIndex && eventData.competitionDetails[selectedRaceIndex].productShippingStatus === true) {
+      setRaceTypeDisableFormProduct(true)
+      console.log("raceTypeDisableFormProduct:", raceTypeDisableFormProduct)
+    } else {
+      setRaceTypeDisableFormProduct(false)
+    }
+  }, [selectedRaceIndex])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -143,7 +152,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                 required
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                  backgroundColor: "#fff", height: "40px"
+                  height: "40px", backgroundColor: "#fff",
                 }} />
             </Col>
 
@@ -159,7 +168,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                   name='raceType'
                   style={{
                     borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                    backgroundColor: "#fff", height: "40px",
+                    height: "40px",
                     cursor: "pointer"
                   }}>
                   <option value="">{t('เลือกประเภทการแข่งขัน')}</option>
@@ -189,7 +198,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                 disabled
                 style={{
                   borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                  backgroundColor: "#fff", height: "40px",
+                  height: "40px", backgroundColor: "#fff",
                 }}
               />
             </Col>
@@ -213,10 +222,11 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                   name='shirt'
                   onChange={handleChange}
                   onBlur={saveDraft}
-                  required
+                  required={raceTypeDisableFormProduct}
+                  disabled={raceTypeDisableFormProduct}
+                  readOnly={raceTypeDisableFormProduct}
                   style={{
-                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                    backgroundColor: "#fff", height: "40px",
+                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%", height: "40px",
                     cursor: "pointer"
                   }}>
 
@@ -242,10 +252,10 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                   name='shirtSize'
                   onChange={handleChange}
                   onBlur={saveDraft}
-                  required
+                  required={raceTypeDisableFormProduct}
+                  disabled={raceTypeDisableFormProduct}
                   style={{
-                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                    backgroundColor: "#fff", height: "40px",
+                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%", height: "40px",
                     cursor: "pointer"
                   }}>
                   <option value="">{t('เลือกขนาดเสื้อ')}</option>
@@ -269,9 +279,9 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                 name='etc'
                 onChange={handleChange}
                 onBlur={saveDraft}
+                disabled={raceTypeDisableFormProduct}
                 style={{
-                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                  backgroundColor: "#fff", height: "40px",
+                  borderRadius: "10px", marginTop: "-15px", maxWidth: "95%", height: "40px",
                   cursor: "pointer"
                 }}>
                 <option value="">{t('เลือกอื่นๆ')}</option>
