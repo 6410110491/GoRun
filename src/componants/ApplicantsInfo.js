@@ -237,7 +237,7 @@ function ApplicantsInfo() {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}
-                                style={{ border: 'none', borderRadius: '10px' }}>
+                                style={{ border: 'none', borderRadius: '10px',width: "70px" }}>
                                 {t('ปิด')}
                             </Button>
                         </Modal.Footer>

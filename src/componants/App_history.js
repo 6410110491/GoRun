@@ -239,13 +239,13 @@ function App_history() {
                             variant="warning"
                             color="secondary"
                             onClick={onEditForm}
-                            style={{ border: 'none', borderRadius: '10px', color: "white" }}>
+                            style={{ border: 'none', borderRadius: '10px', color: "white", width: "70px" }}>
                             {t('แก้ไข')}
                         </Button>
                     )}
 
                     <Button variant="secondary" onClick={handleClose}
-                        style={{ border: 'none', borderRadius: '10px' }}>
+                        style={{ border: 'none', borderRadius: '10px', width: "70px" }}>
                         {t('ปิด')}
                     </Button>
                 </Modal.Footer>

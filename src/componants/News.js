@@ -241,11 +241,11 @@ function News() {
 
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}
-            style={{ border: 'none', borderRadius: '10px' }}>
+            style={{ border: 'none', borderRadius: '10px', width: "70px" }}>
             {t('ปิด')}
           </Button>
           <Button variant="success" color="success" onClick={handleSubmit}
-            style={{ border: 'none', borderRadius: '10px' }}>
+            style={{ border: 'none', borderRadius: '10px', width: "70px" }}>
             {t('ยืนยัน')}
           </Button>
         </Modal.Footer>
