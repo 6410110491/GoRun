@@ -26,7 +26,7 @@ function News() {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/userinfo', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
           method: 'GET',
           credentials: 'include', // Include cookies for session-based auth
         });
@@ -54,7 +54,7 @@ function News() {
   useEffect(() => {
     const fetchNewsData = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/news', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/news`, {
           method: 'GET',
           credentials: 'include', // Include cookies for session-based auth
         });
@@ -107,7 +107,7 @@ function News() {
         formDataForImage.append('image', formData.image);
 
         // อัปโหลดรูปภาพ
-        const uploadImage = await fetch('http://localhost:4000/api/images_upload', {
+        const uploadImage = await fetch(`${process.env.REACT_APP_API_URL}/api/images_upload`, {
           method: 'POST',
           credentials: 'include', // Include cookies for session-based auth
           body: formDataForImage,
@@ -121,7 +121,7 @@ function News() {
         imageUrl = uploadResponse.url;
       }
 
-      const response = await axios.post("http://localhost:4000/api/news", {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/news`, {
         owner_id: userInfor._id,
         title: formData.title,
         description: formData.description,
@@ -172,6 +172,10 @@ function News() {
       ) : error ? (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
           <p>Error: {error}</p>
+        </div>
+      ) : newsData && newsData.length === 0 ? (
+        <div style={{ display: "flex", justifyContent: "center",  minHeight: "100vh" }}>
+          <p>{t('ไม่มีข้อมูล')}</p>
         </div>
       ) : (
         <div style={{ marginBottom: "5rem", marginTop: "3rem" }}>

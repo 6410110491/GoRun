@@ -37,7 +37,7 @@ function App_history() {
         const fetchEventHistory = async () => {
             setLoading(true)
             try {
-                const response = await fetch('http://localhost:4000/api/register/detail/me', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register/detail/me`, {
                     method: 'GET',
                     credentials: 'include',
                 });

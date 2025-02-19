@@ -247,7 +247,7 @@ function Edit_org_main() {
       setLoading(true);
       try {
         // Fetch user info from the server
-        const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+        const userResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
           method: 'GET',
           credentials: 'include', // Include cookies for session-based auth
         });
@@ -273,7 +273,7 @@ function Edit_org_main() {
             const formDataForImage = new FormData();
             formDataForImage.append('image', file);
 
-            const uploadImageResponse = await fetch('http://localhost:4000/api/images_upload', {
+            const uploadImageResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/images_upload`, {
               method: 'POST',
               credentials: 'include', // รวมคุกกี้สำหรับการตรวจสอบสิทธิ์แบบเซสชัน
               body: formDataForImage,
@@ -381,7 +381,7 @@ function Edit_org_main() {
         };
 
         // Send event data to the server to create a new event
-        const eventResponse = await axios.patch(`http://localhost:4000/api/events/${id}`, eventData);
+        const eventResponse = await axios.patch(`${process.env.REACT_APP_API_URL}/api/events/${id}`, eventData);
 
 
         if (eventResponse.status === 200) {
@@ -409,7 +409,7 @@ function Edit_org_main() {
 
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/userinfo', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -435,7 +435,7 @@ function Edit_org_main() {
 
     const fetchFormInfo = async () => {
       try {
-        const formResponse = await fetch(`http://localhost:4000/api/events/${id}`, {
+        const formResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/events/${id}`, {
           method: 'GET',
           credentials: 'include',
         });

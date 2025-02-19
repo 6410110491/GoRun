@@ -29,7 +29,7 @@ function Login() {
     const responseMessage = (response) => {
         if (response.credential) {
             const tokenId = response.credential;
-            fetch('http://localhost:4000/api/login/google', {
+            fetch(`${process.env.REACT_APP_API_URL}/api/login/google`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ function Login() {
     const handleLogin = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:4000/api/login', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -190,12 +190,7 @@ function Login() {
                                         />
                                     </Form.Group>
 
-                                    <div className="d-flex justify-content-between">
-                                        <Form.Check
-                                            type="checkbox"
-                                            id='default-Checkbox'
-                                            label={t('จดจำรหัสผ่าน')}
-                                        />
+                                    <div style={{ display: "flex", justifyContent: "flex-end" }}>
                                         <Link to="/password/reset" style={{ color: "#F3C710", textDecoration: "none" }}>
                                             {t('ลืมรหัสผ่าน')}
                                         </Link>

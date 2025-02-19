@@ -26,7 +26,7 @@ function Admin_page() {
     }
 
     const handleConfirm = async () => {
-        const response = await fetch(`http://localhost:4000/api/${selectedItem.user_id}/update/`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/${selectedItem.user_id}/update/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ function Admin_page() {
             body: JSON.stringify({ role: 'organize' }),
         });
 
-        const verifyResponse = await fetch(`http://localhost:4000/api/${selectedItem._id}/verifyOrganized`, {
+        const verifyResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/${selectedItem._id}/verifyOrganized`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ function Admin_page() {
     // Confirm Reject popup
     const [showRejectPopup, setRejectPopup] = useState(false);
     const handleOpenConFirmRejectPopup = async () => {
-        const verifyResponse = await fetch(`http://localhost:4000/api/${selectedItem._id}/verifyOrganized`, {
+        const verifyResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/${selectedItem._id}/verifyOrganized`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -191,7 +191,7 @@ function Admin_page() {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await fetch('http://localhost:4000/api/userinfo', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
                     method: 'GET',
                     credentials: 'include', // Include cookies for session-based auth
                 });
@@ -226,7 +226,7 @@ function Admin_page() {
     useEffect(() => {
         const fetchVerifyOrganizer = async () => {
             try {
-                const response = await fetch('http://localhost:4000/api/verifyOrganized', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/verifyOrganized`, {
                     method: 'GET',
                     credentials: 'include',
                 });

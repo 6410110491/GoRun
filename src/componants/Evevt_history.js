@@ -19,7 +19,7 @@ function Evevt_history() {
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const response = await fetch('http://localhost:4000/api/events/me', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/events/me`, {
                     method: 'GET',
                     credentials: 'include', // Include cookies for session-based auth
                 });

@@ -26,7 +26,7 @@ function ApplicantsInfo() {
             setLoading(true); // Set loading to true when starting data fetch
             setError(null); // Reset error state before fetching
             try {
-                const response = await fetch(`http://localhost:4000/api/register/${id}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register/${id}`, {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -57,7 +57,7 @@ function ApplicantsInfo() {
     useEffect(() => {
         const fetchEventDetail = async () => {
             try {
-                const response = await fetch(`http://localhost:4000/api/events/${id}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/events/${id}`, {
                     method: 'GET',
                     credentials: 'include',
                 });

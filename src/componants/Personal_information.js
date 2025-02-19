@@ -59,7 +59,7 @@ function Personal_information() {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await fetch('http://localhost:4000/api/userinfo', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
                     method: 'GET',
                     credentials: 'include', // Include cookies for session-based auth
                 });
@@ -133,7 +133,7 @@ function Personal_information() {
                 formDataForImage.append('image', selectedFile);
 
                 // Upload image
-                const uploadImage = await fetch('http://localhost:4000/api/images_upload', {
+                const uploadImage = await fetch(`${process.env.REACT_APP_API_URL}/api/images_upload`, {
                     method: 'POST',
                     credentials: 'include', // Include cookies for session-based auth
                     body: formDataForImage,
@@ -147,7 +147,7 @@ function Personal_information() {
                 imageUrl = uploadResponse.url
             }
 
-            const response = await fetch('http://localhost:4000/api/user/update', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/update`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

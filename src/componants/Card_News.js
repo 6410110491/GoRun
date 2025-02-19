@@ -23,7 +23,7 @@ function Card_News(props) {
 
     const handleDeleteNews = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/api/news/${props.data._id}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/news/${props.data._id}`, {
                 method: "DELETE",
                 credentials: 'include', // Include cookies for session-based auth
             });
@@ -42,7 +42,7 @@ function Card_News(props) {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await fetch('http://localhost:4000/api/userinfo', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
                     method: 'GET',
                     credentials: 'include', // Include cookies for session-based auth
                 });

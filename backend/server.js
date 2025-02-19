@@ -18,7 +18,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:3000', // Update this with your frontend's URL
+    origin: process.env.FRONTEND_URL,
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization'

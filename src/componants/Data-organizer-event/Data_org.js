@@ -240,7 +240,7 @@ function Data_org() {
 
             try {
                 // Fetch user info from the server
-                const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+                const userResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
                     method: 'GET',
                     credentials: 'include', // Include cookies for session-based auth
                 });
@@ -261,7 +261,7 @@ function Data_org() {
                         const formDataForImage = new FormData();
                         formDataForImage.append('image', file);
 
-                        const uploadImageResponse = await fetch('http://localhost:4000/api/images_upload', {
+                        const uploadImageResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/images_upload`, {
                             method: 'POST',
                             credentials: 'include', // รวมคุกกี้สำหรับการตรวจสอบสิทธิ์แบบเซสชัน
                             body: formDataForImage,
@@ -388,7 +388,7 @@ function Data_org() {
                 };
 
                 // Send event data to the server to create a new event
-                const eventResponse = await axios.post('http://localhost:4000/api/events', eventData);
+                const eventResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/events`, eventData);
 
 
                 if (eventResponse.status === 201) {

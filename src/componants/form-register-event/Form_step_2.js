@@ -68,7 +68,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
   };
 
   const saveDraft = async () => {
-    const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+    const userResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
       method: 'GET',
       credentials: 'include', // Include cookies for session-based auth
     });
@@ -120,7 +120,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
 
 
     try {
-      const eventResponse = await axios.post(`http://localhost:4000/api/register/${id}`, eventRegisData);
+      const eventResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/register/${id}`, eventRegisData);
     } catch (err) {
       console.error('Error:', err);
     }

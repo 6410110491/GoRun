@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 function Calendar() {
   const [event, setEvent] = useState([]);  // Data for events from API
   const [selectedMonth, setSelectedMonth] = useState(dayjs());  // Selected month from calendar
+  const [activeEvents, setActiveEvents] = useState([]);
 
   const changepage = (path) => {
     window.location.href = "/" + path;
@@ -26,7 +27,7 @@ function Calendar() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/events', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/events`, {
           method: 'GET',
           credentials: 'include',  // Include cookies for session-based auth
         });
@@ -51,6 +52,18 @@ function Calendar() {
     fetchEvent();
   }, []);
 
+  useEffect(() => {
+    // กรอง events ที่ตรงกับการค้นหาและสถานะเป็น true
+    const filteredActiveEvents = event.filter(event => {
+      return (
+        event.status === true
+      );
+    });
+
+    // อัปเดตตัวแปร state สำหรับ active และ inactive events
+    setActiveEvents(filteredActiveEvents);
+  }, [event]);
+
   // Initialize AOS (Animation library)
   useEffect(() => {
     AOS.init({
@@ -72,7 +85,7 @@ function Calendar() {
       return eventMonthIndex === selectedMonthIndex;
     });
   };
-  const filteredEvents = filterEventsByMonth(event, selectedMonth);  // Filter events based on selected month
+  const filteredEvents = filterEventsByMonth(activeEvents, selectedMonth);  // Filter events based on selected month
 
   const latestActiveEvents = [...filteredEvents]
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))

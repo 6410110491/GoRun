@@ -63,7 +63,7 @@ function Organizer() {
         }
 
         try {
-            const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+            const userResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -78,7 +78,7 @@ function Organizer() {
                 formDataForImage.append('image', selectedFile);
 
                 // Upload image
-                const uploadImage = await fetch('http://localhost:4000/api/images_upload', {
+                const uploadImage = await fetch(`${process.env.REACT_APP_API_URL}/api/images_upload`, {
                     method: 'POST',
                     credentials: 'include',
                     body: formDataForImage,
@@ -92,7 +92,7 @@ function Organizer() {
                 imageUrl = uploadResponse.url;
             }
 
-            const sendVerificationResponse = await axios.post("http://localhost:4000/api/verifyOrganized", {
+            const sendVerificationResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/verifyOrganized`, {
                 user: userData._id,
                 idCardImage: imageUrl
             });
@@ -108,7 +108,7 @@ function Organizer() {
     };
 
     useEffect(() => async () => {
-        const getinfoResponse = await fetch('http://localhost:4000/api/userinfo', {
+        const getinfoResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
             method: 'GET',
             credentials: 'include',
         });
@@ -170,7 +170,7 @@ function Organizer() {
 
             <Modal show={showPopup} onHide={handleClose} centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>{t('เปิดรับสมัครงานกีฬา')}</Modal.Title>
+                    <Modal.Title>{t('ยืนยันตัวตน')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
@@ -207,7 +207,7 @@ function Organizer() {
             {/* Success Popup */}
             <Modal show={showSuccessPopup} onHide={handleCloseConFirmPopup} centered size='lg'>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>{t('สำเร็จ')}</Modal.Title>
+                    <Modal.Title>{t('ส่งหลักฐานยืนยัน')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div style={{

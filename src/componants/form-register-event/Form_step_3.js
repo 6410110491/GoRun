@@ -14,7 +14,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData, formRef, 
   };
 
   const saveDraft = async () => {
-    const userResponse = await fetch('http://localhost:4000/api/userinfo', {
+    const userResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
       method: 'GET',
       credentials: 'include', // Include cookies for session-based auth
     });
@@ -66,7 +66,7 @@ function Form_step_3({ formData, setFormData, eventData, setEventData, formRef, 
 
 
     try {
-      const eventResponse = await axios.post(`http://localhost:4000/api/register/${id}`, eventRegisData);
+      const eventResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/register/${id}`, eventRegisData);
       console.log(eventResponse)
     } catch (err) {
       console.error('Error:', err);
@@ -81,54 +81,58 @@ function Form_step_3({ formData, setFormData, eventData, setEventData, formRef, 
       }}>
         <Form ref={formRef} noValidate validated={validated}>
           <Row>
-            <Col xl={6} md={6} sm={12} className='mt-2'
-              style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <p>{t('ช่องทางการรับสินค้า')}</p>
-              <Form.Group>
-                <Row>
-                  {eventData.shippingStatus && (
-                    <Col xl={4} md={6} sm={12} className="mt-2"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Form.Check
-                        type="radio"
-                        id="shipping"
-                        label={t("จัดส่งสินค้า")}
-                        name="shippingChoice" // ชื่อเดียวกันสำหรับ radio group
-                        value="shipping"
-                        onChange={handleChange}
-                        onBlur={saveDraft}
-                        checked={formData.shippingChoice === "shipping"} // ตรวจสอบค่าที่เลือก
-                      />
-                    </Col>
-                  )}
-                  {eventData.onsiteStatus && (
-                    <Col xl={4} md={6} sm={12} className="mt-2"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Form.Check
-                        type="radio"
-                        id="onsite"
-                        label={t("รับสินค้าหน้างาน")}
-                        name="shippingChoice" // ชื่อเดียวกันสำหรับ radio group
-                        value="onsite"
-                        onChange={handleChange}
-                        onBlur={saveDraft}
-                        checked={formData.shippingChoice === "onsite"} // ตรวจสอบค่าที่เลือก
-                      />
-                    </Col>
-                  )}
-                </Row>
-              </Form.Group>
-            </Col>
+            <Row>
+              <Col xl={6} md={6} sm={12} className='ms-5' style={{ display: "flex", flexDirection: "column", justifyContent: "center", marginTop: "1rem" }}>
+                <p style={{ fontSize: "1.2rem", borderBottom: "5px solid #47474A", width: "fit-content" }}>
+                  {t('ช่องทางการรับสินค้า')}
+                </p>
+              </Col>
+            </Row>
+            <Form.Group>
+              <Row>
+                {eventData.shippingStatus && (
+                  <Col xl={4} md={6} sm={12} className="mt-2"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Form.Check
+                      type="radio"
+                      id="shipping"
+                      label={t("จัดส่งสินค้า")}
+                      name="shippingChoice" // ชื่อเดียวกันสำหรับ radio group
+                      value="shipping"
+                      onChange={handleChange}
+                      onBlur={saveDraft}
+                      checked={formData.shippingChoice === "shipping"} // ตรวจสอบค่าที่เลือก
+                    />
+                  </Col>
+                )}
+                {eventData.onsiteStatus && (
+                  <Col xl={4} md={6} sm={12} className="mt-2"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Form.Check
+                      type="radio"
+                      id="onsite"
+                      label={t("รับสินค้าหน้างาน")}
+                      name="shippingChoice" // ชื่อเดียวกันสำหรับ radio group
+                      value="onsite"
+                      onChange={handleChange}
+                      onBlur={saveDraft}
+                      checked={formData.shippingChoice === "onsite"} // ตรวจสอบค่าที่เลือก
+                    />
+                  </Col>
+                )}
+              </Row>
+            </Form.Group>
+
           </Row>
 
           {formData.shippingChoice === 'shipping' ? (

@@ -266,7 +266,7 @@ function Form_page() {
           const formDataForImage = new FormData();
           formDataForImage.append('image', file);
 
-          const uploadImageResponse = await fetch('http://localhost:4000/api/images_upload', {
+          const uploadImageResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/images_upload`, {
             method: 'POST',
             credentials: 'include', // รวมคุกกี้สำหรับการตรวจสอบสิทธิ์แบบเซสชัน
             body: formDataForImage,
@@ -343,7 +343,7 @@ function Form_page() {
         };
 
         // Send event data to the server to create a new event
-        const eventResponse = await axios.post(`http://localhost:4000/api/register/${id}`, eventRegisData);
+        const eventResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/register/${id}`, eventRegisData);
 
 
         if (eventResponse.status === 201) {
@@ -370,7 +370,7 @@ function Form_page() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`http://localhost:4000/api/events/${id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/events/${id}`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -396,7 +396,7 @@ function Form_page() {
 
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/userinfo', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -422,7 +422,7 @@ function Form_page() {
 
     const fetchFormInfo = async (userId) => {
       try {
-        const formResponse = await fetch(`http://localhost:4000/api/register/${id}/${userId}`, {
+        const formResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/register/${id}/${userId}`, {
           method: 'GET',
           credentials: 'include',
         });

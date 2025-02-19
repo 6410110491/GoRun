@@ -29,7 +29,7 @@ function Topbar() {
         const checkAuthStatus = async () => {
             try {
                 // Check if the user is authenticated
-                const authResponse = await fetch('http://localhost:4000/api/auth/status', {
+                const authResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/status`, {
                     method: 'GET',
                     credentials: 'include' // Ensure cookies/session data are sent
                 });
@@ -38,7 +38,7 @@ function Topbar() {
                     const authStatus = await authResponse.json();
 
                     if (authStatus.isAuthenticated) {
-                        const userInfoResponse = await fetch('http://localhost:4000/api/userinfo', {
+                        const userInfoResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
                             method: 'GET',
                             credentials: 'include'
                         });
@@ -124,7 +124,7 @@ function Topbar() {
 
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:4000/api/logout', {}, { withCredentials: true });
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/logout`, {}, { withCredentials: true });
             setIsLoggedIn(false);
             setRole('')
             setUsername('');

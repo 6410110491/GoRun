@@ -33,7 +33,7 @@ function App_information() {
       setLoading(true); // Set loading to true when starting data fetch
       setError(null); // Reset error state before fetching
       try {
-        const response = await fetch(`http://localhost:4000/api/register/${id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register/${id}`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -63,7 +63,7 @@ function App_information() {
     const fetchEventDetail = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:4000/api/events/${id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/events/${id}`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -100,7 +100,7 @@ function App_information() {
   };
 
   const handleConfirm = async () => {
-    const response = await fetch(`http://localhost:4000/api/register/${id}/${selectedItem._id}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register/${id}/${selectedItem._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ function App_information() {
 
   const [showRejectPopup, setRejectPopup] = useState(false);
   const handleOpenConFirmRejectPopup = async () => {
-    const response = await fetch(`http://localhost:4000/api/register/${id}/${selectedItem._id}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register/${id}/${selectedItem._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -201,7 +201,7 @@ function App_information() {
     try {
       // สลับสถานะและอัปเดตในฐานข้อมูล
       const newStatus = !isRegistrationOpen;
-      const response = await fetch(`http://localhost:4000/api/events/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/events/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

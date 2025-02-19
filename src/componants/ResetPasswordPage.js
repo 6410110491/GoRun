@@ -41,7 +41,7 @@ function ResetPasswordPage() {
 
         try {
             // ดึงข้อมูลผู้ใช้จาก API
-            const responseGetUser = await fetch(`http://localhost:4000/api/users/${formData.email}`, {
+            const responseGetUser = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${formData.email}`, {
                 method: 'GET',
                 credentials: 'include', // Include cookies for session-based auth
             });
@@ -53,7 +53,7 @@ function ResetPasswordPage() {
             const userData = await responseGetUser.json(); // รับข้อมูล user
 
             // เรียก API forgot-password เพื่อรับลิงค์ reset
-            const forgotPasswordResponse = await fetch('http://localhost:4000/api/forgot-password', {
+            const forgotPasswordResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/forgot-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
