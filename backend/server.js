@@ -30,7 +30,7 @@ app.use('/api', require('./routes/login'));
 app.use('/api', require('./routes/event'));
 app.use('/api', require('./routes/user'));
 app.use('/api', require('./routes/images_upload'));
-app.use('/api', require('./routes/EventRegistration'));
+app.use('/api', require('./routes/eventRegistration'));
 app.use('/api', require('./routes/news'));
 app.use('/api', require('./routes/VerifyOrganized'));
 
