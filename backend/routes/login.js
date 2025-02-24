@@ -37,8 +37,8 @@ router.post('/login', async (req, res) => {
 
             res.cookie('token', token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', // ใช้ secure ใน production เท่านั้น
-                sameSite: 'Strict', // ช่วยป้องกัน XSS
+                secure: process.env.NODE_ENV === 'production', // true if in deploy
+                sameSite: 'Strict', // 'None' if in deploy
                 maxAge: 24 * 60 * 60 * 1000 // อายุคุกกี้ 1 วัน
             });
 
@@ -81,8 +81,8 @@ router.post('/login/google', async (req, res) => {
         const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
+            secure: process.env.NODE_ENV === 'production', // true if in deploy
+            sameSite: 'Strict', // 'None' if in deploy
             maxAge: 24 * 60 * 60 * 1000
         });
 

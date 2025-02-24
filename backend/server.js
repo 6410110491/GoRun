@@ -14,6 +14,7 @@ const app = express();
 connectDB();
 
 // Middleware
+app.set("trust proxy", true);
 app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(cookieParser());
@@ -21,7 +22,8 @@ app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    exposedHeaders: ["set-cookie"]
 }));
 
 // Routes

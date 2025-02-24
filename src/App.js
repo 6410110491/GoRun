@@ -24,6 +24,7 @@ import ApplicantsInfo from './componants/ApplicantsInfo';
 import Edit_org_main from './componants/Data-organizer-event/Edit_org_main';
 import ResetPasswordPage from './componants/ResetPasswordPage';
 import SetNewPasswordPage from './componants/SetNewPasswordPage';
+import NotFound from './componants/NotFound ';
 
 function App() {
   return (
@@ -51,6 +52,8 @@ function App() {
           <Route path='dataorganizer/edit/:id' element={<Edit_org_main />} />
           <Route path='/password/reset' element={<ResetPasswordPage />} />
           <Route path="/reset-password/:token" element={<SetNewPasswordPage />} />
+
+          <Route path="*" element={<NotFound />} />
 
         </Routes>
         <Footer />
