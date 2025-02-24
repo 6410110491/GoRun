@@ -9,7 +9,6 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
   const [selectedRaceIndex, setSelectedRaceIndex] = useState(''); // กำหนดค่าเริ่มต้นเป็น ''
   const [raceTypeDisableFormProduct, setRaceTypeDisableFormProduct] = useState();
 
-  console.log('selectedRaceIndex:', selectedRaceIndex)
   const { t, i18n } = useTranslation()
 
   // ตั้งค่า selectedRaceIndex ตามค่าใน formData เมื่อ formData เปลี่ยนแปลง
@@ -35,7 +34,6 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
   useEffect(() => {
     if (selectedRaceIndex && eventData.competitionDetails[selectedRaceIndex].productShippingStatus === true) {
       setRaceTypeDisableFormProduct(true)
-      console.log("raceTypeDisableFormProduct:", raceTypeDisableFormProduct)
     } else {
       setRaceTypeDisableFormProduct(false)
     }

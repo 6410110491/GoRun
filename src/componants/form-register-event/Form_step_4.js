@@ -188,36 +188,41 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
 
           </Container>
 
+
+
           {/* ข้อมูลการจัดส่ง */}
-          <Container fluid style={{
-            backgroundColor: "#FFF", height: "auto", padding: "0 0 0.5rem 0",
-            borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginTop: "3rem"
-          }}>
-            <Container className='mb-2' fluid style={{
-              backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
-              display: "flex", justifyContent: "center", alignItems: "center"
+          {formData && formData.shippingChoice === true ? (
+            <Container fluid style={{
+              backgroundColor: "#FFF", height: "auto", padding: "0 0 0.5rem 0",
+              borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", marginTop: "3rem"
             }}>
-              {t('ข้อมูลการจัดส่ง')}
+              <Container className='mb-2' fluid style={{
+                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
+                display: "flex", justifyContent: "center", alignItems: "center"
+              }}>
+                {t('ข้อมูลการจัดส่ง')}
+              </Container>
+
+
+              <p className='ms-3' style={{ wordBreak: "break-word", lineHeight: "1.6", marginBottom: "15px" }}>
+                <Row>
+                  <Col xl={4} sm={12}><p className='ms-3'>{t('ชื่อ-สกุล')}: {formData.nameShip} {formData.lastNameShip}</p></Col>
+                  <Col xl={4} sm={12}><p className='ms-3'>{t('ที่อยู่')}: {formData.addressShip}</p></Col>
+                </Row>
+                <Row>
+                  <Col xl={4} sm={12}><p className='ms-3'>{t('ตำบล/แขวง')}: {formData.subDistrictShip}</p></Col>
+                  <Col xl={4} sm={12}><p className='ms-3'>{t('อำเภอ/เขต')}: {formData.districtShip}</p></Col>
+                  <Col xl={4} sm={12}><p className='ms-3'>{t('จังหวัด')}: {formData.provinceShip}</p></Col>
+                </Row>
+                <Row>
+                  <Col xl={4} sm={12}><p className='ms-3'>{t('รหัสไปรษณีย์')}: {formData.zipCodeShip}</p></Col>
+                  <Col xl={4} sm={12}><p className='ms-3'>{t('เบอร์โทรศัพท์')}: {formData.phoneNumberShip}</p></Col>
+                </Row>
+              </p>
+
             </Container>
-
-
-            <p className='ms-3' style={{ wordBreak: "break-word", lineHeight: "1.6", marginBottom: "15px" }}>
-              <Row>
-                <Col xl={4} sm={12}><p className='ms-3'>{t('ชื่อ-สกุล')}: {formData.nameShip} {formData.lastNameShip}</p></Col>
-                <Col xl={4} sm={12}><p className='ms-3'>{t('ที่อยู่')}: {formData.addressShip}</p></Col>
-              </Row>
-              <Row>
-                <Col xl={4} sm={12}><p className='ms-3'>{t('ตำบล/แขวง')}: {formData.subDistrictShip}</p></Col>
-                <Col xl={4} sm={12}><p className='ms-3'>{t('อำเภอ/เขต')}: {formData.districtShip}</p></Col>
-                <Col xl={4} sm={12}><p className='ms-3'>{t('จังหวัด')}: {formData.provinceShip}</p></Col>
-              </Row>
-              <Row>
-                <Col xl={4} sm={12}><p className='ms-3'>{t('รหัสไปรษณีย์')}: {formData.zipCodeShip}</p></Col>
-                <Col xl={4} sm={12}><p className='ms-3'>{t('เบอร์โทรศัพท์')}: {formData.phoneNumberShip}</p></Col>
-              </Row>
-            </p>
-
-          </Container>
+          ) : <></>
+          }
 
 
           {/* ข้อมูลผู้สมัคร */}
@@ -342,7 +347,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
                       <Form.Group as={Row} controlId="formDatePay" >
                         <div style={{ marginTop: "-10px" }}>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DatePicker']} >
+                            <DemoContainer components={['DatePicker']} sx={{ padding: "0", marginTop: "-2px", overflow: "unset" }}>
                               <DatePicker
                                 slotProps={{ textField: { size: 'small' } }}
                                 sx={datePickerValidateStyles("datePay")}
@@ -363,7 +368,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
                       <Form.Group as={Row} controlId="formTimePay" >
                         <div style={{ marginTop: "-10px" }}>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DesktopTimePicker']}>
+                            <DemoContainer components={['DesktopTimePicker']} sx={{ padding: "0", marginTop: "-2px", overflow: "unset" }}>
                               <DesktopTimePicker
                                 clearable
                                 ampm={false}

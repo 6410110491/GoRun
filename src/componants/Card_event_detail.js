@@ -140,7 +140,6 @@ function Card_event_detail() {
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
     });
 
-
     return (
         <div style={{ minHeight: "100vh" }}>
             {loading ? (
@@ -394,7 +393,7 @@ function Card_event_detail() {
 
 
                                     {/* ข้อมูลเพิ่มเติม */}
-                                    {eventDetail && eventDetail.eventHighlights ? (
+                                    {eventDetail && eventDetail.etcInfo ? (
                                         <>
                                             <Container className='mt-4 ms-5' fluid style={{
                                                 backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",

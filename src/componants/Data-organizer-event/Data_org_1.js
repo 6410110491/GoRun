@@ -195,7 +195,7 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
                 <Form.Group as={Row} controlId="formBirthDate" >
                   <div style={{ marginTop: "-12px", }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DemoContainer components={['DatePicker']} >
+                      <DemoContainer components={['DatePicker']} sx={{ padding: "0", marginTop: "-2px", overflow: "unset" }} >
                         <DatePicker
                           slotProps={{ textField: { size: "small" } }}
                           required={true}

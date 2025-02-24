@@ -102,22 +102,24 @@ a.dropdown-item:active {
   background-color: #bbbbbb;
 }
 
-.MuiStack-root.css-4jnixx-MuiStack-root {
+/* .MuiStack-root.css-4jnixx-MuiStack-root,
+.MuiStack-root.css-160unip-MuiStack-root {
   overflow: unset;
   padding: 0;
-}
+} */
 
-.MuiStepper-root.MuiStepper-horizontal.css-h616ik-MuiStepper-root {
+/* .MuiStepper-root.MuiStepper-horizontal.css-h616ik-MuiStepper-root,
+.MuiStepper-root.MuiStepper-horizontal.css-1eowlq9-MuiStepper-root
+ {
   display: none;
-}
+} */
 
 
-.MuiFormControl-root.MuiTextField-root.css-11gc0et-MuiFormControl-root-MuiTextField-root,
+/* .MuiFormControl-root.MuiTextField-root.css-11gc0et-MuiFormControl-root-MuiTextField-root,
 .MuiFormControl-root.MuiTextField-root.css-xtpn3w-MuiFormControl-root-MuiTextField-root,
 .MuiFormControl-root.MuiTextField-root.css-6ayt19-MuiFormControl-root-MuiTextField-root {
   min-width: 0;
-  width: 100%;
-}
+} */
 
 
 .requiredstar {

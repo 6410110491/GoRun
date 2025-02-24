@@ -149,6 +149,7 @@ function Data_org() {
     ];
 
     const stepStyle = {
+        display: "none",
         padding: 2,
         "& .Mui-active": {
             "&.MuiStepIcon-root": {
@@ -405,7 +406,6 @@ function Data_org() {
         }
     };
 
-    console.log(formData)
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);

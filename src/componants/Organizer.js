@@ -98,7 +98,6 @@ function Organizer() {
             });
 
             if (sendVerificationResponse.status === 200) {
-                console.log('Success:', sendVerificationResponse);
                 setShowSuccessPopup(true); // แสดง popup แจ้งเตือนเมื่อส่งสำเร็จ
             }
 

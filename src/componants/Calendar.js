@@ -76,12 +76,10 @@ function Calendar() {
   // Filter events based on the selected month
   const filterEventsByMonth = (events, selectedMonth) => {
     const selectedMonthIndex = selectedMonth.month();  // Get the selected month (0-indexed)
-    // console.log('Selected Month:', selectedMonth.format('MMMM YYYY'));  // Log the selected month for debugging
 
     return events.filter(event => {
       const eventMonth = dayjs(event.eventDate);  // Convert the event's date to a dayjs object
       const eventMonthIndex = eventMonth.month();  // Get the month of the event date
-      // console.log('Event Month:', eventMonth.format('DD MMMM YYYY'));  // Log event month for debugging
       return eventMonthIndex === selectedMonthIndex;
     });
   };

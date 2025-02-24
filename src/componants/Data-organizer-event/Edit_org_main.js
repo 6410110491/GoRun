@@ -153,6 +153,7 @@ function Edit_org_main() {
   ];
 
   const stepStyle = {
+    display: "none",
     padding: 2,
     "& .Mui-active": {
       "&.MuiStepIcon-root": {
@@ -550,10 +551,6 @@ function Edit_org_main() {
     />,
     <Data_org_4 formData={formData} isEditMode={true} />
   ]
-
-
-  console.log(formData)
-
 
   return (
     <Container style={{ marginTop: "3rem", marginBottom: "3rem" }}>

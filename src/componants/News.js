@@ -174,7 +174,7 @@ function News() {
           <p>Error: {error}</p>
         </div>
       ) : newsData && newsData.length === 0 ? (
-        <div style={{ display: "flex", justifyContent: "center",  minHeight: "100vh" }}>
+        <div style={{ display: "flex", justifyContent: "center", minHeight: "100vh", marginTop: "3rem" }}>
           <p>{t('ไม่มีข้อมูล')}</p>
         </div>
       ) : (

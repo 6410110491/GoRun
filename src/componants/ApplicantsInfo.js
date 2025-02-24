@@ -21,6 +21,11 @@ function ApplicantsInfo() {
         window.location.href = "/" + path
     }
 
+    const getFilteredRegistrations = (status) => {
+        if (!applicantsInfo || !applicantsInfo.registrations) return [];
+        return applicantsInfo.registrations.filter(registration => registration.status === status);
+    };
+
     useEffect(() => {
         const fetchApplicantDetail = async () => {
             setLoading(true); // Set loading to true when starting data fetch
@@ -52,7 +57,6 @@ function ApplicantsInfo() {
         fetchApplicantDetail();
     }, [id]);
 
-    console.log(eventInfo)
 
     useEffect(() => {
         const fetchEventDetail = async () => {
@@ -144,27 +148,27 @@ function ApplicantsInfo() {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {applicantsInfo === null || applicantsInfo.length === 0 ? (
+                                        {getFilteredRegistrations('pending').length === 0 ? (
                                             <TableRow>
-                                                <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
+                                                <TableCell colSpan={10} align="center" style={{ padding: "3rem" }}>
                                                     <p>{t('ไม่พบข้อมูล')}</p>
                                                 </TableCell>
                                             </TableRow>
                                         ) : (
-                                            applicantsInfo.registrations.map((item, index) => (
+                                            getFilteredRegistrations('pending').map((item, index) => (
                                                 <TableRow key={index}>
-                                                    <TableCell align="center"><p style={{margin:'0'}}>{index + 1}</p></TableCell>
-                                                    <TableCell align="center"><p style={{margin:'0'}}>{item.username}</p></TableCell>
-                                                    <TableCell align="center"><p style={{margin:'0'}}>
-                                                        {t('ประเภทการแข่งขัน')}: {eventInfo.competitionDetails[0].raceType                                                        } <br />
+                                                    <TableCell align="center"><p style={{ margin: '0' }}>{index + 1}</p></TableCell>
+                                                    <TableCell align="center"><p style={{ margin: '0' }}>{item.username}</p></TableCell>
+                                                    <TableCell align="center"><p style={{ margin: '0' }}>
+                                                        {t('ประเภทการแข่งขัน')}: {eventInfo.competitionDetails[0].raceType} <br />
                                                         {t('ค่าสมัคร')}: {eventInfo.competitionDetails[0].registrationFee} {t('บาท')}<br />
                                                     </p></TableCell>
-                                                    <TableCell align="center"><p style={{margin:'0'}}>{formatDate(item.registrationDate)}</p></TableCell>
+                                                    <TableCell align="center"><p style={{ margin: '0' }}>{formatDate(item.registrationDate)}</p></TableCell>
                                                     <TableCell align="center">
-                                                        {item.status === 'approved' && <p style={{ color: 'green', margin:'0' }}>{t("อนุมัติแล้ว")}</p>}
-                                                        {item.status === 'rejected' && <p style={{ color: 'red', margin:'0' }}>{t('ไม่อนุมัติ')}</p>}
-                                                        {item.status === 'pending payment' && <p style={{margin:'0'}}>{t('รอการชำระเงิน')}</p>}
-                                                        {item.status === 'pending' && <p style={{margin:'0'}}>{t('รอการตรวจสอบ')}</p>}
+                                                        {item.status === 'approved' && <p style={{ color: 'green', margin: '0' }}>{t("อนุมัติแล้ว")}</p>}
+                                                        {item.status === 'rejected' && <p style={{ color: 'red', margin: '0' }}>{t('ไม่อนุมัติ')}</p>}
+                                                        {item.status === 'pending payment' && <p style={{ margin: '0' }}>{t('รอการชำระเงิน')}</p>}
+                                                        {item.status === 'pending' && <p style={{ margin: '0' }}>{t('รอการตรวจสอบ')}</p>}
                                                     </TableCell>
                                                 </TableRow>
                                             ))

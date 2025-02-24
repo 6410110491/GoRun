@@ -283,7 +283,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
               <Form.Group as={Row} controlId="formCompetitionDate">
                 <div style={{ marginTop: "-12px" }}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DatePicker']} >
+                    <DemoContainer components={['DatePicker']} sx={{ padding: "0", marginTop: "-2px", overflow: "unset" }}>
                       <DatePicker
                         slotProps={{ textField: { size: 'small' } }}
                         required={true}
@@ -306,7 +306,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
               <Form.Group as={Row} controlId="formCompetitionTime">
                 <div style={{ marginTop: "-12px" }}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['TimePicker']}>
+                    <DemoContainer components={['TimePicker']} sx={{ padding: "0", marginTop: "-2px", overflow: "unset" }}>
                       <TimePicker
                         clearable
                         ampm={false}
@@ -330,7 +330,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
               <Form.Group as={Row} controlId="formOpenRegisDate">
                 <div style={{ marginTop: "-12px" }}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DatePicker']} >
+                    <DemoContainer components={['DatePicker']} sx={{ padding: "0", marginTop: "-2px", overflow: "unset" }}>
                       <DatePicker
                         slotProps={{ textField: { size: 'small' } }}
                         sx={datePickerValidateStyles("openRegisDate")}
@@ -351,7 +351,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
               <Form.Group as={Row} controlId="formCloseRegisDate">
                 <div style={{ marginTop: "-12px" }}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DatePicker']} >
+                    <DemoContainer components={['DatePicker']} sx={{ padding: "0", marginTop: "-2px", overflow: "unset" }}>
                       <DatePicker
                         slotProps={{ textField: { size: 'small' } }}
                         sx={datePickerValidateStyles("closeRegisDate")}

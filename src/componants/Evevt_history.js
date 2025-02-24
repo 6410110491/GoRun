@@ -14,7 +14,6 @@ function Evevt_history() {
 
     const { t, i18n } = useTranslation()
 
-    // console.log(eventMe);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -43,8 +42,6 @@ function Evevt_history() {
 
         fetchEvent();
     }, []);
-
-    console.log(eventMe);
 
 
     const changepage = (path) => {

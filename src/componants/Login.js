@@ -39,7 +39,6 @@ function Login() {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log('Login Success:', data);
                     changepage("");
                 })
                 .catch(error => {
@@ -72,7 +71,6 @@ function Login() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Login success:', data);
                 setEmail('');
                 setPassword('');
                 changepage("");

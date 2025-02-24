@@ -67,7 +67,6 @@ function Form_step_3({ formData, setFormData, eventData, setEventData, formRef, 
 
     try {
       const eventResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/register/${id}`, eventRegisData);
-      console.log(eventResponse)
     } catch (err) {
       console.error('Error:', err);
     }

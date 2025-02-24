@@ -19,8 +19,6 @@ function App_history() {
     const [selectedItemId, setSelectedItemId] = useState();
 
 
-    // console.log("selectedItem :", selectedItem);
-    console.log(EventHistory)
     const { t, i18n } = useTranslation()
 
 
@@ -82,7 +80,6 @@ function App_history() {
         return `${day}/${month}/${year}`;
     };
 
-    console.log(EventHistory)
 
     return (
         <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>

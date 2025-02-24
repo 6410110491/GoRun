@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Modal, Row, Tab, Tabs, Badge, Form, Accordion } from 'react-bootstrap'
+import { Button, Col, Container, Modal, Row, Tab, Tabs, Badge, Form, Accordion, Spinner } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
@@ -41,7 +41,7 @@ function Admin_page() {
                 'Content-Type': 'application/json',
             },
             credentials: 'include',
-            body: JSON.stringify({ status: 'approved' }),
+            body: JSON.stringify({ status: 'approved', submitAt: new Date(), }),
         });
 
         if (response.ok && verifyResponse.ok) {
@@ -114,7 +114,7 @@ function Admin_page() {
                 'Content-Type': 'application/json',
             },
             credentials: 'include',
-            body: JSON.stringify({ status: 'rejected' }),
+            body: JSON.stringify({ status: 'rejected', submitAt: new Date(), }),
         });
 
         if (verifyResponse.ok) {
@@ -190,6 +190,7 @@ function Admin_page() {
 
     useEffect(() => {
         const fetchUserInfo = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
                     method: 'GET',
@@ -225,6 +226,7 @@ function Admin_page() {
 
     useEffect(() => {
         const fetchVerifyOrganizer = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/api/verifyOrganized`, {
                     method: 'GET',
@@ -247,8 +249,6 @@ function Admin_page() {
         fetchVerifyOrganizer();
     }, []);
 
-    console.log(verifyData);
-
     return (
         <Container className='mt-5' style={{ minHeight: "100vh" }} >
 
@@ -265,7 +265,11 @@ function Admin_page() {
             <ScrollToTop smooth color='white' style={{ borderRadius: "20px", backgroundColor: "#F3C710" }} />
 
             {loading ? (
-                <p>Loading...</p>
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </div>
             ) : (
                 isAuthorized ? (
                     <div style={{ width: "100%", height: "min-content", backgroundColor: "#FFF", marginTop: "3rem" }}>
@@ -448,9 +452,10 @@ function Admin_page() {
                 <Modal.Body>
                     {selectedItem && ( // แสดงข้อมูลในโมดอลเฉพาะเมื่อมีผู้เลือก
                         <>
-                            <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {selectedItem.status}</p>
+                            {selectedItem.status === 'approved' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('อนุมัติแล้ว')}</p>}
+                            {selectedItem.status === 'rejected' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('ไม่อนุมัติ')}</p>}
+                            {selectedItem.status === 'pending' && <p style={{ fontSize: "14px" }}> {t('สถานะการสมัคร')} : {t('รอการตรวจสอบ')}</p>}
                             <p style={{ fontSize: "14px" }}>{t('วันที่ส่งหลักฐาน')} : {formatDate(selectedItem.createdAt)}</p>
-                            <p style={{ fontSize: "14px" }}>{t('ยืนยันเสร็จสมบูรณ์')} : {/* ใส่ข้อมูลเกี่ยวกับการยืนยัน */}</p>
                             <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('หลักฐานการยืนยันตัวตน')}</p>
                             <Row >
                                 <Col style={{ textAlign: "center", width: "100%" }}>
@@ -483,16 +488,27 @@ function Admin_page() {
             </Modal>
 
             {/* Modal showDetail */}
-            <Modal show={showDetail} onHide={handleCloseDetail} size="lg">
-                <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
+            <Modal show={showDetail} onHide={handleCloseDetail} size="lg" centered style={{
+                maxHeight: "90vh", // กำหนดความสูงสูงสุดของ Modal
+                marginTop: "4.75rem"
+            }}>
+                <Modal.Header closeButton style={{
+                    backgroundColor: "#F3C710", // สีพื้นหลัง
+                    color: "#FFF",
+                    position: "sticky", // กำหนด Sticky
+                    top: 0, // ติดด้านบน
+                    zIndex: 1020, // เลเยอร์สูงกว่าเนื้อหาใน Modal.Body
+                }}>
                     <Modal.Title>{t('รายละเอียดข้อมูลการสมัคร')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {selectedItem && (
                         <>
-                            <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {selectedItem.status}</p>
+                            {selectedItem.status === 'approved' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('อนุมัติแล้ว')}</p>}
+                            {selectedItem.status === 'rejected' && <p style={{ fontSize: "14px" }}>{t('สถานะการสมัคร')} : {t('ไม่อนุมัติ')}</p>}
+                            {selectedItem.status === 'pending' && <p style={{ fontSize: "14px" }}> {t('สถานะการสมัคร')} : {t('รอการตรวจสอบ')}</p>}
                             <p style={{ fontSize: "14px" }}>{t('วันที่ส่งหลักฐาน')} : {formatDate(selectedItem.createdAt)}</p>
-                            <p style={{ fontSize: "14px" }}>{t('ยืนยันเสร็จสมบูรณ์')} : {/* ใส่ข้อมูลเกี่ยวกับการยืนยัน */}</p>
+                            <p style={{ fontSize: "14px" }}>{t('ยืนยันเสร็จสมบูรณ์')} : {formatDate(selectedItem.submitAt)}</p>
                             <p style={{ fontSize: "16px", fontWeight: "bold" }}>{t('หลักฐานการยืนยันตัวตน')}</p>
                             <Row >
                                 <Col style={{ textAlign: "center", width: "100%" }}>

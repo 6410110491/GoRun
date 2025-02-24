@@ -19,7 +19,8 @@ router.post('/verifyOrganized', async (req, res) => {
             email: user.email,
             idCardImage: req.body.idCardImage,
             status: req.body.status || 'pending', // กำหนดค่าเริ่มต้นเป็น 'pending' ถ้าไม่มีการส่งค่ามา
-            comment: req.body.comment
+            comment: req.body.comment,
+            submitAt: req.body.submitAt
         });
 
         // บันทึกในฐานข้อมูล

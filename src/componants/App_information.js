@@ -251,7 +251,6 @@ function App_information() {
     วันที่สมัคร: formatDate(registration?.registrationDate) || "-",
   }));
 
-  console.log(data);
 
   // ฟังก์ชันคำนวณความกว้างของคอลัมน์
   const calculateColumnWidths = (data) => {

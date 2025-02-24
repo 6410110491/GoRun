@@ -186,8 +186,14 @@ function Personal_information() {
         } catch (err) {
             setError(err.message);
         }
-        // console.log('Form data:', formData);
     };
+
+    const datePickerValidateStyles = () => ({
+        width: "100%",
+        backgroundColor: "#FFF",
+        borderRadius: "10px",
+        border: "none",
+    });
 
     return (
         <Container style={{ marginTop: '2rem', marginBottom: '2rem' }}>
@@ -356,37 +362,13 @@ function Personal_information() {
                                         <Form.Group controlId='formBirthDate'>
                                             <Form.Label>{t('วันเดือนปีเกิด')}</Form.Label>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']} >
+                                                <DemoContainer components={['DatePicker']} sx={{ padding: "0", marginTop: "-2px", overflow: "unset" }}>
                                                     <DatePicker
                                                         slotProps={{ textField: { size: 'small' } }}
                                                         value={formData.birthDate ? dayjs(formData.birthDate) : null}
                                                         onChange={(dueDate) => setFormData({ ...formData, birthDate: dueDate })}
                                                         format="DD/MM/YYYY"
-                                                        sx={{
-                                                            width: '100%',
-                                                            '& .MuiOutlinedInput-root': {
-                                                                borderRadius: '0.25rem', // Border radius ที่คล้ายกับ Form.Control
-                                                                '& fieldset': {
-                                                                    borderColor: '#ced4da', // สีของขอบ
-                                                                    borderWidth: '1px', // ความหนาของขอบ
-                                                                },
-                                                                '&:hover fieldset': {
-                                                                    borderColor: '#80bdff', // สีของขอบเมื่อโฮเวอร์
-                                                                },
-                                                                '&.Mui-focused fieldset': {
-                                                                    borderColor: '#80bdff', // สีของขอบเมื่อโฟกัส
-                                                                    boxShadow: '0 0 0 0 rgba(0, 123, 255, 0.25)', // การตั้งค่า box-shadow เมื่อโฟกัส
-                                                                },
-                                                            },
-                                                            '& .MuiInputBase-input': {
-                                                                padding: '.375rem .75rem', // การตั้งค่า padding
-                                                                fontSize: '1rem', // ขนาดตัวอักษร
-                                                                lineHeight: '1.5', // ความสูงบรรทัด
-                                                                backgroundColor: '#fff', // สีพื้นหลังที่คล้ายกับ Form.Control
-                                                                border: '1px solid #ced4da', // สีขอบที่คล้ายกับ Form.Control
-                                                            },
-                                                            transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out', // การตั้งค่า transition
-                                                        }}
+                                                        sx={datePickerValidateStyles}
                                                     />
                                                 </DemoContainer>
                                             </LocalizationProvider>

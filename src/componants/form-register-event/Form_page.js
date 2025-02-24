@@ -149,7 +149,6 @@ function Form_page() {
     },
   });
 
-  console.log(eventData)
 
   const componants = [
     <Form_step_1 formData={formData} setFormData={setFormData}
@@ -296,7 +295,6 @@ function Form_page() {
 
         const newStatus = slipFileUrls ? "pending" : "pending payment";
 
-        console.log(newStatus);
 
         // Prepare event data including the uploaded image URLs
         const eventRegisData = {
@@ -348,10 +346,8 @@ function Form_page() {
 
         if (eventResponse.status === 201) {
           setLoading(false); // หยุดการโหลดเมื่อเสร็จสิ้น
-          console.log('Event created successfully:', eventResponse.data.event);
         }
 
-        // console.log('Event created successfully:', eventResponse);
 
       } catch (error) {
         console.error('Error:', error);

@@ -17,6 +17,9 @@ const VerifyOrganizedSchema = new mongoose.Schema({
     },
     comment: {
         type: String
+    },
+    submitAt: {
+        type: Date,
     }
 }, {
     timestamps: true
