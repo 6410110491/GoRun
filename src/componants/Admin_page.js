@@ -281,7 +281,10 @@ function Admin_page() {
                         >
                             <Tab eventKey="pending" title={
                                 <>
-                                    {t('รอการตรวจสอบ')} {getFilteredRegistrations('pending').length === 0 ? "" : <Badge bg="danger">{getFilteredRegistrations('pending').length}</Badge>}
+                                    {t('รอการตรวจสอบ')}
+                                    {getFilteredRegistrations('pending')?.length > 0 && (
+                                        <Badge bg="danger">{getFilteredRegistrations('pending')?.length}</Badge>
+                                    )}
                                 </>
                             }>
                                 <TableContainer component={Paper} sx={{ margin: 'auto', marginTop: 4 }}>
@@ -296,7 +299,7 @@ function Admin_page() {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {getFilteredRegistrations('pending').length === 0 ? (
+                                            {getFilteredRegistrations('pending')?.length === 0 ? (
                                                 <TableRow>
                                                     <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
                                                         <p>{t('ไม่พบข้อมูล')}</p>
@@ -345,14 +348,14 @@ function Admin_page() {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {getFilteredRegistrations('approved').length === 0 ? (
+                                            {getFilteredRegistrations('approved')?.length === 0 ? (
                                                 <TableRow>
                                                     <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
                                                         <p>{t('ไม่พบข้อมูล')}</p>
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (
-                                                getFilteredRegistrations('approved').map((item, index) => (
+                                                getFilteredRegistrations('approved')?.map((item, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell align="center"><p>{index + 1}</p></TableCell>
                                                         <TableCell align="center"><p>{item.username}</p></TableCell>
@@ -393,7 +396,7 @@ function Admin_page() {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {getFilteredRegistrations('rejected').length === 0 ? (
+                                            {getFilteredRegistrations('rejected')?.length === 0 ? (
                                                 <TableRow>
                                                     <TableCell colSpan={5} align="center" style={{ padding: "3rem" }}>
                                                         <p>{t('ไม่พบข้อมุล')}</p>
