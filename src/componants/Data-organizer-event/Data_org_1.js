@@ -151,7 +151,7 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
                     name='username'
                     value={formData.username}
                     onChange={handleChange}
-                    placeholder={t('กรอกชื่อ')}
+                    placeholder={t('กรอกชื่อ-สกุล')}
                     required
                     style={{
                       borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",

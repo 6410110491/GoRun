@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Modal, Row, Tab, Tabs, Badge, Form, Accordion, Spinner } from 'react-bootstrap'
+import { Button, Col, Container, Modal, Row, Tab, Tabs, Badge, Form, Spinner } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
@@ -560,7 +560,7 @@ function Admin_page() {
             {/* confirm reject popup */}
             <Modal show={showRejectPopup} onHide={handleCloseRejectPopup} centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F3C710", color: "#FFF" }}>
-                    <Modal.Title>{t('ยืนยันตัวตน')}</Modal.Title>
+                    <Modal.Title>{t('ยืนยันไม่อนุมัติ')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>{t('คุณแน่ใจหรือไม่ที่จะไม่อนุมัติผู้ใช้งานดังกล่าว')}</p>
