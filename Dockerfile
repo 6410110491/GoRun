@@ -9,7 +9,7 @@ COPY . .
 RUN npm run build
 
 FROM nginx:alpine
-COPY --from=0 /app/build/. /usr/share/nginx/html
+COPY --from=0 /app/build/. nginx:/usr/share/nginx/html
 
 
 ARG REACT_APP_API_URL
