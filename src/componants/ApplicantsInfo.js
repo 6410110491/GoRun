@@ -114,7 +114,7 @@ function ApplicantsInfo() {
                     <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                         <div style={{ width: "90%", borderBottom: "5px solid #47474A", }}>
                             <p style={{ paddingLeft: "1.5rem", fontSize: "2rem", margin: "0" }}>
-                                {t('รายชื่อผู้สมัครงาน')} {eventInfo.eventName}
+                                {t('รายชื่อผู้สมัครงาน')} {eventInfo?.eventName}
                             </p>
                         </div>
                     </div>
@@ -153,8 +153,8 @@ function ApplicantsInfo() {
                                                     <TableCell align="center"><p style={{ margin: '0' }}>{index + 1}</p></TableCell>
                                                     <TableCell align="center"><p style={{ margin: '0' }}>{item.username}</p></TableCell>
                                                     <TableCell align="center"><p style={{ margin: '0' }}>
-                                                        {t('ประเภทการแข่งขัน')}: {eventInfo.competitionDetails[0].raceType} <br />
-                                                        {t('ค่าสมัคร')}: {eventInfo.competitionDetails[0].registrationFee} {t('บาท')}<br />
+                                                        {t('ประเภทการแข่งขัน')}: {eventInfo?.competitionDetails[0]?.raceType} <br />
+                                                        {t('ค่าสมัคร')}: {eventInfo?.competitionDetails[0]?.registrationFee} {t('บาท')}<br />
                                                     </p></TableCell>
                                                     <TableCell align="center"><p style={{ margin: '0' }}>{formatDate(item.registrationDate)}</p></TableCell>
                                                     <TableCell align="center">
