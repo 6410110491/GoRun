@@ -408,7 +408,11 @@ function Data_org() {
 
 
     const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        if (activeStep === 0) {
+            window.history.back();
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        }
     };
 
     const componants = [
@@ -475,7 +479,6 @@ function Data_org() {
 
                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                             <Button
-                                disabled={activeStep === 0}
                                 onClick={handleBack}
                                 sx={{ mr: 1 }}
                                 style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}

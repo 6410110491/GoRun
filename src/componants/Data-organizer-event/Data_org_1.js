@@ -286,13 +286,13 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
                     backgroundColor: "#fff", height: "40px",
                     cursor: "pointer"
                   }}
-                    defaultValue={formData.bloodType} // ตั้งค่า default value
+                    name='bloodType'
                     onChange={handleChange}
                     value={formData.bloodType}
                   >
                     <option value="">{t('ไม่ระบุ')}</option>
                     {blood_group.map((data, index) => (
-                      <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า gender จริงๆ
+                      <option key={index} value={data}>{data}</option>
                     ))}
                   </Form.Select>
                 </Form.Group>

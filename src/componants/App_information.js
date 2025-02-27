@@ -408,8 +408,8 @@ function App_information() {
                                 <TableCell align="center"><p>{index + 1}</p></TableCell>
                                 <TableCell align="center"><p>{item.username}</p></TableCell>
                                 <TableCell align="center"><p>
-                                  {t('ชื่องาน')}: {eventInfo.eventName} <br />
-                                  {t('ประเภทงาน')}: {eventInfo.sportType} <br />
+                                  {t('ชื่องาน')}: {eventInfo?.eventName} <br />
+                                  {t('ประเภทงาน')}: {eventInfo?.sportType} <br />
                                 </p></TableCell>
                                 <TableCell align="center"><p>{formatDate(item.registrationDate)}</p></TableCell>
                                 <TableCell align="center">
@@ -462,8 +462,8 @@ function App_information() {
                                 <TableCell align="center"><p>{index + 1}</p></TableCell>
                                 <TableCell align="center"><p>{item.username}</p></TableCell>
                                 <TableCell align="center"><p>
-                                  {t('ชื่องาน')}: {eventInfo.eventName} <br />
-                                  {t('ประเภทงาน')}: {eventInfo.sportType} <br />
+                                  {t('ชื่องาน')}: {eventInfo?.eventName} <br />
+                                  {t('ประเภทงาน')}: {eventInfo?.sportType} <br />
                                 </p></TableCell>
                                 <TableCell align="center"><p>{formatDate(item.registrationDate)}</p></TableCell>
                                 <TableCell align="center">
@@ -515,8 +515,8 @@ function App_information() {
                                 <TableCell align="center"><p>{index + 1}</p></TableCell>
                                 <TableCell align="center"><p>{item.username}</p></TableCell>
                                 <TableCell align="center"><p>
-                                  {t('ชื่องาน')}: {eventInfo.eventName} <br />
-                                  {t('ประเภทงาน')}: {eventInfo.sportType} <br />
+                                  {t('ชื่องาน')}: {eventInfo?.eventName} <br />
+                                  {t('ประเภทงาน')}: {eventInfo?.sportType} <br />
                                 </p></TableCell>
                                 <TableCell align="center"><p>{formatDate(item.registrationDate)}</p></TableCell>
                                 <TableCell align="center">

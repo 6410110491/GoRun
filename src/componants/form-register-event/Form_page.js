@@ -358,6 +358,9 @@ function Form_page() {
   };
 
   const handleBack = () => {
+    if (activeStep === 0) {
+      window.history.back();
+    }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -574,7 +577,6 @@ function Form_page() {
 
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Button
-                    disabled={activeStep === 0}
                     onClick={handleBack}
                     style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}
                   >

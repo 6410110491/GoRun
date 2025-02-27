@@ -161,7 +161,11 @@ router.get('/events/:id/getparticipants', async (req, res) => {
         if (!event || !eventRegistration) {
             return res.status(404).json({ error: 'Event or registrations not found' });
         }
-        const validRegistrations = eventRegistration.registrations.filter(reg => reg.status !== 'pending payment');
+        const invalidStatuses = ['pending payment', 'rejected'];
+        const validRegistrations = eventRegistration.registrations.filter(
+            reg => !invalidStatuses.includes(reg.status)
+        );
+
 
         res.status(200).json({
             maxParticipants: event.maxParticipants,
