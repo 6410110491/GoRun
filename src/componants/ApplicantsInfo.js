@@ -20,10 +20,14 @@ function ApplicantsInfo() {
         window.location.href = "/" + path
     }
 
-    const getFilteredRegistrations = (status) => {
+    const getFilteredRegistrations = (...statuses) => {
         if (!applicantsInfo || !applicantsInfo.registrations) return [];
-        return applicantsInfo.registrations.filter(registration => registration.status === status);
+
+        return applicantsInfo.registrations.filter(registration =>
+            statuses.includes(registration.status)
+        );
     };
+
 
     useEffect(() => {
         const fetchApplicantDetail = async () => {
@@ -141,14 +145,14 @@ function ApplicantsInfo() {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {getFilteredRegistrations('pending')?.length === 0 ? (
+                                        {getFilteredRegistrations('pending', 'approved')?.length === 0 ? (
                                             <TableRow>
                                                 <TableCell colSpan={10} align="center" style={{ padding: "3rem" }}>
                                                     <p>{t('ไม่พบข้อมูล')}</p>
                                                 </TableCell>
                                             </TableRow>
                                         ) : (
-                                            getFilteredRegistrations('pending')?.map((item, index) => (
+                                            getFilteredRegistrations('pending', 'approved')?.map((item, index) => (
                                                 <TableRow key={index}>
                                                     <TableCell align="center"><p style={{ margin: '0' }}>{index + 1}</p></TableCell>
                                                     <TableCell align="center"><p style={{ margin: '0' }}>{item.username}</p></TableCell>
