@@ -220,7 +220,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                   name='shirt'
                   onChange={handleChange}
                   onBlur={saveDraft}
-                  required={raceTypeDisableFormProduct}
+                  required={!raceTypeDisableFormProduct}
                   disabled={raceTypeDisableFormProduct}
                   readOnly={raceTypeDisableFormProduct}
                   style={{
@@ -250,7 +250,7 @@ function Form_step_2({ formData, setFormData, loading, setLoading, error, setErr
                   name='shirtSize'
                   onChange={handleChange}
                   onBlur={saveDraft}
-                  required={raceTypeDisableFormProduct}
+                  required={!raceTypeDisableFormProduct}
                   disabled={raceTypeDisableFormProduct}
                   style={{
                     borderRadius: "10px", marginTop: "-15px", maxWidth: "95%", height: "40px",
