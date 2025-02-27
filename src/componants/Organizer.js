@@ -128,6 +128,10 @@ function Organizer() {
         }
     }, []);
 
+    useEffect(() => {
+        const savedLanguage = localStorage.getItem('i18nextLng') || i18n.language || 'en';
+        i18n.changeLanguage(savedLanguage); 
+    }, [i18n]);
 
     return (
         <Container className='mt-5' style={{ minHeight: "100vh" }} >

@@ -476,7 +476,7 @@ function Card_event_detail() {
                                 {eventDetail && eventDetail.accommodation[0] !== "" && eventDetail.foodStalls[0] !== "" ? (
                                     <>
                                         <Container className='mt-4' fluid style={{
-                                            backgroundColor: "#E3E3E3", padding: "0", height: "200px",
+                                            backgroundColor: "#E3E3E3", padding: "0", minHeight: "200px", paddingBottom: "0.25rem",
                                             borderRadius: "10px", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                                         }}>
                                             <Container className='mb-2' fluid style={{
@@ -486,10 +486,10 @@ function Card_event_detail() {
                                                 {t('ที่พัก/ร้านอาหาร')}
                                             </Container>
 
-                                            <p className='ms-3'>{t('ที่พัก')}:
+                                            <p className='ms-3' style={{ whiteSpace: 'pre-line' }}>{t('ที่พัก')}:
                                                 {eventDetail ? eventDetail.accommodation : ""}
                                             </p>
-                                            <p className='ms-3'>{t('ร้านอาหาร')}:
+                                            <p className='ms-3' style={{ whiteSpace: 'pre-line' }}>{t('ร้านอาหาร')}:
                                                 {eventDetail ? eventDetail.foodStalls : ""}
                                             </p>
                                         </Container>

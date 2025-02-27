@@ -266,7 +266,7 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
               <Form.Group as={Row} controlId="formLocation" style={{ paddingInline: "12px" }}>
                 <Form.Control
                   type="text"
-                  placeholder={t("กรอกสถานที่จัดงาน")}
+                  placeholder={t("กรอกชื่อจังหวัด")}
                   name="location"
                   value={formData.location}
                   onChange={handleChange}
