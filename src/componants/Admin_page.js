@@ -306,7 +306,7 @@ function Admin_page() {
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (
-                                                getFilteredRegistrations('pending').map((item, index) => (
+                                                getFilteredRegistrations('pending')?.map((item, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell align="center"><p>{index + 1}</p></TableCell>
                                                         <TableCell align="center"><p>{item.username}</p></TableCell>
@@ -403,7 +403,7 @@ function Admin_page() {
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (
-                                                getFilteredRegistrations('rejected').map((item, index) => (
+                                                getFilteredRegistrations('rejected')?.map((item, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell align="center"><p>{index + 1}</p></TableCell>
                                                         <TableCell align="center"><p>{item.username}</p></TableCell>

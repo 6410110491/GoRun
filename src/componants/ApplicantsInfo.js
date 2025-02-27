@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Accordion, Button, Container, Modal, Spinner } from 'react-bootstrap'
+import { Container, Spinner } from 'react-bootstrap'
 import ScrollToTop from 'react-scroll-to-top'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { useParams } from 'react-router-dom';
@@ -9,7 +9,6 @@ function ApplicantsInfo() {
     const { id } = useParams();
 
     const [applicantsInfo, setApplicantsInfo] = useState([]);
-    const [selectedItem, setSelectedItem] = useState([]);
     const [eventInfo, setEventInfo] = useState(null);
 
     const [loading, setLoading] = useState(true);
@@ -28,8 +27,8 @@ function ApplicantsInfo() {
 
     useEffect(() => {
         const fetchApplicantDetail = async () => {
-            setLoading(true); // Set loading to true when starting data fetch
-            setError(null); // Reset error state before fetching
+            setLoading(true);
+            setError(null);
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register/${id}`, {
                     method: 'GET',
@@ -60,6 +59,8 @@ function ApplicantsInfo() {
 
     useEffect(() => {
         const fetchEventDetail = async () => {
+            setLoading(true);
+            setError(null);
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/api/events/${id}`, {
                     method: 'GET',
@@ -79,20 +80,12 @@ function ApplicantsInfo() {
                 }
             } catch (err) {
                 setError(err.message);
+            } finally {
+                setLoading(false); // Set loading to false when fetch is complete
             }
         };
         fetchEventDetail();
     }, [id]); // เพิ่ม `id` เป็น dependency
-
-    const [showPopup, setShowPopup] = useState(false);
-    const handleOpen = () => {
-        setShowPopup(true);
-    };
-
-    const handleClose = () => {
-        setShowPopup(false);
-    };
-
 
     const formatDate = (date) => {
         if (!date) return '';
@@ -148,14 +141,14 @@ function ApplicantsInfo() {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {getFilteredRegistrations('pending').length === 0 ? (
+                                        {getFilteredRegistrations('pending')?.length === 0 ? (
                                             <TableRow>
                                                 <TableCell colSpan={10} align="center" style={{ padding: "3rem" }}>
                                                     <p>{t('ไม่พบข้อมูล')}</p>
                                                 </TableCell>
                                             </TableRow>
                                         ) : (
-                                            getFilteredRegistrations('pending').map((item, index) => (
+                                            getFilteredRegistrations('pending')?.map((item, index) => (
                                                 <TableRow key={index}>
                                                     <TableCell align="center"><p style={{ margin: '0' }}>{index + 1}</p></TableCell>
                                                     <TableCell align="center"><p style={{ margin: '0' }}>{item.username}</p></TableCell>
