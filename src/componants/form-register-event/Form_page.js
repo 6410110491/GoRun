@@ -530,7 +530,7 @@ function Form_page() {
               }}>
                 <Container className='mb-2' fluid style={{
                   backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
-                  display: "flex", justifyContent: "center", alignItems: "center"
+                  display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "0.25rem"
                 }}>
                   {eventData?.eventName}
                 </Container>

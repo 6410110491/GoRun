@@ -382,6 +382,15 @@ function Topbar() {
                                             {t('ประวัติการจัดงาน')}
                                         </Nav.Link>
                                     ) : ''}
+                                    {role === "admin" ? (
+                                        <Nav.Link className='text-white mb-2'
+                                            onClick={() => changepage("admin")}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <MdWorkHistory style={{ marginRight: '8px' }} />
+                                                <p style={{ margin: 0 }}>{t('แอดมิน')}</p>
+                                            </div>
+                                        </Nav.Link >
+                                    ) : ''}
                                 </>) : ("")}
 
                             <Nav.Link href="/#" className='text-white mb-2'

@@ -21,7 +21,7 @@ function Card_event(props) {
 
     return (
         <Col className='mb-5' xs={12} md={6} lg={6} xl={4} xxl={3}
-            style={{ display: "flex", justifyContent: "center", alignItems: "center", width:"100%" }}>
+            style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
             <Card
                 style={{
                     width: '18rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
@@ -56,13 +56,20 @@ function Card_event(props) {
 
                     <div style={{ display: "flex" }}>
                         <PersonIcon />
-                        <Card.Text style={{ fontSize: "1rem", marginLeft: "5px" }}>
+                        <Card.Text style={{
+                            fontSize: "1rem", marginLeft: "5px",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis"
+                        }}>
                             {props.data.organization ? props.data.organization : props.data.owner[0].username}
                         </Card.Text>
                     </div>
                 </Card.Body>
             </Card>
-        </Col>
+        </Col >
     );
 }
 
