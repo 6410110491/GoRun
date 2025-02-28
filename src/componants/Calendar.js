@@ -142,7 +142,7 @@ function Calendar() {
           justifyContent: "center", alignItems: "center"
         }}>
           {latestActiveEvents.length === 0 ? (
-            <h5 style={{ textAlign: "center" }}>{t('ไม่พบข้อมูล')}</h5>
+            <h5 style={{ textAlign: "center" }}>{t('ไม่มีข้อมูลงานกีฬา')}</h5>
           ) : (
             latestActiveEvents.map((data, index) => (
               <div

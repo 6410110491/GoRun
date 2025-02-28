@@ -9,6 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
+import { useMediaQuery } from 'react-responsive';
 
 function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, setValidated, birthDatePickerRef, datePickerValidateStyles }) {
   const gender = ["ชาย", "หญิง", "อื่นๆ",]
@@ -18,6 +19,8 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const isDesktop = useMediaQuery({ query: '(min-width: 992px)' });
 
   const changepage = (path) => {
     window.location.href = '/' + path;
@@ -110,7 +113,7 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
             borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
           }}>
 
-            <div style={{ width: "15%", textAlign: 'center' }}>
+            <div style={{ minWidth: "15%", maxWidth: isDesktop ? "15%" : "50%", textAlign: 'center' }}>
               <p style={{ borderBottom: "5px solid #47474A", fontSize: "1.7rem" }}>
                 {t('ข้อมูลทั่วไป')}
               </p>
@@ -217,7 +220,12 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
                   <Form.Control type='text'
                     name='idCardNumber'
                     value={formData.idCardNumber}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '');
+                      if (value.length <= 13) {
+                        handleChange({ target: { name: 'idCardNumber', value } });
+                      }
+                    }}
                     placeholder={t('กรอกเลขบัตรประชาชน')}
                     required
                     style={{
@@ -252,7 +260,12 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
                   <Form.Control type='text'
                     name='phoneNumber'
                     value={formData.phoneNumber}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '');
+                      if (value.length <= 10) {
+                        handleChange({ target: { name: 'phoneNumber', value } });
+                      }
+                    }}
                     placeholder={t('กรอกเบอร์โทรศัพท์')}
                     required
                     style={{
@@ -317,7 +330,7 @@ function Data_org_1({ formData, setFormData, isEditMode, formRef, validated, set
 
 
 
-            <div style={{ width: "15%", textAlign: 'center' }}>
+            <div style={{ minWidth: "15%", maxWidth: isDesktop ? "15%" : "50%", textAlign: 'center' }}>
               <p style={{ borderBottom: "5px solid #47474A", fontSize: "1.7rem" }}>
                 {t('ที่อยู่ปัจจุบัน')}
               </p>

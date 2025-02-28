@@ -584,7 +584,7 @@ function Card_event_detail() {
 
                             {/* Go Back Button */}
                             <div style={{ display: 'flex', justifyContent: "space-between", paddingLeft: "5rem", paddingRight: "5rem" }}>
-                                <Button style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}
+                                <Button style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', minWidth: '15%' }}
                                     onClick={() => changepage("")}>
                                     {t('ย้อนกลับ')}
                                 </Button>

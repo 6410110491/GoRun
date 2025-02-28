@@ -249,14 +249,14 @@ function Personal_information() {
                         </Row>
 
                         <Row>
-                            <Col><p><strong>{t('เพศ')}:</strong> {userInfo.personalInfo?.gender || ""}</p></Col>
-                            <Col><p><strong>{t('วันเดือนปีเกิด')}:</strong> {formatDate(userInfo.personalInfo?.birthDate) || ""}</p></Col>
-                            <Col><p><strong>{t('เลขบัตรประชาชน')}:</strong> {userInfo.personalInfo?.idCardNumber || ""}</p></Col>
+                            <Col xl={4} md={6} sm={6} xs={12}><p><strong>{t('เพศ')}:</strong> {userInfo.personalInfo?.gender || ""}</p></Col>
+                            <Col xl={4} md={6} sm={6} xs={12}><p><strong>{t('วันเดือนปีเกิด')}:</strong> {formatDate(userInfo.personalInfo?.birthDate) || ""}</p></Col>
+                            <Col xl={4} md={6} sm={6} xs={12}><p><strong>{t('เลขบัตรประชาชน')}:</strong> {userInfo.personalInfo?.idCardNumber || ""}</p></Col>
                         </Row>
 
                         <Row>
                             <Col xl={4} md={4} sm={6} xs={12}>
-                                <p><strong>{t('อีเมล')}:</strong> {userInfo.email}
+                                <p style={{textOverflow:"ellipsis"}}><strong>{t('อีเมล')}:</strong> {userInfo.email}
                                 </p></Col>
                             <Col xl={4} md={4} sm={6} xs={12}>
                                 <p><strong>{t('เบอร์โทรศัพท์')}:</strong> {userInfo.personalInfo?.phoneNumber || ""}
@@ -264,9 +264,9 @@ function Personal_information() {
                         </Row>
 
                         <Row>
-                            <Col><p><strong>{t('สัญชาติ')}:</strong> {userInfo.personalInfo?.nationality || ""}</p></Col>
-                            <Col><p><strong>{t('หมู่โลหิต')}:</strong> {userInfo.personalInfo?.bloodType || ""}</p></Col>
-                            <Col><p><strong>{t('โรคประจำตัว')}:</strong> {userInfo.personalInfo?.chronicDiseases?.join(', ') || ""}</p></Col>
+                            <Col xl={4} md={6} sm={6} xs={12}><p><strong>{t('สัญชาติ')}:</strong> {userInfo.personalInfo?.nationality || ""}</p></Col>
+                            <Col xl={4} md={6} sm={6} xs={12}><p><strong>{t('หมู่โลหิต')}:</strong> {userInfo.personalInfo?.bloodType || ""}</p></Col>
+                            <Col xl={4} md={6} sm={6} xs={12}><p><strong>{t('โรคประจำตัว')}:</strong> {userInfo.personalInfo?.chronicDiseases?.join(', ') || ""}</p></Col>
                         </Row>
 
                         <div style={{ maxWidth: "fit-content", textAlign: 'center', marginTop: "0.75rem" }}>
@@ -275,9 +275,9 @@ function Personal_information() {
                             </p>
                         </div>
                         <Row>
-                            <Col><p><strong>{t('ที่อยู่')}:</strong> {userInfo.address?.address || ""}</p></Col>
-                            <Col><p><strong>{t('ตำบล/แขวง')}:</strong> {userInfo.address?.subDistrict || ""}</p></Col>
-                            <Col><p><strong>{t('อำเภอ/เขต')}:</strong> {userInfo.address?.district || ""}</p></Col>
+                            <Col xl={4} md={6} sm={6} xs={12}><p><strong>{t('ที่อยู่')}:</strong> {userInfo.address?.address || ""}</p></Col>
+                            <Col xl={4} md={6} sm={6} xs={12}><p><strong>{t('ตำบล/แขวง')}:</strong> {userInfo.address?.subDistrict || ""}</p></Col>
+                            <Col xl={4} md={6} sm={6} xs={12}><p><strong>{t('อำเภอ/เขต')}:</strong> {userInfo.address?.district || ""}</p></Col>
                         </Row>
 
                         <Row>
@@ -384,7 +384,12 @@ function Personal_information() {
                                                 type='text'
                                                 name='idCardNumber'
                                                 value={formData.idCardNumber}
-                                                onChange={handleChange}
+                                                onChange={(e) => {
+                                                    const value = e.target.value.replace(/\D/g, '');
+                                                    if (value.length <= 13) {
+                                                        handleChange({ target: { name: 'idCardNumber', value } });
+                                                    }
+                                                }}
                                                 placeholder={t('กรอกเลขบัตรประชาชน')}
                                             />
                                         </Form.Group>
@@ -411,7 +416,12 @@ function Personal_information() {
                                                 type='text'
                                                 name='phoneNumber'
                                                 value={formData.phoneNumber}
-                                                onChange={handleChange}
+                                                onChange={(e) => {
+                                                    const value = e.target.value.replace(/\D/g, '');
+                                                    if (value.length <= 10) {
+                                                        handleChange({ target: { name: 'phoneNumber', value } });
+                                                    }
+                                                }}
                                                 placeholder={t('กรอกเบอร์โทรศัพท์')}
                                             />
                                         </Form.Group>

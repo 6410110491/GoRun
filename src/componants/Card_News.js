@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Modal, Row } from 'react-bootstrap'
 import { FaTrash } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { useMediaQuery } from 'react-responsive';
 
 function Card_News(props) {
     const { t, i18n } = useTranslation()
 
     const [userInfor, setUserInfor] = useState({});
     const [showConfirmPopup, setConFirmPopup] = useState(false);
+    const isDesktop = useMediaQuery({ query: '(min-width: 992px)' });
 
     const changepage = (path) => {
         window.location.href = "/" + path
@@ -70,7 +72,7 @@ function Card_News(props) {
             style={{
                 display: "flex", alignItems: "center", marginTop: "1rem", marginBottom: "1rem",
                 boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", padding: "1rem", borderRadius: "15px",
-                cursor: "pointer", width: "100%", position: "relative" // เพิ่ม position: relative
+                cursor: "pointer", width: "100%", position: "relative", justifyContent: 'center', paddingTop: isDesktop ? "1rem" : "3.75rem"
             }}>
 
             <Row style={{ width: "95%" }}

@@ -395,6 +395,7 @@ function Form_page() {
 
     const fetchUserInfo = async () => {
       try {
+        setLoading(true)
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/userinfo`, {
           method: 'GET',
           credentials: 'include',
@@ -421,6 +422,7 @@ function Form_page() {
 
     const fetchFormInfo = async (userId) => {
       try {
+        setLoading(true)
         const formResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/register/${id}/${userId}`, {
           method: 'GET',
           credentials: 'include',
@@ -529,7 +531,7 @@ function Form_page() {
                 borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
               }}>
                 <Container className='mb-2' fluid style={{
-                  backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
+                  backgroundColor: "#F3C710", minHeight: "40px", borderRadius: "10px", fontSize: "20px", textAlign: "center",
                   display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "0.25rem"
                 }}>
                   {eventData?.eventName}
@@ -578,7 +580,7 @@ function Form_page() {
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Button
                     onClick={handleBack}
-                    style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}
+                    style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', minWidth: '15%' }}
                   >
                     {t('ย้อนกลับ')}
                   </Button>
@@ -586,7 +588,7 @@ function Form_page() {
                   <Button
                     onClick={handleNext}
                     disabled={loading}
-                    style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '15%' }}
+                    style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', minWidth: '15%' }}
                   >
                     {loading ? <Spinner animation="border" size="sm" /> : (activeStep === steps.length - 1 ? t('เสร็จสิ้น') : t('ถัดไป'))}
                   </Button>

@@ -195,12 +195,18 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                 style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                                 <p>{t('เลขบัตรประชาชน')} <span className='requiredstar'>*</span></p>
                                 <Form.Group as={Row} controlId="formIdCardNumber" style={{ paddingInline: "12px" }}>
-                                    <Form.Control type='text'
+                                    <Form.Control
                                         name='idCardNumber'
                                         value={formData.idCardNumber}
-                                        onChange={handleChange}
+                                        onChange={(e) => {
+                                            const value = e.target.value.replace(/\D/g, '');
+                                            if (value.length <= 13) {
+                                                handleChange({ target: { name: 'idCardNumber', value } });
+                                            }
+                                        }}
                                         onBlur={saveDraft}
                                         placeholder={t('กรอกเลขบัตรประชาชน')}
+                                        type='text'
                                         required
                                         style={{
                                             borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
@@ -231,10 +237,16 @@ function Form_step_1({ formData, setFormData, loading, setLoading, error, setErr
                                 style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                                 <p>{t('เบอร์โทรศัพท์')} <span className='requiredstar'>*</span></p>
                                 <Form.Group as={Row} controlId="formPhoneNumber" style={{ paddingInline: "12px" }}>
-                                    <Form.Control type='text'
+                                    <Form.Control
                                         name='phoneNumber'
                                         value={formData.phoneNumber}
-                                        onChange={handleChange}
+                                        type='text'
+                                        onChange={(e) => {
+                                            const value = e.target.value.replace(/\D/g, ''); 
+                                            if (value.length <= 10) {
+                                                handleChange({ target: { name: 'phoneNumber', value } });
+                                            }
+                                        }}
                                         onBlur={saveDraft}
                                         placeholder={t('กรอกเบอร์โทรศัพท์')}
                                         required

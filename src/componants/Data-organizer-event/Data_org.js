@@ -481,13 +481,13 @@ function Data_org() {
                             <Button
                                 onClick={handleBack}
                                 sx={{ mr: 1 }}
-                                style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', width: '15%' }}
+                                style={{ backgroundColor: "#47474A", border: 'none', borderRadius: '10px', minWidth: '15%' }}
                             >
                                 {t('ย้อนกลับ')}
                             </Button>
 
                             <Box sx={{ flex: '1 1 auto' }} />
-                            <Button onClick={handleNext} style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', width: '15%' }}>
+                            <Button onClick={handleNext} style={{ backgroundColor: "#F3C710", border: 'none', borderRadius: '10px', minWidth: '15%' }}>
                                 {activeStep === steps.length - 1 ? t('เสร็จสิ้น') : t('ถัดไป')}
                             </Button>
                         </Box>

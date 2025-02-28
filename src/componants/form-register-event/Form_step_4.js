@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
+import { useMediaQuery } from 'react-responsive';
 
 function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerValidateStyles, formRef, validated,
   payDatePickerRef, payTimePickerRef
@@ -17,6 +18,8 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
   const { id } = useParams();
 
   const [previewSlipsImage, setPreviewSlipsImage] = useState(null);
+
+  const isDesktop = useMediaQuery({ query: '(min-width: 992px)' });
 
   useEffect(() => {
     // สำหรับภาพการโอนเงิน
@@ -284,7 +287,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
               </Col>
               <Col xl={12} style={{ marginTop: "2rem" }}>
                 <Container fluid style={{
-                  backgroundColor: "#E3E3E3", height: "fit-content", padding: "1rem", width: "50%",
+                  backgroundColor: "#E3E3E3", height: "fit-content", padding: "1rem", width: isDesktop ? "50%" : "80%",
                   borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 }}>
                   <Row style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "2rem 0" }}>
@@ -338,7 +341,7 @@ function Form_step_4({ formData, setFormData, eventData, slipFile, datePickerVal
 
               <Col xl={12} style={{ marginTop: "2rem", marginBottom: "3rem" }}>
                 <Container fluid style={{
-                  backgroundColor: "#E3E3E3", height: "auto", padding: "1.5rem 1rem 1.5rem 1rem", width: "50%",
+                  backgroundColor: "#E3E3E3", height: "auto", padding: "1.5rem 1rem 1.5rem 1rem", width: isDesktop ? "50%" : "80%",
                   borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
                 }}>
                   <Row>
