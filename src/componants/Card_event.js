@@ -33,10 +33,10 @@ function Card_event(props) {
                 <Card.Body>
                     <Card.Title style={{
                         display: "-webkit-box",
-                        WebkitLineClamp: 2,
+                        WebkitLineClamp: 1,
                         WebkitBoxOrient: "vertical",
                         overflow: "hidden",
-                        textOverflow: "ellipsis"
+                        textOverflow: "ellipsis",
                     }}>{props.data.eventName}</Card.Title>
                 </Card.Body>
                 <Card.Body style={{ marginTop: "-20px" }}>

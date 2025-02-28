@@ -241,7 +241,7 @@ function Home() {
                     }}
                 >
                     <Row style={{ width: "100%", justifyContent: "center" }}>
-                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
+                        <Col xs={12} sm={12} md={12} lg={6} xl={3} xxl={3} style={{ marginTop: "0.5rem" }}>
                             <p>{t("ชื่องาน")}</p>
                             <Form.Control
                                 type="text"
@@ -249,7 +249,7 @@ function Home() {
                                 style={{
                                     borderRadius: "10px",
                                     marginTop: "-15px",
-                                    maxWidth: "95%",
+                                    maxWidth: "100%",
                                     backgroundColor: "#fff",
                                     border: "none",
                                     height: "40px",
@@ -259,14 +259,14 @@ function Home() {
                                 onChange={(e) => setSearchName(e.target.value)}
                             />
                         </Col>
-                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3} style={{ marginTop: "0.5rem" }}>
                             <p>{t('สถานที่จัดงาน')}</p>
                             <Form.Select
                                 aria-label="Default select example"
                                 style={{
                                     borderRadius: "10px",
                                     marginTop: "-15px",
-                                    maxWidth: "95%",
+                                    maxWidth: "100%",
                                     backgroundColor: "#fff",
                                     border: "none",
                                     height: "40px",
@@ -284,14 +284,14 @@ function Home() {
                                 ))}
                             </Form.Select>
                         </Col>
-                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3}>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3} style={{ marginTop: "0.5rem" }}>
                             <p>{t('ประเภทกีฬา')}</p>
                             <Form.Select
                                 aria-label="Default select example"
                                 style={{
                                     borderRadius: "10px",
                                     marginTop: "-15px",
-                                    maxWidth: "95%",
+                                    maxWidth: "100%",
                                     backgroundColor: "#fff",
                                     border: "none",
                                     height: "40px",
@@ -309,7 +309,7 @@ function Home() {
                                 ))}
                             </Form.Select>
                         </Col>
-                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={1}>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={1} style={{ display: 'flex', flexDirection: 'column', justifyContent: "flex-end" }}>
                             <p></p>
                             <Button
                                 type="submit"
@@ -324,7 +324,7 @@ function Home() {
                                 {t('ค้นหา')}
                             </Button>
                         </Col>
-                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={1}>
+                        <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={1} style={{ display: 'flex', flexDirection: 'column', justifyContent: "flex-end" }}>
                             <p></p>
                             <Button
                                 type="button"
