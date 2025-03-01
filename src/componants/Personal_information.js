@@ -35,6 +35,9 @@ function Personal_information() {
         zipCode: '',
 
     });
+    const gender = ["ชาย", "หญิง", "อื่นๆ",]
+    const blood_group = ["A", "B", "AB", "O"]
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -255,10 +258,10 @@ function Personal_information() {
                         </Row>
 
                         <Row>
-                            <Col xl={4} md={4} sm={6} xs={12}>
-                                <p style={{textOverflow:"ellipsis"}}><strong>{t('อีเมล')}:</strong> {userInfo.email}
+                            <Col xl={4} md={6} sm={6} xs={12}>
+                                <p style={{ textOverflow: "ellipsis" }}><strong>{t('อีเมล')}:</strong> {userInfo.email}
                                 </p></Col>
-                            <Col xl={4} md={4} sm={6} xs={12}>
+                            <Col xl={4} md={6} sm={6} xs={12}>
                                 <p><strong>{t('เบอร์โทรศัพท์')}:</strong> {userInfo.personalInfo?.phoneNumber || ""}
                                 </p></Col>
                         </Row>
@@ -281,10 +284,10 @@ function Personal_information() {
                         </Row>
 
                         <Row>
-                            <Col xl={4} md={4} sm={6} xs={12}>
+                            <Col xl={4} md={6} sm={6} xs={12}>
                                 <p><strong>{t('จังหวัด')}:</strong> {userInfo.address?.province}
                                 </p></Col>
-                            <Col xl={4} md={4} sm={6} xs={12}>
+                            <Col xl={4} md={6} sm={6} xs={12}>
                                 <p><strong>{t('รหัสไปรษณีย์')}:</strong> {userInfo.address?.postalCode || ""}
                                 </p></Col>
                         </Row>
@@ -347,15 +350,26 @@ function Personal_information() {
 
                                 <Row className='mb-3'>
                                     <Col xl={6} md={6} sm={12}>
-                                        <Form.Group controlId='formGender'>
+                                        <Form.Group controlId="formGender">
                                             <Form.Label>{t('เพศ')}</Form.Label>
-                                            <Form.Control
+                                            <Form.Select aria-label="Default select example"
                                                 type='text'
                                                 name='gender'
                                                 value={formData.gender}
                                                 onChange={handleChange}
                                                 placeholder={t('กรอกเพศ')}
-                                            />
+                                                required
+                                                style={{
+                                                    borderRadius: "10px",
+                                                    backgroundColor: "#fff", height: "40px", cursor: "pointer"
+                                                }}
+                                                defaultValue={formData.gender} // ตั้งค่า default value
+                                            >
+                                                <option value="">{t('ไม่ระบุ')}</option>
+                                                {gender.map((data, index) => (
+                                                    <option key={index} value={data}>{data}</option> // ใช้ value ที่เป็นค่า gender จริงๆ
+                                                ))}
+                                            </Form.Select>
                                         </Form.Group>
                                     </Col>
                                     <Col xl={6} md={6} sm={12}>
@@ -444,13 +458,20 @@ function Personal_information() {
                                     <Col xl={6} md={6} sm={12}>
                                         <Form.Group controlId='formBloodType'>
                                             <Form.Label>{t('หมู่โลหิต')}</Form.Label>
-                                            <Form.Control
-                                                type='text'
+                                            <Form.Select aria-label="Default select example" style={{
+                                                borderRadius: "10px",
+                                                backgroundColor: "#fff", height: "40px",
+                                                cursor: "pointer"
+                                            }}
                                                 name='bloodType'
-                                                value={formData.bloodType}
                                                 onChange={handleChange}
-                                                placeholder={t('กรอกหมู่โลหิต')}
-                                            />
+                                                value={formData.bloodType}
+                                            >
+                                                <option value="">{t('ไม่ระบุ')}</option>
+                                                {blood_group.map((data, index) => (
+                                                    <option key={index} value={data}>{data}</option>
+                                                ))}
+                                            </Form.Select>
                                         </Form.Group>
                                     </Col>
                                     <Col xl={6} md={6} sm={12}>
@@ -555,7 +576,7 @@ function Personal_information() {
                 </Modal.Footer>
             </Modal>
 
-        </Container>
+        </Container >
     );
 }
 
