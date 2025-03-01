@@ -277,26 +277,26 @@ function Topbar() {
                                             <Col xs={6} sm={6} style={{ display: "flex", justifyContent: "flex-end" }}>
                                                 <Row>
                                                     <Col xs={12} sm={6} >
-                                                        <div className="d-flex align-items-center">
+                                                        <div className="d-flex align-items-center" onClick={() => changeLanguage('th')}>
                                                             <img src={require('../image/Thai.png')} alt='thai-flag-pic'
                                                                 style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "10px" }} />
                                                             <Button
                                                                 variant="link"
                                                                 style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
-                                                                onClick={() => changeLanguage('th')}
+
                                                             >
                                                                 th
                                                             </Button>
                                                         </div>
                                                     </Col>
                                                     <Col xs={12} sm={6}>
-                                                        <div className="d-flex align-items-center">
+                                                        <div className="d-flex align-items-center" onClick={() => changeLanguage('en')}>
                                                             <img src={require('../image/US-flag.jpg')} alt='en-flag-pic'
                                                                 style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "10px" }} />
                                                             <Button
                                                                 variant="link"
                                                                 style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
-                                                                onClick={() => changeLanguage('en')}
+
                                                             >
                                                                 en
                                                             </Button>
@@ -318,26 +318,25 @@ function Topbar() {
                                         <Col xs={6} sm={6} style={{ display: "flex", justifyContent: "flex-end" }}>
                                             <Row>
                                                 <Col xs={6} sm={6} >
-                                                    <div className="d-flex align-items-center">
+                                                    <div className="d-flex align-items-center" onClick={() => changeLanguage('th')}>
                                                         <img src={require('../image/Thai.png')} alt='thai-flag-pic'
                                                             style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "10px" }} />
                                                         <Button
                                                             variant="link"
                                                             style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
-                                                            onClick={() => changeLanguage('th')}
+
                                                         >
                                                             th
                                                         </Button>
                                                     </div>
                                                 </Col>
                                                 <Col xs={6} sm={6}>
-                                                    <div className="d-flex align-items-center">
+                                                    <div className="d-flex align-items-center" onClick={() => changeLanguage('en')}>
                                                         <img src={require('../image/US-flag.jpg')} alt='en-flag-pic'
                                                             style={{ width: "30px", height: "30px", borderRadius: "100%", marginRight: "10px" }} />
                                                         <Button
                                                             variant="link"
                                                             style={{ color: "#FFF", textDecoration: "none", padding: 0 }}
-                                                            onClick={() => changeLanguage('en')}
                                                         >
                                                             en
                                                         </Button>
@@ -348,56 +347,75 @@ function Topbar() {
                                 )}
                             </div>
 
-                            <Nav.Link href="/" className='text-white mb-2'>
-                                <FaHome style={{ marginRight: '8px' }} />
-                                {t('หน้าหลัก')}
-                            </Nav.Link>
-                            <Nav.Link href="/event" className='text-white mb-2'>
-                                <FaCalendarAlt style={{ marginRight: '8px' }} />
-                                {t('งานทั้งหมด')}
-                            </Nav.Link>
-                            <Nav.Link href="/news" className='text-white mb-2'>
-                                <FaBullhorn style={{ marginRight: '8px' }} />
-                                {t('ประชาสัมพันธ์')}
-                            </Nav.Link>
-                            <Nav.Link href="/calendar" className='text-white mb-2'>
-                                <FaRegCalendar style={{ marginRight: '8px' }} />
-                                {t('ปฏิทิน')}
-                            </Nav.Link>
+                            <div style={{ width: "100%" }}>
+                                <Nav.Link href="/" className='text-white mb-2'>
+                                    <FaHome style={{ marginRight: '8px' }} />
+                                    {t('หน้าหลัก')}
+                                </Nav.Link>
+                            </div>
+                            <div style={{ width: "100%" }}>
+                                <Nav.Link href="/event" className='text-white mb-2'>
+                                    <FaCalendarAlt style={{ marginRight: '8px' }} />
+                                    {t('งานทั้งหมด')}
+                                </Nav.Link>
+                            </div>
+                            <div style={{ width: "100%" }}>
+                                <Nav.Link href="/news" className='text-white mb-2'>
+                                    <FaBullhorn style={{ marginRight: '8px' }} />
+                                    {t('ประชาสัมพันธ์')}
+                                </Nav.Link>
+                            </div>
+                            <div style={{ width: "100%" }}>
+                                <Nav.Link href="/calendar" className='text-white mb-2'>
+                                    <FaRegCalendar style={{ marginRight: '8px' }} />
+                                    {t('ปฏิทิน')}
+                                </Nav.Link>
+                            </div>
                             {isLoggedIn ? (
                                 <>
-                                    <Nav.Link className='text-white mb-2'
-                                        onClick={() => changepage("personal")}>
-                                        <FaUser style={{ marginRight: '8px' }} />
-                                        {t('ข้อมูลส่วนตัว')}
-                                    </Nav.Link><Nav.Link className='text-white mb-2'
-                                        onClick={() => changepage("apphistory")}>
-                                        <FaHistory style={{ marginRight: '8px' }} />
-                                        {t('ประวัติการสมัคร')}
-                                    </Nav.Link>
-                                    {role === "organize" ? (
+                                    <div style={{ width: "100%" }}>
                                         <Nav.Link className='text-white mb-2'
-                                            onClick={() => changepage("eventhistory")}>
-                                            <MdWorkHistory style={{ marginRight: '8px' }} />
-                                            {t('ประวัติการจัดงาน')}
+                                            onClick={() => changepage("personal")}>
+                                            <FaUser style={{ marginRight: '8px' }} />
+                                            {t('ข้อมูลส่วนตัว')}
                                         </Nav.Link>
+                                    </div>
+                                    <div style={{ width: "100%" }}>
+                                        <Nav.Link className='text-white mb-2'
+                                            onClick={() => changepage("apphistory")}>
+                                            <FaHistory style={{ marginRight: '8px' }} />
+                                            {t('ประวัติการสมัคร')}
+                                        </Nav.Link>
+                                    </div>
+                                    {role === "organize" ? (
+                                        <div style={{ width: "100%" }}>
+                                            <Nav.Link className='text-white mb-2'
+                                                onClick={() => changepage("eventhistory")}>
+                                                <MdWorkHistory style={{ marginRight: '8px' }} />
+                                                {t('ประวัติการจัดงาน')}
+                                            </Nav.Link>
+                                        </div>
                                     ) : ''}
                                     {role === "admin" ? (
-                                        <Nav.Link className='text-white mb-2'
-                                            onClick={() => changepage("admin")}>
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <MdWorkHistory style={{ marginRight: '8px' }} />
-                                                <p style={{ margin: 0 }}>{t('แอดมิน')}</p>
-                                            </div>
-                                        </Nav.Link >
+                                        <div style={{ width: "100%" }}>
+                                            <Nav.Link className='text-white mb-2'
+                                                onClick={() => changepage("admin")}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <MdWorkHistory style={{ marginRight: '8px' }} />
+                                                    <p style={{ margin: 0 }}>{t('แอดมิน')}</p>
+                                                </div>
+                                            </Nav.Link >
+                                        </div>
                                     ) : ''}
                                 </>) : ("")}
 
-                            <Nav.Link href="/#" className='text-white mb-2'
-                                onClick={checkRoleOrganize}>
-                                <FaUsersCog style={{ marginRight: '8px' }} />
-                                {t('ผู้จัดงาน')}
-                            </Nav.Link>
+                            <div style={{ width: "100%" }}>
+                                <Nav.Link href="/#" className='text-white mb-2'
+                                    onClick={checkRoleOrganize}>
+                                    <FaUsersCog style={{ marginRight: '8px' }} />
+                                    {t('ผู้จัดงาน')}
+                                </Nav.Link>
+                            </div>
 
                             {isLoggedIn ? (
                                 <Row>

@@ -207,7 +207,9 @@ function Login() {
                                         text='Login with Google'
                                         onSuccess={responseMessage}
                                         onError={errorMessage}
-                                    />
+                                    >
+                                        <Button variant='outlined'>Login with Google</Button>
+                                    </GoogleLogin>
                                 </Form>
                                 <p className="mt-4 text-center">
                                     {t('ยังไม่มีบัญชี?')}{" "}

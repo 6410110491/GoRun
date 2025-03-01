@@ -527,7 +527,7 @@ function Form_page() {
 
             <Col md={12} xl={4}>
               <Container fluid style={{
-                backgroundColor: "#E3E3E3", minHeight: "180px", padding: "0",
+                backgroundColor: "#E3E3E3", minHeight: "180px", padding: "0", paddingBottom: "0.5rem",
                 borderRadius: "10px", fontSize: "1rem", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
               }}>
                 <Container className='mb-2' fluid style={{
