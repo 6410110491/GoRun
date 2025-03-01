@@ -270,6 +270,7 @@ const resources = {
             'กรณีจัดส่ง': 'กรณีจัดส่ง',
             'กรอกค่าจัดส่ง': 'กรอกค่าจัดส่ง',
             'กรอกชื่อ-สกุล': 'กรอกชื่อ-สกุล',
+            'เลือกจังหวัด': 'เลือกจังหวัด',
 
 
         }
@@ -542,6 +543,7 @@ const resources = {
             'แนบหลักฐานการยืนยันตัวตน': 'Attach proof of identity verification',
             'กรณีจัดส่ง': 'Delivery Options',
             'กรอกค่าจัดส่ง': 'Enter Shipping Fee',
+            'เลือกจังหวัด': 'Choose a province',
 
         }
     },

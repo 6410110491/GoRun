@@ -10,6 +10,9 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Closed_Regis_Card from './Closed_Regis_Card';
 
+import $ from 'jquery';
+import 'select2'
+
 function Home() {
     const province = ['กระบี่', 'กรุงเทพมหานคร', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร',
         'ขอนแก่น',
@@ -141,6 +144,21 @@ function Home() {
 
     }, [eventMe]);
 
+    // Select2 for Province
+    $(document).ready(function () {
+        $('#single-select-field').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+        });
+
+        $('#single-select-field').change(function () {
+            const selectedProvince = $(this).val(); // ดึงค่าที่เลือก
+            setSearchProvince(selectedProvince); // ส่งค่าที่เลือกไปยัง state
+        });
+    });
+
+
     return (
         <Container fluid style={{ padding: "0" }}>
             <div
@@ -253,39 +271,41 @@ function Home() {
                                     backgroundColor: "#fff",
                                     border: "none",
                                     height: "40px",
-                                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                                 }}
                                 value={searchName}
                                 onChange={(e) => setSearchName(e.target.value)}
                             />
                         </Col>
                         <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3} style={{ marginTop: "0.5rem" }}>
-                            <p>{t('สถานที่จัดงาน')}</p>
-                            <Form.Select
-                                aria-label="Default select example"
-                                style={{
-                                    borderRadius: "10px",
-                                    marginTop: "-15px",
-                                    maxWidth: "100%",
-                                    backgroundColor: "#fff",
-                                    border: "none",
-                                    height: "40px",
-                                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                                    cursor: "pointer",
-                                }}
+                            <p style={{
+                                display: "-webkit-box",
+                                WebkitLineClamp: 1,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis"
+                            }}>{t('สถานที่จัดงาน')}</p>
+                            <select
+                                className="form-select"
+                                id="single-select-field"
                                 value={searchProvince}
-                                onChange={(e) => setSearchProvince(e.target.value)}
+                                required
                             >
-                                <option value="">{t('ค้นหาจังหวัด')}</option>
-                                {province.map((data, index) => (
-                                    <option key={index} value={data}>
-                                        {data}
+                                <option value="">เลือกจังหวัด</option>
+                                {province.map((item, index) => (
+                                    <option key={index} value={item}>
+                                        {item}
                                     </option>
                                 ))}
-                            </Form.Select>
+                            </select>
                         </Col>
                         <Col xs={6} sm={6} md={6} lg={6} xl={3} xxl={3} style={{ marginTop: "0.5rem" }}>
-                            <p>{t('ประเภทกีฬา')}</p>
+                            <p style={{
+                                display: "-webkit-box",
+                                WebkitLineClamp: 1,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis"
+                            }}>{t('ประเภทกีฬา')}</p>
                             <Form.Select
                                 aria-label="Default select example"
                                 style={{
@@ -295,7 +315,6 @@ function Home() {
                                     backgroundColor: "#fff",
                                     border: "none",
                                     height: "40px",
-                                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                                     cursor: "pointer",
                                 }}
                                 value={searchCategory}

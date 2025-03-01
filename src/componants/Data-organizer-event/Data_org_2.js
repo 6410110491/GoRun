@@ -12,6 +12,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
+import $ from 'jquery';
+import 'select2'
+
 
 function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, setValidated, datePickerValidateStyles,
   competitionDatePickerRef, competitionTimePickerRef, openRegisDatePickerRef, closeRegisDatePickerRef
@@ -19,6 +22,26 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
 
   const { t, i18n } = useTranslation()
   const sport_type = ['วิ่ง', 'ว่ายน้ำ', 'ปั่นจักรยาน']
+
+  const province = ['กระบี่', 'กรุงเทพมหานคร', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร',
+    'ขอนแก่น',
+    'จันทบุรี',
+    'ฉะเชิงเทรา',
+    'ชลบุรี', 'ชัยนาท', 'ชัยภูมิ', 'ชุมพร', 'เชียงราย', 'เชียงใหม่',
+    'ตรัง', 'ตราด', 'ตาก',
+    'นครนายก', 'นครปฐม', 'นครพนม', 'นครราชสีมา', 'นครศรีธรรมราช', 'นครสวรรค์', 'นนทบุรี', 'นราธิวาส', 'น่าน',
+    'บึงกาฬ', 'บุรีรัมย์',
+    'ปทุมธานี', 'ประจวบคีรีขันธ์', 'ปราจีนบุรี', 'ปัตตานี',
+    'พระนครศรีอยุธยา', 'พะเยา', 'พังงา', 'พัทลุง', 'พิจิตร', 'พิษณุโลก', 'เพชรบุรี', 'เพชรบูรณ์', 'แพร่',
+    'ภูเก็ต',
+    'มหาสารคาม', 'มุกดาหาร', 'แม่ฮ่องสอน',
+    'ยโสธร', 'ยะลา',
+    'ร้อยเอ็ด', 'ระนอง', 'ระยอง', 'ราชบุรี',
+    'ลพบุรี', 'ลำปาง', 'ลำพูน', 'เลย',
+    'ศรีสะเกษ',
+    'สกลนคร', 'สงขลา', 'สตูล', 'สมุทรปราการ', 'สมุทรสงคราม', 'สมุทรสาคร', 'สระแก้ว', 'สระบุรี', 'สิงห์บุรี', 'สุโขทัย', 'สุพรรณบุรี', 'สุราษฎร์ธานี', 'สุรินทร์',
+    'หนองคาย', 'หนองบัวลำภู',
+    'อ่างทอง', 'อำนาจเจริญ', 'อุดรธานี', 'อุตรดิตถ์', 'อุทัยธานี', 'อุบลราชธานี']
 
   // เก็บไฟล์และลิงก์รูปภาพที่จะแสดงตัวอย่าง
   const [previewCoverImage, setPreviewCoverImage] = useState(null); // เก็บลิงก์หรือ URL สำหรับแสดงภาพตัวอย่างภาพปก
@@ -191,6 +214,24 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
     }));
   };
 
+  // Select2 for Province
+  $(document).ready(function () {
+    $('#single-select-field').select2({
+      theme: "bootstrap-5",
+      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+      placeholder: $(this).data('placeholder'),
+    });
+
+    $('#single-select-field').change(function () {
+      const selectedProvince = $(this).val(); // ดึงค่าที่เลือก
+      setFormData({
+        ...formData,
+        location: selectedProvince
+      }) // ส่งค่าที่เลือกไปยัง state
+    });
+  });
+
+
 
   return (
     <Container style={{ marginTop: '2rem', marginBottom: "2rem" }}>
@@ -263,18 +304,21 @@ function Data_org_2({ formData, setFormData, isEditMode, formRef, validated, set
             <Col xl={3} md={6} sm={12} className='mt-2'
               style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <p>{t('สถานที่จัดงาน')} <span className='requiredstar'>*</span></p>
-              <Form.Group as={Row} controlId="formLocation" style={{ paddingInline: "12px" }}>
-                <Form.Control
-                  type="text"
-                  placeholder={t("กรอกชื่อจังหวัด")}
-                  name="location"
+              <Form.Group as={Row} controlId="formLocation">
+                <select
+                  style={{ width: "95%" }}
+                  className="form-select"
+                  id="single-select-field"
                   value={formData.location}
-                  onChange={handleChange}
                   required
-                  style={{
-                    borderRadius: "10px", marginTop: "-15px", maxWidth: "95%",
-                    backgroundColor: "#fff", height: "40px"
-                  }} />
+                >
+                  <option value="">{t('เลือกจังหวัด')}</option>
+                  {province.map((item, index) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
               </Form.Group>
             </Col>
             <Col xl={3} md={6} sm={12} className='mt-2'

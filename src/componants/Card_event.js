@@ -29,7 +29,7 @@ function Card_event(props) {
                 }}
                 onClick={() => changepage(`event/detail/${props.data._id}`)}
             >
-                <Card.Img variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px", height: "160px" }} />
+                <Card.Img alt='card-img' variant="top" src={props.data.coverPicture} style={{ borderRadius: "20px", height: "160px" }} />
                 <Card.Body>
                     <Card.Title style={{
                         display: "-webkit-box",
