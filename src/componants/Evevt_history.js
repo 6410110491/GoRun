@@ -154,7 +154,7 @@ function Evevt_history() {
                                 data-aos-delay={`${index * 50}`}
                                 style={{ width: "fit-content" }}
                             >
-                                <Closed_Regis_Card data={data} />
+                                <Closed_Regis_Card data={data} onOrganizePage={true} />
                             </div>
                         ))
                     )}

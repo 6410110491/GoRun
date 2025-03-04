@@ -307,8 +307,18 @@ function Personal_information() {
             <Modal show={show} onHide={handleClose}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
-                centered>
-                <Modal.Header style={{ backgroundColor: "#F3C710", color: "#FFF" }} closeButton>
+                centered
+                style={{
+                    maxHeight: "90vh", // กำหนดความสูงสูงสุดของ Modal
+                    marginTop: "4.75rem"
+                }}>
+                <Modal.Header style={{
+                    backgroundColor: "#F3C710", // สีพื้นหลัง
+                    color: "#FFF",
+                    position: "sticky", // กำหนด Sticky
+                    top: 0, // ติดด้านบน
+                    zIndex: 1020, // เลเยอร์สูงกว่าเนื้อหาใน Modal.Body
+                }} closeButton>
                     <Modal.Title>{t('แก้ไขข้อมูลส่วนตัว')}</Modal.Title>
                 </Modal.Header>
 
