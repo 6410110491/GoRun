@@ -144,7 +144,7 @@ function Data_org_4({ formData, setFormData, loading, setLoading, isEditMode }) 
 
 
           {/* เส้นทางการแข่งขัน */}
-          {formData && formData.route ? (
+          {formData && formData.route.length > 0 ? (
             <>
               < Container className='mt-4 ms-5' fluid style={{
                 backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",

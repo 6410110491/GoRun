@@ -294,7 +294,7 @@ function Card_event_detail() {
 
 
                                     {/* เส้นทางการแข่งขัน */}
-                                    {eventDetail && eventDetail.route ? (
+                                    {eventDetail && eventDetail.route.length > 0  ? (
                                         <>
                                             <Container className='mt-4 ms-5' fluid style={{
                                                 backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
