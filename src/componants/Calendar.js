@@ -11,11 +11,16 @@ import Card_event from './Card_event';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useTranslation } from 'react-i18next';
+import { useMediaQuery } from 'react-responsive';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 
 function Calendar() {
   const [event, setEvent] = useState([]);  // Data for events from API
   const [selectedMonth, setSelectedMonth] = useState(dayjs());  // Selected month from calendar
   const [activeEvents, setActiveEvents] = useState([]);
+
+  const isMobile = useMediaQuery({ query: '(max-width:600px)' });
+  const isTablet = useMediaQuery({ query: '(min-width:601px) and (max-width:1024px)' });
 
   const changepage = (path) => {
     window.location.href = "/" + path;
@@ -106,23 +111,32 @@ function Calendar() {
       {/* Calendar */}
       <div style={{ marginTop: "2rem" }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateCalendar
-            value={selectedMonth}
-            views={['month']} // เลือกแค่เดือน
-            onChange={(newMonth) => setSelectedMonth(newMonth)}  // Update selected month when user selects a month
-            style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
-            sx={{
-              "& .MuiPickersMonth-monthButton.Mui-selected": {
-                backgroundColor: "#F3C710",
-                "&:hover": {
+          <DemoContainer components={['DateCalendar']} sx={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
+            <DateCalendar
+              value={selectedMonth}
+              views={['month']} // เลือกแค่เดือน
+              onChange={(newMonth) => setSelectedMonth(newMonth)}  // Update selected month when user selects a month
+              desktopModeMediaQuery="@media (pointer: fine)"
+              style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
+              sx={{
+                boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                "& .MuiPickersMonth-monthButton.Mui-selected": {
                   backgroundColor: "#F3C710",
+                  "&:hover": {
+                    backgroundColor: "#F3C710",
+                  },
+                  "&:focus": {
+                    backgroundColor: "#F3C710",
+                  },
                 },
-                "&:focus": {
+                "& .MuiPickersMonth-monthButton.Mui-selected": {
                   backgroundColor: "#F3C710",
+                  "&:hover": { backgroundColor: "#F3C710" },
+                  "&:focus": { backgroundColor: "#F3C710" },
                 },
-              }
-            }}
-          />
+              }}
+            />
+          </DemoContainer>
         </LocalizationProvider>
       </div>
 

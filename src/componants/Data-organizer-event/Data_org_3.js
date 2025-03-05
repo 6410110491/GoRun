@@ -330,7 +330,7 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                         </Col>
                         <Col xl={6} md={6} sm={12} className='mt-2'
                             style={{ display: "flex", flexDirection: "column" }}>
-                            <p style={{ margin: "0" }}>{t('เพิ่มรูปเส้นทางการแข่งขัน (เพิ่มได้มากกว่า 1)')} <span className='requiredstar'>*</span></p>
+                            <p style={{ margin: "0" }}>{t('เพิ่มรูปเส้นทางการแข่งขัน (เพิ่มได้มากกว่า 1)')}</p>
                             <Form.Group controlId='formRoutePicture'>
                                 <Form.Control
                                     accept=".png,.jpg,.jpeg"
@@ -338,7 +338,6 @@ function Data_org_3({ formData, setFormData, isEditMode, formRef, validated, set
                                     multiple
                                     name="routeImages"
                                     onChange={handleRouteChange}
-                                    required={formData.route.length === 0}
                                 />
                             </Form.Group>
 

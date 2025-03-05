@@ -294,35 +294,39 @@ function Card_event_detail() {
 
 
                                     {/* เส้นทางการแข่งขัน */}
-                                    <Container className='mt-4 ms-5' fluid style={{
-                                        backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
-                                        marginBottom: "-20px", position: "relative"
-                                    }}>
-                                        {t('เส้นทางการแข่งขัน')}
-                                    </Container>
-                                    <Container className='ms-3' fluid style={{
-                                        backgroundColor: "#fff", minHeight: "100px", padding: "0",
-                                        borderRadius: "10px", width: "95%", paddingTop: "1.5rem", display: "flex", flexDirection: "column",
-                                        alignItems: "center", justifyContent: "center"
-                                    }}>
-                                        {eventDetail && eventDetail.route && eventDetail.route.length > 0 ? (
-                                            eventDetail.route.map((url, index) => (
-                                                <img
-                                                    key={index}
-                                                    src={url}
-                                                    alt={`Route ${index}`}
-                                                    style={{
-                                                        maxWidth: "90%", // ปรับขนาดของภาพให้พอดีกับ container
-                                                        height: "auto", // คงที่อัตราส่วนของภาพ
-                                                        borderRadius: "10px", marginBottom: "10px",
-                                                        marginTop: "10px"
-                                                    }}
-                                                />
-                                            ))
-                                        ) : (
-                                            <p className='ms-3'>{t('ไม่มีข้อมูลเส้นทางการแข่งขัน')}</p>
-                                        )}
-                                    </Container>
+                                    {eventDetail && eventDetail.route ? (
+                                        <>
+                                            <Container className='mt-4 ms-5' fluid style={{
+                                                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
+                                                marginBottom: "-20px", position: "relative"
+                                            }}>
+                                                {t('เส้นทางการแข่งขัน')}
+                                            </Container>
+                                            <Container className='ms-3' fluid style={{
+                                                backgroundColor: "#fff", minHeight: "100px", padding: "0",
+                                                borderRadius: "10px", width: "95%", paddingTop: "1.5rem", display: "flex", flexDirection: "column",
+                                                alignItems: "center", justifyContent: "center"
+                                            }}>
+                                                {eventDetail && eventDetail.route && eventDetail.route.length > 0 ? (
+                                                    eventDetail.route.map((url, index) => (
+                                                        <img
+                                                            key={index}
+                                                            src={url}
+                                                            alt={`Route ${index}`}
+                                                            style={{
+                                                                maxWidth: "90%", // ปรับขนาดของภาพให้พอดีกับ container
+                                                                height: "auto", // คงที่อัตราส่วนของภาพ
+                                                                borderRadius: "10px", marginBottom: "10px",
+                                                                marginTop: "10px"
+                                                            }}
+                                                        />
+                                                    ))
+                                                ) : (
+                                                    <p className='ms-3'>{t('ไม่มีข้อมูลเส้นทางการแข่งขัน')}</p>
+                                                )}
+                                            </Container>
+                                        </>) : <></>
+                                    }
 
 
 

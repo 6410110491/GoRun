@@ -144,28 +144,32 @@ function Data_org_4({ formData, setFormData, loading, setLoading, isEditMode }) 
 
 
           {/* เส้นทางการแข่งขัน */}
-          < Container className='mt-4 ms-5' fluid style={{
-            backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
-            marginBottom: "-20px", position: "relative"
-          }}>
-            {t('เส้นทางการแข่งขัน')}
-          </Container>
-          <Container className='ms-3' fluid style={{
-            backgroundColor: "#fff",
-            minHeight: "100px",
-            padding: "1.5rem 0 16px 0",
-            marginBottom: "1.25rem",
-            borderRadius: "10px",
-            width: "95%"
-          }}>
-            {formData.route && formData.route.length > 0 ? (
-              formData.route.map((file, index) => (
-                <p key={index} className='ms-3'>{file.name}</p>
-              ))
-            ) : (
-              <p className='ms-3'></p>
-            )}
-          </Container>
+          {formData && formData.route ? (
+            <>
+              < Container className='mt-4 ms-5' fluid style={{
+                backgroundColor: "#F3C710", height: "40px", borderRadius: "10px", fontSize: "20px", width: "fit-content",
+                marginBottom: "-20px", position: "relative"
+              }}>
+                {t('เส้นทางการแข่งขัน')}
+              </Container>
+              <Container className='ms-3' fluid style={{
+                backgroundColor: "#fff",
+                minHeight: "100px",
+                padding: "1.5rem 0 16px 0",
+                marginBottom: "1.25rem",
+                borderRadius: "10px",
+                width: "95%"
+              }}>
+                {formData.route && formData.route.length > 0 ? (
+                  formData.route.map((file, index) => (
+                    <p key={index} className='ms-3'>{file.name}</p>
+                  ))
+                ) : (
+                  <p className='ms-3'></p>
+                )}
+              </Container>
+            </>) : <></>
+          }
 
 
           {/* รางวัล */}
