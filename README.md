@@ -1,70 +1,99 @@
-# Getting Started with Create React App
+# GoRun
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is built using React, Node.js, Express, and MongoDB.
 
-## Available Scripts
+# Getting Started
 
-In the project directory, you can run:
+Follow these steps to set up and run the project
 
+## Environment Variables
+Create a .env file in both the backend/ and the root project folder. Use the templates below as a reference.
+### Example .env file for backend (backend/.env):
+```env
+PORT=4000
+DATABASE="mongodb://localhost:27017/db_name" 
+JWT_SECRET='your-jwt-secret'
+SESSION_SECRET_KEY='your-session-secret'
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+GOOGLE_APPLICATION_CREDENTIALS="key.json"
+
+FRONTEND_URL=http://localhost:3000 
+
+USERADMIN=your-admin-username
+EMAILADMIN=your-admin-email
+PASSWORDADMIN=your-admin-password
+```
+
+### Example .env file for frontend (.env in root directory):
+```env
+REACT_APP_GOOGLE_CLIENT_ID=your-google-client-id
+
+REACT_APP_EMAILJS_SERVICE_ID=your-emailjs-service-id
+REACT_APP_EMAILJS_TEMPLATE_ID=your-emailjs-template-id
+REACT_APP_EMAILJS_TEMPLATE_RESETPASSWORD_ID=your-emailjs-resetpassword-template-id
+REACT_APP_EMAILJS_PUBLIC_KEY=your-emailjs-public-key
+
+REACT_APP_EMAILJS_FROM_NAME=GoRun Webapplication
+REACT_APP_EMAILJS_FROM_EMAIL=your-email-address
+
+REACT_APP_DOMAIN=http://localhost:4000
+
+REACT_APP_GOOGLE_MAP_API=your-google-map-api-key
+
+REACT_APP_API_URL=http://localhost:4000
+REACT_APP_FRONTEND_URL=http://localhost:3000`
+```
+
+### Example key.json file for backend (backend/key.json):
+1. Go to [Cloud Storage Buckets](https://console.cloud.google.com/storage/browser)
+
+2. Create a bucket 
+
+3. Navigate to IAM & Admin > Service Accounts.
+
+4. Create a new service account and assign a role such as Storage Object Admin.
+
+5. Under Keys, click Add Key and select JSON to download the credentials.
+
+6. Use the downloaded key.json file to authenticate and interact with Google Cloud Storage in your backend.
+
+#### Example key.json
+```key.json
+{
+  "type": "service_account",
+  "project_id": "your-project-id",
+  "private_key_id": "your-private-key-id",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCoMm7SeMouBqnU...",
+  "client_email": "your-service-account@your-project-id.iam.gserviceaccount.com",
+  "client_id": "your-client-id",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/your-service-account%40your-project-id.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
+
+```
+
+
+## Installation
+Clone the repository
+
+Navigate to the project directory
+
+Install backend dependencies
+
+Install frontend dependencies
+
+## Running the Application
+
+Start the Backend Server:
 ### `npm start`
+The server will run at http://localhost:4000
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Start the Frontend:
+### `npm start`
+The application will be available at http://localhost:3000
